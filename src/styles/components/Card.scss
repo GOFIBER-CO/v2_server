@@ -1,0 +1,37 @@
+.card-component {
+    position: relative;
+    display: flex;
+    box-shadow: 0px 2px 13px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    padding: 20px 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    &-content {
+        flex: 8;
+    }
+    &-description {
+        color: #7e8299;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+    &-title {
+        color: black;
+        font-size: 20px;
+        margin-bottom: 0px;
+    }
+
+    &-button {
+        flex: 3;
+
+        & button {
+            margin-left: 15px;
+            font-size: 12px;
+            border-radius: 4px;
+
+            &:hover {
+                border-color: transparent;
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+.security-page {
+    &-content {
+        &-note {
+            font-size: 14px;
+            margin-top: 0px;
+            margin-left: 10px;
+        }
+        &-otp {
+            display: flex;
+
+            &-authenticator {
+                text-align: center;
+                margin-top: 8px;
+                margin-left: 20px;
+
+                &-name {
+                    font-size: 16px;
+                    margin-top: 8px;
+                }
+            }
+        }
+        &-step {
+            color: #5e5f6c;
+            font-size: 16.25px;
+            font-weight: 600;
+        }
+
+        &-button-qrcode {
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.create-service-page {
+    &-header {
+        & ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+
+            & li {
+                display: inline-block;
+                padding: 10px;
+                border-bottom: 3px solid #3699ff;
+                cursor: pointer;
+            }
+        }
+    }
+    &-filter {
+        margin-top: 20px;
+        display: flex;
+    }
+
+    &-input {
+        &-label {
+            margin-bottom: 5px;
+        }
+    }
+}

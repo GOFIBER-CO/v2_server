@@ -1,0 +1,49 @@
+.deposit-guide-title {
+    font-size: 19px;
+    color: '#181C32';
+    font-weight: bold;
+}
+
+.deposit-guide-information {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 20px;
+}
+
+.deposit-guide-information-note {
+    margin-top: 20px;
+}
+
+.deposit-guide-information-image {
+    -webkit-box-flex: 3;
+    -ms-flex: 3;
+    flex: 3;
+}
+
+.deposit-guide-information img {
+    height: auto;
+}
+
+.deposit-guide-information-account-number {
+    margin-top: 50px;
+    -webkit-box-flex: 7;
+    -ms-flex: 7;
+    flex: 7;
+}
+
+.deposit-guide-information-account-number p {
+    color: red;
+}
+
+.deposit-guide-information-account-number p span {
+    color: black;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.deposit-guide-information-account-number-owner-name {
+    font-size: 13px;
+    color: black !important;
+}
+/*# sourceMappingURL=DepositGuide.css.map */

@@ -1,0 +1,16 @@
+.home-components {
+    &-card {
+        display: flex;
+
+        @media only screen and (max-width: 780px) {
+            & {
+                flex-direction: column;
+            }
+        }
+
+        &-item {
+            padding: 10px;
+            flex: 5;
+        }
+    }
+}

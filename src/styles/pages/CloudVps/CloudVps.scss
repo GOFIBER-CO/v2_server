@@ -1,0 +1,202 @@
+.cloud-vps-page {
+    &-table {
+        margin-top: 20px;
+    }
+    &-filter {
+        display: flex;
+        flex-wrap: wrap;
+
+        &-general,
+        &-location,
+        &-os,
+        &-tag,
+        &-submit {
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+    }
+
+    &-option {
+        & ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+
+            & a{
+                text-decoration: none;
+                color: black;
+            }
+
+            & li {
+                display: inline-block;
+                padding: 10px;
+                cursor: pointer;
+            }
+        }
+    }
+    ul {
+        border-bottom: 1px solid #e4e6ef;
+    }
+    .card {
+        height: calc(100% - 25px);
+        display: flex;
+        align-items: stretch !important;
+        flex-direction: column;
+        border: 0;
+        position: relative;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border-radius: 0.42rem;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            min-height: 50px;
+            padding-bottom: 0;
+            background-color: transparent;
+            padding-top: 0.5rem !important;
+            padding-right: 0 !important;
+            align-items: center !important;
+            margin-bottom: 0;
+            .card-title {
+                font-weight: 500;
+                font-size: 1.275rem;
+                color: #181c32;
+                display: flex;
+                margin: 0.5rem 0.5rem 0.5rem 0;
+                align-items: flex-start !important;
+                flex-direction: column !important;
+                h1 {
+                    font-size: 2rem;
+                }
+                .card-label {
+                    margin: 0 0.75rem 0 0;
+                    flex-wrap: wrap;
+                    font-weight: 500;
+                    font-size: 1.275rem;
+                    color: #181c32;
+                    .font-size-base {
+                        font-size: 1rem;
+                        font-weight: 400 !important;
+                    }
+                }
+            }
+            .card-toolbar {
+                display: flex;
+                align-items: center;
+                margin: 0.5rem 0;
+                flex-wrap: wrap;
+                .mr-5 {
+                    margin-right: 1.25rem !important;
+                    .text-success {
+                        color: #1bc5bd !important;
+                    }
+                }
+                .btn-light-primary {
+                    height: 2.5rem;
+                    width: 2.5rem;
+                    margin-right: 0.5rem !important;
+                    color: #3699ff;
+                    background-color: #e1f0ff;
+                    border-color: transparent;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0;
+                }
+                .btn-light-info {
+                    margin-right: 0.5rem !important;
+                    height: 2.5rem;
+                    width: 2.5rem;
+                    color: #8950fc;
+                    background-color: #eee5ff;
+                    border-color: transparent;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0;
+                }
+                .btn-light-success {
+                    margin-right: 0.5rem !important;
+                    height: 2.5rem;
+                    width: 2.5rem;
+                    color: #1bc5bd;
+                    background-color: #c9f7f5;
+                    border-color: transparent;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0;
+                }
+                .btn-light-warning {
+                    margin-right: 0.5rem !important;
+                    height: 2.5rem;
+                    width: 2.5rem;
+                    color: #ffa800;
+                    background-color: #fff4de;
+                    border-color: transparent;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0;
+                }
+                .btn-light-danger {
+                    margin-right: 0.5rem !important;
+                    height: 2.5rem;
+                    width: 2.5rem;
+                    color: #f64e60;
+                    background-color: #ffe2e5;
+                    border-color: transparent;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0;
+                }
+            }
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            .pr-md-5,
+            .px-md-5 {
+                padding-right: 1.25rem !important;
+            }
+            .col-md-4 {
+                flex: 0 0 33.33333333%;
+                max-width: 33.33333333%;
+                .flexlayoutdata {
+                    display: flex;
+                    flex-wrap: wrap;
+                    font-weight: 500;
+                    align-items: center;
+                    color: #333;
+                    margin-top: 10px;
+                    .flag {
+                        width: 27px;
+                    }
+                    .title-name {
+                        width: 120px;
+                        overflow: hidden;
+                        font-weight: normal;
+                        opacity: 0.6;
+                    }
+                }
+            }
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #3699ff;
+            border-color: #3699ff;
+            border-radius: 0.42rem;
+            i {
+                padding-right: 0.5rem;
+                vertical-align: middle;
+            }
+        }
+    }
+    .text-primary {
+        color: #3699ff !important;
+    }
+}

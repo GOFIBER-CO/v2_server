@@ -1,0 +1,51 @@
+.create-notification-form {
+    &-header {
+        & ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+
+            & li {
+                display: inline-block;
+                padding: 10px;
+                border-bottom: 3px solid #3699ff;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &-input {
+        &-level {
+            margin-top: 25px;
+        }
+
+        & p {
+            margin-bottom: 4px;
+        }
+
+        &-room {
+            margin-top: 20px;
+        }
+
+        &-title {
+            margin-top: 20px;
+        }
+
+        &-description {
+            margin-top: 20px;
+        }
+
+        &-file {
+            margin-top: 20px;
+        }
+
+        &-status {
+            margin-top: 20px;
+        }
+    }
+
+    &-button {
+        text-align: center;
+        margin-top: 20px;
+    }
+}

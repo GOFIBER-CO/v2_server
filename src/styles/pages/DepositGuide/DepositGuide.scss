@@ -1,0 +1,45 @@
+.deposit-guide {
+    &-title {
+        font-size: 19px;
+        color: '#181C32';
+        font-weight: bold;
+    }
+
+    &-information {
+        display: flex;
+        margin-top: 20px;
+
+        &-note {
+            margin-top: 20px;
+        }
+
+        &-image {
+            flex: 3;
+        }
+
+        & img {
+            height: auto;
+        }
+
+        &-account {
+            &-number {
+                margin-top: 50px;
+                flex: 7;
+
+                & p {
+                    color: red;
+
+                    & span {
+                        color: black;
+                        font-weight: bold;
+                        font-size: 13px;
+                    }
+                }
+                &-owner-name {
+                    font-size: 13px;
+                    color: black !important;
+                }
+            }
+        }
+    }
+}

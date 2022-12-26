@@ -1,0 +1,1044 @@
+{
+    "info": {
+        "_postman_id": "e78fd872-8db2-4703-88cd-28ef7526bcbc",
+        "name": "KgozTdmTaKtIrePV",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "10734796"
+    },
+    "item": [
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "insertUser",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"userName\": \"admin\",\r\n    \"password\": \"123456\",\r\n    \"fullName\": \"administrator\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"phoneNumber\": \"0341121111\",\r\n    \"sex\": \"nam\",\r\n    \"surplus\": 0\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/insert",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "user", "insert"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "login",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"userName\": \"admin\",\r\n    \"password\": \"111111\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/login",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "user", "login"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "register",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"userName\": \"test\",\r\n    \"password\": \"123456\",\r\n    \"phoneNumber\": \"123456\",\r\n    \"email\": \"test@gmail.com\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/register",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "user", "register"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getPaging",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoifSwiaWF0IjoxNjY2MzYzMTg2LCJleHAiOjE2NjY0NDk1ODZ9.sBqcAgM-Ku-niFJBh_XRjbM81pvWliRUYxuHsMGqMYU",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/getPaging",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "user", "getPaging"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getUserById",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoifSwiaWF0IjoxNjY2MzYzMTg2LCJleHAiOjE2NjY0NDk1ODZ9.sBqcAgM-Ku-niFJBh_XRjbM81pvWliRUYxuHsMGqMYU",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"userId\": \"6352ab84312707f1a90bf2ca\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/getById",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "user", "getById"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "forgotPassword",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoifSwiaWF0IjoxNjY2MzYzMTg2LCJleHAiOjE2NjY0NDk1ODZ9.sBqcAgM-Ku-niFJBh_XRjbM81pvWliRUYxuHsMGqMYU",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"email\": \"lekhalinh.oppo@gmail.com\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/forgotPassword",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "user", "forgotPassword"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "changePassword",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoifSwiaWF0IjoxNjY2MzYzMTg2LCJleHAiOjE2NjY0NDk1ODZ9.sBqcAgM-Ku-niFJBh_XRjbM81pvWliRUYxuHsMGqMYU",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"userId\": \"6352a61ad2d939c939bf3653\",\r\n    \"password\": \"111111\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/changePassword",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "user", "changePassword"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateUser",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoifSwiaWF0IjoxNjY2MzYzMTg2LCJleHAiOjE2NjY0NDk1ODZ9.sBqcAgM-Ku-niFJBh_XRjbM81pvWliRUYxuHsMGqMYU",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"userName\": \"userName_test\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/user/update/6352ab84312707f1a90bf2ca",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "user",
+                                "update",
+                                "6352ab84312707f1a90bf2ca"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "server",
+            "item": [
+                {
+                    "name": "insert",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"serverName\": \"Cloud VN #4\",\r\n    \"price\": 299000,\r\n    \"cpu\": \"2 vCPU\",\r\n    \"ram\": \"2 GB\",\r\n    \"ssd\": \"30 GB\",\r\n    \"bandwidth\": \"10 Gbps\",\r\n    \"tranfer\": \"Unlimited\",\r\n    \"ipv4\": \"1 Địa chỉ\",\r\n    \"serverDefault\": true\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/insert",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "insert"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/delete/6357f1bd793613b7b088264d",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "server",
+                                "delete",
+                                "6357f1bd793613b7b088264d"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"serverName\": \"Cloud VN #4\",\r\n    \"price\": 299000,\r\n    \"cpu\": \"2 vCPU\",\r\n    \"ram\": \"2 GB\",\r\n    \"ssd\": \"30 GB\",\r\n    \"bandwidth\": \"10 Gbps\",\r\n    \"tranfer\": \"Unlimited\",\r\n    \"ipv4\": \"1 Địa chỉ\",\r\n    \"serverDefault\": true\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/insert",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "insert"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getById",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"serverId\": \"6357f06e20a542da073908f3\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/getById",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "getById"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getPaging",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/getPaging",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "getPaging"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Area",
+            "item": [
+                {
+                    "name": "insert",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"serverName\": \"Cloud VN #4\",\r\n    \"price\": 299000,\r\n    \"cpu\": \"2 vCPU\",\r\n    \"ram\": \"2 GB\",\r\n    \"ssd\": \"30 GB\",\r\n    \"bandwidth\": \"10 Gbps\",\r\n    \"tranfer\": \"Unlimited\",\r\n    \"ipv4\": \"1 Địa chỉ\",\r\n    \"serverDefault\": true\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/insert",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "insert"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/delete/6357f1bd793613b7b088264d",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "server",
+                                "delete",
+                                "6357f1bd793613b7b088264d"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"status\": 1\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/area/update/6357fa748e588482157019d1",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "area",
+                                "update",
+                                "6357fa748e588482157019d1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getById",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"serverId\": \"6357f06e20a542da073908f3\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/getById",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "getById"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getPaging",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/getPaging",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "getPaging"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "processing Room",
+            "item": [
+                {
+                    "name": "insert",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"processingRoomName\": \"Phòng hỗ test\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/processingRoom/insert",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "processingRoom", "insert"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/processingRoom/delete/63594c1bdb828e62260c31c2",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "processingRoom",
+                                "delete",
+                                "63594c1bdb828e62260c31c2"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"processingRoomName\": \"test hệ thống111111\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/processingRoom/update/63594c3cdb828e62260c31c5",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "processingRoom",
+                                "update",
+                                "63594c3cdb828e62260c31c5"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getById",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"processingRoomId\": \"63594c3cdb828e62260c31c5\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/processingRoom/getById",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "processingRoom", "getById"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getPaging",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/processingRoom/getPaging",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "processingRoom", "getPaging"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Cloud Server",
+            "item": [
+                {
+                    "name": "insert",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"serverName\": \"Cloud VN #4\",\r\n    \"price\": 299000,\r\n    \"cpu\": \"2 vCPU\",\r\n    \"ram\": \"2 GB\",\r\n    \"ssd\": \"30 GB\",\r\n    \"bandwidth\": \"10 Gbps\",\r\n    \"tranfer\": \"Unlimited\",\r\n    \"ipv4\": \"1 Địa chỉ\",\r\n    \"serverDefault\": true\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/server/insert",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "server", "insert"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/cloudServer/delete/635940cea6136c2952535b1c",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "cloudServer",
+                                "delete",
+                                "635940cea6136c2952535b1c"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"cloudServerName\": \"test hệ thống1111111111111\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/cloudServer/update/635940cea6136c2952535b1c",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "cloudServer",
+                                "update",
+                                "635940cea6136c2952535b1c"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getById",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"cloudServerId\": \"635940cea6136c2952535b1c\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/cloudServer/getById",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "cloudServer", "getById"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getPaging",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3OTM2NTAsImV4cCI6MTY2Njg4MDA1MH0.dZ6HECcsGGIjbe8RPMlu6WxQ2wmHLd4ARsFEitGE0_c",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/cloudServer/getPaging",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "cloudServer", "getPaging"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Operating System",
+            "item": [
+                {
+                    "name": "insert",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"operatingSystemName\": \"test hệ thống\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/operatingSystem/insert",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "operatingSystem", "insert"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/operatingSystem/delete/6358029ffe3df013cc28cd11",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "operatingSystem",
+                                "delete",
+                                "6358029ffe3df013cc28cd11"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n   \"operatingSystemName\": \"test hệ thống1111111111111\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/operatingSystem/update/6358029ffe3df013cc28cd11",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "operatingSystem",
+                                "update",
+                                "6358029ffe3df013cc28cd11"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getById",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"operatingSystemId\": \"6358029ffe3df013cc28cd11\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/operatingSystem/getById",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "operatingSystem", "getById"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getPaging",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/operatingSystem/getPaging",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": ["api", "operatingSystem", "getPaging"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getOperatingSystem",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNTJhNjFhZDJkOTM5YzkzOWJmMzY1MyIsInVzZXJOYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IiIsImZ1bGxOYW1lIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwMzQxMTIxMTExIiwic2V4IjoibmFtIiwic3VycGx1cyI6MCwiY3JlYXRlZFRpbWUiOiIyMDIyLTEwLTIxVDE0OjAxOjAwLjMyNFoiLCJ1cGRhdGVkVGltZSI6IjIwMjItMTAtMjFUMTY6Mjc6MjguMDM3WiJ9LCJpYXQiOjE2NjY3MDcxNjcsImV4cCI6MTY2Njc5MzU2N30.KLAw6sRTp-MYlTu6ZGHvvpUcct0qTvjHCykcTLeNz54",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{KgozTdmTaKtIrePV}}/api/operatingSystem/getOperatingSystem",
+                            "host": ["{{KgozTdmTaKtIrePV}}"],
+                            "path": [
+                                "api",
+                                "operatingSystem",
+                                "getOperatingSystem"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
