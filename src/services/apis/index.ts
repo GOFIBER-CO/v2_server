@@ -6,7 +6,8 @@ import IUpdateCloudServer from '@/interfaces/IUpdateCloudServer'
 import IUser from '@/interfaces/IUser'
 import axios from 'axios'
 
-const baseUrl = 'https://api.vngserver.vn'
+// const baseUrl = 'https://api.vngserver.vn'
+const baseUrl = 'http://localhost:8079'
 
 let axiosInstance = axios.create({
     baseURL: baseUrl,

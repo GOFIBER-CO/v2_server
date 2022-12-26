@@ -43,6 +43,8 @@ import UserStatistic from '@/pages/UserStatistic'
 import checkIsExpiredToken from '@/helpers/checkIsExpiredToken'
 import DeletedCloud from '@/pages/CloudVps/DeletedCloud'
 import AboutToExpire from '@/pages/CloudVps/AboutToExpire'
+import LoginNew from './../pages/LoginNew/index';
+import RegisterNew from '@/pages/RegisterNew'
 
 const AppRouter: React.FC = () => {
     const auth = useAuth()
@@ -52,6 +54,7 @@ const AppRouter: React.FC = () => {
     return (
         <>
             <Routes>
+                
                 {(isVerified && !checkIsExpiredToken(auth.jwtToken)) ||
                 (!isEnable2Fa &&
                     isLoggedIn &&
@@ -187,8 +190,10 @@ const AppRouter: React.FC = () => {
                     </Route>
                 ) : (
                     <Route path="/" element={<NonAuthLayout />}>
-                        <Route index element={<Auth />} />
-                        <Route path="/register" element={<Register />} />
+                        <Route index element={<LoginNew />} />
+                        <Route path='/register' element={<RegisterNew />} />
+                        {/* <Route index element={<Auth />} /> */}
+                        {/* <Route path="/register" element={<Register />} /> */}
                         {auth.isEnable2FaAuthenticate && auth.isLoggedIn && (
                             <Route path="/verify-2fa" element={<TwoFactor />} />
                         )}
