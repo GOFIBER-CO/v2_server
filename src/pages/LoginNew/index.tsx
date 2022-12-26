@@ -79,7 +79,7 @@ const LoginNew = () => {
 
                     <Form.Item>
                         
-                        <Button type="primary" htmlType="submit" style={{width:'100%', borderRadius:'10px', height:'35px'}}>
+                        <Button type="primary" htmlType="submit" style={{width:'100%', borderRadius:'10px', height:'35px', fontSize:'16px'}}>
                             Đăng nhập
                         </Button>
                     </Form.Item>
