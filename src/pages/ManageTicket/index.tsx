@@ -211,7 +211,7 @@ const ManageTicket = () => {
                     rowSelection={rowSelection}
                     columns={columns}
                     dataSource={tickets}
-                    scroll={{ x: '1000px', y: '600px' }}
+                    scroll={{ x: '1400px', y: '600px' }}
                     pagination={false}
                 />
                 <Pagination

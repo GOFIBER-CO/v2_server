@@ -437,7 +437,7 @@ const MainLayout: React.FC = () => {
                                 <Link to={'/'} style={{ cursor: 'pointer' }}>
                                     <img
                                         width={170}
-                                        src="https://gofiber.vn/wp-content/uploads/2022/12/Frame-88.png"
+                                        src="../../public/images/logo-2712.png"
                                     />
                                 </Link>
                             )}

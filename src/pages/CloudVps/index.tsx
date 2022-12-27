@@ -678,7 +678,7 @@ const CloudVps: React.FC = () => {
                                 rowSelection={rowSelection}
                                 columns={columns}
                                 dataSource={cloudServer}
-                                scroll={{ x: '1000px', y: '600px' }}
+                                scroll={{ x: '1400px', y: '600px' }}
                                 pagination={false}
                                 sticky
                             />
