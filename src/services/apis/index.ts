@@ -198,9 +198,16 @@ export const createNewTicket = (data: FormData) =>
 export const deleteOs = (id: string) =>
     axiosInstance.delete(`/api/operatingSystem/delete/${id}`)
 
-export const getSupportByUserId = (id: string, pageIndex: number) =>
+export const getSupportByUserId = (
+    id: string, 
+    pageIndex: number,
+    SupportTT: string,
+    SupportUT: string,
+    supportName: string,
+    
+    ) =>
     axiosInstance.get(
-        `/api/support/getSupportByUserId?userId=${id}&pageIndex=${pageIndex}`
+        `/api/support/getSupportByUserId?userId=${id}&pageIndex=${pageIndex}&supportTT=${SupportTT}&supportUT=${SupportUT}&supportName=${supportName}`
     )
 
 export const updateSupport = (id: string, data: FormData) =>
@@ -312,9 +319,13 @@ export const getLogByUserId = (
 export const createSnapshot = (data: FormData) =>
     axiosInstance.post('/api/snapshot/insert', data)
 
-export const getSnapshotsByUserId = (userId?: string, cloudServerId?: string) =>
+export const getSnapshotsByUserId = (
+    userId?: string, 
+    cloudServerId?: string,
+    pageIndex ?: number,
+    ) =>
     axiosInstance.get(
-        `/api/snapshot/getSnapshotsByUserId?userId=${userId}&cloudServerId=${cloudServerId}`
+        `/api/snapshot/getSnapshotsByUserId?userId=${userId}&cloudServerId=${cloudServerId}&pageIndex=${pageIndex}`
     )
 
 export const deleteSnapshot = (id: string) =>
