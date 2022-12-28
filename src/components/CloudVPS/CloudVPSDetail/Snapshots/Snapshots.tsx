@@ -31,7 +31,7 @@ const Snapshots = ({
 }: {
     dataCloudServer?: ICloudServer
     dataSnapshots?: ISnapshots[]
-}) => {
+}) => { 
     const layout = useLayoutInit()
     const [snapshot, setSnapshot] = useState(dataSnapshots)
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -40,6 +40,11 @@ const Snapshots = ({
         content: '',
         status: 1,
     })
+
+    const [pageIndex, setPageIndex] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+    const [pageSize, setPageSize] = useState(1)
+    const [totalItem, setTotalItem] = useState(1)
 
     const actionIconStyle = (color: string): CSSProperties => {
         return {
@@ -114,10 +119,14 @@ const Snapshots = ({
             layout.setLoading(true)
             const snapshots = await getSnapshotsByUserId(
                 dataCloudServer?.user,
-                dataCloudServer?._id
+                dataCloudServer?._id,
+                pageIndex         
             )
             setSnapshot(snapshots.data?.data)
-            layout.setLoading(false)
+            setTotalPage(snapshots.data?.totalPages)
+            setPageSize(Number(snapshots.data?.pageSize))
+            setTotalItem(snapshots.data?.totalItem)
+            layout.setLoading(false) 
         } catch (error) {
             console.log(error)
             layout.setLoading(false)
@@ -177,7 +186,9 @@ const Snapshots = ({
 
     useEffect(() => {
         getSnapshots()
-    }, [])
+    }, [pageIndex])
+    const showTotal: PaginationProps['showTotal'] = (total) =>
+        `Total ${total} items`
 
     return (
         <>
@@ -246,7 +257,16 @@ const Snapshots = ({
                         dataSource={snapshot}
                         scroll={{ x: '1000px', y: '600px' }}
                         pagination={false}
+                        
                     />
+                     <Pagination
+                    showTotal={showTotal}
+                    style={{ marginTop: '30px' }}
+                    current={pageIndex}
+                    total={totalItem}
+                    pageSize={pageSize}
+                    onChange={(value) => setPageIndex(value)}
+                />
                 </div>
             </div>
         </>

@@ -124,7 +124,7 @@ const UserStatistic = () => {
                 <Table
                     columns={columns}
                     dataSource={statistics}
-                    scroll={{ x: '1000px', y: '400px' }}
+                    scroll={{ x: '1350px', y: '400px' }}
                     pagination={false}
                 />
                 <Pagination

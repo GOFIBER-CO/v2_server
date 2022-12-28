@@ -252,7 +252,7 @@ const Service = () => {
                     rowSelection={rowSelection}
                     columns={columns}
                     dataSource={services}
-                    scroll={{ x: '1000px', y: '600px' }}
+                    scroll={{ x: '1550px', y: '600px' }}
                     pagination={false}
                 />
                 <Pagination

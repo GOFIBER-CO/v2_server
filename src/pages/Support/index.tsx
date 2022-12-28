@@ -20,6 +20,9 @@ import { useEffect, useState } from 'react'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
 
+import "./Support.css"
+
+
 const { Option } = Select
 
 const Support: React.FC = () => {
@@ -33,12 +36,18 @@ const Support: React.FC = () => {
     const [totalPage, setTotalPage] = useState(1)
     const [pageSize, setPageSize] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
+    const [filter, setFilter] = useState<{
+        SupportTT: string
+        SupportUT: string
+        supportName: string
+    }>({ SupportTT: '',SupportUT:'', supportName: '' })
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
     }
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
+
     const layout = useLayoutInit()
     useEffect(() => {
         getAllTickets()
@@ -47,11 +56,12 @@ const Support: React.FC = () => {
     const getAllTickets = async () => {
         try {
             layout.setLoading(true)
-            const result = await getSupportByUserId(auth.user._id, pageIndex)
+            const result = await getSupportByUserId(auth.user._id, pageIndex, filter.SupportTT, filter.SupportUT, filter.supportName)
             setTickes(result.data?.data)
             setTotalPage(result.data?.totalPages)
             setPageSize(Number(result.data?.pageSize))
             setTotalItem(result.data?.totalItem)
+            
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -122,8 +132,11 @@ const Support: React.FC = () => {
         },
     ]
 
-    const onFiltered = () => {}
+    const onFiltered = () => {
+        getAllTickets()
+    }
 
+    
     return (
         <div className="support-page">
             <div className="support-page-header">
@@ -147,6 +160,68 @@ const Support: React.FC = () => {
                         <Button type="primary">Tạo ticket</Button>
                     </Link>
                 </div>
+                <div className="support-page-create-ticket" style={{marginLeft:'10px'}}>
+                <Select
+                    defaultValue="--Trạng thái--"
+                    style={{ width: 130 , }}
+                    onChange={(value) =>
+                        setFilter({
+                            ...filter,
+                            SupportTT: value,
+                        })
+                    }
+                >
+                    <Option value={0}>Chưa xác nhận</Option>
+                    <Option value={1}>Xác nhận</Option>
+                    <Option value={2}>Hoàn thành</Option>
+                </Select>
+                </div>
+                <div className="support-page-create-ticket" style={{marginLeft:'10px'}}>
+                <Select
+                    defaultValue="--Cấp ưu tiên--"
+                    style={{ width: 140 , }}
+                    onChange={(value) =>
+                        setFilter({
+                            ...filter,
+                            SupportUT: value,
+                        })
+                    }                   
+                    options={[
+                        {
+                            value: 0,
+                            label: 'Tất cả',
+                        },
+                        {
+                            value: 1,
+                            label: 'Bình thường',
+                        },
+                        {
+                            value: 2,
+                            label: 'Ưu tiên',
+                        },
+                        {
+                            value: 3,
+                            label: 'Khẩn cấp',
+                        },
+                       
+                    ]}
+                    />
+                </div>
+                
+                <div className="support-page-create-ticket" style={{marginLeft:'10px'}} >
+                <Input 
+                     onChange={(e) =>
+                        setFilter({
+                            ...filter,
+                            supportName: e.target.value,
+                        })
+                    }
+                />
+                </div>
+
+                <div className="support-page-create-ticket" style={{marginLeft:'10px'}}>
+                    <ButtonFilter buttonOnclick={onFiltered}></ButtonFilter>
+                </div>
                 <div className="support-page-filter-general"></div>
                 {/* <div className="support-page-filter-submit">
                     <ButtonFilter buttonOnclick={onFiltered} />
@@ -157,7 +232,7 @@ const Support: React.FC = () => {
                     rowSelection={rowSelection}
                     columns={columns}
                     dataSource={tickets}
-                    scroll={{ x: '1000px', y: '600px' }}
+                    scroll={{ x: '1300px', y: '600px' }}
                     pagination={false}
                 />
                 <Pagination

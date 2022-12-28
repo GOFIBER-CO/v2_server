@@ -440,7 +440,7 @@ const MainLayout: React.FC = () => {
                                 <Link to={'/'} style={{ cursor: 'pointer' }}>
                                     <img
                                         width={170}
-                                        src="../../public/images/logo-2712.png"
+                                        src="/images/logo-2712.png"
                                     />
                                 </Link>
                             )}
@@ -504,7 +504,7 @@ const MainLayout: React.FC = () => {
                             </div>
                             <div className="site-layout-surplus">
                                 <p>
-                                    Số dư:<span>{formatMoney(surplus)}</span>
+                                    Số dư:<span style={{fontSize:'15px'}}>{formatMoney(surplus)}</span>
                                 </p>
                             </div>
                             <div className="site-layout-appstore">
