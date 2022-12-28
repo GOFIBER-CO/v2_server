@@ -46,6 +46,7 @@ import { triggerAsyncId } from 'async_hooks'
 import subtractDate from '@/helpers/subtractDate'
 import { Link } from 'react-router-dom'
 import RenewModal from '@/components/CloudVPS/RenewModal'
+import { Value } from 'sass'
 const { Option } = Select
 
 const CloudVps: React.FC = () => {
@@ -59,7 +60,7 @@ const CloudVps: React.FC = () => {
         name: '',
     })
 
-    const [renewModal, setRenewModal] = useState<{isOpen: boolean, id: string}>({isOpen: false, id: ''})
+    const [renewModal, setRenewModal] = useState<{ isOpen: boolean, id: string }>({ isOpen: false, id: '' })
     const [listMenuCloud, setListMenuCloud] = useState(ListMenuCloud)
     const [cloudServer, setCloudServer] = useState<ICloudServer[]>([])
     const [cloudServerItem, setCloudServerItem] = useState<ICloudServer>()
@@ -152,7 +153,7 @@ const CloudVps: React.FC = () => {
                             } else {
                                 setOptionCloud(
                                     Number(menuCloudItem.cloudId) ||
-                                        listMenuCloud.length
+                                    listMenuCloud.length
                                 )
                             }
                         }
@@ -163,7 +164,7 @@ const CloudVps: React.FC = () => {
                     label: (
                         <a
                             rel="noopener noreferrer"
-                            onClick={()=>setRenewModal({isOpen: true, id: cloudServerItem?._id || ''})}
+                            onClick={() => setRenewModal({ isOpen: true, id: cloudServerItem?._id || '' })}
                         >
                             <i className="fa fa-file text-primary"></i> Gia hạn
                             Cloud Server
@@ -393,12 +394,12 @@ const CloudVps: React.FC = () => {
                     <span style={{ color: 'red', display: 'block' }}>
                         {subtractDate(new Date(value), new Date()) / 30 >= 1
                             ? `${Math.ceil(
-                                  subtractDate(new Date(value), new Date()) / 30
-                              )} tháng tới`
+                                subtractDate(new Date(value), new Date()) / 30
+                            )} tháng tới`
                             : `${subtractDate(
-                                  new Date(value),
-                                  new Date()
-                              )} ngày tới`}{' '}
+                                new Date(value),
+                                new Date()
+                            )} ngày tới`}{' '}
                     </span>
                 </>
             ),
@@ -574,6 +575,15 @@ const CloudVps: React.FC = () => {
             id: '',
         })
     }
+    // quyquy
+    const onChangeNameValue = (value: any) => {
+        console.log('value: ', value);
+        // console.log('key: ', key);
+
+        // const temp = { ...webRtcInNetWork }
+        // temp[key] = value
+        // setWebRtcInNetWork(temp)
+    }
 
     useEffect(() => {
         getCloudServer()
@@ -581,14 +591,17 @@ const CloudVps: React.FC = () => {
         // getAllOrder()
         getOperatingSystem()
     }, [pageIndex])
-
+    const updateLabelName = (value: any) => {
+        console.log('value: ', value);
+    }
+    // updateLabelName()
     return (
         <React.Fragment>
-            {renewModal.isOpen && <RenewModal id={renewModal.id} closeFunction = {closeRenewModal}/>}
+            {renewModal.isOpen && <RenewModal id={renewModal.id} closeFunction={closeRenewModal} />}
             <div className="cloud-vps-page">
                 <div className="cloud-vps-page-option">
                     <ul>
-                        <Link to={'/cloud-vps'}><li style={{borderBottom: '2px solid #3699ff'}}>
+                        <Link to={'/cloud-vps'}><li style={{ borderBottom: '2px solid #3699ff' }}>
                             <TfiMenuAlt
                                 size={15}
                                 style={{
@@ -624,7 +637,13 @@ const CloudVps: React.FC = () => {
                     </ul>
                 </div>
                 {optionCloud > 3 ? (
-                    <CloudVPSDetail data={cloudServerItem} />
+                    <CloudVPSDetail
+                        data={cloudServerItem}
+                        handleChangeNameValue={
+                           (value)=> onChangeNameValue(value)
+                        }
+                    // updateLabelName={handleUpdateLabelName}
+                    />
                 ) : (
                     <>
                         <div className="cloud-vps-page-filter">

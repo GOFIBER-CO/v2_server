@@ -14,9 +14,8 @@ let axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use((config) => {
-    config.headers!.authorization = `Bearer ${
-        JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
-    }`
+    config.headers!.authorization = `Bearer ${JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
+        }`
     return config
 })
 
@@ -116,10 +115,10 @@ export const getDeletedCloudServer = (
         `/api/cloudServer/deletedCloud?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}`
     )
 
-export const renewCloudServer = (id: string, totalPrice:number, time: number) => axiosInstance.post(`/api/cloudServer/renewCloudServer/${id}`,{
+export const renewCloudServer = (id: string, totalPrice: number, time: number) => axiosInstance.post(`/api/cloudServer/renewCloudServer/${id}`, {
     totalPrice: totalPrice,
     time: time,
-}) 
+})
 export const getService = (
     pageIndex: number,
     serverDefault?: string,
@@ -319,3 +318,11 @@ export const getSnapshotsByUserId = (userId?: string, cloudServerId?: string) =>
 
 export const deleteSnapshot = (id: string) =>
     axiosInstance.delete(`/api/snapshot/delete/${id}`)
+//
+// export const updateLabelNameOfCloudVps = (cloudId?.string, cloudServerName?.string)=> {
+//     axiosInstance.put(`/api/CloudVps/update/${cloudId}`, cloudServerName)
+// }
+export const updateCloudServerName = (id: any, data: any) =>
+    axiosInstance.put(`/api/cloudServer/update/name/${id}`, {
+        cloudServerName: data,
+    })
