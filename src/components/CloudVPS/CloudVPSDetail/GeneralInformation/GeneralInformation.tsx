@@ -1,6 +1,40 @@
+import React, { useState } from 'react';
+import { Button, Modal } from 'antd';
+import { Input } from 'antd';
+import { Component } from 'react';
 import ICloudServer from '@/interfaces/ICloudServer'
-
-const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
+import { HiPencilAlt } from 'react-icons/hi';
+import { MdOutlineSecurity } from 'react-icons/md'
+import { updateCloud, updateCloudServerName } from '@/services/apis';
+import { toast } from 'react-toastify';
+//@ts-ignore
+const GeneralInformation = ({ data}: { data?: ICloudServer }) => {
+    // console.log('handleChangeNameValue: ', handleChangeNameValue);
+    const [labelName, setLabelName] = useState('')
+    const [localData, setLocalData] = useState(data)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = async() => {
+        try {
+            setIsModalOpen(false);
+            // updateLabelName(labelName)
+            // console.log('labelName: ', labelName);
+            const result = await updateCloudServerName(localData?._id , labelName)
+            console.log(result.data)
+            //@ts-ignore
+            setLocalData({...localData, cloudServerName: result.data?.data?.cloudServerName})
+            toast.success("Sửa tên thành công")
+        } catch (error) {
+            console.log(error)
+            toast.error("Sửa tên thất bại")
+        }
+    
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
     return (
         <>
             <div className="tab-content">
@@ -12,8 +46,8 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img width="20" src={`/images/${data?.area.file || ''}`}/>
-                                        <span style={{marginLeft: '5px'}}>{data?.area.areaName}</span>
+                                        <img width="20" src={typeof(localData?.area.file) == 'string' ? `/images/${localData?.area.file}` : ''} />
+                                        <span style={{marginLeft: '8px'}}>{localData?.area.areaName}</span>
                                     </span>
                                 </div>
                             </div>
@@ -23,7 +57,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {}
+                                        { }
                                     </span>
                                 </div>
                             </div>
@@ -61,10 +95,10 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                     <span style={{ verticalAlign: 'middle' }}>
                                         <img
                                             width="20"
-                                            src={data?.operatingSystem.img}
+                                            src={localData?.operatingSystem.img}
                                         />
                                         {
-                                            data?.operatingSystem
+                                            localData?.operatingSystem
                                                 .operatingSystemName
                                         }
                                     </span>
@@ -77,7 +111,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Số vCpu:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {data?.server.cpu}vCPU
+                                        {localData?.server.cpu}vCPU
                                     </span>
                                 </div>
                             </div>
@@ -86,7 +120,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Bộ nhớ:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {data?.server.ram} GB
+                                        {localData?.server.ram} GB
                                     </span>
                                 </div>
                             </div>
@@ -95,7 +129,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Ổ cứng:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {data?.server.ssd}GB NVMe
+                                        {localData?.server.ssd}GB NVMe
                                     </span>
                                 </div>
                             </div>
@@ -107,7 +141,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                         style={{ verticalAlign: 'middle' }}
                                         typeof="password"
                                     >
-                                        {data?.server.bandwidth}TB
+                                        {localData?.server.bandwidth}TB
                                     </span>
                                 </div>
                             </div>
@@ -118,7 +152,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Mã Server:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {data?.code}
+                                        {localData?.code}
                                     </span>
                                 </div>
                             </div>
@@ -126,9 +160,36 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                             <div className="flexlayoutdata">
                                 <div className="title-name">Tên nhãn:</div>
                                 <div>
-                                    <span style={{ verticalAlign: 'middle' }}>
-                                        {data?.cloudServerName}
+                                    <span style={{ verticalAlign: 'middle', marginRight: "5px" }}>
+                                        {localData?.cloudServerName}
                                     </span>
+
+                                    <Button type="primary"
+                                        style={{
+                                            border: '0px',
+                                            borderBottom: '0 !important',
+                                            backgroundColor: 'transparent',
+                                            color: 'black',
+                                            boxSizing: 'unset',
+                                            // boxShadow: '0 !important',
+                                            boxShadow: 'unset'
+                                        }}
+                                        onClick={showModal}
+                                    >
+                                        <HiPencilAlt size={20} style={{ cursor: "pointer" }} />
+                                    </Button>
+                                    <Modal
+                                        title="Basic Modal"
+                                        open={isModalOpen}
+                                        onOk={handleOk}
+                                        onCancel={handleCancel}
+                                    >
+                                        <Input
+                                            placeholder="Nhập tên mới"
+                                            onChange={(e) => setLabelName(e.target.value)}
+                                            value={labelName || localData?.cloudServerName}
+                                        />
+                                    </Modal>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import GeneralInformation from './GeneralInformation/GeneralInformation'
+import { Tooltip } from 'antd';
 import Snapshots from './Snapshots/Snapshots'
 import Log from './Log/Log'
 import ICloudServer from '@/interfaces/ICloudServer'
@@ -15,6 +16,7 @@ import ITransactionHistory from '@/interfaces/ITransactionHistory'
 import ILog from '@/interfaces/ILog'
 import MenuCloudChildren from './MenuCloudChildren'
 import ISnapshots from '@/interfaces/ISnapshots'
+import "./cloudStack.css"
 
 const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
     const layout = useLayoutInit()
@@ -61,7 +63,11 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                 break
         }
     }
+    //
+    const onChangeNameValue = (value: any) => {
+        console.log('value: ', value);
 
+    }
     const getTransactionHistory = async () => {
         try {
             layout.setLoading(true)
@@ -136,33 +142,42 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                         <div className="card-toolbar">
                             <div className="mr-5">
                                 <div className="text-success">
-                                    <i className="fa fa-play text-success"></i>
                                     {'  '}
                                     {data?.isShow
-                                        ? 'Đang chạy'
-                                        : 'Đã đóng'}{' '}
+                                        ? <><i className="fa fa-play text-success"></i> Đang chạy</>
+                                        : <><i className="fa fa-play text-danger"></i>  <span style={{ color: "red" }}>Đã đóng</span></>}
                                 </div>
                             </div>
+                            <Tooltip title="prompt text">
+                                <button className="btn-light-primary hover">
+                                    <i className="fa fa-terminal"></i>
+                                </button>
+                            </Tooltip>
 
-                            <button className="btn-light-primary">
-                                <i className="fa fa-terminal"></i>
-                            </button>
+                            <Tooltip title="prompt text">
+                                <button className="btn-light-info hover">
+                                    <i className="fa fa-power-off"></i>
+                                </button>
+                            </Tooltip>
 
-                            <button className="btn-light-info">
-                                <i className="fa fa-power-off"></i>
-                            </button>
+                            <Tooltip title="prompt text">
+                                <button className="btn-light-success hover">
+                                    <i className="fa fa-play"></i>
+                                </button>
+                            </Tooltip>
 
-                            <button className="btn-light-success">
-                                <i className="fa fa-play"></i>
-                            </button>
+                            <Tooltip title="prompt text">
+                                <button className="btn-light-warning hover">
+                                    <i className="fa fa-refresh"></i>
+                                </button>
+                            </Tooltip>
 
-                            <button className="btn-light-warning">
-                                <i className="fa fa-refresh"></i>
-                            </button>
+                            <Tooltip title="prompt text">
+                                <button className="btn-light-danger hover">
+                                    <i className="fa fa-trash"></i>
+                                </button>
+                            </Tooltip>
 
-                            <button className="btn-light-danger">
-                                <i className="fa fa-trash"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -175,7 +190,10 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                         onchange={(data) => onchangeMenuChildren(data)}
                     />
                 </div>
-                {optionId == 1 ? <GeneralInformation data={data} /> : ''}
+                {optionId == 1 ? <GeneralInformation
+                    data={data}
+                /> : ''
+                }
                 {optionId == 2 ? (
                     <Snapshots
                         dataCloudServer={data}

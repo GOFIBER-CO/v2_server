@@ -103,7 +103,7 @@ const Log = ({
                         rowSelection={rowSelection}
                         columns={columns}
                         dataSource={log}
-                        scroll={{ x: '1000px', y: '600px' }}
+                        scroll={{ x: '1300px', y: '600px' }}
                         pagination={false}
                     />
                     <Pagination

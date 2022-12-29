@@ -14,9 +14,8 @@ let axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use((config) => {
-    config.headers!.authorization = `Bearer ${
-        JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
-    }`
+    config.headers!.authorization = `Bearer ${JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
+        }`
     return config
 })
 
@@ -120,10 +119,10 @@ export const getDeletedCloudServer = (
         `/api/cloudServer/deletedCloud?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}`
     )
 
-export const renewCloudServer = (id: string, totalPrice:number, time: number) => axiosInstance.post(`/api/cloudServer/renewCloudServer/${id}`,{
+export const renewCloudServer = (id: string, totalPrice: number, time: number) => axiosInstance.post(`/api/cloudServer/renewCloudServer/${id}`, {
     totalPrice: totalPrice,
     time: time,
-}) 
+})
 export const getService = (
     pageIndex: number,
     serverDefault?: string,
@@ -202,9 +201,16 @@ export const createNewTicket = (data: FormData) =>
 export const deleteOs = (id: string) =>
     axiosInstance.delete(`/api/operatingSystem/delete/${id}`)
 
-export const getSupportByUserId = (id: string, pageIndex: number) =>
+export const getSupportByUserId = (
+    id: string, 
+    pageIndex: number,
+    SupportTT: string,
+    SupportUT: string,
+    supportName: string,
+    
+    ) =>
     axiosInstance.get(
-        `/api/support/getSupportByUserId?userId=${id}&pageIndex=${pageIndex}`
+        `/api/support/getSupportByUserId?userId=${id}&pageIndex=${pageIndex}&supportTT=${SupportTT}&supportUT=${SupportUT}&supportName=${supportName}`
     )
 
 export const updateSupport = (id: string, data: FormData) =>
@@ -316,10 +322,22 @@ export const getLogByUserId = (
 export const createSnapshot = (data: FormData) =>
     axiosInstance.post('/api/snapshot/insert', data)
 
-export const getSnapshotsByUserId = (userId?: string, cloudServerId?: string) =>
+export const getSnapshotsByUserId = (
+    userId?: string, 
+    cloudServerId?: string,
+    pageIndex ?: number,
+    ) =>
     axiosInstance.get(
-        `/api/snapshot/getSnapshotsByUserId?userId=${userId}&cloudServerId=${cloudServerId}`
+        `/api/snapshot/getSnapshotsByUserId?userId=${userId}&cloudServerId=${cloudServerId}&pageIndex=${pageIndex}`
     )
 
 export const deleteSnapshot = (id: string) =>
     axiosInstance.delete(`/api/snapshot/delete/${id}`)
+//
+// export const updateLabelNameOfCloudVps = (cloudId?.string, cloudServerName?.string)=> {
+//     axiosInstance.put(`/api/CloudVps/update/${cloudId}`, cloudServerName)
+// }
+export const updateCloudServerName = (id: any, data: any) =>
+    axiosInstance.put(`/api/cloudServer/update/name/${id}`, {
+        cloudServerName: data,
+    })

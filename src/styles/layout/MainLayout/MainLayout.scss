@@ -71,19 +71,32 @@
     & ul {
         list-style-type: none;
         background-color: white;
-        width: 170px;
+        width: 22rem;
         padding: 0;
         box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.37);
         border-radius: 5px;
+        & li.bg-img{
+            color: white;
+            background: url('/images/anh-background-cong-nghe-xanh_035953035.jpg');
+        }
         & a {
             color: white;
             color: black;
-
+            & .info_profile{
+                &:hover{
+                    background-color: #1890ff;
+                    color: white;
+                    & .icon_profile{
+                        color: white !important;
+                    }
+                }
+            }
             & li {
-                padding: 0px 10px;
+                border-bottom: 1px solid ghostwhite;
+                padding: 0px 1.2rem;
                 display: flex;
                 align-items: center;
-                height: 40px;
+                height: 100%;
                 cursor: pointer;
                 &:hover {
                     background-color: #1890ff;
@@ -94,14 +107,30 @@
             }
         }
         & li {
-            padding: 0px 10px;
+            padding: 0px 1.2rem;
             display: flex;
             align-items: center;
-            height: 40px;
-            cursor: pointer;
+            height: 100%;
+            // cursor: pointer;
             text-align: start;
             font-weight: 600;
             transition: 200ms;
+
+                & a{
+                    border: 1px solid #1890ff;
+                    border-radius: 5px;
+                    padding: 0 2rem;
+                    /* height: 12%; */
+                    margin: 0;
+                    line-height: 3;
+                    margin: 1rem;
+                    margin-left: 0;
+                    color: #1890ff;
+                    &:hover {
+                        background-color: #1890ff;
+                        color: white;
+                    }
+             }
         }
     }
 }
