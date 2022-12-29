@@ -45,7 +45,7 @@ import DeletedCloud from '@/pages/CloudVps/DeletedCloud'
 import AboutToExpire from '@/pages/CloudVps/AboutToExpire'
 import LoginNew from './../pages/LoginNew/index';
 import RegisterNew from '@/pages/RegisterNew'
-
+import UpdateCloud from '@/pages/CloudVps/UpdateCloud'
 const AppRouter: React.FC = () => {
     const auth = useAuth()
     const isLoggedIn = auth.isLoggedIn
@@ -54,11 +54,11 @@ const AppRouter: React.FC = () => {
     return (
         <>
             <Routes>
-                
+
                 {(isVerified && !checkIsExpiredToken(auth.jwtToken)) ||
-                (!isEnable2Fa &&
-                    isLoggedIn &&
-                    !checkIsExpiredToken(auth.jwtToken)) ? (
+                    (!isEnable2Fa &&
+                        isLoggedIn &&
+                        !checkIsExpiredToken(auth.jwtToken)) ? (
                     <Route path="/" element={<MainLayout />}>
                         <Route index element={<Home />} />
                         <Route path="/cloud-vps" element={<CloudVps />} />
@@ -85,12 +85,16 @@ const AppRouter: React.FC = () => {
                             element={<CreateCloud />}
                         />
                         <Route
+                            path="/cloud-vps/update-cloud/:id"
+                            element={<UpdateCloud />}
+                        />
+                        <Route
                             path='/cloud-vps/deleted-cloud'
-                            element={<DeletedCloud/>}
+                            element={<DeletedCloud />}
                         />
                         <Route
                             path='/cloud-vps/about-to-expired'
-                            element={<AboutToExpire/>}
+                            element={<AboutToExpire />}
                         />
                         <Route
                             path="/support/create-ticket"

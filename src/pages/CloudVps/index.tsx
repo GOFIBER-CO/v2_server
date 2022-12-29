@@ -62,8 +62,10 @@ const CloudVps: React.FC = () => {
 
     const [renewModal, setRenewModal] = useState<{ isOpen: boolean, id: string }>({ isOpen: false, id: '' })
     const [listMenuCloud, setListMenuCloud] = useState(ListMenuCloud)
+
     const [cloudServer, setCloudServer] = useState<ICloudServer[]>([])
     const [cloudServerItem, setCloudServerItem] = useState<ICloudServer>()
+
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [pageSize, setPageSize] = useState(1)
@@ -85,7 +87,7 @@ const CloudVps: React.FC = () => {
             color: color,
         }
     }
-
+    console.log('cloudServerItem: ', cloudServerItem);
     const changeIsAutoRenew = async (id: string, status: boolean) => {
         try {
             const result = await switchAutoRenew(id, status)
@@ -244,13 +246,10 @@ const CloudVps: React.FC = () => {
                 {
                     key: '7',
                     label: (
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.luohanacademy.com"
-                        >
-                            <i className="fa fa-upload"></i> Nâng cấp cấu hình
-                        </a>
+
+                        <Link to={`/cloud-vps/update-cloud/${cloudServerItem?._id}`}>
+                            <i className="fa fa-upload">Demo001 Nâng cấp cấu hình</i>
+                        </Link>
                     ),
                     disabled: false,
                 },
@@ -639,9 +638,9 @@ const CloudVps: React.FC = () => {
                 {optionCloud > 3 ? (
                     <CloudVPSDetail
                         data={cloudServerItem}
-                        handleChangeNameValue={
-                           (value)=> onChangeNameValue(value)
-                        }
+                    // handleChangeNameValue={
+                    //    (value)=> onChangeNameValue(value)
+                    // }
                     // updateLabelName={handleUpdateLabelName}
                     />
                 ) : (
