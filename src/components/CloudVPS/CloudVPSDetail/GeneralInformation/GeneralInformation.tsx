@@ -8,12 +8,12 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                     <div className="row">
                         <div className="col-md-4 px-md-5">
                             <div className="flexlayoutdata">
-                                <div className="title-name"> Location: </div>
+                                <div className="title-name">Location: </div>
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img width="20" src={data?.area.img} />
-                                        {data?.area.areaName}
+                                        <img width="20" src={`/images/${data?.area.file || ''}`}/>
+                                        <span style={{marginLeft: '5px'}}>{data?.area.areaName}</span>
                                     </span>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                         style={{ verticalAlign: 'middle' }}
                                         typeof="password"
                                     >
-                                        {data?.password}
+                                        ********
                                     </span>
                                 </div>
                             </div>

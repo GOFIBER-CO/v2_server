@@ -201,6 +201,7 @@ const useProvideAuth = () => {
         })
     }
 
+
     const logout = (navigate: NavigateFunction) => {
         localStorage.removeItem('user')
         setAuth({
@@ -220,6 +221,7 @@ const useProvideAuth = () => {
             },
         })
         notify('success', 'Đăng xuất thành công')
+        navigate('/')
     }
 
     return {

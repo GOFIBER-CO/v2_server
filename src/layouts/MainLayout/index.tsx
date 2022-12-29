@@ -5,7 +5,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 import { Divider, Layout, Menu, MenuProps } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router'
 import Avatar from 'antd/lib/avatar/avatar'
 import { Link, NavLink } from 'react-router-dom'
@@ -75,6 +75,10 @@ const MainLayout: React.FC = () => {
     const rootSubmenuKeys: string[] = ['/admin', '/information', '/manage']
 
     const navigate = useNavigate()
+
+    const refUserOption = useRef(null)
+    const refNotificationBox = useRef(null)
+    const refPanel = useRef(null)
 
     const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
@@ -410,6 +414,25 @@ const MainLayout: React.FC = () => {
         getNotification()
     }, [notificationType])
 
+    useEffect(()=>{
+        //@ts-ignore
+        const handleClickOutSide = (e) => {
+            //@ts-ignore
+            if (refPanel.current && !refPanel.current.contains(e.target)) {
+                setPanel(false)
+            }
+            //@ts-ignore
+            if (refUserOption.current && !refUserOption.current.contains(e.target)) {
+                setUserOption(false)
+            }
+             //@ts-ignore
+             if (refNotificationBox.current && !refNotificationBox.current.contains(e.target)) {
+                setNotificationBox(false)
+            }
+        }
+        document.addEventListener('click', handleClickOutSide, true)
+    },[])
+
     return (
         <>
             {panel && <BlurGlass />}
@@ -437,7 +460,7 @@ const MainLayout: React.FC = () => {
                                 <Link to={'/'} style={{ cursor: 'pointer' }}>
                                     <img
                                         width={170}
-                                        src="../../public/images/logo-2712.png"
+                                        src="/images/logo-2712.png"
                                     />
                                 </Link>
                             )}
@@ -504,7 +527,7 @@ const MainLayout: React.FC = () => {
                                     Số dư:<span>{formatMoney(surplus)}</span>
                                 </p>
                             </div>
-                            <div className="site-layout-appstore">
+                            <div className="site-layout-appstore"  ref={refPanel}>
                                 <AiOutlineAppstore
                                     size={20}
                                     style={{
@@ -525,7 +548,7 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="site-layout-notification">
+                            <div className="site-layout-notification"  ref={refNotificationBox}>
                                 <span
                                     className="site-layout-notification-ring"
                                     onClick={() => {
@@ -717,16 +740,19 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="site-layout-avatar">
-                                <Avatar
-                                    onClick={() => {
-                                        setUserOption(!userOption)
-                                        setNotificationBox(false)
-                                    }}
-                                    size={35}
-                                    icon={<UserOutlined />}
-                                    style={{ cursor: 'pointer' }}
-                                />
+                            <div className="site-layout-avatar"  ref={refUserOption}>
+                                <div className = "site-layout-avatar-wrapper">
+                                    <Link className='site-layout-avatar-username' to="/profile" style={{verticalAlign: '-2px'}}>Hi, {auth.user.userName}</Link>
+                                    <Avatar
+                                        onClick={() => {
+                                            setUserOption(!userOption)
+                                            setNotificationBox(false)
+                                        }}
+                                        size={35}
+                                        icon={<UserOutlined />}
+                                        style={{ cursor: 'pointer', marginLeft: '8px' }}
+                                    />
+                                </div>
                                 {userOption && (
                                     <div className="site-layout-avatar--option">
                                         <ul>

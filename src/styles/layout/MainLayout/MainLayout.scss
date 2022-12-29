@@ -12,6 +12,10 @@
     color: #1890ff;
 }
 
+.site-layout-surplus p span{
+    font-size: 16px!important;
+}
+
 @media only screen and (max-width: 740px) {
     .site-layout-create-server {
         display: none !important;
@@ -19,6 +23,10 @@
 
     .site-layout .trigger {
         display: none !important;
+    }
+
+    .site-layout-avatar-username{
+        display: none!important;
     }
 }
 

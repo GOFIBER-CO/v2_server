@@ -1,7 +1,7 @@
 import MainLayout from '@/layouts/MainLayout'
 import Auth from '@/pages/Auth'
 import Home from '@/pages/Home'
-import { Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 import NonAuthLayout from '@/layouts/NonAuthLayout'
 import ErrorPage from '@/pages/Error'
 import ActionHistory from '@/pages/ActionHistory'
@@ -199,7 +199,7 @@ const AppRouter: React.FC = () => {
                         )}
                     </Route>
                 )}
-                <Route path="/*" element={<ErrorPage />} />
+                <Route path="/*" element={<Navigate to={'/'} />} />
             </Routes>
         </>
     )
