@@ -36,14 +36,14 @@ const ProfileCloudServer = ({
                         onChange={(e) => onchangePass(data, e.target.value)}
                     />
                 </Form.Item>
-                <Form.Item name="port">
+                {/* <Form.Item name="port">
                     <Input
                         name="port"
                         style={{ borderRadius: 5 }}
                         placeholder="Chọn port từ 1024->65535"
                         onChange={(e) => onchangePort(data, e.target.value)}
                     />
-                </Form.Item>
+                </Form.Item>*/}
                 <Form.Item name="cloudServerName">
                     <Input
                         name="cloudServerName"
@@ -51,7 +51,7 @@ const ProfileCloudServer = ({
                         placeholder="Nhập nhãn dịch vụ mà bạn muốn"
                         onChange={(e) => onchangeName(data, e.target.value)}
                     />
-                </Form.Item>
+                </Form.Item> 
             </Form>
         </>
     )

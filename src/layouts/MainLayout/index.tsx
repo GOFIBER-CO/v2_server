@@ -5,7 +5,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 import { Divider, Layout, Menu, MenuProps } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router'
 import Avatar from 'antd/lib/avatar/avatar'
 import { Link, NavLink } from 'react-router-dom'
@@ -78,6 +78,10 @@ const MainLayout: React.FC = () => {
     const rootSubmenuKeys: string[] = ['/admin', '/information', '/manage']
 
     const navigate = useNavigate()
+
+    const refUserOption = useRef(null)
+    const refNotificationBox = useRef(null)
+    const refPanel = useRef(null)
 
     const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
@@ -413,6 +417,25 @@ const MainLayout: React.FC = () => {
         getNotification()
     }, [notificationType])
 
+    useEffect(()=>{
+        //@ts-ignore
+        const handleClickOutSide = (e) => {
+            //@ts-ignore
+            if (refPanel.current && !refPanel.current.contains(e.target)) {
+                setPanel(false)
+            }
+            //@ts-ignore
+            if (refUserOption.current && !refUserOption.current.contains(e.target)) {
+                setUserOption(false)
+            }
+             //@ts-ignore
+             if (refNotificationBox.current && !refNotificationBox.current.contains(e.target)) {
+                setNotificationBox(false)
+            }
+        }
+        document.addEventListener('click', handleClickOutSide, true)
+    },[])
+
     return (
         <>
             {panel && <BlurGlass />}
@@ -507,7 +530,7 @@ const MainLayout: React.FC = () => {
                                     Số dư:<span style={{fontSize:'15px'}}>{formatMoney(surplus)}</span>
                                 </p>
                             </div>
-                            <div className="site-layout-appstore">
+                            <div className="site-layout-appstore"  ref={refPanel}>
                                 <AiOutlineAppstore
                                     size={20}
                                     style={{
@@ -528,7 +551,7 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="site-layout-notification">
+                            <div className="site-layout-notification"  ref={refNotificationBox}>
                                 <span
                                     className="site-layout-notification-ring"
                                     onClick={() => {
@@ -720,7 +743,8 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="site-layout-avatar">
+                            <div className="site-layout-avatar" ref={refUserOption}>
+                                <Link className='site-layout-avatar-username' to="/profile" style={{verticalAlign: '-2px'}}>Hi, {auth.user.userName}</Link>
                                 <Avatar
                                     onClick={() => {
                                         setUserOption(!userOption)
@@ -735,7 +759,7 @@ const MainLayout: React.FC = () => {
                                             left: "50%",
                                         }}
                                     />}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', marginLeft: '10px' }}
                                 />
                                 {userOption && (
                                     <div className="site-layout-avatar--option">

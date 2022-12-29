@@ -43,7 +43,7 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                     <div className="row">
                         <div className="col-md-4 px-md-5">
                             <div className="flexlayoutdata">
-                                <div className="title-name"> Location: </div>
+                                <div className="title-name">Location: </div>
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
@@ -81,7 +81,7 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                                         style={{ verticalAlign: 'middle' }}
                                         typeof="password"
                                     >
-                                        {localData?.password}
+                                        ********
                                     </span>
                                 </div>
                             </div>

@@ -66,6 +66,10 @@ export const changePassword = (
 export const getUserQrCode = (id: string) =>
     axiosInstance.get(`/api/user/getQrCode/${id}`)
 
+export const disabled2fa = (id: string, password: string) => axiosInstance.patch(`/api/user/disabled2fa/${id}`, {
+    password: password
+})
+
 export const updateProfile = (id: string, data: IUser) =>
     axiosInstance.put(`/api/user/update/${id}`, data)
 

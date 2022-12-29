@@ -1,17 +1,41 @@
 import { notify, notifyType } from '@/App'
 import { useAuth } from '@/hooks/useAuth'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-import { getUserQrCode, verify2FaToken } from '@/services/apis'
+import { disabled2fa, getUserQrCode, verify2FaToken } from '@/services/apis'
 import '@/styles/pages/2FASecurity/index.scss'
-import { Button, Divider, Form, Input, message } from 'antd'
+import { Button, Divider, Form, Input, message, Modal } from 'antd'
 import { useEffect, useState } from 'react'
-import { AiFillLock } from 'react-icons/ai'
+import { AiFillLock, AiFillUnlock } from 'react-icons/ai'
 import { IoMdCopy } from 'react-icons/io'
+import { toast } from 'react-toastify'
 
 const FASecurity = () => {
     const [token, setToken] = useState('')
     const [qrcode, setQrcode] = useState('')
     const [secret, setSecret] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [password, setPassword] = useState('')
+    const [refetch, setRefetch] = useState(false)
+  
+    const handleOk = async () => {
+      if(!password){
+        toast.error('Phải nhập mật khẩu !')
+        return;
+      }
+      try {
+        const result = await disabled2fa(auth.user._id, password)
+        toast.success(result.data.message)
+        auth.setEnable2Fa(false)
+      } catch (error) {
+        console.log(error)
+        toast.error(error.response.data?.message)
+      }
+      setIsModalOpen(false);
+    };
+  
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
     const copyCode = () => {
         var copyText = document.getElementById('qr-code-text')?.innerText
         navigator.clipboard
@@ -63,7 +87,7 @@ const FASecurity = () => {
 
     useEffect(() => {
         if (!auth.isEnable2FaAuthenticate) getQrCode()
-    }, [])
+    }, [auth.isEnable2FaAuthenticate])
 
     return (
         <div className="security-page">
@@ -193,8 +217,33 @@ const FASecurity = () => {
                     </Form>
                 </div>
             ) : (
+                <>
                 <p>Chế độ xác thực 2 yếu tố đã được bật</p>
+                <Button
+                htmlType="submit"
+                className="security-page-content-button-qrcode"
+                style={{
+                    backgroundColor: '#1bc5bd',
+                    color: 'white',
+                    display: 'flex',
+                    marginTop: '10px',
+                    borderRadius: '8px',
+                    border: 'none',
+                }}
+                onClick={()=>setIsModalOpen(true)}
+                >
+                    <AiFillUnlock
+                        size={20}
+                        style={{ marginRight: '10px', verticalAlign: '-2px' }}
+                        color="white"
+                    />
+                    Tắt xác thực 2 yếu tố
+                </Button>
+            </>
             )}
+               <Modal title="Tắt xác thực 2 yếu tố" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <Input value={password} onChange={(e)=>setPassword(e.target.value)} type='password' placeholder='Nhập mật khẩu để tắt xác thực 2 yếu tố'/>
+             </Modal>
         </div>
     )
 }

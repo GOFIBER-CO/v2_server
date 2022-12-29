@@ -151,7 +151,7 @@ const Profile = () => {
                             </Select>
                         </Form.Item>
                         <Form.Item
-                            wrapperCol={{ ...layout.wrapperCol, offset: 11 }}
+                            style={{textAlign: 'center'}}
                         >
                             <Button
                                 type="primary"

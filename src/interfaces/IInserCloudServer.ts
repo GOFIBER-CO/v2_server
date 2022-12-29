@@ -8,5 +8,6 @@ export default interface IInserCloudServer {
     operatingSystem?: string
     server?: string
     isShow?: boolean
-    createdTime?: string
+    createdTime?: string,
+    autoBackup: boolean
 }

@@ -22,7 +22,7 @@ import Server from '@/components/Server/Server'
 import Area from '@/components/Area/Area'
 import ProfileCloudServer from '@/components/CloudVPS/ProfileCloudServer/ProfileCloudServer'
 import PackageServer from '@/components/PackageServer/PackageServer'
-import { Radio, Slider } from 'antd'
+import { Checkbox, Radio, Slider } from 'antd'
 // import console from 'console'
 
 const CreateCloud: React.FC = () => {
@@ -57,6 +57,8 @@ const CreateCloud: React.FC = () => {
     const [tranfer, setTranfer] = useState('Unlimited')
     const [IPv4, setIPv4] = useState(1)
     const [priceMonth, setPriceMonth] = useState(true)
+    const [HDD, setHDD] = useState(0)
+    const [autoBackup, setAutoBackup] = useState(false)
 
     let iInserCloudServer: IInserCloudServer[] = []
 
@@ -68,6 +70,7 @@ const CreateCloud: React.FC = () => {
         area: '',
         operatingSystem: '',
         server: '',
+        autoBackup: false,
     })
 
     const [newService, setNewService] = useState<IService>({
@@ -82,6 +85,7 @@ const CreateCloud: React.FC = () => {
         ipv4: '',
         discount: 0,
         expiryDateType: 1,
+        hdd: '',
     })
 
     iProfileCloudServer.push({
@@ -494,6 +498,27 @@ const CreateCloud: React.FC = () => {
 
         setPriceServer(price + 130000)
         setSSD(value)
+        setHDD(0)
+    }
+
+    const onChangeHDD = (value: number) => {
+        //1GB ssd 1k
+        let price = 0
+        if (value !== 30 && CPU !== 1 && RAM !== 1) {
+            price = (value - 30) * 1000 + (CPU - 1) * 50000 + (RAM - 1) * 50000
+        } else if (value !== 30 && CPU !== 1) {
+            price = (value - 30) * 1000 + (CPU - 1) * 50000
+        } else if (value !== 30 && RAM !== 1) {
+            price = (value - 30) * 1000 + (RAM - 1) * 50000
+        } else if (value === 30) {
+            price = (CPU - 1) * 50000 + (RAM - 1) * 50000
+        } else {
+            price = (value - 30) * 1000
+        }
+
+        setPriceServer(price + 130000)
+        setHDD(value)
+        setSSD(0)
     }
 
     const createServer = async (newClS: IInserCloudServer[]) => {
@@ -506,8 +531,9 @@ const CreateCloud: React.FC = () => {
             newService.serverName = 'tuy_chinh_cau_hinh_' + Date.now()
             newService.price = priceServer
             newService.cpu = CPU.toString() + ' vCPU'
-            newService.ram = RAM.toString() + ' GB'
-            newService.ssd = SSD.toString() + ' GB'
+            newService.ram = RAM.toString()
+            newService.ssd = SSD ? SSD.toString() : ''
+            newService.hdd = HDD ? HDD.toString() : ''
             newService.bandwidth = bandwidth.toString() + ' Gbps'
             newService.tranfer = tranfer
             newService.ipv4 = IPv4.toString() + ' Địa chỉ'
@@ -601,11 +627,12 @@ const CreateCloud: React.FC = () => {
                 var data: IInserCloudServer = {
                     cloudServerName: item.cloudServerName,
                     password: item.password,
-                    port: item.port,
+                    // port: item.port,
                     user: newCloudServer.user,
                     area: newCloudServer.area,
                     operatingSystem: newCloudServer.operatingSystem,
                     server: newCloudServer.server,
+                    autoBackup: autoBackup
                 }
                 iInserCloudServer.push(data)
             })
@@ -637,10 +664,10 @@ const CreateCloud: React.FC = () => {
             notify(notifyType.NOTIFY_ERROR, 'Vui lòng nhập mật khẩu')
             return false
         }
-        if (!data.port) {
-            notify(notifyType.NOTIFY_ERROR, 'Vui lòng nhập port')
-            return false
-        }
+        // if (!data.port) {
+        //     notify(notifyType.NOTIFY_ERROR, 'Vui lòng nhập port')
+        //     return false
+        // }
         if (!data.cloudServerName) {
             notify(notifyType.NOTIFY_ERROR, 'Vui lòng nhập nhãn dịch vụ')
             return false
@@ -736,14 +763,25 @@ const CreateCloud: React.FC = () => {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label>SSD NVMe (GB)::</label>
+                                            <label>SSD NVMe (GB):</label>
                                             <Slider
                                                 onChange={onChangeSSD}
                                                 defaultValue={30}
                                                 min={30}
                                                 max={960}
+                                                value={SSD}
                                             />
                                         </div>
+                                        {/* <div className="form-group">
+                                            <label>HDD NVMe (GB):</label>
+                                            <Slider
+                                                onChange={onChangeHDD}
+                                                defaultValue={30}
+                                                min={30}
+                                                max={960}
+                                                value={HDD}
+                                            />
+                                        </div> */}
                                         <div className="form-group">
                                             <label>Hoá đơn tính theo:</label>
                                             <div>
@@ -878,7 +916,19 @@ const CreateCloud: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <div className="create-cloud-server-name">
+                <div className="create-cloud-config" >
+                        <div className="server-config" style={{display: 'block'}}>
+                            <div className="create-cloud-location-title">
+                                <p style={{marginBottom: '10px'}}>TỰ ĐỘNG BACKUP</p>
+                            </div>
+                            <div className='server-auto-backup' style={{display: 'flex', alignItems: 'center'}}>
+                                <Checkbox checked={autoBackup} onChange={(e)=>e.target.checked ? setAutoBackup(true) : setAutoBackup(false)}/>
+                                <img style={{marginLeft: '10px'}} width={40} height={40} src='/images/server-icon.svg'/>
+                                <p style={{marginBottom: '0px', fontSize: '16px', marginLeft: '15px'}}>Server sẽ tự động được backup</p>
+                            </div>
+                        </div>
+                </div>
+                <div className="create-cloud-server-name" style={{marginTop: '15px'}}>
                     <p className="create-cloud-location-title">
                         CẤU HÌNH TÊN SERVER & NHÃN
                     </p>
@@ -889,12 +939,12 @@ const CreateCloud: React.FC = () => {
                         <a onClick={() => onclickSamePassword()}>
                             TẠO MẬT KHẨU GIỐNG NHAU
                         </a>
-                        <a onClick={() => onclickRandomPort()}>
+                        {/* <a onClick={() => onclickRandomPort()}>
                             TẠO PORT DỊCH VỤ NGẪU NHIÊN
                         </a>
                         <a onClick={() => onclickSamePort()}>
                             TẠO PORT DỊCH VỤ GIỐNG NHAU
-                        </a>
+                        </a> */}
                     </div>
                     <div className="text-warning">
                         Vui lòng chọn
@@ -907,14 +957,14 @@ const CreateCloud: React.FC = () => {
                                 {' '}
                                 Mật khẩu{' '}
                             </div>
-                            <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold">
+                            {/* <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold">
                                 {' '}
                                 Port dịch vụ{' '}
                             </div>
                             <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold">
                                 {' '}
                                 Nhãn dịch vụ{' '}
-                            </div>
+                            </div> */}
                             <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold"></div>
                         </div>
                         <div className="row pt-3 row-items ng-untouched ng-pristine ng-valid">

@@ -192,7 +192,6 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                 </div>
                 {optionId == 1 ? <GeneralInformation
                     data={data}
-                    handleChangeNameValue={(value) => onChangeNameValue(value)}
                 /> : ''
                 }
                 {optionId == 2 ? (

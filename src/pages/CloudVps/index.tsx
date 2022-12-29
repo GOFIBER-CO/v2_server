@@ -303,7 +303,7 @@ const CloudVps: React.FC = () => {
                 <div>
                     <a className="server_title">{value.serverName}</a>
                     <div>
-                        {value.ram}GB | {value.cpu}vCPUs | {value.ssd}GB NVMe
+                        {value.ram}GB | {value.cpu}vCPUs | {value.ssd || value.hdd}GB NVMe {value.ssd ? '(SSD)' : '(HDD)'}
                     </div>
                 </div>
             ),
@@ -652,7 +652,7 @@ const CloudVps: React.FC = () => {
                                     style={{ width: 180 }}
                                     onChange={handleChangeLocation}
                                 >
-                                    <Option value="">Tất cả</Option>
+                                    <Option value="">Vị trí</Option>
                                     {location.map((item) => (
                                         <Option key={item._id} value={item._id}>
                                             {item.areaName}
@@ -666,7 +666,7 @@ const CloudVps: React.FC = () => {
                                     style={{ width: 180 }}
                                     onChange={handleChangeOs}
                                 >
-                                    <Option value="">Tất cả</Option>
+                                    <Option value="">Hệ điều hành</Option>
                                     {operatingSystem.map((item) => (
                                         <Option key={item._id} value={item._id}>
                                             {item.operatingSystemName}
