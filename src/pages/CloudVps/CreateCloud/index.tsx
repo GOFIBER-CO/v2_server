@@ -22,7 +22,7 @@ import Server from '@/components/Server/Server'
 import Area from '@/components/Area/Area'
 import ProfileCloudServer from '@/components/CloudVPS/ProfileCloudServer/ProfileCloudServer'
 import PackageServer from '@/components/PackageServer/PackageServer'
-import { Radio, Slider } from 'antd'
+import { Checkbox, Radio, Slider } from 'antd'
 // import console from 'console'
 
 const CreateCloud: React.FC = () => {
@@ -58,6 +58,7 @@ const CreateCloud: React.FC = () => {
     const [IPv4, setIPv4] = useState(1)
     const [priceMonth, setPriceMonth] = useState(true)
     const [HDD, setHDD] = useState(0)
+    const [autoBackup, setAutoBackup] = useState(false)
 
     let iInserCloudServer: IInserCloudServer[] = []
 
@@ -69,6 +70,7 @@ const CreateCloud: React.FC = () => {
         area: '',
         operatingSystem: '',
         server: '',
+        autoBackup: false,
     })
 
     const [newService, setNewService] = useState<IService>({
@@ -630,6 +632,7 @@ const CreateCloud: React.FC = () => {
                     area: newCloudServer.area,
                     operatingSystem: newCloudServer.operatingSystem,
                     server: newCloudServer.server,
+                    autoBackup: autoBackup
                 }
                 iInserCloudServer.push(data)
             })
@@ -769,7 +772,7 @@ const CreateCloud: React.FC = () => {
                                                 value={SSD}
                                             />
                                         </div>
-                                        <div className="form-group">
+                                        {/* <div className="form-group">
                                             <label>HDD NVMe (GB):</label>
                                             <Slider
                                                 onChange={onChangeHDD}
@@ -778,7 +781,7 @@ const CreateCloud: React.FC = () => {
                                                 max={960}
                                                 value={HDD}
                                             />
-                                        </div>
+                                        </div> */}
                                         <div className="form-group">
                                             <label>Hoá đơn tính theo:</label>
                                             <div>
@@ -913,7 +916,19 @@ const CreateCloud: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <div className="create-cloud-server-name">
+                <div className="create-cloud-config" >
+                        <div className="server-config" style={{display: 'block'}}>
+                            <div className="create-cloud-location-title">
+                                <p style={{marginBottom: '10px'}}>TỰ ĐỘNG BACKUP</p>
+                            </div>
+                            <div className='server-auto-backup' style={{display: 'flex', alignItems: 'center'}}>
+                                <Checkbox checked={autoBackup} onChange={(e)=>e.target.checked ? setAutoBackup(true) : setAutoBackup(false)}/>
+                                <img style={{marginLeft: '10px'}} width={40} height={40} src='/images/server-icon.svg'/>
+                                <p style={{marginBottom: '0px', fontSize: '16px', marginLeft: '15px'}}>Server sẽ tự động được backup</p>
+                            </div>
+                        </div>
+                </div>
+                <div className="create-cloud-server-name" style={{marginTop: '15px'}}>
                     <p className="create-cloud-location-title">
                         CẤU HÌNH TÊN SERVER & NHÃN
                     </p>
