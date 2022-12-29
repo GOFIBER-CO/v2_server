@@ -7,8 +7,11 @@ import { HiPencilAlt } from 'react-icons/hi';
 import { MdOutlineSecurity } from 'react-icons/md'
 import { updateCloud, updateCloudServerName } from '@/services/apis';
 import { toast } from 'react-toastify';
+import './generalInformation.css'
 //@ts-ignore
-const GeneralInformation = ({ data}: { data?: ICloudServer }) => {
+const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
+    console.log('dataaaa: ', data);
+
     // console.log('handleChangeNameValue: ', handleChangeNameValue);
     const [labelName, setLabelName] = useState('')
     const [localData, setLocalData] = useState(data)
@@ -16,21 +19,19 @@ const GeneralInformation = ({ data}: { data?: ICloudServer }) => {
     const showModal = () => {
         setIsModalOpen(true);
     };
-    const handleOk = async() => {
+    const handleOk = async () => {
         try {
             setIsModalOpen(false);
-            // updateLabelName(labelName)
-            // console.log('labelName: ', labelName);
-            const result = await updateCloudServerName(localData?._id , labelName)
+            const result = await updateCloudServerName(localData?._id, labelName)
             console.log(result.data)
             //@ts-ignore
-            setLocalData({...localData, cloudServerName: result.data?.data?.cloudServerName})
+            setLocalData({ ...localData, cloudServerName: result.data?.data?.cloudServerName })
             toast.success("Sửa tên thành công")
         } catch (error) {
             console.log(error)
             toast.error("Sửa tên thất bại")
         }
-    
+
     };
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -46,8 +47,8 @@ const GeneralInformation = ({ data}: { data?: ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img width="20" src={typeof(localData?.area.file) == 'string' ? `/images/${localData?.area.file}` : ''} />
-                                        <span style={{marginLeft: '8px'}}>{localData?.area.areaName}</span>
+                                        <img width="20" src={typeof (localData?.area.file) == 'string' ? `/images/${localData?.area.file}` : ''} />
+                                        <span style={{ marginLeft: '8px' }}>{localData?.area.areaName}</span>
                                     </span>
                                 </div>
                             </div>
@@ -176,10 +177,10 @@ const GeneralInformation = ({ data}: { data?: ICloudServer }) => {
                                         }}
                                         onClick={showModal}
                                     >
-                                        <HiPencilAlt size={20} style={{ cursor: "pointer" }} />
+                                        <HiPencilAlt size={20} style={{ cursor: "pointer" }} className="hover-icon" />
                                     </Button>
                                     <Modal
-                                        title="Basic Modal"
+                                        title="Tên nhãn"
                                         open={isModalOpen}
                                         onOk={handleOk}
                                         onCancel={handleCancel}
@@ -187,7 +188,7 @@ const GeneralInformation = ({ data}: { data?: ICloudServer }) => {
                                         <Input
                                             placeholder="Nhập tên mới"
                                             onChange={(e) => setLabelName(e.target.value)}
-                                            value={labelName || localData?.cloudServerName}
+                                            defaultValue={localData?.cloudServerName}
                                         />
                                     </Modal>
                                 </div>

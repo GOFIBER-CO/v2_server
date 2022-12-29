@@ -812,7 +812,7 @@ const MainLayout: React.FC = () => {
 
                                             <li onClick={() => logout()}>
                                                 <Link to="#">
-                                                    <span>Đăng Xuất</span>
+                                                    <span>Đăng xuất</span>
                                                 </Link>
                                             </li>
 

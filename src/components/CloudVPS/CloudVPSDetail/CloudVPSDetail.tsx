@@ -144,8 +144,8 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                                 <div className="text-success">
                                     {'  '}
                                     {data?.isShow
-                                        ? <><i className="fa fa-play text-success"></i> Đang chạy</>
-                                        : <><i className="fa fa-play text-danger"></i>  <span style={{ color: "red" }}>Đã đóng</span></>}
+                                        ? <><i className="fa fa-play text-success" style={{fontSize:"1.2rem"}}></i> <span style={{ color: "red", marginLeft: "5px",fontSize:"1rem" }}>Đang chạy</span></>
+                                        : <><i className="fa fa-pause text-danger" style={{fontSize:"1.2rem"}}></i>  <span style={{ color: "red", marginLeft: "5px",fontSize:"1rem" }}>Tạm dừng</span></>}
                                 </div>
                             </div>
                             <Tooltip title="prompt text">
