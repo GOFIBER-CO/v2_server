@@ -743,7 +743,7 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="site-layout-avatar">
+                            <div className="site-layout-avatar" ref={refUserOption}>
                                 <Link className='site-layout-avatar-username' to="/profile" style={{verticalAlign: '-2px'}}>Hi, {auth.user.userName}</Link>
                                 <Avatar
                                     onClick={() => {
@@ -759,7 +759,7 @@ const MainLayout: React.FC = () => {
                                             left: "50%",
                                         }}
                                     />}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', marginLeft: '10px' }}
                                 />
                                 {userOption && (
                                     <div className="site-layout-avatar--option">

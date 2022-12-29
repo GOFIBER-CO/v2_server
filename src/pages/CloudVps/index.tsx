@@ -639,9 +639,6 @@ const CloudVps: React.FC = () => {
                 {optionCloud > 3 ? (
                     <CloudVPSDetail
                         data={cloudServerItem}
-                        handleChangeNameValue={
-                           (value)=> onChangeNameValue(value)
-                        }
                     // updateLabelName={handleUpdateLabelName}
                     />
                 ) : (
