@@ -46,6 +46,7 @@ import AboutToExpire from '@/pages/CloudVps/AboutToExpire'
 import LoginNew from './../pages/LoginNew/index';
 import RegisterNew from '@/pages/RegisterNew'
 import UpdateCloud from '@/pages/CloudVps/UpdateCloud'
+import OperationHistory from '@/pages/OperationHistory'
 const AppRouter: React.FC = () => {
     const auth = useAuth()
     const isLoggedIn = auth.isLoggedIn
@@ -188,6 +189,10 @@ const AppRouter: React.FC = () => {
                                 <Route
                                     path="/user-statistic"
                                     element={<UserStatistic />}
+                                />
+                                 <Route
+                                    path="/operation-history"
+                                    element={<OperationHistory />}
                                 />
                             </>
                         )}

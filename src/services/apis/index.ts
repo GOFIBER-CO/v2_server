@@ -352,3 +352,7 @@ export const updateCloudServerName = (id: any, data: any) =>
 //action history
 
 export const getActionHistoryByUserId = (userId: string,pageSize:number, pageIndex:number) => axiosInstance.get(`/api/action-history/getByUserId/${userId}?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+export const getOperationHistory = (
+    pageIndex:number,
+    filter:string
+) =>axiosInstance.get(`/api/action-history/getPaging?pageIndex=${pageIndex}&filter=${filter}`);
