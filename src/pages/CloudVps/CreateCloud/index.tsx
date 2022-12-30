@@ -324,6 +324,7 @@ const CreateCloud: React.FC = () => {
         onchangeLaodServer(item.status)
         loadUnit(item.status)
         setDataPackageServer(iPackageServer)
+       
     }
 
     const onclickRandomPassword = () => {
@@ -529,7 +530,7 @@ const CreateCloud: React.FC = () => {
 
             layout.setLoading(true)
             newService.serverName = 'tuy_chinh_cau_hinh_' + Date.now()
-            newService.price = priceServer
+            newService.price = autoBackup ? priceServer + priceServer * 0.1 : priceServer
             newService.cpu = CPU.toString() + ' vCPU'
             newService.ram = RAM.toString()
             newService.ssd = SSD ? SSD.toString() : ''
@@ -675,12 +676,21 @@ const CreateCloud: React.FC = () => {
         return true
     }
 
+    const handleChangeBackup = (checked: boolean) => {
+        if(checked){
+            setAutoBackup(true)
+            return;
+        }  
+        setAutoBackup(false)
+    }
+
     useEffect(() => {
         const appendData = () => {
             intData()
         }
         return appendData()
     }, [])
+
 
     return (
         <>
@@ -742,7 +752,7 @@ const CreateCloud: React.FC = () => {
                         </div>
                         <div className="deploy_options">
                             <div className="row">
-                                <div className="col-md-7">
+                                <div className="col-12 col-sm-12 col-md-7">
                                     <div className="card-body">
                                         <div className="form-group">
                                             <label>CPU (vCPUs)</label>
@@ -792,7 +802,7 @@ const CreateCloud: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-md-5">
+                                <div className="col-12 col-sm-12 col-md-5">
                                     <div className="price_box">
                                         <div className="price_header">
                                             <span>Tùy Chỉnh Cấu Hình</span>
@@ -922,9 +932,9 @@ const CreateCloud: React.FC = () => {
                                 <p style={{marginBottom: '10px'}}>TỰ ĐỘNG BACKUP</p>
                             </div>
                             <div className='server-auto-backup' style={{display: 'flex', alignItems: 'center'}}>
-                                <Checkbox checked={autoBackup} onChange={(e)=>e.target.checked ? setAutoBackup(true) : setAutoBackup(false)}/>
+                                <Checkbox checked={autoBackup} onChange={(e)=>handleChangeBackup(e.target.checked)}/>
                                 <img style={{marginLeft: '10px'}} width={40} height={40} src='/images/server-icon.svg'/>
-                                <p style={{marginBottom: '0px', fontSize: '16px', marginLeft: '15px'}}>Server sẽ tự động được backup</p>
+                                <p style={{marginBottom: '0px', fontSize: '16px', marginLeft: '15px'}}>Server sẽ tự động được backup (Phí cộng thêm 10% trên tổng đơn hàng)</p>
                             </div>
                         </div>
                 </div>
@@ -1016,7 +1026,7 @@ const CreateCloud: React.FC = () => {
                             <span className="cost"> Chi phí: </span>
                             <div>
                                 <span className="order_total">
-                                    {ConverMoney(price * numberCloud)} đ
+                                    {autoBackup ? ConverMoney((price * numberCloud) + (price * numberCloud)*0.1) :ConverMoney((price * numberCloud))  } đ
                                 </span>
                                 <span className="deploy-summary-price-label">
                                     /{unit}

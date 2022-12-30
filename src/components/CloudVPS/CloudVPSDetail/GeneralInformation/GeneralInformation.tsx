@@ -47,7 +47,7 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img width="20" src={typeof (localData?.area.file) == 'string' ? `/images/${localData?.area.file}` : ''} />
+                                        <img width="20" src={typeof (localData?.area.file) == 'string' ? `${localData?.area.file}` : ''} />
                                         <span style={{ marginLeft: '8px' }}>{localData?.area.areaName}</span>
                                     </span>
                                 </div>

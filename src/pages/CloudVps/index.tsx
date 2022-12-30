@@ -341,14 +341,23 @@ const CloudVps: React.FC = () => {
             title: 'HĐH',
             dataIndex: 'operatingSystem',
             width: '5%',
-            render: (value) => (
-                <>
-                    <img
-                        src={value.img}
-                        style={{ maxWidth: '25px', maxHeight: '25px' }}
-                    />
-                </>
-            ),
+            render: (value) => {
+                console.log(value)
+                return (
+                    <>
+                        <img
+                            src={value.img || `/images/${value.file}`}
+                            style={{ maxWidth: '25px', maxHeight: '25px' }}
+                        />
+                    </>
+                )
+                }
+        },
+        {
+            title: 'Backup',
+            dataIndex: 'autoBackup',
+            width: '8%',
+            render: (value) => value ? 'Có' : 'Không'
         },
         {
             title: 'Hoá đơn',
@@ -422,6 +431,7 @@ const CloudVps: React.FC = () => {
         {
             title: 'Trạng thái',
             dataIndex: 'status',
+            width: '10%',
             render: (value) =>
                 value ? (
                     <Tag color="green">Hoạt động</Tag>
@@ -430,12 +440,9 @@ const CloudVps: React.FC = () => {
                 ),
         },
         {
-            title: 'Nhãn dịch vụ',
-            dataIndex: 'cloudServerName',
-        },
-        {
-            title: 'Điều khiển',
+            title: '',
             dataIndex: 'server',
+            width: '4%',
             render: (item) => (
                 <div>
                     <Dropdown overlay={menu} trigger={['click']}>
@@ -453,7 +460,6 @@ const CloudVps: React.FC = () => {
                     },
                 }
             },
-            width: '8%',
         },
     ]
 

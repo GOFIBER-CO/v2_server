@@ -15,7 +15,7 @@ const OperationHistory = () =>{
     const layout = useLayoutInit()
     const [filter, setFilter] = useState('')
     const [operation, setOperation] = useState([])
-    const [pageSize, setPageSize] = useState(10)
+    const [pageSize, setPageSize] = useState(6)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
@@ -25,15 +25,14 @@ const OperationHistory = () =>{
     const getDataHistory = async () =>{
         try {
             layout.setLoading(true)
-            const operation = await getOperationHistory(pageIndex, filter)
+            const operation = await getOperationHistory(pageSize,pageIndex, filter)
             setOperation(operation.data.actions)
-            setTotalPage(operation.data?.totalPages)
+            setTotalPage(operation.data?.totalPage)
             setPageSize(operation.data?.pageSize)
-            setTotalItem(operation.data?.totalItem)
+            setTotalItem(operation.data?.totalDoc)
+            layout.setLoading(false)
         } catch (error) {
             console.log(error)
-            layout.setLoading(false)
-        }finally {
             layout.setLoading(false)
         }
     }
@@ -72,9 +71,9 @@ const OperationHistory = () =>{
             dataIndex: 'status',
             render: (value:string) => {
                 if(value === 'pending'){
-                    return <Tag color="success">Đang hoạt động</Tag>
+                    return <Tag color="yellow">Đang chờ</Tag>
                 }else if(value === 'success'){
-                    return <Tag color="yellow">Thành công</Tag>
+                    return <Tag color="success">Thành công</Tag>
                 }else{
                     return <Tag color="red">Thất bại</Tag>
                 }
@@ -140,6 +139,7 @@ const OperationHistory = () =>{
                 showTotal={showTotal}
                 style={{ marginTop: '30px' }}
                 current={pageIndex}
+                defaultCurrent={pageIndex}
                 total={totalItem}
                 pageSize={pageSize}
                 onChange={(value) => setPageIndex(value)}

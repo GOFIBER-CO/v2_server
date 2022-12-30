@@ -1,6 +1,6 @@
 import ButtonFilter from '@/components/ButtonFilter'
 import '@/styles/pages/ActionHistory/ActionHistory.scss'
-import { AutoComplete, Input, Pagination, PaginationProps, Select } from 'antd'
+import { AutoComplete, Input, Pagination, PaginationProps, Select, Tag } from 'antd'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import Table, { ColumnsType } from 'antd/lib/table'
 import { useEffect, useState } from 'react'
@@ -8,6 +8,7 @@ import IUser from '@/interfaces/IUser'
 import { getActionHistoryByUserId } from '@/services/apis'
 import { useAuth } from '@/hooks/useAuth'
 import formatDate from '@/helpers/formatDate'
+import { useLayoutInit } from '@/hooks/useInitLayOut'
 
 const { Option } = Select
 
@@ -23,23 +24,25 @@ const ActionHistory: React.FC = () => {
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
     const [actions, setActions] = useState([])
-    const [pageSize, setPageSize] = useState(10)
+    const [pageSize, setPageSize] = useState(6)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalDoc, setTotalDoc] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const auth = useAuth()
+    const layout = useLayoutInit()
 
     const getActionsHistory = async () => {
         try {
+            layout.setLoading(true)
             const actions = await getActionHistoryByUserId(auth.user._id,pageSize, pageIndex)
             setActions(actions.data?.actions)
             setPageSize(actions.data?.pageSize)
-            setPageIndex(actions.data?.pageIndex)
             setTotalDoc(actions.data?.totalDoc)
             setTotalPage(actions.data?.totalPage)
-            console.log(actions.data?.actions)
+            layout.setLoading(false)
         } catch (error) {
             console.log(error)
+            layout.setLoading(false)
         }
     }
     interface DataType {
@@ -68,7 +71,16 @@ const ActionHistory: React.FC = () => {
         {
             title: 'Trạng thái',
             dataIndex: 'status',
-            render: (value:string) => statusKey[value]
+            render: (value:string) => {
+                if(value === 'pending'){
+                    return <Tag color="yellow">{statusKey[value]}</Tag>
+                }else if(value === 'success'){
+                    return <Tag color="success">{statusKey[value]}</Tag>
+                }else{
+                    return <Tag color="red">{statusKey[value]}</Tag>
+                }
+            }
+            
         },
         {
             title: 'Thời gian thực hiện',
@@ -87,7 +99,7 @@ const ActionHistory: React.FC = () => {
 
     useEffect(()=>{
         getActionsHistory()
-    },[pageSize, pageIndex])
+    },[pageIndex])
 
     return (
         <div className="action-history-page">
@@ -129,6 +141,7 @@ const ActionHistory: React.FC = () => {
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}
+                    defaultCurrent={pageIndex}
                     total={totalDoc}
                     pageSize={pageSize}
                     onChange={(value) => setPageIndex(value)}

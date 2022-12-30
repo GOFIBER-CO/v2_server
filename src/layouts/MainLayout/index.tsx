@@ -456,7 +456,7 @@ const MainLayout: React.FC = () => {
                         trigger={null}
                         collapsible
                         collapsed={collapsed}
-                        width={'17%'}
+                        width={'15%'}
                         breakpoint="lg"
                         collapsedWidth={60}
                         onBreakpoint={(broken) => {
@@ -534,11 +534,11 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="site-layout-surplus">
+                            {!isMobile && <div className="site-layout-surplus">
                                 <p>
                                     Số dư:<span style={{fontSize:'15px'}}>{formatMoney(surplus)}</span>
                                 </p>
-                            </div>
+                            </div>}
                             <div className="site-layout-appstore"  ref={refPanel}>
                                 <AiOutlineAppstore
                                     size={20}
@@ -789,6 +789,9 @@ const MainLayout: React.FC = () => {
 
                                                     {auth.user.userName}
                                                 </span>
+                                            </li>
+                                             <li style={{ lineHeight: 2 }} className="bg-img">
+                                                <span>Số dư: {formatMoney(surplus)}</span>
                                             </li>
                                             <Divider
                                                 style={{

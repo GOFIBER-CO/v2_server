@@ -4,6 +4,7 @@
     position: relative;
     width: 100%;
 
+
     &-location-title {
         font-size: 20px;
         text-transform: uppercase;
@@ -296,6 +297,10 @@
             flex-wrap: wrap;
             margin-right: -12.5px;
             margin-left: -12.5px;
+
+            @media only screen and (max-width: 576px){
+                flex-direction: column;
+            }
             .col-sm-6 {
                 position: relative;
                 width: 100%;
@@ -404,7 +409,6 @@
             }
             .col-md-7 {
                 flex: 0 0 58.33333333%;
-                max-width: 58.33333333%;
                 position: relative;
                 width: 100%;
                 padding-right: 12.5px;
@@ -425,7 +429,6 @@
             }
             .col-md-5 {
                 flex: 0 0 41.66666667%;
-                max-width: 41.66666667%;
                 position: relative;
                 width: 100%;
                 padding-right: 12.5px;
