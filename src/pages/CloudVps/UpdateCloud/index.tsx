@@ -1,4 +1,5 @@
 import { useLayoutInit } from '@/hooks/useInitLayOut'
+// import { useNavigate } from 'react-router'
 import {
     getCloudServersById,
     createCloud,
@@ -27,11 +28,12 @@ import ProfileCloudServer from '@/components/CloudVPS/ProfileCloudServer/Profile
 import PackageServer from '@/components/PackageServer/PackageServer'
 import { Radio, Slider } from 'antd'
 import { useNavigate, useParams } from 'react-router'
+import { toast } from 'react-toastify';
 // import console from 'console'
 
 const UpdateCloud: React.FC = () => {
+    const navigate = useNavigate()
     const [currentDataById, setCurrentDataById] = useState([])
-    console.log('currentDataById: ', currentDataById);
     const layout = useLayoutInit()
 
     const iArea: IArea[] = []
@@ -44,15 +46,17 @@ const UpdateCloud: React.FC = () => {
     const [dataServer, setDataServer] = useState(iService)
     const iPackageServer: IPackageServer[] = []
     const [dataPackageServer, setDataPackageServer] = useState(iPackageServer)
-
+    const [payment, setPayment] = useState(110)
     const [numberCloud, setNumberCloud] = useState(1)
     const [isCustomServer, setIsCustomServer] = useState(false)
     const iProfileCloudServer: IProfileCloudServer[] = []
-    const [dataProfileCloudServer, setDataProfileCloudServer] =
-        useState(iProfileCloudServer)
+    const [dataProfileCloudServer, setDataProfileCloudServer] = useState(iProfileCloudServer)
+    // console.log('dataProfileCloudServer: ', dataProfileCloudServer);
     const [price, setPrice] = useState(0)
     const [unit, setUnit] = useState('Tháng')
     const [priceServer, setPriceServer] = useState(129000)
+    // console.log('priceServer: ', priceServer);
+
     const [CPU, setCPU] = useState(1)
 
     const [RAM, setRAM] = useState(1)
@@ -62,17 +66,16 @@ const UpdateCloud: React.FC = () => {
     const [IPv4, setIPv4] = useState(1)
     const [priceMonth, setPriceMonth] = useState(true);
     const [dataServerItem, setDataServerItem] = useState({})
-    console.log('dataServerItem: ', dataServerItem);
     let iInserCloudServer: IInserCloudServer[] = []
-    const [newCloudServer, setNewCloudServer] = useState<IInserCloudServer>({
-        cloudServerName: '',
-        password: '',
-        port: '',
-        user: '',
-        area: '',
-        operatingSystem: '',
-        server: '',
-    })
+    // const [newCloudServer, setNewCloudServer] = useState<IInserCloudServer>({
+    //     cloudServerName: '',
+    //     password: '',
+    //     port: '',
+    //     user: '',
+    //     area: '',
+    //     operatingSystem: '',
+    //     server: '',
+    // })
     const [newService, setNewService] = useState<IService>({
         serverName: '',
         ssd: '',
@@ -88,6 +91,7 @@ const UpdateCloud: React.FC = () => {
     })
     const getData = (id: any) => {
         getCloudServersById(id).then(data => {
+
             setCurrentDataById(data?.data?.data)
             setCPU(data?.data?.data?.server?.cpu)
             setRAM(data?.data?.data?.server?.ram)
@@ -101,9 +105,12 @@ const UpdateCloud: React.FC = () => {
             getData(id)
         }
     }, [])
+    // 
     useEffect(() => {
-        // setPriceServer(((CPU) * 50000) + ((RAM) * 50000) + ((SSD) * 1000))
-    })
+        // console.log(currentDataById?.server?.price,priceServer, `hahaha`);
+//@ts-ignore
+        setPayment(priceServer - currentDataById?.server?.price)
+    }, [priceServer])
     iProfileCloudServer.push({
         _id: 1,
         cloudServerName: '',
@@ -194,9 +201,9 @@ const UpdateCloud: React.FC = () => {
                     ? { ...obj, isCheck: true }
                     : { ...obj, isCheck: false }
             )
-            newCloudServer.area = area.data.data.find(
-                (item: any) => item._id === area.data?.data[0]?._id
-            )?._id
+            // newCloudServer.area = area.data.data.find(
+            //     (item: any) => item._id === area.data?.data[0]?._id
+            // )?._id
             setDataArea(dataArea)
             layout.setLoading(false)
         } catch (error) {
@@ -234,7 +241,7 @@ const UpdateCloud: React.FC = () => {
             )
             setDataPackageServer(dataPackageServers)
             setPrice(server.data.data[0].price)
-            newCloudServer.server = server.data.data[0]._id || ''
+            // newCloudServer.server = server.data.data[0]._id || ''
             let dataServer = server.data.data.map((obj: any) =>
                 obj._id === server.data.data[0]._id
                     ? { ...obj, isCheck: true }
@@ -244,7 +251,6 @@ const UpdateCloud: React.FC = () => {
 
             layout.setLoading(false)
         } catch (error) {
-            console.log(error)
             layout.setLoading(false)
         }
     }
@@ -275,7 +281,7 @@ const UpdateCloud: React.FC = () => {
                 ; (val.isCheck = val._id == item._id ? true : false),
                     iArea.push(val)
             })
-            newCloudServer.area = item._id || ''
+            // newCloudServer.area = item._id || ''
             setDataArea(iArea)
         }
     }
@@ -314,18 +320,18 @@ const UpdateCloud: React.FC = () => {
             val.isShow = false
             newOperatingSystemArray.push(val)
         })
-        newCloudServer.operatingSystem = event._id || ''
+        // newCloudServer.operatingSystem = event._id || ''
         setDataOperatingSystem(newOperatingSystemArray)
     }
 
     const onclickServer = (item: IService) => {
-        console.log('item: ', item);
+        // console.log('iaaatem: ', item);
         setDataServerItem(item);
         dataServer.map((val) => {
             ; (val.isCheck = val._id == item._id ? true : false),
                 iService.push(val)
         })
-        newCloudServer.server = item._id || ''
+        // newCloudServer.server = item._id || ''
         setDataServer(iService)
         setPrice(item.price || 0)
     }
@@ -350,7 +356,7 @@ const UpdateCloud: React.FC = () => {
             val.password = Math.random().toString(36).slice(-10)
             iProfileCloudServer.push(val)
         })
-        newCloudServer.password = dataProfileCloudServer[0].password || ''
+        // newCloudServer.password = dataProfileCloudServer[0].password || ''
         setDataProfileCloudServer(iProfileCloudServer)
     }
 
@@ -361,7 +367,7 @@ const UpdateCloud: React.FC = () => {
             val.password = password
             iProfileCloudServer.push(val)
         })
-        newCloudServer.password = dataProfileCloudServer[0].password || ''
+        // newCloudServer.password = dataProfileCloudServer[0].password || ''
         setDataProfileCloudServer(iProfileCloudServer)
     }
 
@@ -376,7 +382,7 @@ const UpdateCloud: React.FC = () => {
             val.port = port
             iProfileCloudServer.push(val)
         })
-        newCloudServer.port = dataProfileCloudServer[0].port || ''
+        // newCloudServer.port = dataProfileCloudServer[0].port || ''
         setDataProfileCloudServer(iProfileCloudServer)
     }
 
@@ -390,7 +396,7 @@ const UpdateCloud: React.FC = () => {
             ).toString()
             iProfileCloudServer.push(val)
         })
-        newCloudServer.port = dataProfileCloudServer[0].port || ''
+        // newCloudServer.port = dataProfileCloudServer[0].port || ''
         setDataProfileCloudServer(iProfileCloudServer)
     }
 
@@ -461,6 +467,7 @@ const UpdateCloud: React.FC = () => {
     }
 
     const onChangeCPU = (value: number) => {
+        setDataServerItem({})
         // console.log('value: ', value);
         //1 cpu 50k
         let price = 0
@@ -482,6 +489,7 @@ const UpdateCloud: React.FC = () => {
     }
 
     const onChangeRAM = (value: number) => {
+        setDataServerItem({})
         //1 ram 50k
         let price = 0
         if (value !== 1 && CPU !== 1 && SSD !== 30) {
@@ -501,6 +509,7 @@ const UpdateCloud: React.FC = () => {
     }
 
     const onChangeSSD = (value: number) => {
+        setDataServerItem({})
         //1GB ssd 1k
         let price = 0
         if (value !== 30 && CPU !== 1 && RAM !== 1) {
@@ -518,7 +527,12 @@ const UpdateCloud: React.FC = () => {
         setPriceServer(price + 130000)
         setSSD(value)
     }
-
+    const onHandleClick = async () => {
+        // console.log(`hahaha`);
+        setIsCustomServer(!isCustomServer)
+        // await setDataServerItem({})
+        // console.log('DataServerItem: ', dataServerItem);
+    }
     const createServer = async (newClS: IInserCloudServer[]) => {
         try {
             newClS.map((item: IInserCloudServer) => {
@@ -580,54 +594,58 @@ const UpdateCloud: React.FC = () => {
         }
     }
 
-    const createCloudServer = async (newClS: IInserCloudServer[]) => {
-        try {
-            layout.setLoading(true)
-            if (newClS.length < 2) {
-                if (!validate(newClS[0])) return
-                const create = await createCloud(newClS[0])
-                if (create.data.status == 1) {
-                    notify(notifyType.NOTIFY_SUCCESS, 'Tạo thành công')
-                } else {
-                    notify(notifyType.NOTIFY_ERROR, create.data.message)
-                }
-            } else {
-                let resCout = 0
-                newClS.forEach(async (item) => {
-                    const create = await createCloud(item)
-                    if (create.data.status == 1) {
-                        resCout++
-                    }
-                })
 
-                setTimeout(() => {
-                    notify(
-                        notifyType.NOTIFY_SUCCESS,
-                        `Tạo thành công ` + resCout
-                    )
-                }, 1000)
-            }
-        } catch (error) {
-            console.log(error)
-            layout.setLoading(false)
-        } finally {
-            layout.setLoading(false)
-        }
-    }
     const onFinish = async () => {
-        if (dataServerItem?.price > currentDataById?.server?.price) {
-            console.log(`Tien can tra la so duong`);
+        //@ts-ignore
+        // console.log('priceServer: ', priceServer ,currentDataById?.server?.price,dataServerItem?.price );
+        if (priceServer > currentDataById?.server?.price || priceServer < dataServerItem?.price) {
+
+
             try {
-                const result = await updateDataOfServerInCloudServerById(dataServerItem?._id, dataServerItem)
-                console.log('result: ', result);
+                //@ts-ignore
+                if (dataServerItem?._id) {
+//@ts-ignore
+                    // TH1: Chọn mặc định
+                    const result = await updateDataOfServerInCloudServerById(currentDataById?._id, dataServerItem);
+                    if (result?.data?.status === 1) {
+                        toast.success("Nâng cấp cấu hình thành công.")
+                    }
+                } else {
+                    //TH2: Tùy chỉnh
+                    newService.serverName = 'tuy_chinh_cau_hinh_' + Date.now()
+                    newService.price = priceServer
+                    newService.cpu = CPU.toString()
+                    newService.ram = RAM.toString()
+                    newService.ssd = SSD.toString()
+                    newService.bandwidth = bandwidth.toString()
+                    newService.tranfer = tranfer
+                    newService.ipv4 = IPv4.toString()
+                    newService.serverDefault = false
+                    newService.discount = 0
+
+                    const create = await createService(newService)
+
+                    if (create?.data?.data) {
+                        const result = await updateDataOfServerInCloudServerById(id, create?.data?.data);
+
+                        if (result?.data?.status === 1) {
+                            toast.success("Nâng cấp cấu hình thành công.")
+                        }
+                    } else {
+                        toast.error("khong co create?.data?.data")
+                    }
+
+
+                }
+                navigate(`/cloud-vps/update-cloud/${id}`)
 
             } catch (error) {
                 console.log(error)
             }
         } else {
-            console.log(`Tien can tra la so duong`);
-        }
 
+            toast.error("Cấu hình nâng cấp phải lớn  hơn cấu hình ban đầu .")
+        }
     }
 
     const validate = (data: IInserCloudServer): boolean => {
@@ -664,7 +682,6 @@ const UpdateCloud: React.FC = () => {
         }
         return appendData()
     }, [])
-    // console.log(CPU, 'cpu'); const y: number = +CPU;
 
     return (
         <>
@@ -678,9 +695,11 @@ const UpdateCloud: React.FC = () => {
                             <div className="deploy_title">
                                 <button
                                     className="btn btn-primary btn-sm"
-                                    onClick={() =>
-                                        setIsCustomServer(!isCustomServer)
-                                    }
+                                    onClick={() => onHandleClick()}
+                                // onClick={() =>
+                                //     setIsCustomServer(!isCustomServer)
+                                //     // setDataServerItem({})
+                                // }
                                 >
                                     Tuỳ chỉnh cấu hình{' '}
                                 </button>
@@ -733,14 +752,19 @@ const UpdateCloud: React.FC = () => {
                                         <div className="price_header">
                                             <span>Tùy Chỉnh Cấu Hình</span>
                                         </div>
-                                        <div className="price_number">
-                                            <div className="py-2">
+                                        <div className="price_number" style={{ display: payment > 0 ? "block" : "none" }}>
+                                            <div className="py-2" >
                                                 <h4>
-                                                    {ConverMoney(priceServer)}
+                                                    <span style={{
+                                                        color: 'rgb(94,95,132)',
+                                                        fontSize: '1.5rem',
+                                                        marginRight: '0.3rem'
+                                                    }}>Phí:</span>
+                                                    {ConverMoney(payment)}	₫
                                                 </h4>
                                             </div>
                                             <p className="money">
-                                                <span> VND</span>/{unit}
+                                                {/* <span> VND</span>/{unit} */}
                                             </p>
                                         </div>
                                         <div className="price_body">
@@ -845,18 +869,21 @@ const UpdateCloud: React.FC = () => {
 
                             <div className="row">
 
-                                {dataServer?.map((item) => (
+                                {dataServer?.map((item) => {
                                     //@ts-ignore
-                                    item?.price > currentDataById?.server?.price &&
-                                    <Server
+                                    // console.log(`itemjhafjewjfew`, item)
+                                    return (item?.price > currentDataById?.server?.price &&
+                                        <Server
 
-                                        data={item}
-                                        unit={unit}
-                                        onchange={(data) => {
-                                            onclickServer(data)
-                                        }}
-                                    />
-                                ))}
+                                            data={item}
+                                            unit={unit}
+                                            onchange={(data) => {
+                                                onclickServer(data)
+                                            }}
+                                        />)
+                                }
+                                    //@ts-ignore
+                                )}
                             </div>
                         </div>
                     </div>
@@ -864,7 +891,7 @@ const UpdateCloud: React.FC = () => {
 
                 <div className="create-cloud-caculate-price">
                     <div className="sidebar-info">
-                        <div className="deploy-summary-info">
+                        {/* <div className="deploy-summary-info">
                             <span className="number-server">
                                 {' '}
                                 Số lượng Cloud Server:{' '}
@@ -888,23 +915,25 @@ const UpdateCloud: React.FC = () => {
                                     <i className="fa fa-plus"></i>
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
+                        
                         <div className="deploy-summary-price">
-                            <span className="cost"> Chi phí: </span>
+                            <span className="cost" style={{
+                                fontWeight: '500',
+                                fontSize: '0.9rem'
+                                //@ts-ignore
+                            }}> IP: {currentDataById?.server?.ipv4} </span>
                             <div>
-                                <span className="order_total">
-                                    {ConverMoney(priceServer * numberCloud)} đ
-                                </span>
-                                <span className="deploy-summary-price-label">
-                                    /{unit}
-                                </span>
-                                <span className="order_total_spacer">
-                                    {' '}
-                                    &nbsp;{' '}
-                                    <span className="order_total_hr">
-                                        Miễn phí khởi tạo
-                                    </span>
-                                </span>
+
+                                <span style={{
+                                    fontSize: '1.5rem',
+                                    fontWeight: '500',
+                                    color: 'rgb(0,123,252)'
+                                }}>VSK008_16</span><span style={{
+                                    fontSize: '1rem',
+                                    marginLeft: '0.3rem',
+                                    fontWeight: '400'
+                                }}>({CPU} vCPUs | {RAM} GB | {SSD} GB nvmE)</span>
                             </div>
                         </div>
                         <input

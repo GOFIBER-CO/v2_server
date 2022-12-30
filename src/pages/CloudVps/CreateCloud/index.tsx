@@ -256,7 +256,7 @@ const CreateCloud: React.FC = () => {
     const onclickArea = (item: IArea) => {
         if (item.status == 0) {
             dataArea.map((val) => {
-                ;(val.isCheck = val._id == item._id ? true : false),
+                ; (val.isCheck = val._id == item._id ? true : false),
                     iArea.push(val)
             })
             newCloudServer.area = item._id || ''
@@ -304,7 +304,7 @@ const CreateCloud: React.FC = () => {
 
     const onclickServer = (item: IService) => {
         dataServer.map((val) => {
-            ;(val.isCheck = val._id == item._id ? true : false),
+            ; (val.isCheck = val._id == item._id ? true : false),
                 iService.push(val)
         })
         newCloudServer.server = item._id || ''
@@ -314,7 +314,7 @@ const CreateCloud: React.FC = () => {
 
     const onclickPackageServer = (item: IPackageServer) => {
         dataPackageServer.map((val) => {
-            ;(val.isCheck = val._id == item._id ? true : false),
+            ; (val.isCheck = val._id == item._id ? true : false),
                 iPackageServer.splice(
                     iPackageServer.findIndex((x) => x._id == val._id),
                     1,
@@ -917,18 +917,18 @@ const CreateCloud: React.FC = () => {
                     </div>
                 )}
                 <div className="create-cloud-config" >
-                        <div className="server-config" style={{display: 'block'}}>
-                            <div className="create-cloud-location-title">
-                                <p style={{marginBottom: '10px'}}>TỰ ĐỘNG BACKUP</p>
-                            </div>
-                            <div className='server-auto-backup' style={{display: 'flex', alignItems: 'center'}}>
-                                <Checkbox checked={autoBackup} onChange={(e)=>e.target.checked ? setAutoBackup(true) : setAutoBackup(false)}/>
-                                <img style={{marginLeft: '10px'}} width={40} height={40} src='/images/server-icon.svg'/>
-                                <p style={{marginBottom: '0px', fontSize: '16px', marginLeft: '15px'}}>Server sẽ tự động được backup</p>
-                            </div>
+                    <div className="server-config" style={{ display: 'block' }}>
+                        <div className="create-cloud-location-title">
+                            <p style={{ marginBottom: '10px' }}>TỰ ĐỘNG BACKUP</p>
                         </div>
+                        <div className='server-auto-backup' style={{ display: 'flex', alignItems: 'center' }}>
+                            <Checkbox checked={autoBackup} onChange={(e) => e.target.checked ? setAutoBackup(true) : setAutoBackup(false)} />
+                            <img style={{ marginLeft: '10px' }} width={40} height={40} src='/images/server-icon.svg' />
+                            <p style={{ marginBottom: '0px', fontSize: '16px', marginLeft: '15px' }}>Server sẽ tự động được backup</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="create-cloud-server-name" style={{marginTop: '15px'}}>
+                <div className="create-cloud-server-name" style={{ marginTop: '15px' }}>
                     <p className="create-cloud-location-title">
                         CẤU HÌNH TÊN SERVER & NHÃN
                     </p>
