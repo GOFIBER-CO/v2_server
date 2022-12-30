@@ -87,7 +87,7 @@ const CloudVps: React.FC = () => {
             color: color,
         }
     }
-    console.log('cloudServerItem: ', cloudServerItem);
+    // console.log('cloudServerItem: ', cloudServerItem);
     const changeIsAutoRenew = async (id: string, status: boolean) => {
         try {
             const result = await switchAutoRenew(id, status)
@@ -307,7 +307,7 @@ const CloudVps: React.FC = () => {
                     </div>
                 </div>
             ),
-            width: '18%',
+            width: '12%',
 
             onCell: (item) => {
                 return {
@@ -321,7 +321,7 @@ const CloudVps: React.FC = () => {
         {
             title: 'Địa chỉ IP',
             dataIndex: ['server', 'area'],
-            width: '15%',
+            width: '10%',
             render: (value, row) => (
                 <>
                     <img
@@ -522,7 +522,7 @@ const CloudVps: React.FC = () => {
                 filter.name,
                 pageIndex
             )
-            console.log(cloudVps)
+            // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setPageSize(cloudVps.data?.pageSize)
@@ -705,6 +705,7 @@ const CloudVps: React.FC = () => {
                                 scroll={{ x: '1400px', y: '600px' }}
                                 pagination={false}
                                 sticky
+                                rowKey="_id"
                             />
                             <Pagination
                                 showTotal={showTotal}

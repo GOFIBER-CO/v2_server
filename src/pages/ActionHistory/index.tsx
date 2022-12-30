@@ -31,6 +31,7 @@ const ActionHistory: React.FC = () => {
     const auth = useAuth()
     const layout = useLayoutInit()
 
+    
     const getActionsHistory = async () => {
         try {
             layout.setLoading(true)
@@ -136,6 +137,7 @@ const ActionHistory: React.FC = () => {
                     scroll={{ x: '1000px', y: '600px' }}
                     pagination={false}
                     dataSource={actions}
+                    rowKey="_id"
                 />
                 <Pagination
                     showTotal={showTotal}

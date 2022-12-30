@@ -66,7 +66,7 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
     }
     //
     const onChangeNameValue = (value: any) => {
-        console.log('value: ', value);
+        // console.log('value: ', value);
 
     }
     const getTransactionHistory = async () => {

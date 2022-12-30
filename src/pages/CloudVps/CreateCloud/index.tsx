@@ -882,8 +882,8 @@ const CreateCloud: React.FC = () => {
                     </div>
                 ) : (
                     <div className="create-cloud-config">
-                        <div className="server">
-                            <p className="create-cloud-location-title">
+                        <div className="server" style={{display:'flex', alignItems:'center'}}>
+                            <p className="create-cloud-location-title" style={{display:'contents'}}>
                                 CẤU HÌNH CÓ SẴN
                             </p>
                             <div className="deploy_title">
