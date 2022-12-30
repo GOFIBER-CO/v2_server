@@ -48,7 +48,6 @@ const ManageTicket = () => {
             )
             setTickets(result.data?.data)
             setTotalPage(result.data?.totalPages)
-            setPageSize(result.data?.pageSize)
             setTotalItem(result.data?.totalItem)
             layout.setLoading(false)
         } catch (error) {
@@ -151,7 +150,7 @@ const ManageTicket = () => {
 
     useEffect(() => {
         getAllTickets()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     useEffect(() => {
         socket.on('new ticket is sent', (msg) => {
@@ -220,7 +219,11 @@ const ManageTicket = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

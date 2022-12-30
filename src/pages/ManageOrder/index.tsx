@@ -90,8 +90,6 @@ const ManageOrder = () => {
                 filter.timeTo
             )
             setOrder(result.data?.order)
-            setPageSize(result.data?.pageSize)
-            setPageIndex(result.data?.pageIndex)
             setTotalItem(result.data?.totalItem)
             setTotalPage(result.data?.totalPages)
             layout.setLoading(false)
@@ -103,7 +101,7 @@ const ManageOrder = () => {
 
     useEffect(() => {
         getOrder()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     return (
         <div className="manage-order-page">
@@ -162,7 +160,11 @@ const ManageOrder = () => {
                     current={Number(pageIndex)}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(Number(value))}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(Number(value))
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

@@ -77,7 +77,6 @@ const Department = () => {
             const department = await getAllDepartment(pageIndex, filter)
             setDepartment(department.data?.data)
             setTotalPage(department.data?.totalPages)
-            setPageSize(department.data?.pageSize)
             setTotalItem(department.data?.totalItem)
         } catch (error) {
             console.log(error)
@@ -93,7 +92,7 @@ const Department = () => {
 
     useEffect(() => {
         getDepartments()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
     return (
         <div className="cloud-vps-page">
             <div className="cloud-vps-page-header">
@@ -163,7 +162,11 @@ const Department = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

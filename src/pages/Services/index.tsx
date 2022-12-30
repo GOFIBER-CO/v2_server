@@ -63,7 +63,6 @@ const Service = () => {
             )
             setTotalPage(services.data.totalPages)
             setServices(services.data?.data)
-            setPageSize(services.data?.pageSize)
             setTotalItem(services.data?.totalItem)
             layout.setLoading(false)
         } catch (error) {
@@ -101,7 +100,7 @@ const Service = () => {
 
     useEffect(() => {
         getServices()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     const columns: ColumnsType<IService> = [
         {
@@ -261,7 +260,11 @@ const Service = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

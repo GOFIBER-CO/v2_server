@@ -31,8 +31,6 @@ const Notification = () => {
             const result = await getAllNotification(pageIndex, filter)
             setNotifications(result.data?.data)
             setTotalPage(result.data?.totalPage)
-            setPageIndex(result.data?.pageIndex)
-            setPageSize(result.data?.pageSize)
             setTotalItem(result.data?.totalItem)
             layout.setLoading(false)
         } catch (error) {
@@ -92,7 +90,7 @@ const Notification = () => {
 
     useEffect(() => {
         getNotifications()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     return (
         <div className="manage-notification-page">
@@ -155,7 +153,11 @@ const Notification = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

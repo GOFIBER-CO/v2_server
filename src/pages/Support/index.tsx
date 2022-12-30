@@ -51,7 +51,7 @@ const Support: React.FC = () => {
     const layout = useLayoutInit()
     useEffect(() => {
         getAllTickets()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     const getAllTickets = async () => {
         try {
@@ -59,7 +59,6 @@ const Support: React.FC = () => {
             const result = await getSupportByUserId(auth.user._id, pageIndex, filter.SupportTT, filter.SupportUT, filter.supportName)
             setTickes(result.data?.data)
             setTotalPage(result.data?.totalPages)
-            setPageSize(Number(result.data?.pageSize))
             setTotalItem(result.data?.totalItem)
             
             layout.setLoading(false)
@@ -241,7 +240,11 @@ const Support: React.FC = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

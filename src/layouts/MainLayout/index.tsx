@@ -472,7 +472,7 @@ const MainLayout: React.FC = () => {
                                 <Link to={'/'} style={{ cursor: 'pointer' }}>
                                     <img
                                         width={170}
-                                        src="/images/logo-2712.png"
+                                        src="/images/Logo-vietserver.png"
                                     />
                                 </Link>
                             )}
@@ -534,11 +534,11 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 </Link>
                             </div>
-                            {!isMobile && <div className="site-layout-surplus">
+                            <div className="site-layout-surplus">
                                 <p>
                                     Số dư:<span style={{fontSize:'15px'}}>{formatMoney(surplus)}</span>
                                 </p>
-                            </div>}
+                            </div>
                             <div className="site-layout-appstore"  ref={refPanel}>
                                 <AiOutlineAppstore
                                     size={20}

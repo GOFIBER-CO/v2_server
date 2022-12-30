@@ -37,7 +37,6 @@ const ActionHistory: React.FC = () => {
             layout.setLoading(true)
             const actions = await getActionHistoryByUserId(auth.user._id,pageSize, pageIndex)
             setActions(actions.data?.actions)
-            setPageSize(actions.data?.pageSize)
             setTotalDoc(actions.data?.totalDoc)
             setTotalPage(actions.data?.totalPage)
             layout.setLoading(false)
@@ -100,7 +99,7 @@ const ActionHistory: React.FC = () => {
 
     useEffect(()=>{
         getActionsHistory()
-    },[pageIndex])
+    },[pageIndex, pageSize])
 
     return (
         <div className="action-history-page">
@@ -146,7 +145,11 @@ const ActionHistory: React.FC = () => {
                     defaultCurrent={pageIndex}
                     total={totalDoc}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

@@ -91,10 +91,11 @@ export const getCloudVpsByUserId = (
     areaId: string,
     operatingSystemId: string,
     search: string,
-    pageIndex: number
+    pageIndex: number,
+    pageSize: number
 ) =>
     axiosInstance.get(
-        `/api/cloudServer/getCloudServerByUserId?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}`
+        `/api/cloudServer/getCloudServerByUserId?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
 
 export const getCloudServerById = (id: string) => axiosInstance.post(`/api/cloudServer/getById`, {

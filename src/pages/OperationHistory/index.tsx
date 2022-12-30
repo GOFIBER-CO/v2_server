@@ -28,7 +28,6 @@ const OperationHistory = () =>{
             const operation = await getOperationHistory(pageSize,pageIndex, filter)
             setOperation(operation.data.actions)
             setTotalPage(operation.data?.totalPage)
-            setPageSize(operation.data?.pageSize)
             setTotalItem(operation.data?.totalDoc)
             layout.setLoading(false)
         } catch (error) {
@@ -38,7 +37,7 @@ const OperationHistory = () =>{
     }
     useEffect(()=>{
         getDataHistory()
-    },[pageIndex])
+    },[pageIndex, pageSize])
     
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys)
@@ -142,7 +141,11 @@ const OperationHistory = () =>{
                 defaultCurrent={pageIndex}
                 total={totalItem}
                 pageSize={pageSize}
-                onChange={(value) => setPageIndex(value)}
+                onChange={(value, pageSize) => {
+                    setPageIndex(value)
+                    setPageSize(pageSize)
+                }
+                }   
             />
         </div>
     </div>

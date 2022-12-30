@@ -37,7 +37,6 @@ const Location = () => {
             const location = await getAllLocation(pageIndex, filter)
             setLocations(location.data?.data)
             setTotalPage(location.data?.totalPages)
-            setPageSize(location.data?.pageSize)
             setTotalItem(location.data?.totalItem)
         } catch (error) {
             console.log(error)
@@ -141,7 +140,7 @@ const Location = () => {
 
     useEffect(() => {
         getLocations()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
     return (
         <div className="location-page">
             <div className="location-page-header">
@@ -204,7 +203,11 @@ const Location = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(value, pageSize) => {
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }
+                    }
                 />
             </div>
         </div>

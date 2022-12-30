@@ -13,11 +13,11 @@ import {
     Switch,
     Divider,
     message,
+    Pagination,
 } from 'antd'
 import ButtonFilter from '@/components/ButtonFilter'
 import { ColumnsType } from 'antd/lib/table'
 import { Table } from 'antd'
-import { Pagination } from 'antd'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import {
     deleteCloudServer,
@@ -68,7 +68,7 @@ const CloudVps: React.FC = () => {
 
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(6)
     const [totalItem, setTotalItem] = useState(1)
     const [location, setLocation] = useState<IArea[]>([])
     const [order, setOrder] = useState<IOrder[]>([])
@@ -323,7 +323,7 @@ const CloudVps: React.FC = () => {
             render: (value, row) => (
                 <>
                     <img
-                        src={`${row.area?.file}`}
+                        src={row.area?.file ? `${row.area?.file}` : `/images/VN.png`}
                         style={{ maxWidth: '25px', maxHeight: '25px' }}
                     />
                     <strong style={{ fontSize: '12px' }}>
@@ -520,12 +520,12 @@ const CloudVps: React.FC = () => {
                 filter.location,
                 filter.operatingSystem,
                 filter.name,
-                pageIndex
+                pageIndex,
+                pageSize
             )
             // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
-            setPageSize(cloudVps.data?.pageSize)
             setTotalItem(cloudVps.data?.totalItem)
             layout.setLoading(false)
         } catch (error) {
@@ -595,7 +595,7 @@ const CloudVps: React.FC = () => {
         getAllLocation()
         // getAllOrder()
         getOperatingSystem()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
     const updateLabelName = (value: any) => {
         console.log('value: ', value);
     }
@@ -699,7 +699,6 @@ const CloudVps: React.FC = () => {
                         </div>
                         <div className="cloud-vps-page-table">
                             <Table
-                                rowSelection={rowSelection}
                                 columns={columns}
                                 dataSource={cloudServer}
                                 scroll={{ x: '1200px', y: '600px' }}
@@ -708,12 +707,16 @@ const CloudVps: React.FC = () => {
                                 rowKey="_id"
                             />
                             <Pagination
-                                showTotal={showTotal}
-                                style={{ marginTop: '30px' }}
-                                current={pageIndex}
-                                total={totalItem}
-                                pageSize={pageSize}
-                                onChange={(value) => setPageIndex(value)}
+                                  showTotal={showTotal}
+                                  style={{ marginTop: '30px' }}
+                                  current={pageIndex}
+                                  defaultCurrent={pageIndex}
+                                  total={totalItem}
+                                  pageSize={pageSize}
+                                  onChange={(value, pageSize) => {
+                                    setPageIndex(value)
+                                    setPageSize(pageSize)
+                                }}
                             />
                         </div>
                     </>
