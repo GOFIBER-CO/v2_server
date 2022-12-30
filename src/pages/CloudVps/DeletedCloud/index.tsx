@@ -245,8 +245,7 @@ const DeletedCloud: React.FC = () => {
     }
 
     const layout = useLayoutInit()
-
-    const getCloudServer = async () => {
+        const getCloudServer = async () => {
         try {
             layout.setLoading(true)
             const cloudVps = await getDeletedCloudServer(
@@ -256,7 +255,7 @@ const DeletedCloud: React.FC = () => {
                 filter.name,
                 pageIndex
             )
-            console.log(cloudVps)
+            // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setPageSize(cloudVps.data?.pageSize)

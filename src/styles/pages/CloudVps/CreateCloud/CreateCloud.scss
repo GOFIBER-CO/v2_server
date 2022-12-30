@@ -214,6 +214,7 @@
         }
         .deploy_title {
             text-transform: uppercase !important;
+            margin-left: 15px;
         }
         .btn.btn-primary {
             color: #fff;
@@ -241,23 +242,23 @@
     }
     .package-server {
         position: relative;
-        height: 40px;
+        min-height: 40px;
         margin: 0 0 32px;
-        overflow: hidden;
-        display: block !important;
+        // overflow: hidden;
+        // display: block !important;
         .tabs-container {
             position: absolute;
             top: 0;
             width: 100%;
             .list-package-server {
-                height: 76px;
+                min-height: 76px;
                 overflow-y: hidden;
                 overflow-x: auto;
                 -webkit-user-select: none;
                 transition: all ease-in 0.15s;
                 margin: 0;
                 white-space: nowrap;
-                display: flex;
+                // display: flex;
                 flex-wrap: wrap;
                 padding-left: 0;
                 list-style: none;

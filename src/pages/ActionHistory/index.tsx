@@ -29,6 +29,7 @@ const ActionHistory: React.FC = () => {
     const [totalPage, setTotalPage] = useState(1)
     const auth = useAuth()
 
+    
     const getActionsHistory = async () => {
         try {
             const actions = await getActionHistoryByUserId(auth.user._id,pageSize, pageIndex)
@@ -37,7 +38,7 @@ const ActionHistory: React.FC = () => {
             setPageIndex(actions.data?.pageIndex)
             setTotalDoc(actions.data?.totalDoc)
             setTotalPage(actions.data?.totalPage)
-            console.log(actions.data?.actions)
+            // console.log(actions.data?.actions)
         } catch (error) {
             console.log(error)
         }
@@ -68,7 +69,7 @@ const ActionHistory: React.FC = () => {
         {
             title: 'Trạng thái',
             dataIndex: 'status',
-            render: (value:string) => statusKey[value]
+            render: (value:string) => statusKey[value]        
         },
         {
             title: 'Thời gian thực hiện',
@@ -124,6 +125,7 @@ const ActionHistory: React.FC = () => {
                     scroll={{ x: '1000px', y: '600px' }}
                     pagination={false}
                     dataSource={actions}
+                    rowKey="_id"
                 />
                 <Pagination
                     showTotal={showTotal}

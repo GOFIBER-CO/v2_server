@@ -69,7 +69,7 @@ const CreateOperatingSystem = () => {
             formdata.append('parentID', newOperatingSystem.parentID || '')
             formdata.append('file', newOperatingSystem.file || '')
             const create = await createOs(formdata)
-            console.log(create.data)
+            // console.log(create.data)
             if (create.data?.status == 1) {
                 notify(notifyType.NOTIFY_SUCCESS, 'Tạo thành công')
             } else {
