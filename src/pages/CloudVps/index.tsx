@@ -325,7 +325,7 @@ const CloudVps: React.FC = () => {
             render: (value, row) => (
                 <>
                     <img
-                        src={`/images/${row.area.file}`}
+                        src={`${row.area?.file}`}
                         style={{ maxWidth: '25px', maxHeight: '25px' }}
                     />
                     <strong style={{ fontSize: '12px' }}>
@@ -333,7 +333,7 @@ const CloudVps: React.FC = () => {
                         {row.server.ipv4}
                     </strong>
                     <br />
-                    <span>{row.area.areaName}</span>
+                    <span>{row.area?.areaName}</span>
                 </>
             ),
         },
