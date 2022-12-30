@@ -108,7 +108,7 @@ const UpdateCloud: React.FC = () => {
     // 
     useEffect(() => {
         // console.log(currentDataById?.server?.price,priceServer, `hahaha`);
-//@ts-ignore
+        //@ts-ignore
         setPayment(priceServer - currentDataById?.server?.price)
     }, [priceServer])
     iProfileCloudServer.push({
@@ -599,12 +599,10 @@ const UpdateCloud: React.FC = () => {
         //@ts-ignore
         // console.log('priceServer: ', priceServer ,currentDataById?.server?.price,dataServerItem?.price );
         if (priceServer > currentDataById?.server?.price || priceServer < dataServerItem?.price) {
-
-
             try {
                 //@ts-ignore
                 if (dataServerItem?._id) {
-//@ts-ignore
+                    //@ts-ignore
                     // TH1: Chọn mặc định
                     const result = await updateDataOfServerInCloudServerById(currentDataById?._id, dataServerItem);
                     if (result?.data?.status === 1) {
@@ -637,11 +635,14 @@ const UpdateCloud: React.FC = () => {
 
 
                 }
-                navigate(`/cloud-vps/update-cloud/${id}`)
+                // navigate(`/cloud-vps/update-cloud/${id}`)
+                navigate(`/cloud-vps`)
+
 
             } catch (error) {
                 console.log(error)
             }
+
         } else {
 
             toast.error("Cấu hình nâng cấp phải lớn  hơn cấu hình ban đầu .")
@@ -916,7 +917,7 @@ const UpdateCloud: React.FC = () => {
                                 </button>
                             </div>
                         </div> */}
-                        
+
                         <div className="deploy-summary-price">
                             <span className="cost" style={{
                                 fontWeight: '500',

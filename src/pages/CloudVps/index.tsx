@@ -248,7 +248,8 @@ const CloudVps: React.FC = () => {
                     label: (
 
                         <Link to={`/cloud-vps/update-cloud/${cloudServerItem?._id}`}>
-                            <i className="fa fa-upload">Demo001 Nâng cấp cấu hình</i>
+                            <i className="fa fa-upload"></i>
+                            <span> Nâng cấp cấu hình</span>
                         </Link>
                     ),
                     disabled: false,
@@ -349,7 +350,7 @@ const CloudVps: React.FC = () => {
                         />
                     </>
                 )
-                }
+            }
         },
         {
             title: 'Backup',
@@ -370,7 +371,7 @@ const CloudVps: React.FC = () => {
                                 }).format(Number(row.order.totalPrice))}
                                 <small style={{}}>₫</small>
                             </div>
-                            <Divider style={{margin: '5px 0px'}}/>
+                            <Divider style={{ margin: '5px 0px' }} />
                             <span className="unit-price">
                                 {row.server.expiryDateType === 1 ? (
                                     <>Giờ</>
