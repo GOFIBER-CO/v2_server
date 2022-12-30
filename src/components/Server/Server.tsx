@@ -3,10 +3,12 @@ import Checkbox from '../Checkbox/Checkbox'
 import ConverMoney from '../Conver/ConverMoney'
 
 const Server = ({
+   
     data,
     unit,
     onchange,
 }: {
+    
     data: IService
     unit: string
     onchange: (value: IService) => void

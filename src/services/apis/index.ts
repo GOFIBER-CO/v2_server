@@ -202,13 +202,13 @@ export const deleteOs = (id: string) =>
     axiosInstance.delete(`/api/operatingSystem/delete/${id}`)
 
 export const getSupportByUserId = (
-    id: string, 
+    id: string,
     pageIndex: number,
     SupportTT: string,
     SupportUT: string,
     supportName: string,
-    
-    ) =>
+
+) =>
     axiosInstance.get(
         `/api/support/getSupportByUserId?userId=${id}&pageIndex=${pageIndex}&supportTT=${SupportTT}&supportUT=${SupportUT}&supportName=${supportName}`
     )
@@ -300,6 +300,13 @@ export const updateCloud = (data?: IUpdateCloudServer) =>
     axiosInstance.put(`/api/cloudServer/update/${data?._id}`, {
         cloudServerName: data?.cloudServerName,
     })
+//CloudServer
+export const getCloudServersById = (id: any) => {
+    return axiosInstance.get(`/api/cloudServer/getById/${id}`)
+}
+export const updateDataOfServerInCloudServerById = (id: any, data: any) => {
+    return axiosInstance.put(`api/cloudServer/server/update/${id}`, data)
+}
 //transactionHistory
 export const getTransactionHistoryByCloudId = (
     userId?: string,
@@ -323,10 +330,10 @@ export const createSnapshot = (data: FormData) =>
     axiosInstance.post('/api/snapshot/insert', data)
 
 export const getSnapshotsByUserId = (
-    userId?: string, 
+    userId?: string,
     cloudServerId?: string,
-    pageIndex ?: number,
-    ) =>
+    pageIndex?: number,
+) =>
     axiosInstance.get(
         `/api/snapshot/getSnapshotsByUserId?userId=${userId}&cloudServerId=${cloudServerId}&pageIndex=${pageIndex}`
     )
