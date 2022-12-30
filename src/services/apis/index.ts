@@ -341,3 +341,7 @@ export const updateCloudServerName = (id: any, data: any) =>
     axiosInstance.put(`/api/cloudServer/update/name/${id}`, {
         cloudServerName: data,
     })
+
+//action history
+
+export const getActionHistoryByUserId = (userId: string,pageSize:number, pageIndex:number) => axiosInstance.get(`/api/action-history/getByUserId/${userId}?pageSize=${pageSize}&pageIndex=${pageIndex}`)

@@ -17,6 +17,7 @@ import ILog from '@/interfaces/ILog'
 import MenuCloudChildren from './MenuCloudChildren'
 import ISnapshots from '@/interfaces/ISnapshots'
 import "./cloudStack.css"
+import Chart from './Chart';
 
 const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
     const layout = useLayoutInit()
@@ -221,6 +222,11 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                         pageSizeValue={pageSizeLog}
                         totalItemValue={totalItemLog}
                     />
+                ) : (
+                    ''
+                )}
+                {optionId == 5 ? (
+                    <Chart/>
                 ) : (
                     ''
                 )}
