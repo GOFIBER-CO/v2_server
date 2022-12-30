@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import './generalInformation.css'
 //@ts-ignore
 const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
-    console.log('dataaaa: ', data);
+    // console.log('dataaaa: ', data);
 
     // console.log('handleChangeNameValue: ', handleChangeNameValue);
     const [labelName, setLabelName] = useState('')
@@ -23,7 +23,7 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
         try {
             setIsModalOpen(false);
             const result = await updateCloudServerName(localData?._id, labelName)
-            console.log(result.data)
+            // console.log(result.data)
             //@ts-ignore
             setLocalData({ ...localData, cloudServerName: result.data?.data?.cloudServerName })
             toast.success("Sửa tên thành công")
@@ -47,7 +47,7 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img width="20" src={typeof (localData?.area.file) == 'string' ? `/images/${localData?.area.file}` : ''} />
+                                        <img width="20" src={typeof (localData?.area.file) == 'string' ? `${localData?.area.file}` : ''} />
                                         <span style={{ marginLeft: '8px' }}>{localData?.area.areaName}</span>
                                     </span>
                                 </div>

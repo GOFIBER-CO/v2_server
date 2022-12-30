@@ -4,6 +4,7 @@
     position: relative;
     width: 100%;
 
+
     &-location-title {
         font-size: 20px;
         text-transform: uppercase;
@@ -214,6 +215,7 @@
         }
         .deploy_title {
             text-transform: uppercase !important;
+            margin-left: 15px;
         }
         .btn.btn-primary {
             color: #fff;
@@ -241,23 +243,23 @@
     }
     .package-server {
         position: relative;
-        height: 40px;
+        min-height: 40px;
         margin: 0 0 32px;
-        overflow: hidden;
-        display: block !important;
+        // overflow: hidden;
+        // display: block !important;
         .tabs-container {
             position: absolute;
             top: 0;
             width: 100%;
             .list-package-server {
-                height: 76px;
+                min-height: 76px;
                 overflow-y: hidden;
                 overflow-x: auto;
                 -webkit-user-select: none;
                 transition: all ease-in 0.15s;
                 margin: 0;
                 white-space: nowrap;
-                display: flex;
+                // display: flex;
                 flex-wrap: wrap;
                 padding-left: 0;
                 list-style: none;
@@ -296,6 +298,10 @@
             flex-wrap: wrap;
             margin-right: -12.5px;
             margin-left: -12.5px;
+
+            @media only screen and (max-width: 576px){
+                flex-direction: column;
+            }
             .col-sm-6 {
                 position: relative;
                 width: 100%;
@@ -404,7 +410,6 @@
             }
             .col-md-7 {
                 flex: 0 0 58.33333333%;
-                max-width: 58.33333333%;
                 position: relative;
                 width: 100%;
                 padding-right: 12.5px;
@@ -425,7 +430,6 @@
             }
             .col-md-5 {
                 flex: 0 0 41.66666667%;
-                max-width: 41.66666667%;
                 position: relative;
                 width: 100%;
                 padding-right: 12.5px;

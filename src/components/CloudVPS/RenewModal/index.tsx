@@ -31,7 +31,7 @@ const RenewModal = ({id, closeFunction}:{id: string, closeFunction: ()=>void}) =
     const extendCloudServer = async () => {
         try {
             const result = await renewCloudServer(id, (cloudServer?.server.price || 1) * quantity, expiryDateTypeToNumber(cloudServer?.server?.expiryDateType || 3) * quantity)
-            console.log(result.data)
+            // console.log(result.data)
             notify(notifyType.NOTIFY_SUCCESS, 'Gia hạn thành công')
             layout.setLoading(false)
         } catch (error) {

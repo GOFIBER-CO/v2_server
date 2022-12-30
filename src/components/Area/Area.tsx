@@ -20,7 +20,7 @@ const Area = ({
             <span className="img-country">
                 {data.file ? (
                     <img
-                        src={`${appConfig.API_URL_UPLOAD_FILES}/${data.file}`}
+                        src={`${data.file}`}
                         alt="no img"
                         width={55}
                         height={48}

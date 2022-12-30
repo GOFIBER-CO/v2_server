@@ -87,7 +87,7 @@ const CloudVps: React.FC = () => {
             color: color,
         }
     }
-    console.log('cloudServerItem: ', cloudServerItem);
+    // console.log('cloudServerItem: ', cloudServerItem);
     const changeIsAutoRenew = async (id: string, status: boolean) => {
         try {
             const result = await switchAutoRenew(id, status)
@@ -294,7 +294,7 @@ const CloudVps: React.FC = () => {
         {
             title: 'Mã server',
             dataIndex: 'code',
-            width: '8.5%',
+            width: '10%',
         },
         {
             title: 'Tên dịch vụ',
@@ -307,8 +307,6 @@ const CloudVps: React.FC = () => {
                     </div>
                 </div>
             ),
-            width: '18%',
-
             onCell: (item) => {
                 return {
                     onClick: () => {
@@ -321,11 +319,11 @@ const CloudVps: React.FC = () => {
         {
             title: 'Địa chỉ IP',
             dataIndex: ['server', 'area'],
-            width: '15%',
+            width: '10%',
             render: (value, row) => (
                 <>
                     <img
-                        src={`/images/${row.area.file}`}
+                        src={`${row.area?.file}`}
                         style={{ maxWidth: '25px', maxHeight: '25px' }}
                     />
                     <strong style={{ fontSize: '12px' }}>
@@ -333,22 +331,31 @@ const CloudVps: React.FC = () => {
                         {row.server.ipv4}
                     </strong>
                     <br />
-                    <span>{row.area.areaName}</span>
+                    <span>{row.area?.areaName}</span>
                 </>
             ),
         },
         {
             title: 'HĐH',
             dataIndex: 'operatingSystem',
-            width: '5%',
-            render: (value) => (
-                <>
-                    <img
-                        src={value.img}
-                        style={{ maxWidth: '25px', maxHeight: '25px' }}
-                    />
-                </>
-            ),
+            width: '5.5%',
+            render: (value) => {
+                console.log(value)
+                return (
+                    <>
+                        <img
+                            src={value.img || `/images/${value.file}`}
+                            style={{ maxWidth: '25px', maxHeight: '25px' }}
+                        />
+                    </>
+                )
+                }
+        },
+        {
+            title: 'Backup',
+            dataIndex: 'autoBackup',
+            width: '8%',
+            render: (value) => value ? 'Có' : 'Không'
         },
         {
             title: 'Hoá đơn',
@@ -363,6 +370,7 @@ const CloudVps: React.FC = () => {
                                 }).format(Number(row.order.totalPrice))}
                                 <small style={{}}>₫</small>
                             </div>
+                            <Divider style={{margin: '5px 0px'}}/>
                             <span className="unit-price">
                                 {row.server.expiryDateType === 1 ? (
                                     <>Giờ</>
@@ -382,11 +390,12 @@ const CloudVps: React.FC = () => {
                     ) : null}
                 </strong>
             ),
-            width: '7.5%',
+            width: '9%',
         },
         {
             title: 'Ngày hết hạn',
             dataIndex: 'expiryDate',
+            width: '12%',
             render: (value) => (
                 <>
                     <span>{formatDate(value)}</span>
@@ -422,6 +431,7 @@ const CloudVps: React.FC = () => {
         {
             title: 'Trạng thái',
             dataIndex: 'status',
+            width: '10%',
             render: (value) =>
                 value ? (
                     <Tag color="green">Hoạt động</Tag>
@@ -430,12 +440,9 @@ const CloudVps: React.FC = () => {
                 ),
         },
         {
-            title: 'Nhãn dịch vụ',
-            dataIndex: 'cloudServerName',
-        },
-        {
-            title: 'Điều khiển',
+            title: '',
             dataIndex: 'server',
+            width: '4%',
             render: (item) => (
                 <div>
                     <Dropdown overlay={menu} trigger={['click']}>
@@ -453,7 +460,6 @@ const CloudVps: React.FC = () => {
                     },
                 }
             },
-            width: '8%',
         },
     ]
 
@@ -516,7 +522,7 @@ const CloudVps: React.FC = () => {
                 filter.name,
                 pageIndex
             )
-            console.log(cloudVps)
+            // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setPageSize(cloudVps.data?.pageSize)
@@ -696,9 +702,10 @@ const CloudVps: React.FC = () => {
                                 rowSelection={rowSelection}
                                 columns={columns}
                                 dataSource={cloudServer}
-                                scroll={{ x: '1400px', y: '600px' }}
+                                scroll={{ x: '1200px', y: '600px' }}
                                 pagination={false}
                                 sticky
+                                rowKey="_id"
                             />
                             <Pagination
                                 showTotal={showTotal}

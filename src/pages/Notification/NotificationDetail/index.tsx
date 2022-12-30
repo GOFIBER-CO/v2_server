@@ -45,7 +45,7 @@ const NotificationDetail = () => {
         getNotification()
     }, [slug])
 
-    console.log(notification)
+    // console.log(notification)
     return (
         <div className="notification-detail">
             <div className="notification-detail-header">

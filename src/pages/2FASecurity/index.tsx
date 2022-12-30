@@ -76,7 +76,7 @@ const FASecurity = () => {
             const result = await getUserQrCode(auth.user._id)
             setSecret(result.data.secret)
             setQrcode(result.data.qrcode)
-            console.log(result.data)
+            // console.log(result.data)
         } catch (error) {
             console.log(error)
             layout.setLoading(false)

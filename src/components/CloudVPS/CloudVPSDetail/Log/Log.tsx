@@ -21,7 +21,7 @@ const Log = ({
     totalItemValue: number
 }) => {
     const layout = useLayoutInit()
-    console.log(data)
+    // console.log(data)
     const [log, setLog] = useState(data)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(totalPageValue)

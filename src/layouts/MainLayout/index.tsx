@@ -21,7 +21,7 @@ import {
 import { FiSearch, FiFacebook, FiShoppingCart } from 'react-icons/fi'
 import { MdOutlineSecurity } from 'react-icons/md'
 import { ImProfile } from 'react-icons/im'
-import { FaTimes, FaMoneyBillAlt } from 'react-icons/fa'
+import { FaTimes, FaMoneyBillAlt, FaHistory } from 'react-icons/fa'
 import { RiMoneyPoundBoxLine, RiTicketLine } from 'react-icons/ri'
 import { BiBuildingHouse, BiHomeAlt } from 'react-icons/bi'
 import {
@@ -289,6 +289,15 @@ const MainLayout: React.FC = () => {
                         </NavLink>
                     ),
                 },
+                {
+                    key: '/operation-history',
+                    icon: <FaHistory />,
+                    label: (
+                        <NavLink to={'/operation-history'}>
+                            Lịch sử thao tác
+                        </NavLink>
+                    ),
+                },
             ],
         },
     ]
@@ -447,7 +456,7 @@ const MainLayout: React.FC = () => {
                         trigger={null}
                         collapsible
                         collapsed={collapsed}
-                        width={'17%'}
+                        width={'15%'}
                         breakpoint="lg"
                         collapsedWidth={60}
                         onBreakpoint={(broken) => {
@@ -525,11 +534,11 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="site-layout-surplus">
+                            {!isMobile && <div className="site-layout-surplus">
                                 <p>
                                     Số dư:<span style={{fontSize:'15px'}}>{formatMoney(surplus)}</span>
                                 </p>
-                            </div>
+                            </div>}
                             <div className="site-layout-appstore"  ref={refPanel}>
                                 <AiOutlineAppstore
                                     size={20}
@@ -780,6 +789,9 @@ const MainLayout: React.FC = () => {
 
                                                     {auth.user.userName}
                                                 </span>
+                                            </li>
+                                             <li style={{ lineHeight: 2 }} className="bg-img">
+                                                <span>Số dư: {formatMoney(surplus)}</span>
                                             </li>
                                             <Divider
                                                 style={{

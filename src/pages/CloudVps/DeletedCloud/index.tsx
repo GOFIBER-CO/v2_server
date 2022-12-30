@@ -90,7 +90,7 @@ const DeletedCloud: React.FC = () => {
             render: (value, row) => (
                 <>
                     <img
-                        src={`/images/${row.area.file}`}
+                        src={`${row.area?.file}`}
                         style={{ maxWidth: '25px', maxHeight: '25px' }}
                     />
                     <strong style={{ fontSize: '12px' }}>
@@ -98,7 +98,7 @@ const DeletedCloud: React.FC = () => {
                         {row.server.ipv4}
                     </strong>
                     <br />
-                    <span>{row.area.areaName}</span>
+                    <span>{row.area?.areaName}</span>
                 </>
             ),
         },
@@ -245,8 +245,7 @@ const DeletedCloud: React.FC = () => {
     }
 
     const layout = useLayoutInit()
-
-    const getCloudServer = async () => {
+        const getCloudServer = async () => {
         try {
             layout.setLoading(true)
             const cloudVps = await getDeletedCloudServer(
@@ -256,7 +255,7 @@ const DeletedCloud: React.FC = () => {
                 filter.name,
                 pageIndex
             )
-            console.log(cloudVps)
+            // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setPageSize(cloudVps.data?.pageSize)

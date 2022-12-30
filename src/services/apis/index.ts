@@ -13,6 +13,7 @@ let axiosInstance = axios.create({
     baseURL: baseUrl,
 })
 
+
 axiosInstance.interceptors.request.use((config) => {
     config.headers!.authorization = `Bearer ${JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
         }`
@@ -348,3 +349,12 @@ export const updateCloudServerName = (id: any, data: any) =>
     axiosInstance.put(`/api/cloudServer/update/name/${id}`, {
         cloudServerName: data,
     })
+
+//action history
+
+export const getActionHistoryByUserId = (userId: string,pageSize:number, pageIndex:number) => axiosInstance.get(`/api/action-history/getByUserId/${userId}?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+export const getOperationHistory = (
+    pageSize: number,
+    pageIndex:number,
+    filter:string
+) =>axiosInstance.get(`/api/action-history/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`);
