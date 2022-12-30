@@ -21,7 +21,7 @@ import {
 import { FiSearch, FiFacebook, FiShoppingCart } from 'react-icons/fi'
 import { MdOutlineSecurity } from 'react-icons/md'
 import { ImProfile } from 'react-icons/im'
-import { FaTimes, FaMoneyBillAlt } from 'react-icons/fa'
+import { FaTimes, FaMoneyBillAlt, FaHistory } from 'react-icons/fa'
 import { RiMoneyPoundBoxLine, RiTicketLine } from 'react-icons/ri'
 import { BiBuildingHouse, BiHomeAlt } from 'react-icons/bi'
 import {
@@ -286,6 +286,15 @@ const MainLayout: React.FC = () => {
                     label: (
                         <NavLink to={'/user-statistic'}>
                             Thống kê người dùng
+                        </NavLink>
+                    ),
+                },
+                {
+                    key: '/operation-history',
+                    icon: <FaHistory />,
+                    label: (
+                        <NavLink to={'/operation-history'}>
+                            Lịch sử thao tác
                         </NavLink>
                     ),
                 },
