@@ -615,9 +615,11 @@ const UpdateCloud: React.FC = () => {
         }
     }
     const onFinish = async () => {
+        //@ts-ignore
         if (dataServerItem?.price > currentDataById?.server?.price) {
             console.log(`Tien can tra la so duong`);
             try {
+            //@ts-ignore
                 const result = await updateDataOfServerInCloudServerById(dataServerItem?._id, dataServerItem)
                 console.log('result: ', result);
 

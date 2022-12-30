@@ -294,7 +294,7 @@ const CloudVps: React.FC = () => {
         {
             title: 'Mã server',
             dataIndex: 'code',
-            width: '8.5%',
+            width: '10%',
         },
         {
             title: 'Tên dịch vụ',
@@ -307,8 +307,6 @@ const CloudVps: React.FC = () => {
                     </div>
                 </div>
             ),
-            width: '12%',
-
             onCell: (item) => {
                 return {
                     onClick: () => {
@@ -340,7 +338,7 @@ const CloudVps: React.FC = () => {
         {
             title: 'HĐH',
             dataIndex: 'operatingSystem',
-            width: '5%',
+            width: '5.5%',
             render: (value) => {
                 console.log(value)
                 return (
@@ -372,6 +370,7 @@ const CloudVps: React.FC = () => {
                                 }).format(Number(row.order.totalPrice))}
                                 <small style={{}}>₫</small>
                             </div>
+                            <Divider style={{margin: '5px 0px'}}/>
                             <span className="unit-price">
                                 {row.server.expiryDateType === 1 ? (
                                     <>Giờ</>
@@ -391,11 +390,12 @@ const CloudVps: React.FC = () => {
                     ) : null}
                 </strong>
             ),
-            width: '7.5%',
+            width: '9%',
         },
         {
             title: 'Ngày hết hạn',
             dataIndex: 'expiryDate',
+            width: '12%',
             render: (value) => (
                 <>
                     <span>{formatDate(value)}</span>
@@ -702,7 +702,7 @@ const CloudVps: React.FC = () => {
                                 rowSelection={rowSelection}
                                 columns={columns}
                                 dataSource={cloudServer}
-                                scroll={{ x: '1400px', y: '600px' }}
+                                scroll={{ x: '1200px', y: '600px' }}
                                 pagination={false}
                                 sticky
                                 rowKey="_id"
