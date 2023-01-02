@@ -3,6 +3,7 @@
     color: #5e5f6c;
     position: relative;
     width: 100%;
+    min-height: 100vh;
 
 
     &-location-title {
@@ -210,12 +211,15 @@
     }
     .server {
         display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        margin-bottom: 1rem;
         .create-cloud-location-title {
             padding-right: 12px;
         }
         .deploy_title {
             text-transform: uppercase !important;
-            margin-left: 15px;
+            // margin-left: 15px;
         }
         .btn.btn-primary {
             color: #fff;
