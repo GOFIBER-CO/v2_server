@@ -16,7 +16,7 @@ const Notification = () => {
     const [notifications, setNotifications] = useState<INotification[]>([])
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [filter, setFilter] = useState('')
 
@@ -28,7 +28,11 @@ const Notification = () => {
     const getNotifications = async () => {
         try {
             layout.setLoading(true)
-            const result = await getAllNotification(pageIndex, filter)
+            const result = await getAllNotification(
+                pageIndex, 
+                filter,
+                pageSize
+                )
             setNotifications(result.data?.data)
             setTotalPage(result.data?.totalPage)
             setPageIndex(result.data?.pageIndex)
@@ -92,7 +96,7 @@ const Notification = () => {
 
     useEffect(() => {
         getNotifications()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     return (
         <div className="manage-notification-page">
@@ -155,7 +159,8 @@ const Notification = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(page,pageSize) => {setPageIndex(page)
+                        setPageSize(pageSize)}}
                 />
             </div>
         </div>

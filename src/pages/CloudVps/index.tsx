@@ -65,10 +65,10 @@ const CloudVps: React.FC = () => {
 
     const [cloudServer, setCloudServer] = useState<ICloudServer[]>([])
     const [cloudServerItem, setCloudServerItem] = useState<ICloudServer>()
-
+   
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [location, setLocation] = useState<IArea[]>([])
     const [order, setOrder] = useState<IOrder[]>([])
@@ -521,9 +521,9 @@ const CloudVps: React.FC = () => {
                 filter.location,
                 filter.operatingSystem,
                 filter.name,
-                pageIndex
+                pageIndex,
+                pageSize
             )
-            // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setPageSize(cloudVps.data?.pageSize)
@@ -596,7 +596,7 @@ const CloudVps: React.FC = () => {
         getAllLocation()
         // getAllOrder()
         getOperatingSystem()
-    }, [pageIndex])
+    }, [pageIndex,pageSize])
     const updateLabelName = (value: any) => {
         console.log('value: ', value);
     }
@@ -712,9 +712,11 @@ const CloudVps: React.FC = () => {
                                 showTotal={showTotal}
                                 style={{ marginTop: '30px' }}
                                 current={pageIndex}
+                                defaultCurrent={pageIndex}
                                 total={totalItem}
                                 pageSize={pageSize}
-                                onChange={(value) => setPageIndex(value)}
+                                onChange={(page,pageSize) => {setPageIndex(page)
+                                setPageSize(pageSize)}}
                             />
                         </div>
                     </>

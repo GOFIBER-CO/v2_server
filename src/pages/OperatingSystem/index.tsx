@@ -20,7 +20,7 @@ const OperatingSystem = () => {
         IOparatingSystem[]
     >([])
     const [pageIndex, setPageIndex] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
@@ -39,7 +39,10 @@ const OperatingSystem = () => {
     const getOs = async () => {
         try {
             layout.setLoading(true)
-            const os = await getAllOs(pageIndex, filter.operatingSystemName)
+            const os = await getAllOs(pageIndex, 
+                filter.operatingSystemName,
+                pageSize
+                )
             setOperatingSystems(os.data?.data)
             setTotalPage(os.data?.totalPages)
             setPageSize(os.data?.pageSize)
@@ -138,7 +141,7 @@ const OperatingSystem = () => {
 
     useEffect(() => {
         getOs()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
     return (
         <div className="operating-system-page">
             <div className="operating-system-page-header">
@@ -202,7 +205,8 @@ const OperatingSystem = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(page,pageSize) => {setPageIndex(page)
+                        setPageSize(pageSize)}}
                 />
             </div>
         </div>
