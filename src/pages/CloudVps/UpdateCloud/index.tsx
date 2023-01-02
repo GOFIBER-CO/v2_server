@@ -1,5 +1,4 @@
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-// import { useNavigate } from 'react-router'
 import {
     getCloudServersById,
     createCloud,
@@ -33,9 +32,18 @@ import { toast } from 'react-toastify';
 
 const UpdateCloud: React.FC = () => {
     const navigate = useNavigate()
-    const [currentDataById, setCurrentDataById] = useState([])
+    const [currentDataById, setCurrentDataById] = useState<any[]>([])
+    console.log('currentDataById: ', currentDataById);
     const layout = useLayoutInit()
-
+    const iCpuMark: any = {}
+    // @ts-ignore
+    iCpuMark[currentDataById.server?.cpu] = currentDataById.server?.cpu;
+    const iRamMark: any = {}
+    // @ts-ignore
+    iRamMark[currentDataById.server?.ram] = currentDataById.server?.ram;
+    const iSsdMark: any = {}
+    // @ts-ignore
+    iSsdMark[currentDataById.server?.ssd] = currentDataById.server?.ssd;
     const iArea: IArea[] = []
     const [dataArea, setDataArea] = useState(iArea)
     const iOparatingSystemArray: IOparatingSystemArray[] = []
@@ -58,7 +66,6 @@ const UpdateCloud: React.FC = () => {
     // console.log('priceServer: ', priceServer);
 
     const [CPU, setCPU] = useState(1)
-
     const [RAM, setRAM] = useState(1)
     const [SSD, setSSD] = useState(30)
     const [bandwidth, setBandwidth] = useState(10)
@@ -93,11 +100,12 @@ const UpdateCloud: React.FC = () => {
         getCloudServersById(id).then(data => {
 
             setCurrentDataById(data?.data?.data)
-            setCPU(data?.data?.data?.server?.cpu)
-            setRAM(data?.data?.data?.server?.ram)
-            setSSD(data?.data?.data?.server?.ssd)
-            setPriceServer(data?.data?.data?.server?.price)
+            setCPU(Number(data?.data?.data?.server?.cpu))
+            setRAM(Number(data?.data?.data?.server?.ram))
+            setSSD(Number(data?.data?.data?.server?.ssd))
+            setPriceServer(Number(data?.data?.data?.server?.price))
         })
+
     }
     const { id } = useParams()
     useEffect(() => {
@@ -107,10 +115,24 @@ const UpdateCloud: React.FC = () => {
     }, [])
     // 
     useEffect(() => {
-        // console.log(currentDataById?.server?.price,priceServer, `hahaha`);
+        // @ts-ignore
+        console.log(currentDataById?.server?.price, priceServer, `hahaha`);
         //@ts-ignore
-        setPayment(priceServer - currentDataById?.server?.price)
+        if (CPU === parseInt(currentDataById?.server?.cpu) && RAM === parseInt(currentDataById?.server?.ram) && SSD === parseInt(currentDataById?.server?.ssd)) {
+            setPayment(0)
+        } else {
+            // @ts-ignore
+            // setPayment(priceServer - currentDataById?.server?.price - 1000)
+            const total = parseInt(currentDataById.server?.cpu) * 50000 + parseInt(currentDataById.server?.ram) * 50000 + parseInt(currentDataById.server?.ssd) * 1000
+            // console.log('total: ', total);
+            setPayment(priceServer - total)
+
+
+        }
+        // console.log(payment, `haha`);
     }, [priceServer])
+
+
     iProfileCloudServer.push({
         _id: 1,
         cloudServerName: '',
@@ -467,65 +489,43 @@ const UpdateCloud: React.FC = () => {
     }
 
     const onChangeCPU = (value: number) => {
-        setDataServerItem({})
-        // console.log('value: ', value);
-        //1 cpu 50k
-        let price = 0
-        if (value !== 1 && RAM !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (RAM - 1) * 50000 + (SSD - 30) * 1000
-        }
-        if (value !== 1 && RAM !== 1) {
-            price = (value - 1) * 50000 + (RAM - 1) * 50000
-        } else if (value !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (SSD - 30) * 1000
-        } else if (value === 1) {
-            price = (RAM - 1) * 50000 + (SSD - 30) * 1000
-        } else {
-            price = (value - 1) * 50000
+        // @ts-ignore
+        if (value > parseInt(currentDataById.server?.cpu) - 1) {
+            setCPU(value)
+            setDataServerItem({})
+            //1 cpu 50k
+            let price = 0
+            price = (value * 50000 + RAM * 50000 + SSD * 1000)
+            setPriceServer(price)
         }
 
-        setPriceServer(price + 130000)
-        setCPU(value)
+
     }
-
     const onChangeRAM = (value: number) => {
-        setDataServerItem({})
-        //1 ram 50k
-        let price = 0
-        if (value !== 1 && CPU !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (CPU - 1) * 50000 + (SSD - 30) * 1000
-        } else if (CPU !== 1 && value !== 1) {
-            price = (CPU - 1) * 50000 + (value - 1) * 50000
-        } else if (value !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (SSD - 30) * 1000
-        } else if (value === 1) {
-            price = (CPU - 1) * 50000 + (SSD - 30) * 1000
-        } else {
-            price = (value - 1) * 50000
+        // @ts-ignore
+        if (value > +(currentDataById.server?.ram) - 1) {
+            setRAM(value)
+            setDataServerItem({})
+            //1 ram 50k
+            let price = 0
+            price = (CPU * 50000 + value * 50000 + SSD * 1000)
+            console.log('price: ', price);
+            setPriceServer(price)
         }
 
-        setPriceServer(price + 130000)
-        setRAM(value)
     }
 
     const onChangeSSD = (value: number) => {
-        setDataServerItem({})
-        //1GB ssd 1k
-        let price = 0
-        if (value !== 30 && CPU !== 1 && RAM !== 1) {
-            price = (value - 30) * 1000 + (CPU - 1) * 50000 + (RAM - 1) * 50000
-        } else if (value !== 30 && CPU !== 1) {
-            price = (value - 30) * 1000 + (CPU - 1) * 50000
-        } else if (value !== 30 && RAM !== 1) {
-            price = (value - 30) * 1000 + (RAM - 1) * 50000
-        } else if (value === 30) {
-            price = (CPU - 1) * 50000 + (RAM - 1) * 50000
-        } else {
-            price = (value - 30) * 1000
+        // @ts-ignore
+        if (value > +(currentDataById.server?.ssd) - 1) {
+            //1GB ssd 1k
+            setSSD(value)
+            setDataServerItem({})
+            let price = 0
+            price = (CPU * 50000 + RAM * 50000 + value * 1000)
+            setPriceServer(price)
         }
 
-        setPriceServer(price + 130000)
-        setSSD(value)
     }
     const onHandleClick = async () => {
         // console.log(`hahaha`);
@@ -597,7 +597,7 @@ const UpdateCloud: React.FC = () => {
 
     const onFinish = async () => {
         //@ts-ignore
-        // console.log('priceServer: ', priceServer ,currentDataById?.server?.price,dataServerItem?.price );
+        // console.log('priceServer: ', priceServer, currentDataById?.server?.price, dataServerItem?.price);
         if (priceServer > currentDataById?.server?.price || priceServer < dataServerItem?.price) {
             try {
                 //@ts-ignore
@@ -632,19 +632,12 @@ const UpdateCloud: React.FC = () => {
                     } else {
                         toast.error("khong co create?.data?.data")
                     }
-
-
                 }
-                // navigate(`/cloud-vps/update-cloud/${id}`)
                 navigate(`/cloud-vps`)
-
-
             } catch (error) {
                 console.log(error)
             }
-
         } else {
-
             toast.error("Cấu hình nâng cấp phải lớn  hơn cấu hình ban đầu .")
         }
     }
@@ -676,6 +669,7 @@ const UpdateCloud: React.FC = () => {
         }
         return true
     }
+    // console.log(`cpu`, typeof CPU);
 
     useEffect(() => {
         const appendData = () => {
@@ -690,9 +684,9 @@ const UpdateCloud: React.FC = () => {
                 {isCustomServer ? (
                     <div className="create-cloud-config">
                         <div className="server">
-                            <p className="create-cloud-location-title">
+                            <span className="create-cloud-location-title">
                                 TUỲ CHỈNH CẤU HÌNH
-                            </p>
+                            </span>
                             <div className="deploy_title">
                                 <button
                                     className="btn btn-primary btn-sm"
@@ -713,29 +707,43 @@ const UpdateCloud: React.FC = () => {
                                         <div className="form-group">
                                             <label>CPU (vCPUs)</label>
                                             <Slider
-                                                onChange={onChangeCPU}
-                                                defaultValue={CPU}
-                                                // value={currentDataById?.server?.cpu}
+
                                                 min={1}
                                                 max={32}
+                                                value={CPU}
+                                                tooltip={1 === 1 ? { open: true } : { open: false }}
+                                                // @ts-ignore
+                                                defaultValue={+(currentDataById?.server?.cpu)}
+                                                marks={iCpuMark}
+                                                onChange={onChangeCPU}
                                             />
                                         </div>
                                         <div className="form-group">
                                             <label>RAM (GB):</label>
                                             <Slider
-                                                onChange={onChangeRAM}
-                                                defaultValue={RAM}
                                                 min={1}
                                                 max={8}
+                                                marks={iRamMark}
+                                                value={RAM}
+                                                tooltip={{ open: true }}
+                                                onChange={onChangeRAM}
+
                                             />
                                         </div>
                                         <div className="form-group">
                                             <label>SSD NVMe (GB)::</label>
                                             <Slider
-                                                onChange={onChangeSSD}
-                                                defaultValue={SSD}
-                                                min={30}
+                                                // @ts-ignore
+                                                min={+(currentDataById?.server?.ssd)}
                                                 max={960}
+                                                marks={iSsdMark}
+
+                                                tooltip={{ open: true }}
+                                                value={SSD}
+                                                onChange={onChangeSSD}
+                                            // defaultValue={SSD}
+                                            // min={30}
+
                                             />
                                         </div>
                                         <div className="form-group">
@@ -838,10 +846,11 @@ const UpdateCloud: React.FC = () => {
                 ) : (
                     <div className="create-cloud-config">
                         <div className="server">
-                            <p className="create-cloud-location-title">
+                            <span className="create-cloud-location-title">
                                 CẤU HÌNH CÓ SẴN
-                            </p>
-                            <div className="deploy_title">
+                            </span>
+                            <div className="deploy_title" style={{ display: "flex" }}>
+
                                 <button
                                     className="btn btn-primary btn-sm"
                                     onClick={() =>
@@ -875,7 +884,8 @@ const UpdateCloud: React.FC = () => {
                                     // console.log(`itemjhafjewjfew`, item)
                                     return (item?.price > currentDataById?.server?.price &&
                                         <Server
-
+                                            // @ts-ignore
+                                            currentPrice={currentDataById?.server?.price}
                                             data={item}
                                             unit={unit}
                                             onchange={(data) => {
@@ -934,7 +944,7 @@ const UpdateCloud: React.FC = () => {
                                     fontSize: '1rem',
                                     marginLeft: '0.3rem',
                                     fontWeight: '400'
-                                }}>({CPU} vCPUs | {RAM} GB | {SSD} GB nvmE)</span>
+                                }}>({CPU} vCPUs | {RAM} GB | {SSD} GB NVMe )</span>
                             </div>
                         </div>
                         <input
