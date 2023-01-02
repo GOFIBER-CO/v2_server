@@ -17,7 +17,7 @@ const Department = () => {
     const [department, setDepartment] = useState<IDepartment[]>([])
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     const layout = useLayoutInit()
@@ -74,7 +74,11 @@ const Department = () => {
     const getDepartments = async () => {
         try {
             layout.setLoading(true)
-            const department = await getAllDepartment(pageIndex, filter)
+            const department = await getAllDepartment(
+                pageIndex, 
+                filter,
+                pageSize
+                )
             setDepartment(department.data?.data)
             setTotalPage(department.data?.totalPages)
             setPageSize(department.data?.pageSize)
@@ -93,7 +97,7 @@ const Department = () => {
 
     useEffect(() => {
         getDepartments()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
     return (
         <div className="cloud-vps-page">
             <div className="cloud-vps-page-header">
@@ -163,7 +167,8 @@ const Department = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(page,pageSize) => {setPageIndex(page)
+                        setPageSize(pageSize)}}
                 />
             </div>
         </div>

@@ -23,7 +23,7 @@ const Service = () => {
     const [services, setServices] = useState<IService[]>([])
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [optionId, setOptionId] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
@@ -59,7 +59,8 @@ const Service = () => {
             const services = await getService(
                 pageIndex,
                 filter.serverDefault,
-                filter.serviceName
+                filter.serviceName,
+                pageSize
             )
             setTotalPage(services.data.totalPages)
             setServices(services.data?.data)
@@ -101,7 +102,7 @@ const Service = () => {
 
     useEffect(() => {
         getServices()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     const columns: ColumnsType<IService> = [
         {
@@ -261,7 +262,8 @@ const Service = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(page,pageSize) => {setPageIndex(page)
+                        setPageSize(pageSize)}}
                 />
             </div>
         </div>

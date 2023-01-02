@@ -20,7 +20,7 @@ const Location = () => {
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
@@ -34,11 +34,11 @@ const Location = () => {
     const getLocations = async () => {
         try {
             layout.setLoading(true)
-            const location = await getAllLocation(pageIndex, filter)
+            const location = await getAllLocation(pageIndex, filter,pageSize)
             setLocations(location.data?.data)
             setTotalPage(location.data?.totalPages)
             setPageSize(location.data?.pageSize)
-            setTotalItem(location.data?.totalItem)
+            setTotalItem(location.data?.totalItem)           
         } catch (error) {
             console.log(error)
             layout.setLoading(false)
@@ -141,7 +141,7 @@ const Location = () => {
 
     useEffect(() => {
         getLocations()
-    }, [pageIndex])
+    }, [pageIndex,pageSize])
     return (
         <div className="location-page">
             <div className="location-page-header">
@@ -204,7 +204,8 @@ const Location = () => {
                     current={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(page,pageSize) => {setPageIndex(page)
+                        setPageSize(pageSize)}}
                 />
             </div>
         </div>

@@ -100,7 +100,7 @@ const ActionHistory: React.FC = () => {
 
     useEffect(()=>{
         getActionsHistory()
-    },[pageIndex])
+    },[pageIndex,pageSize])
 
     return (
         <div className="action-history-page">
@@ -146,7 +146,8 @@ const ActionHistory: React.FC = () => {
                     defaultCurrent={pageIndex}
                     total={totalDoc}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
+                    onChange={(page,pageSize) => {setPageIndex(page)
+                        setPageSize(pageSize)}}
                 />
             </div>
         </div>

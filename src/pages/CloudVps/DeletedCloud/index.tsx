@@ -253,7 +253,8 @@ const DeletedCloud: React.FC = () => {
                 filter.location,
                 filter.operatingSystem,
                 filter.name,
-                pageIndex
+                pageIndex,
+                pageSize
             )
             // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
@@ -408,7 +409,8 @@ const DeletedCloud: React.FC = () => {
                             current={pageIndex}
                             total={totalItem}
                             pageSize={pageSize}
-                            onChange={(value) => setPageIndex(value)}
+                            onChange={(page, pageSize) => {setPageIndex(page)
+                            setPageSize(pageSize)}}
                         />
                     </div>
                 </>

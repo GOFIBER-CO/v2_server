@@ -15,7 +15,7 @@ const OperationHistory = () =>{
     const layout = useLayoutInit()
     const [filter, setFilter] = useState('')
     const [operation, setOperation] = useState([])
-    const [pageSize, setPageSize] = useState(6)
+    const [pageSize, setPageSize] = useState(10)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
@@ -25,11 +25,16 @@ const OperationHistory = () =>{
     const getDataHistory = async () =>{
         try {
             layout.setLoading(true)
-            const operation = await getOperationHistory(pageSize,pageIndex, filter)
+            const operation = await getOperationHistory(
+                pageSize,
+                pageIndex, 
+                filter,
+                
+                )
             setOperation(operation.data.actions)
             setTotalPage(operation.data?.totalPage)
             setPageSize(operation.data?.pageSize)
-            setTotalItem(operation.data?.totalDoc)
+            setTotalItem(operation.data?.count)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -38,7 +43,7 @@ const OperationHistory = () =>{
     }
     useEffect(()=>{
         getDataHistory()
-    },[pageIndex])
+    },[pageIndex, pageSize])
     
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys)
@@ -142,7 +147,8 @@ const OperationHistory = () =>{
                 defaultCurrent={pageIndex}
                 total={totalItem}
                 pageSize={pageSize}
-                onChange={(value) => setPageIndex(value)}
+                onChange={(page,pageSize) => {setPageIndex(page)
+                    setPageSize(pageSize)}}
             />
         </div>
     </div>

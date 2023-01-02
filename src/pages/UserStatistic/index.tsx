@@ -11,7 +11,7 @@ import { TfiMenuAlt } from 'react-icons/tfi'
 const UserStatistic = () => {
     const [filter, setFilter] = useState('')
     const [statistics, setStatistics] = useState<IUserStatistic[]>([])
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
@@ -29,7 +29,11 @@ const UserStatistic = () => {
     const getStatistic = async () => {
         try {
             layout.setLoading(true)
-            const result = await getUserStatistic(pageIndex, filter)
+            const result = await getUserStatistic(
+                pageIndex, 
+                filter,
+                pageSize
+                )
             setStatistics(result.data?.statistic)
             setPageSize(result.data?.pageSize)
             setTotalItem(result.data?.totalItem)
@@ -87,7 +91,7 @@ const UserStatistic = () => {
 
     useEffect(() => {
         getStatistic()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
     return (
         <div className="user-statistic-page">
             <div className="user-statistic-page-header">
@@ -133,7 +137,8 @@ const UserStatistic = () => {
                     current={Number(pageIndex)}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(value) => setPageIndex(Number(value))}
+                    onChange={(page,pageSize) => {setPageIndex(page)
+                        setPageSize(pageSize)}}
                 />
             </div>
         </div>
