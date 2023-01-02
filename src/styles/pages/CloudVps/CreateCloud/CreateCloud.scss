@@ -1,5 +1,5 @@
 .create-cloud {
-    font-size: 25px;
+    // font-size: 25px;
     color: #5e5f6c;
     position: relative;
     width: 100%;
@@ -443,6 +443,7 @@
                     margin-bottom: 30px;
                     box-shadow: 0 0.1rem 1rem 0.25rem rgba(0, 0, 0, 0.05) !important;
                     .price_header {
+                        font-size: 25px;
                         text-align: center;
                         color: #fff;
                         background-color: #034db1;

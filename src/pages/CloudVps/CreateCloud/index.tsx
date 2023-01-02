@@ -736,9 +736,9 @@ const CreateCloud: React.FC = () => {
                 {isCustomServer ? (
                     <div className="create-cloud-config">
                         <div className="server">
-                            <p className="create-cloud-location-title">
+                            <span className="create-cloud-location-title">
                                 TUỲ CHỈNH CẤU HÌNH
-                            </p>
+                            </span>
                             <div className="deploy_title">
                                 <button
                                     className="btn btn-primary btn-sm"
@@ -882,11 +882,27 @@ const CreateCloud: React.FC = () => {
                     </div>
                 ) : (
                     <div className="create-cloud-config">
-                        <div className="server" style={{ display: 'flex', alignItems: 'center' }}>
+                        {/* <div className="server" style={{ display: 'flex', alignItems: 'center' }}>
                             <p className="create-cloud-location-title" style={{ display: 'contents' }}>
                                 CẤU HÌNH CÓ SẴN
                             </p>
                             <div className="deploy_title">
+                                <button
+                                    className="btn btn-primary btn-sm"
+                                    onClick={() =>
+                                        setIsCustomServer(!isCustomServer)
+                                    }
+                                >
+                                    Tuỳ chỉnh cấu hình{' '}
+                                </button>
+                            </div>
+                        </div> */}
+                        <div className="server">
+                            <span className="create-cloud-location-title">
+                                CẤU HÌNH CÓ SẴN
+                            </span>
+                            <div className="deploy_title" style={{ display: "flex" }}>
+
                                 <button
                                     className="btn btn-primary btn-sm"
                                     onClick={() =>
