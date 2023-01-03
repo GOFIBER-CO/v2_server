@@ -146,16 +146,11 @@ const OperationHistory = () =>{
                 defaultCurrent={pageIndex}
                 total={totalItem}
                 pageSize={pageSize}
-<<<<<<< HEAD
                 onChange={(value, pageSize) => {
                     setPageIndex(value)
                     setPageSize(pageSize)
                 }
                 }   
-=======
-                onChange={(page,pageSize) => {setPageIndex(page)
-                    setPageSize(pageSize)}}
->>>>>>> 34116ea391ecc30b475365ebecd9ecde230157ac
             />
         </div>
     </div>
