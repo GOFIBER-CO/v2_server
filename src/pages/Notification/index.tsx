@@ -16,7 +16,7 @@ const Notification = () => {
     const [notifications, setNotifications] = useState<INotification[]>([])
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [filter, setFilter] = useState('')
 
@@ -28,7 +28,11 @@ const Notification = () => {
     const getNotifications = async () => {
         try {
             layout.setLoading(true)
-            const result = await getAllNotification(pageIndex, filter)
+            const result = await getAllNotification(
+                pageIndex, 
+                filter,
+                pageSize
+                )
             setNotifications(result.data?.data)
             setTotalPage(result.data?.totalPage)
             setTotalItem(result.data?.totalItem)

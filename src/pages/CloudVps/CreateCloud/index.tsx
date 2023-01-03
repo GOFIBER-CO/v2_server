@@ -256,7 +256,7 @@ const CreateCloud: React.FC = () => {
     const onclickArea = (item: IArea) => {
         if (item.status == 0) {
             dataArea.map((val) => {
-                ;(val.isCheck = val._id == item._id ? true : false),
+                ; (val.isCheck = val._id == item._id ? true : false),
                     iArea.push(val)
             })
             newCloudServer.area = item._id || ''
@@ -304,7 +304,7 @@ const CreateCloud: React.FC = () => {
 
     const onclickServer = (item: IService) => {
         dataServer.map((val) => {
-            ;(val.isCheck = val._id == item._id ? true : false),
+            ; (val.isCheck = val._id == item._id ? true : false),
                 iService.push(val)
         })
         newCloudServer.server = item._id || ''
@@ -314,7 +314,7 @@ const CreateCloud: React.FC = () => {
 
     const onclickPackageServer = (item: IPackageServer) => {
         dataPackageServer.map((val) => {
-            ;(val.isCheck = val._id == item._id ? true : false),
+            ; (val.isCheck = val._id == item._id ? true : false),
                 iPackageServer.splice(
                     iPackageServer.findIndex((x) => x._id == val._id),
                     1,
@@ -324,7 +324,7 @@ const CreateCloud: React.FC = () => {
         onchangeLaodServer(item.status)
         loadUnit(item.status)
         setDataPackageServer(iPackageServer)
-       
+
     }
 
     const onclickRandomPassword = () => {
@@ -677,10 +677,10 @@ const CreateCloud: React.FC = () => {
     }
 
     const handleChangeBackup = (checked: boolean) => {
-        if(checked){
+        if (checked) {
             setAutoBackup(true)
             return;
-        }  
+        }
         setAutoBackup(false)
     }
 
@@ -736,9 +736,9 @@ const CreateCloud: React.FC = () => {
                 {isCustomServer ? (
                     <div className="create-cloud-config">
                         <div className="server">
-                            <p className="create-cloud-location-title">
+                            <span className="create-cloud-location-title">
                                 TUỲ CHỈNH CẤU HÌNH
-                            </p>
+                            </span>
                             <div className="deploy_title">
                                 <button
                                     className="btn btn-primary btn-sm"
@@ -882,11 +882,27 @@ const CreateCloud: React.FC = () => {
                     </div>
                 ) : (
                     <div className="create-cloud-config">
-                        <div className="server" style={{display:'flex', alignItems:'center'}}>
-                            <p className="create-cloud-location-title" style={{display:'contents'}}>
+                        {/* <div className="server" style={{ display: 'flex', alignItems: 'center' }}>
+                            <p className="create-cloud-location-title" style={{ display: 'contents' }}>
                                 CẤU HÌNH CÓ SẴN
                             </p>
                             <div className="deploy_title">
+                                <button
+                                    className="btn btn-primary btn-sm"
+                                    onClick={() =>
+                                        setIsCustomServer(!isCustomServer)
+                                    }
+                                >
+                                    Tuỳ chỉnh cấu hình{' '}
+                                </button>
+                            </div>
+                        </div> */}
+                        <div className="server">
+                            <span className="create-cloud-location-title">
+                                CẤU HÌNH CÓ SẴN
+                            </span>
+                            <div className="deploy_title" style={{ display: "flex" }}>
+
                                 <button
                                     className="btn btn-primary btn-sm"
                                     onClick={() =>
@@ -927,18 +943,18 @@ const CreateCloud: React.FC = () => {
                     </div>
                 )}
                 <div className="create-cloud-config" >
-                        <div className="server-config" style={{display: 'block'}}>
-                            <div className="create-cloud-location-title">
-                                <p style={{marginBottom: '10px'}}>TỰ ĐỘNG BACKUP</p>
-                            </div>
-                            <div className='server-auto-backup' style={{display: 'flex', alignItems: 'center'}}>
-                                <Checkbox checked={autoBackup} onChange={(e)=>handleChangeBackup(e.target.checked)}/>
-                                <img style={{marginLeft: '10px'}} width={40} height={40} src='/images/server-icon.svg'/>
-                                <p style={{marginBottom: '0px', fontSize: '16px', marginLeft: '15px'}}>Server sẽ tự động được backup (Phí cộng thêm 10% trên tổng đơn hàng)</p>
-                            </div>
+                    <div className="server-config" style={{ display: 'block' }}>
+                        <div className="create-cloud-location-title">
+                            <p style={{ marginBottom: '10px' }}>TỰ ĐỘNG BACKUP</p>
                         </div>
+                        <div className='server-auto-backup' style={{ display: 'flex', alignItems: 'center' }}>
+                            <Checkbox checked={autoBackup} onChange={(e) => e.target.checked ? setAutoBackup(true) : setAutoBackup(false)} />
+                            <img style={{ marginLeft: '10px' }} width={40} height={40} src='/images/server-icon.svg' />
+                            <p style={{ marginBottom: '0px', fontSize: '16px', marginLeft: '15px' }}>Server sẽ tự động được backup</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="create-cloud-server-name" style={{marginTop: '15px'}}>
+                <div className="create-cloud-server-name" style={{ marginTop: '15px' }}>
                     <p className="create-cloud-location-title">
                         CẤU HÌNH TÊN SERVER & NHÃN
                     </p>
@@ -1026,7 +1042,7 @@ const CreateCloud: React.FC = () => {
                             <span className="cost"> Chi phí: </span>
                             <div>
                                 <span className="order_total">
-                                    {autoBackup ? ConverMoney((price * numberCloud) + (price * numberCloud)*0.1) :ConverMoney((price * numberCloud))  } đ
+                                    {autoBackup ? ConverMoney((price * numberCloud) + (price * numberCloud) * 0.1) : ConverMoney((price * numberCloud))} đ
                                 </span>
                                 <span className="deploy-summary-price-label">
                                     /{unit}

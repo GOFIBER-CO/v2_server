@@ -26,7 +26,7 @@ const ManageOrder = () => {
         timeTo: '',
     })
     const [order, setOrder] = useState<IOrder[]>([])
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
@@ -87,7 +87,8 @@ const ManageOrder = () => {
                 pageIndex,
                 filter.name,
                 filter.timeFrom,
-                filter.timeTo
+                filter.timeTo,
+                pageSize
             )
             setOrder(result.data?.order)
             setTotalItem(result.data?.totalItem)

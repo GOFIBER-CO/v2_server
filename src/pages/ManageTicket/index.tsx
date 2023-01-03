@@ -26,7 +26,7 @@ const ManageTicket = () => {
     const [tickets, setTickets] = useState<ITicket[]>([])
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     const layout = useLayoutInit()
@@ -44,7 +44,8 @@ const ManageTicket = () => {
             const result = await getTickets(
                 pageIndex,
                 filter.level,
-                filter.email
+                filter.email,
+                pageSize
             )
             setTickets(result.data?.data)
             setTotalPage(result.data?.totalPages)
@@ -212,6 +213,7 @@ const ManageTicket = () => {
                     dataSource={tickets}
                     scroll={{ x: '1400px', y: '600px' }}
                     pagination={false}
+                    rowKey="_id"
                 />
                 <Pagination
                     showTotal={showTotal}

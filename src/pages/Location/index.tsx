@@ -20,7 +20,7 @@ const Location = () => {
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
@@ -34,7 +34,7 @@ const Location = () => {
     const getLocations = async () => {
         try {
             layout.setLoading(true)
-            const location = await getAllLocation(pageIndex, filter)
+            const location = await getAllLocation(pageIndex, filter,pageSize)
             setLocations(location.data?.data)
             setTotalPage(location.data?.totalPages)
             setTotalItem(location.data?.totalItem)

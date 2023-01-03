@@ -15,7 +15,7 @@ const OperationHistory = () =>{
     const layout = useLayoutInit()
     const [filter, setFilter] = useState('')
     const [operation, setOperation] = useState([])
-    const [pageSize, setPageSize] = useState(6)
+    const [pageSize, setPageSize] = useState(10)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
@@ -25,7 +25,12 @@ const OperationHistory = () =>{
     const getDataHistory = async () =>{
         try {
             layout.setLoading(true)
-            const operation = await getOperationHistory(pageSize,pageIndex, filter)
+            const operation = await getOperationHistory(
+                pageSize,
+                pageIndex, 
+                filter,
+                
+                )
             setOperation(operation.data.actions)
             setTotalPage(operation.data?.totalPage)
             setTotalItem(operation.data?.totalDoc)
@@ -141,11 +146,16 @@ const OperationHistory = () =>{
                 defaultCurrent={pageIndex}
                 total={totalItem}
                 pageSize={pageSize}
+<<<<<<< HEAD
                 onChange={(value, pageSize) => {
                     setPageIndex(value)
                     setPageSize(pageSize)
                 }
                 }   
+=======
+                onChange={(page,pageSize) => {setPageIndex(page)
+                    setPageSize(pageSize)}}
+>>>>>>> 34116ea391ecc30b475365ebecd9ecde230157ac
             />
         </div>
     </div>

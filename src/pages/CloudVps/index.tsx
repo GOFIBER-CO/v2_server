@@ -65,7 +65,7 @@ const CloudVps: React.FC = () => {
 
     const [cloudServer, setCloudServer] = useState<ICloudServer[]>([])
     const [cloudServerItem, setCloudServerItem] = useState<ICloudServer>()
-
+   
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
@@ -248,7 +248,8 @@ const CloudVps: React.FC = () => {
                     label: (
 
                         <Link to={`/cloud-vps/update-cloud/${cloudServerItem?._id}`}>
-                            <i className="fa fa-upload">Demo001 Nâng cấp cấu hình</i>
+                            <i className="fa fa-upload"></i>
+                            <span> Nâng cấp cấu hình</span>
                         </Link>
                     ),
                     disabled: false,
@@ -349,7 +350,7 @@ const CloudVps: React.FC = () => {
                         />
                     </>
                 )
-                }
+            }
         },
         {
             title: 'Backup',
@@ -370,7 +371,7 @@ const CloudVps: React.FC = () => {
                                 }).format(Number(row.order.totalPrice))}
                                 <small style={{}}>₫</small>
                             </div>
-                            <Divider style={{margin: '5px 0px'}}/>
+                            <Divider style={{ margin: '5px 0px' }} />
                             <span className="unit-price">
                                 {row.server.expiryDateType === 1 ? (
                                     <>Giờ</>
@@ -523,7 +524,6 @@ const CloudVps: React.FC = () => {
                 pageIndex,
                 pageSize
             )
-            // console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setTotalItem(cloudVps.data?.totalItem)
@@ -652,20 +652,20 @@ const CloudVps: React.FC = () => {
                 ) : (
                     <>
                         <div className="cloud-vps-page-filter">
-                            <div className="cloud-vps-page-filter-location">
-                                <Select
-                                    defaultValue=""
-                                    style={{ width: 180 }}
-                                    onChange={handleChangeLocation}
-                                >
-                                    <Option value="">Vị trí</Option>
-                                    {location.map((item) => (
-                                        <Option key={item._id} value={item._id}>
-                                            {item.areaName}
-                                        </Option>
-                                    ))}
-                                </Select>
+                        <div className="cloud-vps-page-filter-tag">
+                                <Input
+                                    type="text"
+                                    onChange={(e) =>
+                                        setFilter({
+                                            ...filter,
+                                            name: e.target.value,
+                                        })
+                                    }
+                                    style={{ width: '200px' }}
+                                    placeholder="Tên cloud vps 0001"
+                                />
                             </div>
+                            
                             <div className="cloud-vps-page-filter-os">
                                 <Select
                                     defaultValue=""
@@ -680,19 +680,20 @@ const CloudVps: React.FC = () => {
                                     ))}
                                 </Select>
                             </div>
-                            <div className="cloud-vps-page-filter-tag">
-                                <Input
-                                    type="text"
-                                    onChange={(e) =>
-                                        setFilter({
-                                            ...filter,
-                                            name: e.target.value,
-                                        })
-                                    }
-                                    style={{ width: '200px' }}
-                                    placeholder="Tên cloud vps"
-                                />
-                            </div>
+                            {/* <div className="cloud-vps-page-filter-location">
+                                <Select
+                                    defaultValue=""
+                                    style={{ width: 180 }}
+                                    onChange={handleChangeLocation}
+                                >
+                                    <Option value="">Vị trí</Option>
+                                    {location.map((item) => (
+                                        <Option key={item._id} value={item._id}>
+                                            {item.areaName}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </div> */}
                             <div className="cloud-vps-page-filter-submit">
                                 <ButtonFilter buttonOnclick={onFilter} />
                             </div>

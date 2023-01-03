@@ -56,7 +56,9 @@ const Support: React.FC = () => {
     const getAllTickets = async () => {
         try {
             layout.setLoading(true)
-            const result = await getSupportByUserId(auth.user._id, pageIndex, filter.SupportTT, filter.SupportUT, filter.supportName)
+            const result = await getSupportByUserId(auth.user._id, pageIndex, filter.SupportTT, filter.SupportUT, filter.supportName
+                , pageSize
+                )
             setTickes(result.data?.data)
             setTotalPage(result.data?.totalPages)
             setTotalItem(result.data?.totalItem)
