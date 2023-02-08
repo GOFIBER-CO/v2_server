@@ -156,6 +156,7 @@ const ManageOrder = () => {
                     pagination={false}
                 />
                 <Pagination
+                showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={Number(pageIndex)}

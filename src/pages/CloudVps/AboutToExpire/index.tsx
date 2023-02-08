@@ -64,7 +64,7 @@ const AboutToExpire: React.FC = () => {
     const [cloudServerItem, setCloudServerItem] = useState<ICloudServer>()
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [location, setLocation] = useState<IArea[]>([])
     const [order, setOrder] = useState<IOrder[]>([])
@@ -682,6 +682,7 @@ const AboutToExpire: React.FC = () => {
                             sticky
                         />
                         <Pagination
+                        showSizeChanger
                             showTotal={showTotal}
                             style={{ marginTop: '30px' }}
                             current={pageIndex}

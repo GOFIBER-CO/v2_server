@@ -9,12 +9,12 @@ import { useState, useEffect } from 'react'
 import { FaHistory } from 'react-icons/fa'
 
 const OperationHistory = () => {
-    const showTotal: PaginationProps['showTotal'] = (total) =>
-        `Total ${total} items`
+    const showTotal: PaginationProps['showTotal'] = (totalItem) =>
+        `Total ${totalItem} items`
     const layout = useLayoutInit()
     const [filter, setFilter] = useState('')
     const [operation, setOperation] = useState([])
-    const [pageSize, setPageSize] = useState(10)
+    const [pageSize, setPageSize] = useState(3)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
@@ -30,7 +30,7 @@ const OperationHistory = () => {
             )
             setOperation(operation.data.actions)
             setTotalPage(operation.data?.totalPage)
-            setTotalItem(operation.data?.totalDoc)
+            setTotalItem(operation.data?.count)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -137,6 +137,7 @@ const OperationHistory = () => {
                     rowSelection={rowSelection}
                 />
                 <Pagination
+                    showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}

@@ -33,7 +33,7 @@ const Support: React.FC = () => {
     const [tickets, setTickes] = useState<ITicket[]>([])
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [filter, setFilter] = useState<{
         SupportTT: string
@@ -66,7 +66,7 @@ const Support: React.FC = () => {
             setTickes(result.data?.data)
             setTotalPage(result.data?.totalPages)
             setTotalItem(result.data?.totalItem)
-
+            
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -251,6 +251,7 @@ const Support: React.FC = () => {
                     pagination={false}
                 />
                 <Pagination
+                showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}
