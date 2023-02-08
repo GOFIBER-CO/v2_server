@@ -1,0 +1,238 @@
+#modal_Payment{
+    width: 100%;
+    min-height: 300px;
+    border: 2px solid #00ACD7;
+    margin-top: 25px;
+    padding: 2% 9%;
+    .modal_Payment-header{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &-left{
+            width: 50%;
+            &-text{
+                color: #3D5156;
+                font-weight: 400;
+                font-size: 14px;
+            }
+        }
+        &-right{
+            width: 50%;
+            display: flex;
+            &-check{
+                width: 50%;
+                padding: 10px 25px;
+                border: 1px solid #219653;
+                &-text{
+                    margin-left: 10px;
+                    font-weight: 600;
+                    font-size: 16px;
+                    color: #219653;
+                }
+            }
+            &-check-no{
+                width: 50%;
+                padding: 10px 35px;
+                border: 1px solid #FF2626;
+                &-text{
+                    font-weight: 600;
+                    font-size: 16px;
+                    color: #FF2626;
+                }
+            }
+        }
+    }
+    .modal_Payment-invoice{
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32px;
+        color: #0C252C;
+        padding-top: 63px;
+    }
+    .modal_Payment-hr{
+        border: 1px solid #99DEEF;
+    }
+    .modal_Payment-body{
+        display: flex;
+        // align-items: center;
+        // justify-content: center;
+        &-left{
+            width: 33.33%;
+           &-title{
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #0C252C;
+            padding-bottom: 5px;
+           }
+           &-text{
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 20px;
+            color: #3D5156;
+            padding-bottom: 5px;
+           }
+        }
+        &-center{
+            width: 33.33%;
+            margin-left: 10px;
+            &-title{
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 24px;
+                color: #0C252C;
+                padding-bottom: 5px;
+            }
+            &-text{
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 20px;
+                color: #3D5156;
+                padding-bottom: 5px;
+            }
+        }
+        &-right{
+            width: 33.33%;
+            margin-left: 10px;
+            &-title{
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 24px;
+                color: #0C252C;
+                padding-bottom: 5px;
+            }
+        }
+    }
+    .modal_Payment-body1{
+        display: flex;
+        padding-top: 10px;
+        &-left{
+            width: 33.33%;
+           &-title{
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #0C252C;
+            padding-bottom: 5px;
+           }
+           &-text{
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 20px;
+            color: #3D5156;
+            padding-bottom: 5px;
+           }
+        }
+        &-right{
+            width: 33.33%;
+           &-title{
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #0C252C;
+            padding-bottom: 5px;
+           }
+           &-text{
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 20px;
+            color: #3D5156;
+            padding-bottom: 5px;
+           }
+        }
+    }
+    .modal_Payment-content{
+        width: 100%;
+        min-height: 150px;
+        border: 1px solid #99DEEF;
+        border-bottom: none;
+        margin-top: 39px;
+        &-title{
+            background: rgba(0, 172, 215, 0.05);
+            padding: 15px 24px;
+            font-weight: 700;
+            font-size: 24px;
+            color: #0C252C;
+            border-bottom: 1px solid #99DEEF;
+        }
+        &-text{
+            display: flex;
+            padding: 10px 24px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #3D5156;
+            border-bottom: 1px solid #99DEEF;
+            &-left{
+                width: 50%;
+                &-span{
+                    font-weight: 500;
+                    font-size: 14px;
+                    color: #3D5156;
+                    padding-left: 10px;
+                }
+            }
+            &-right{
+                width: 50%;
+                text-align: end;
+            }
+        }
+        &-text1{
+            display: flex;
+            padding: 10px 24px;
+            background: rgba(0, 172, 215, 0.05);
+            border-bottom: 1px solid #99DEEF;
+            &-left{
+                width: 50%;
+            }
+            &-right{
+                width: 50%;
+                &-TT{
+                    width: 50%;
+                    font-weight: 500;
+                    font-size: 14px;
+                    color: #3D5156;
+                }
+                &-number{
+                    width: 50%;
+                    font-weight: 700;
+                    font-size: 14px;
+                    color: #3D5156;
+                }
+            }
+        }
+    }
+    .modal_Payment-footer{
+        display: flex;
+        width: 100%;
+        
+        margin-top: 10px;
+        &-left{
+            width: 50%;
+        }
+        &-right{
+            width: 50%;
+            text-align: center;
+            display: flex;
+            &-button{
+                width: 25%;
+               
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+    }
+    .ant-select-arrow{
+        color: #00ACD7 !important;
+    }
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        position: relative;
+        background-color: #fff;
+         border: none;
+        border-radius: none;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+}
+
+
