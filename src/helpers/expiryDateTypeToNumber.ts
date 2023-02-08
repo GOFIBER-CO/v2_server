@@ -1,20 +1,20 @@
 const millisecondInADay = 86400000
 
-export const expiryDateTypeToNumber = (type: number):number => {
-    switch(type){
-        case 1: 
+export const expiryDateTypeToNumber = (type: number): number => {
+    switch (type) {
+        case 1:
             return 3600000 //milisecond
-        case 2: 
+        case 2:
             return 86400000
-        case 3: 
+        case 3:
             return 86400000 * 30
-        case 4: 
+        case 4:
             return 86400000 * 90
-        case 5: 
+        case 5:
             return 86400000 * 180
-        case 6: 
+        case 6:
             return 86400000 * 365
-        default: 
+        default:
             return 0
     }
 }

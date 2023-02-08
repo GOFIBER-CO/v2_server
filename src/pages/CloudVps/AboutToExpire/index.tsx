@@ -545,7 +545,7 @@ const AboutToExpire: React.FC = () => {
                 isCloud: true,
                 cloudId: item._id || '',
                 cloudItem: item,
-                url: ''
+                url: '',
             }
             listMenuCloud.push(menuCloudItem)
             setListMenuCloud(listMenuCloud)
@@ -581,39 +581,45 @@ const AboutToExpire: React.FC = () => {
         <div className="cloud-vps-page">
             <div className="cloud-vps-page-option">
                 <ul>
-                    <Link to={'/cloud-vps'}><li>
-                        <TfiMenuAlt
-                            size={15}
-                            style={{
-                                verticalAlign: '-3px',
-                                marginRight: '8px',
-                                color: 'black',
-                            }}
-                        />
-                        <span>Danh sách cloud vps</span>
-                    </li></Link>
-                    <Link to={'/cloud-vps/deleted-cloud'}><li>
-                        <TfiMenuAlt
-                            size={15}
-                            style={{
-                                verticalAlign: '-3px',
-                                marginRight: '8px',
-                                color: 'black',
-                            }}
-                        />
-                        <span>Cloud Server đã bị xoá</span>
-                    </li></Link>
-                    <Link to={'/cloud-vps/about-to-expired'}><li style={{borderBottom: '2px solid #3699ff'}}>
-                        <TfiMenuAlt
-                            size={15}
-                            style={{
-                                verticalAlign: '-3px',
-                                marginRight: '8px',
-                                color: '#3699ff',
-                            }}
-                        />
-                        <span>Cloud Server sắp hết hạn</span>
-                    </li></Link>
+                    <Link to={'/cloud-vps'}>
+                        <li>
+                            <TfiMenuAlt
+                                size={15}
+                                style={{
+                                    verticalAlign: '-3px',
+                                    marginRight: '8px',
+                                    color: 'black',
+                                }}
+                            />
+                            <span>Danh sách cloud vps</span>
+                        </li>
+                    </Link>
+                    <Link to={'/cloud-vps/deleted-cloud'}>
+                        <li>
+                            <TfiMenuAlt
+                                size={15}
+                                style={{
+                                    verticalAlign: '-3px',
+                                    marginRight: '8px',
+                                    color: 'black',
+                                }}
+                            />
+                            <span>Cloud Server đã bị xoá</span>
+                        </li>
+                    </Link>
+                    <Link to={'/cloud-vps/about-to-expired'}>
+                        <li style={{ borderBottom: '2px solid #3699ff' }}>
+                            <TfiMenuAlt
+                                size={15}
+                                style={{
+                                    verticalAlign: '-3px',
+                                    marginRight: '8px',
+                                    color: '#3699ff',
+                                }}
+                            />
+                            <span>Cloud Server sắp hết hạn</span>
+                        </li>
+                    </Link>
                 </ul>
             </div>
             {optionCloud > 3 ? (
@@ -681,8 +687,10 @@ const AboutToExpire: React.FC = () => {
                             current={pageIndex}
                             total={totalItem}
                             pageSize={pageSize}
-                            onChange={(page,pageSize) => {setPageIndex(page)
-                                setPageSize(pageSize)}}
+                            onChange={(page, pageSize) => {
+                                setPageIndex(page)
+                                setPageSize(pageSize)
+                            }}
                         />
                     </div>
                 </>

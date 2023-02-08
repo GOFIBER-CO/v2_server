@@ -150,9 +150,7 @@ const Profile = () => {
                                 <Option value="femail">Nữ</Option>
                             </Select>
                         </Form.Item>
-                        <Form.Item
-                            style={{textAlign: 'center'}}
-                        >
+                        <Form.Item style={{ textAlign: 'center' }}>
                             <Button
                                 type="primary"
                                 htmlType="submit"

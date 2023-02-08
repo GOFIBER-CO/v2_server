@@ -164,8 +164,7 @@ const ManageOrder = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(Number(value))
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

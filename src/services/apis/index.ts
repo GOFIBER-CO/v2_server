@@ -13,10 +13,10 @@ let axiosInstance = axios.create({
     baseURL: baseUrl,
 })
 
-
 axiosInstance.interceptors.request.use((config) => {
-    config.headers!.authorization = `Bearer ${JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
-        }`
+    config.headers!.authorization = `Bearer ${
+        JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
+    }`
     return config
 })
 
@@ -67,9 +67,10 @@ export const changePassword = (
 export const getUserQrCode = (id: string) =>
     axiosInstance.get(`/api/user/getQrCode/${id}`)
 
-export const disabled2fa = (id: string, password: string) => axiosInstance.patch(`/api/user/disabled2fa/${id}`, {
-    password: password
-})
+export const disabled2fa = (id: string, password: string) =>
+    axiosInstance.patch(`/api/user/disabled2fa/${id}`, {
+        password: password,
+    })
 
 export const updateProfile = (id: string, data: IUser) =>
     axiosInstance.put(`/api/user/update/${id}`, data)
@@ -98,9 +99,10 @@ export const getCloudVpsByUserId = (
         `/api/cloudServer/getCloudServerByUserId?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
 
-export const getCloudServerById = (id: string) => axiosInstance.post(`/api/cloudServer/getById`, {
-    cloudServerId: id,
-})
+export const getCloudServerById = (id: string) =>
+    axiosInstance.post(`/api/cloudServer/getById`, {
+        cloudServerId: id,
+    })
 
 export const getAboutToExpireCloud = (
     userId: string,
@@ -109,7 +111,10 @@ export const getAboutToExpireCloud = (
     search: string,
     pageIndex: number,
     pageSize: number
-) => axiosInstance.get(`/api/cloudServer/aboutToExpire?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+) =>
+    axiosInstance.get(
+        `/api/cloudServer/aboutToExpire?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
+    )
 
 export const getDeletedCloudServer = (
     userId: string,
@@ -123,17 +128,21 @@ export const getDeletedCloudServer = (
         `/api/cloudServer/deletedCloud?userId=${userId}&areaId=${areaId}&operatingSystemId=${operatingSystemId}&search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
 
-export const renewCloudServer = (id: string, totalPrice: number, time: number) => axiosInstance.post(`/api/cloudServer/renewCloudServer/${id}`, {
-    totalPrice: totalPrice,
-    time: time,
-})
+export const renewCloudServer = (
+    id: string,
+    totalPrice: number,
+    time: number
+) =>
+    axiosInstance.post(`/api/cloudServer/renewCloudServer/${id}`, {
+        totalPrice: totalPrice,
+        time: time,
+    })
 export const getService = (
     pageIndex: number,
     serverDefault?: string,
     serviceName?: string,
-    pageSize?:number,
-    expiryDate?: number,
-   
+    pageSize?: number,
+    expiryDate?: number
 ) =>
     axiosInstance.get(
         `/api/server/getPaging?pageIndex=${pageIndex}&serverDefault=${serverDefault}&search=${serviceName}&expiryDate=${expiryDate}&pageSize=${pageSize}`
@@ -154,10 +163,10 @@ export const deleteService = (id: string) =>
     axiosInstance.delete(`/api/server/delete/${id}`)
 
 export const getAllLocation = (
-    pageIndex: number, 
+    pageIndex: number,
     locationName?: string,
     pageSize?: number
-    ) =>
+) =>
     axiosInstance.get(
         `/api/area/getPaging?pageIndex=${pageIndex}&search=${locationName}&pageSize=${pageSize}`
     )
@@ -182,10 +191,10 @@ export const getOs = () =>
     axiosInstance.get('/api/operatingSystem/getOperatingSystem')
 
 export const getAllOs = (
-    pageIndex?: number, 
+    pageIndex?: number,
     operatingSystemName?: string,
-    pageSize?: number,
-    ) =>
+    pageSize?: number
+) =>
     axiosInstance.get(
         `/api/operatingSystem/getPaging?pageIndex=${pageIndex}&search=${operatingSystemName}&pageSize=${pageSize}`
     )
@@ -202,11 +211,11 @@ export const editOs = (id: string, data: FormData) =>
     axiosInstance.put(`/api/operatingSystem/update/${id}`, data)
 
 export const getTickets = (
-    pageIndex: number, 
-    level?: number, 
+    pageIndex: number,
+    level?: number,
     email?: string,
     pageSize?: number
-    ) =>
+) =>
     axiosInstance.get(
         `/api/support/getPaging?pageIndex=${pageIndex}&level=${level}&search=${email}&pageSize=${pageSize}`
     )
@@ -236,10 +245,10 @@ export const updateSupport = (id: string, data: FormData) =>
     axiosInstance.put(`/api/support/update/${id}`, data)
 
 export const getAllDepartment = (
-    pageIndex: number, 
+    pageIndex: number,
     filter: string,
     pageSize?: number
-    ) =>
+) =>
     axiosInstance.get(
         `/api/processingRoom/getPaging?pageIndex=${pageIndex}&search=${filter}&pageSize=${pageSize}`
     )
@@ -265,10 +274,10 @@ export const getNotificationBySlug = (slug: string, userId: string) =>
     )
 
 export const getAllNotification = (
-    pageIndex: number, 
+    pageIndex: number,
     filter: string,
     pageSize?: number
-    ) =>
+) =>
     axiosInstance.get(
         `/api/notification/getPaging?pageIndex=${pageIndex}&search=${filter}&pageSize=${pageSize}`
     )
@@ -297,10 +306,10 @@ export const updateDepositGuide = (id: string, content: string) =>
     })
 
 export const getUserStatistic = (
-    pageIndex: number, 
+    pageIndex: number,
     userName: string,
-    pageSize?:number
-    ) =>
+    pageSize?: number
+) =>
     axiosInstance.get(
         `/api/statistic?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}`
     )
@@ -364,7 +373,7 @@ export const createSnapshot = (data: FormData) =>
 export const getSnapshotsByUserId = (
     userId?: string,
     cloudServerId?: string,
-    pageIndex?: number,
+    pageIndex?: number
 ) =>
     axiosInstance.get(
         `/api/snapshot/getSnapshotsByUserId?userId=${userId}&cloudServerId=${cloudServerId}&pageIndex=${pageIndex}`
@@ -383,11 +392,20 @@ export const updateCloudServerName = (id: any, data: any) =>
 
 //action history
 
-export const getActionHistoryByUserId = (userId: string,pageSize:number, pageIndex:number) => axiosInstance.get(`/api/action-history/getByUserId/${userId}?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+export const getActionHistoryByUserId = (
+    userId: string,
+    pageSize: number,
+    pageIndex: number
+) =>
+    axiosInstance.get(
+        `/api/action-history/getByUserId/${userId}?pageSize=${pageSize}&pageIndex=${pageIndex}`
+    )
 
 export const getOperationHistory = (
     pageSize: number,
-    pageIndex:number,
-    filter:string,
-    
-) =>axiosInstance.get(`/api/action-history/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`);
+    pageIndex: number,
+    filter: string
+) =>
+    axiosInstance.get(
+        `/api/action-history/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`
+    )

@@ -1,11 +1,10 @@
 import '@/styles/pages/LoginNew/index.scss'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { useAuth } from '@/hooks/useAuth'
 import { useNavigate } from 'react-router'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom';
-
+import { Link } from 'react-router-dom'
 
 const LoginNew = () => {
     const auth = useAuth()
@@ -19,18 +18,23 @@ const LoginNew = () => {
     return (
         <div className="LoginNew_cotainer">
             <div className="LoginNew_cotainer_center">
-                <div className='LoginNew_container_title'>Đăng nhập</div>
+                <div className="LoginNew_container_title">Đăng nhập</div>
                 <Form
                     name="basic"
                     initialValues={{ remember: true }}
-                      onFinish={onFinish}
+                    onFinish={onFinish}
                     //   onFinishFailed={onFinishFailed}
                     autoComplete="off"
-                    
                 >
-                    <div style={{marginTop:'20px'}} className='LoginNew_Form_email'>Email</div>
+                    <div
+                        style={{ marginTop: '20px' }}
+                        className="LoginNew_Form_email"
+                    >
+                        Email
+                    </div>
                     <Form.Item
-                        className='LoginNew_From_Input' style={{border:'15px'}}
+                        className="LoginNew_From_Input"
+                        style={{ border: '15px' }}
                         name="email"
                         rules={[
                             {
@@ -39,7 +43,7 @@ const LoginNew = () => {
                             },
                         ]}
                     >
-                        <Input 
+                        <Input
                             prefix={
                                 <UserOutlined className="site-form-item-icon" />
                             }
@@ -47,9 +51,10 @@ const LoginNew = () => {
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </Form.Item>
-                    <div className='LoginNew_Form_email'>Password</div>
+                    <div className="LoginNew_Form_email">Password</div>
                     <Form.Item
-                        className='LoginNew_From_Input' style={{border:'15px',}}
+                        className="LoginNew_From_Input"
+                        style={{ border: '15px' }}
                         name="password"
                         rules={[
                             {
@@ -57,13 +62,11 @@ const LoginNew = () => {
                                 message: 'Password không được bỏ trống',
                             },
                         ]}
-                        
                     >
-                        <Input.Password 
-                            
-                              placeholder="Mật khẩu"
-                              onChange={(e) => setPassword(e.target.value)}
-                              prefix={
+                        <Input.Password
+                            placeholder="Mật khẩu"
+                            onChange={(e) => setPassword(e.target.value)}
+                            prefix={
                                 <LockOutlined className="site-form-item-icon" />
                             }
                         />
@@ -72,18 +75,31 @@ const LoginNew = () => {
                     <Form.Item
                         name="remember"
                         valuePropName="checked"
-                       style={{textAlign:'left'}}
+                        style={{ textAlign: 'left' }}
                     >
                         <Checkbox>Ghi nhớ đăng nhập</Checkbox>
                     </Form.Item>
 
                     <Form.Item>
-                        
-                        <Button type="primary" htmlType="submit" style={{width:'100%', borderRadius:'10px', height:'35px', fontSize:'16px'}}>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            style={{
+                                width: '100%',
+                                borderRadius: '10px',
+                                height: '35px',
+                                fontSize: '16px',
+                            }}
+                        >
                             Đăng nhập
                         </Button>
                     </Form.Item>
-                    <div>Bạn chưa có tài khoản? <span style={{color:'#00ACD7'}}><Link to={'/register'}>Đăng ký</Link></span> </div>
+                    <div>
+                        Bạn chưa có tài khoản?{' '}
+                        <span style={{ color: '#00ACD7' }}>
+                            <Link to={'/register'}>Đăng ký</Link>
+                        </span>{' '}
+                    </div>
                 </Form>
             </div>
         </div>

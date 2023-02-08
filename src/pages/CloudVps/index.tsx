@@ -60,12 +60,15 @@ const CloudVps: React.FC = () => {
         name: '',
     })
 
-    const [renewModal, setRenewModal] = useState<{ isOpen: boolean, id: string }>({ isOpen: false, id: '' })
+    const [renewModal, setRenewModal] = useState<{
+        isOpen: boolean
+        id: string
+    }>({ isOpen: false, id: '' })
     const [listMenuCloud, setListMenuCloud] = useState(ListMenuCloud)
 
     const [cloudServer, setCloudServer] = useState<ICloudServer[]>([])
     const [cloudServerItem, setCloudServerItem] = useState<ICloudServer>()
-   
+
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
@@ -125,10 +128,7 @@ const CloudVps: React.FC = () => {
                 {
                     key: '1',
                     label: (
-                        <a
-                            rel="noopener noreferrer"
-                            className=""
-                        >
+                        <a rel="noopener noreferrer" className="">
                             <i className="fa fa-eye"></i> Chi tiết Cloud Server
                         </a>
                     ),
@@ -155,7 +155,7 @@ const CloudVps: React.FC = () => {
                             } else {
                                 setOptionCloud(
                                     Number(menuCloudItem.cloudId) ||
-                                    listMenuCloud.length
+                                        listMenuCloud.length
                                 )
                             }
                         }
@@ -166,7 +166,12 @@ const CloudVps: React.FC = () => {
                     label: (
                         <a
                             rel="noopener noreferrer"
-                            onClick={() => setRenewModal({ isOpen: true, id: cloudServerItem?._id || '' })}
+                            onClick={() =>
+                                setRenewModal({
+                                    isOpen: true,
+                                    id: cloudServerItem?._id || '',
+                                })
+                            }
                         >
                             <i className="fa fa-file text-primary"></i> Gia hạn
                             Cloud Server
@@ -246,8 +251,9 @@ const CloudVps: React.FC = () => {
                 {
                     key: '7',
                     label: (
-
-                        <Link to={`/cloud-vps/update-cloud/${cloudServerItem?._id}`}>
+                        <Link
+                            to={`/cloud-vps/update-cloud/${cloudServerItem?._id}`}
+                        >
                             <i className="fa fa-upload"></i>
                             <span> Nâng cấp cấu hình</span>
                         </Link>
@@ -304,7 +310,9 @@ const CloudVps: React.FC = () => {
                 <div>
                     <a className="server_title">{value.serverName}</a>
                     <div>
-                        {value.ram}GB | {value.cpu}vCPUs | {value.ssd || value.hdd}GB NVMe {value.ssd ? '(SSD)' : '(HDD)'}
+                        {value.ram}GB | {value.cpu}vCPUs |{' '}
+                        {value.ssd || value.hdd}GB NVMe{' '}
+                        {value.ssd ? '(SSD)' : '(HDD)'}
                     </div>
                 </div>
             ),
@@ -324,7 +332,11 @@ const CloudVps: React.FC = () => {
             render: (value, row) => (
                 <>
                     <img
-                        src={row.area?.file ? `${row.area?.file}` : `/images/VN.png`}
+                        src={
+                            row.area?.file
+                                ? `${row.area?.file}`
+                                : `/images/VN.png`
+                        }
                         style={{ maxWidth: '25px', maxHeight: '25px' }}
                     />
                     <strong style={{ fontSize: '12px' }}>
@@ -341,22 +353,21 @@ const CloudVps: React.FC = () => {
             dataIndex: 'operatingSystem',
             width: '5.5%',
             render: (value) => {
-                console.log(value)
                 return (
                     <>
                         <img
-                            src={value.img || `/images/${value.file}`}
+                            src={value?.img || `/images/${value?.file}`}
                             style={{ maxWidth: '25px', maxHeight: '25px' }}
                         />
                     </>
                 )
-            }
+            },
         },
         {
             title: 'Backup',
             dataIndex: 'autoBackup',
             width: '8%',
-            render: (value) => value ? 'Có' : 'Không'
+            render: (value) => (value ? 'Có' : 'Không'),
         },
         {
             title: 'Hoá đơn',
@@ -403,12 +414,12 @@ const CloudVps: React.FC = () => {
                     <span style={{ color: 'red', display: 'block' }}>
                         {subtractDate(new Date(value), new Date()) / 30 >= 1
                             ? `${Math.ceil(
-                                subtractDate(new Date(value), new Date()) / 30
-                            )} tháng tới`
+                                  subtractDate(new Date(value), new Date()) / 30
+                              )} tháng tới`
                             : `${subtractDate(
-                                new Date(value),
-                                new Date()
-                            )} ngày tới`}{' '}
+                                  new Date(value),
+                                  new Date()
+                              )} ngày tới`}{' '}
                     </span>
                 </>
             ),
@@ -434,8 +445,12 @@ const CloudVps: React.FC = () => {
             dataIndex: 'status',
             width: '10%',
             render: (value) =>
-                value ? (
+                value == 'active' ? (
                     <Tag color="green">Hoạt động</Tag>
+                ) : value == 'not-active' ? (
+                    <Tag color="orange">Đang khởi tạo</Tag>
+                ) : value == 'failed' ? (
+                    <Tag color="red">Khởi tạo thất bại</Tag>
                 ) : (
                     <Tag color="red">Ngưng</Tag>
                 ),
@@ -549,7 +564,7 @@ const CloudVps: React.FC = () => {
                 isCloud: true,
                 cloudId: item._id || '',
                 cloudItem: item,
-                url: ''
+                url: '',
             }
             listMenuCloud.push(menuCloudItem)
             setListMenuCloud(listMenuCloud)
@@ -582,7 +597,7 @@ const CloudVps: React.FC = () => {
     }
     // quyquy
     const onChangeNameValue = (value: any) => {
-        console.log('value: ', value);
+        console.log('value: ', value)
         // console.log('key: ', key);
 
         // const temp = { ...webRtcInNetWork }
@@ -597,62 +612,73 @@ const CloudVps: React.FC = () => {
         getOperatingSystem()
     }, [pageIndex, pageSize])
     const updateLabelName = (value: any) => {
-        console.log('value: ', value);
+        console.log('value: ', value)
     }
     // updateLabelName()
     return (
         <React.Fragment>
-            {renewModal.isOpen && <RenewModal id={renewModal.id} closeFunction={closeRenewModal} />}
+            {renewModal.isOpen && (
+                <RenewModal
+                    id={renewModal.id}
+                    closeFunction={closeRenewModal}
+                />
+            )}
             <div className="cloud-vps-page">
                 <div className="cloud-vps-page-option">
                     <ul>
-                        <Link to={'/cloud-vps'}><li style={{ borderBottom: '2px solid #3699ff' }}>
-                            <TfiMenuAlt
-                                size={15}
-                                style={{
-                                    verticalAlign: '-3px',
-                                    marginRight: '8px',
-                                    color: '#3699ff',
-                                }}
-                            />
-                            <span>Danh sách cloud vps</span>
-                        </li></Link>
-                        <Link to={'/cloud-vps/deleted-cloud'}><li>
-                            <TfiMenuAlt
-                                size={15}
-                                style={{
-                                    verticalAlign: '-3px',
-                                    marginRight: '8px',
-                                    color: 'black',
-                                }}
-                            />
-                            <span>Cloud Server đã bị xoá</span>
-                        </li></Link>
-                        <Link to={'/cloud-vps/about-to-expired'}><li>
-                            <TfiMenuAlt
-                                size={15}
-                                style={{
-                                    verticalAlign: '-3px',
-                                    marginRight: '8px',
-                                    color: 'black',
-                                }}
-                            />
-                            <span>Cloud Server sắp hết hạn</span>
-                        </li></Link>
+                        <Link to={'/cloud-vps'}>
+                            <li style={{ borderBottom: '2px solid #3699ff' }}>
+                                <TfiMenuAlt
+                                    size={15}
+                                    style={{
+                                        verticalAlign: '-3px',
+                                        marginRight: '8px',
+                                        color: '#3699ff',
+                                    }}
+                                />
+                                <span>Danh sách cloud vps</span>
+                            </li>
+                        </Link>
+                        <Link to={'/cloud-vps/deleted-cloud'}>
+                            <li>
+                                <TfiMenuAlt
+                                    size={15}
+                                    style={{
+                                        verticalAlign: '-3px',
+                                        marginRight: '8px',
+                                        color: 'black',
+                                    }}
+                                />
+                                <span>Cloud Server đã bị xoá</span>
+                            </li>
+                        </Link>
+                        <Link to={'/cloud-vps/about-to-expired'}>
+                            <li>
+                                <TfiMenuAlt
+                                    size={15}
+                                    style={{
+                                        verticalAlign: '-3px',
+                                        marginRight: '8px',
+                                        color: 'black',
+                                    }}
+                                />
+                                <span>Cloud Server sắp hết hạn</span>
+                            </li>
+                        </Link>
                     </ul>
                 </div>
                 {optionCloud > 3 ? (
                     <CloudVPSDetail
                         data={cloudServerItem}
-                    // handleChangeNameValue={
-                    //    (value)=> onChangeNameValue(value)
-                    // }
-                    // updateLabelName={handleUpdateLabelName}
+                        // handleChangeNameValue={
+                        //    (value)=> onChangeNameValue(value)
+                        // }
+                        // updateLabelName={handleUpdateLabelName}
                     />
                 ) : (
                     <>
                         <div className="cloud-vps-page-filter">
-                        <div className="cloud-vps-page-filter-tag">
+                            <div className="cloud-vps-page-filter-tag">
                                 <Input
                                     type="text"
                                     onChange={(e) =>
@@ -665,7 +691,7 @@ const CloudVps: React.FC = () => {
                                     placeholder="Tên cloud vps 0001"
                                 />
                             </div>
-                            
+
                             <div className="cloud-vps-page-filter-os">
                                 <Select
                                     defaultValue=""
@@ -708,13 +734,13 @@ const CloudVps: React.FC = () => {
                                 rowKey="_id"
                             />
                             <Pagination
-                                  showTotal={showTotal}
-                                  style={{ marginTop: '30px' }}
-                                  current={pageIndex}
-                                  defaultCurrent={pageIndex}
-                                  total={totalItem}
-                                  pageSize={pageSize}
-                                  onChange={(value, pageSize) => {
+                                showTotal={showTotal}
+                                style={{ marginTop: '30px' }}
+                                current={pageIndex}
+                                defaultCurrent={pageIndex}
+                                total={totalItem}
+                                pageSize={pageSize}
+                                onChange={(value, pageSize) => {
                                     setPageIndex(value)
                                     setPageSize(pageSize)
                                 }}

@@ -32,7 +32,6 @@ const Home: React.FC = () => {
                             cardButtonName="Khởi tạo ngay"
                         />
                     </Link>
-                    
                 </div>
                 <div className="home-components-card-item">
                     <Link to={'/deposit-guide'}>
@@ -44,7 +43,6 @@ const Home: React.FC = () => {
                             cardButtonName="Nạp tiền ngay"
                         />
                     </Link>
-                    
                 </div>
             </div>
         </div>

@@ -1,20 +1,20 @@
-.renew-modal-blur-glass{
+.renew-modal-blur-glass {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
 
-
     @keyframes appear {
         from {
             opacity: 0;
-        } to{
+        }
+        to {
             opacity: 1;
         }
     }
@@ -24,10 +24,10 @@
     animation-fill-mode: forwards;
 }
 
-.renew-modal{
+.renew-modal {
     width: 50%;
     min-height: 200px;
-    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.18);
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.18);
     background-color: white;
     border-radius: 4px;
     padding: 24px;
@@ -35,7 +35,8 @@
     @keyframes appear {
         from {
             opacity: 0;
-        } to{
+        }
+        to {
             opacity: 1;
         }
     }
@@ -44,10 +45,8 @@
     animation-duration: 200ms;
     animation-fill-mode: forwards;
 
-    &-button-submit{
+    &-button-submit {
         margin-top: 15px;
         text-align: end;
     }
-
- 
 }

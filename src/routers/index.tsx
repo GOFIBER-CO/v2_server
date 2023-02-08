@@ -43,7 +43,7 @@ import UserStatistic from '@/pages/UserStatistic'
 import checkIsExpiredToken from '@/helpers/checkIsExpiredToken'
 import DeletedCloud from '@/pages/CloudVps/DeletedCloud'
 import AboutToExpire from '@/pages/CloudVps/AboutToExpire'
-import LoginNew from './../pages/LoginNew/index';
+import LoginNew from './../pages/LoginNew/index'
 import RegisterNew from '@/pages/RegisterNew'
 import UpdateCloud from '@/pages/CloudVps/UpdateCloud'
 import OperationHistory from '@/pages/OperationHistory'
@@ -55,11 +55,10 @@ const AppRouter: React.FC = () => {
     return (
         <>
             <Routes>
-
                 {(isVerified && !checkIsExpiredToken(auth.jwtToken)) ||
-                    (!isEnable2Fa &&
-                        isLoggedIn &&
-                        !checkIsExpiredToken(auth.jwtToken)) ? (
+                (!isEnable2Fa &&
+                    isLoggedIn &&
+                    !checkIsExpiredToken(auth.jwtToken)) ? (
                     <Route path="/" element={<MainLayout />}>
                         <Route index element={<Home />} />
                         <Route path="/cloud-vps" element={<CloudVps />} />
@@ -90,11 +89,11 @@ const AppRouter: React.FC = () => {
                             element={<UpdateCloud />}
                         />
                         <Route
-                            path='/cloud-vps/deleted-cloud'
+                            path="/cloud-vps/deleted-cloud"
                             element={<DeletedCloud />}
                         />
                         <Route
-                            path='/cloud-vps/about-to-expired'
+                            path="/cloud-vps/about-to-expired"
                             element={<AboutToExpire />}
                         />
                         <Route
@@ -190,7 +189,7 @@ const AppRouter: React.FC = () => {
                                     path="/user-statistic"
                                     element={<UserStatistic />}
                                 />
-                                 <Route
+                                <Route
                                     path="/operation-history"
                                     element={<OperationHistory />}
                                 />
@@ -200,7 +199,7 @@ const AppRouter: React.FC = () => {
                 ) : (
                     <Route path="/" element={<NonAuthLayout />}>
                         <Route index element={<LoginNew />} />
-                        <Route path='/register' element={<RegisterNew />} />
+                        <Route path="/register" element={<RegisterNew />} />
                         {/* <Route index element={<Auth />} /> */}
                         {/* <Route path="/register" element={<Register />} /> */}
                         {auth.isEnable2FaAuthenticate && auth.isLoggedIn && (

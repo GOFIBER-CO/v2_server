@@ -75,10 +75,10 @@ const Department = () => {
         try {
             layout.setLoading(true)
             const department = await getAllDepartment(
-                pageIndex, 
+                pageIndex,
                 filter,
                 pageSize
-                )
+            )
             setDepartment(department.data?.data)
             setTotalPage(department.data?.totalPages)
             setTotalItem(department.data?.totalItem)
@@ -169,8 +169,7 @@ const Department = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

@@ -6,11 +6,7 @@ import { ColumnsType } from 'antd/lib/table'
 import { Table } from 'antd'
 import { Pagination } from 'antd'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-import {
-    getDeletedCloudServer,
-    getLocations,
-    getOs,
-} from '@/services/apis'
+import { getDeletedCloudServer, getLocations, getOs } from '@/services/apis'
 import ICloudServer from '@/interfaces/ICloudServer'
 import { useAuth } from '@/hooks/useAuth'
 import formatDate from '@/helpers/formatDate'
@@ -245,7 +241,7 @@ const DeletedCloud: React.FC = () => {
     }
 
     const layout = useLayoutInit()
-        const getCloudServer = async () => {
+    const getCloudServer = async () => {
         try {
             layout.setLoading(true)
             const cloudVps = await getDeletedCloudServer(
@@ -296,39 +292,45 @@ const DeletedCloud: React.FC = () => {
         <div className="cloud-vps-page">
             <div className="cloud-vps-page-option">
                 <ul>
-                    <Link to={'/cloud-vps'}><li>
-                        <TfiMenuAlt
-                            size={15}
-                            style={{
-                                verticalAlign: '-3px',
-                                marginRight: '8px',
-                                color: 'black',
-                            }}
-                        />
-                        <span>Danh sách cloud vps</span>
-                    </li></Link>
-                    <Link to={'/cloud-vps/deleted-cloud'}><li style={{borderBottom: '2px solid #3699ff'}}>
-                        <TfiMenuAlt
-                            size={15}
-                            style={{
-                                verticalAlign: '-3px',
-                                marginRight: '8px',
-                                color: '#3699ff',
-                            }}
-                        />
-                        <span>Cloud Server đã bị xoá</span>
-                    </li></Link>
-                    <Link to={'/cloud-vps/about-to-expired'}><li>
-                        <TfiMenuAlt
-                            size={15}
-                            style={{
-                                verticalAlign: '-3px',
-                                marginRight: '8px',
-                                color: 'black',
-                            }}
-                        />
-                        <span>Cloud Server sắp hết hạn</span>
-                    </li></Link>
+                    <Link to={'/cloud-vps'}>
+                        <li>
+                            <TfiMenuAlt
+                                size={15}
+                                style={{
+                                    verticalAlign: '-3px',
+                                    marginRight: '8px',
+                                    color: 'black',
+                                }}
+                            />
+                            <span>Danh sách cloud vps</span>
+                        </li>
+                    </Link>
+                    <Link to={'/cloud-vps/deleted-cloud'}>
+                        <li style={{ borderBottom: '2px solid #3699ff' }}>
+                            <TfiMenuAlt
+                                size={15}
+                                style={{
+                                    verticalAlign: '-3px',
+                                    marginRight: '8px',
+                                    color: '#3699ff',
+                                }}
+                            />
+                            <span>Cloud Server đã bị xoá</span>
+                        </li>
+                    </Link>
+                    <Link to={'/cloud-vps/about-to-expired'}>
+                        <li>
+                            <TfiMenuAlt
+                                size={15}
+                                style={{
+                                    verticalAlign: '-3px',
+                                    marginRight: '8px',
+                                    color: 'black',
+                                }}
+                            />
+                            <span>Cloud Server sắp hết hạn</span>
+                        </li>
+                    </Link>
                 </ul>
             </div>
             {optionCloud > 3 ? (
@@ -409,8 +411,10 @@ const DeletedCloud: React.FC = () => {
                             current={pageIndex}
                             total={totalItem}
                             pageSize={pageSize}
-                            onChange={(page, pageSize) => {setPageIndex(page)
-                            setPageSize(pageSize)}}
+                            onChange={(page, pageSize) => {
+                                setPageIndex(page)
+                                setPageSize(pageSize)
+                            }}
                         />
                     </div>
                 </>

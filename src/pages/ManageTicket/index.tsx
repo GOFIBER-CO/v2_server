@@ -224,8 +224,7 @@ const ManageTicket = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

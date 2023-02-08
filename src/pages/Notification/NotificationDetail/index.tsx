@@ -70,8 +70,9 @@ const NotificationDetail = () => {
                 <p className="notification-detail-content-sender">
                     Người gửi:{' '}
                     <span style={{ fontSize: '16px', fontWeight: 600 }}>
-                        {typeof notification?.sender != 'string' &&
-                            notification?.sender?.email || 'Hệ thống'}
+                        {(typeof notification?.sender != 'string' &&
+                            notification?.sender?.email) ||
+                            'Hệ thống'}
                     </span>
                 </p>
                 <p>

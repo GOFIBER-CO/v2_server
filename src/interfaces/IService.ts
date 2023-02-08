@@ -14,5 +14,5 @@ export default interface IService {
     discount?: number
     isCheck?: boolean
     expiryDateType: number
-    hdd?: string,
+    hdd?: string
 }

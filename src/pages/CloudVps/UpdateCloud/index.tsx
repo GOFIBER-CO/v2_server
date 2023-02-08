@@ -5,8 +5,7 @@ import {
     getArea,
     getOperatingSystemChildren,
     getServer,
-    updateDataOfServerInCloudServerById
-
+    updateDataOfServerInCloudServerById,
 } from '@/services/apis'
 import '@/styles/pages/CloudVps/CreateCloud/CreateCloud.scss'
 import { useEffect, useState } from 'react'
@@ -21,7 +20,7 @@ import Server from '@/components/Server/Server'
 import PackageServer from '@/components/PackageServer/PackageServer'
 import { Radio, Slider } from 'antd'
 import { useNavigate, useParams } from 'react-router'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 // import console from 'console'
 
 const UpdateCloud: React.FC = () => {
@@ -30,13 +29,13 @@ const UpdateCloud: React.FC = () => {
     const layout = useLayoutInit()
     const iCpuMark: any = {}
     // @ts-ignore
-    iCpuMark[currentDataById.server?.cpu] = currentDataById.server?.cpu;
+    iCpuMark[currentDataById.server?.cpu] = currentDataById.server?.cpu
     const iRamMark: any = {}
     // @ts-ignore
-    iRamMark[currentDataById.server?.ram] = currentDataById.server?.ram;
+    iRamMark[currentDataById.server?.ram] = currentDataById.server?.ram
     const iSsdMark: any = {}
     // @ts-ignore
-    iSsdMark[currentDataById.server?.ssd] = currentDataById.server?.ssd;
+    iSsdMark[currentDataById.server?.ssd] = currentDataById.server?.ssd
     const iArea: IArea[] = []
     const [dataArea, setDataArea] = useState(iArea)
     const iOparatingSystemArray: IOparatingSystemArray[] = []
@@ -50,7 +49,8 @@ const UpdateCloud: React.FC = () => {
     const [payment, setPayment] = useState(110)
     const [isCustomServer, setIsCustomServer] = useState(false)
     const iProfileCloudServer: IProfileCloudServer[] = []
-    const [dataProfileCloudServer, setDataProfileCloudServer] = useState(iProfileCloudServer)
+    const [dataProfileCloudServer, setDataProfileCloudServer] =
+        useState(iProfileCloudServer)
     // console.log('dataProfileCloudServer: ', dataProfileCloudServer);
     const [price, setPrice] = useState(0)
     const [unit, setUnit] = useState('Tháng')
@@ -63,7 +63,7 @@ const UpdateCloud: React.FC = () => {
     const [bandwidth, setBandwidth] = useState(10)
     const [tranfer, setTranfer] = useState('Unlimited')
     const [IPv4, setIPv4] = useState(1)
-    const [priceMonth, setPriceMonth] = useState(true);
+    const [priceMonth, setPriceMonth] = useState(true)
     const [dataServerItem, setDataServerItem] = useState({})
     let iInserCloudServer: IInserCloudServer[] = []
     // const [newCloudServer, setNewCloudServer] = useState<IInserCloudServer>({
@@ -89,15 +89,13 @@ const UpdateCloud: React.FC = () => {
         expiryDateType: 1,
     })
     const getData = (id: any) => {
-        getCloudServersById(id).then(data => {
-
+        getCloudServersById(id).then((data) => {
             setCurrentDataById(data?.data?.data)
             setCPU(Number(data?.data?.data?.server?.cpu))
             setRAM(Number(data?.data?.data?.server?.ram))
             setSSD(Number(data?.data?.data?.server?.ssd))
             setPriceServer(Number(data?.data?.data?.server?.price))
         })
-
     }
     const { id } = useParams()
     useEffect(() => {
@@ -105,21 +103,25 @@ const UpdateCloud: React.FC = () => {
             getData(id)
         }
     }, [])
-    // 
+    //
     useEffect(() => {
         // @ts-ignore
-        if (CPU === parseInt(currentDataById?.server?.cpu) && RAM === parseInt(currentDataById?.server?.ram) && SSD === parseInt(currentDataById?.server?.ssd)) {
+        if (
+            CPU === parseInt(currentDataById?.server?.cpu) &&
+            RAM === parseInt(currentDataById?.server?.ram) &&
+            SSD === parseInt(currentDataById?.server?.ssd)
+        ) {
             setPayment(0)
         } else {
             // @ts-ignore
             // setPayment(priceServer - currentDataById?.server?.price - 1000)
-            const total = parseInt(currentDataById.server?.cpu) * 50000 + parseInt(currentDataById.server?.ram) * 50000 + parseInt(currentDataById.server?.ssd) * 1000
+            const total =
+                parseInt(currentDataById.server?.cpu) * 50000 +
+                parseInt(currentDataById.server?.ram) * 50000 +
+                parseInt(currentDataById.server?.ssd) * 1000
             setPayment(priceServer - total)
-
-
         }
     }, [priceServer])
-
 
     iProfileCloudServer.push({
         _id: 1,
@@ -286,10 +288,10 @@ const UpdateCloud: React.FC = () => {
     }
 
     const onclickServer = (item: IService) => {
-        setDataServerItem(item);
+        setDataServerItem(item)
 
         dataServer.map((val) => {
-            ; (val.isCheck = val._id == item._id ? true : false),
+            ;(val.isCheck = val._id == item._id ? true : false),
                 iService.push(val)
         })
         // newCloudServer.server = item._id || ''
@@ -299,7 +301,7 @@ const UpdateCloud: React.FC = () => {
 
     const onclickPackageServer = (item: IPackageServer) => {
         dataPackageServer.map((val) => {
-            ; (val.isCheck = val._id == item._id ? true : false),
+            ;(val.isCheck = val._id == item._id ? true : false),
                 iPackageServer.splice(
                     iPackageServer.findIndex((x) => x._id == val._id),
                     1,
@@ -318,55 +320,56 @@ const UpdateCloud: React.FC = () => {
             setDataServerItem({})
             //1 cpu 50k
             let price = 0
-            price = (value * 50000 + RAM * 50000 + SSD * 1000)
+            price = value * 50000 + RAM * 50000 + SSD * 1000
             setPriceServer(price)
         }
-
-
     }
     const onChangeRAM = (value: number) => {
         // @ts-ignore
-        if (value > +(currentDataById.server?.ram) - 1) {
+        if (value > +currentDataById.server?.ram - 1) {
             setRAM(value)
             setDataServerItem({})
             //1 ram 50k
             let price = 0
-            price = (CPU * 50000 + value * 50000 + SSD * 1000)
+            price = CPU * 50000 + value * 50000 + SSD * 1000
             setPriceServer(price)
         }
-
     }
 
     const onChangeSSD = (value: number) => {
         // @ts-ignore
-        if (value > +(currentDataById.server?.ssd) - 1) {
+        if (value > +currentDataById.server?.ssd - 1) {
             //1GB ssd 1k
             setSSD(value)
             setDataServerItem({})
             let price = 0
-            price = (CPU * 50000 + RAM * 50000 + value * 1000)
+            price = CPU * 50000 + RAM * 50000 + value * 1000
             setPriceServer(price)
         }
-
     }
     const onHandleClick = async () => {
         setIsCustomServer(!isCustomServer)
         // await setDataServerItem({})
     }
 
-
     const onFinish = async () => {
         //@ts-ignore
         // console.log('priceServer: ', priceServer, currentDataById?.server?.price, dataServerItem?.price);
-        if (priceServer > currentDataById?.server?.price || priceServer < dataServerItem?.price) {
+        if (
+            priceServer > currentDataById?.server?.price ||
+            priceServer < dataServerItem?.price
+        ) {
             try {
                 //@ts-ignore
                 if (dataServerItem?._id) {
                     //@ts-ignore
                     // TH1: Chọn mặc định
-                    const result = await updateDataOfServerInCloudServerById(currentDataById?._id, dataServerItem);
+                    const result = await updateDataOfServerInCloudServerById(
+                        currentDataById?._id,
+                        dataServerItem
+                    )
                     if (result?.data?.status === 1) {
-                        toast.success("Nâng cấp cấu hình thành công.")
+                        toast.success('Nâng cấp cấu hình thành công.')
                     }
                 } else {
                     //TH2: Tùy chỉnh
@@ -384,13 +387,17 @@ const UpdateCloud: React.FC = () => {
                     const create = await createService(newService)
 
                     if (create?.data?.data) {
-                        const result = await updateDataOfServerInCloudServerById(id, create?.data?.data);
+                        const result =
+                            await updateDataOfServerInCloudServerById(
+                                id,
+                                create?.data?.data
+                            )
 
                         if (result?.data?.status === 1) {
-                            toast.success("Nâng cấp cấu hình thành công.")
+                            toast.success('Nâng cấp cấu hình thành công.')
                         }
                     } else {
-                        toast.error("khong co create?.data?.data")
+                        toast.error('khong co create?.data?.data')
                     }
                 }
                 navigate(`/cloud-vps`)
@@ -398,7 +405,7 @@ const UpdateCloud: React.FC = () => {
                 console.log(error)
             }
         } else {
-            toast.error("Cấu hình nâng cấp phải lớn  hơn cấu hình ban đầu .")
+            toast.error('Cấu hình nâng cấp phải lớn  hơn cấu hình ban đầu .')
         }
     }
 
@@ -422,10 +429,10 @@ const UpdateCloud: React.FC = () => {
                                 <button
                                     className="btn btn-primary btn-sm"
                                     onClick={() => onHandleClick()}
-                                // onClick={() =>
-                                //     setIsCustomServer(!isCustomServer)
-                                //     // setDataServerItem({})
-                                // }
+                                    // onClick={() =>
+                                    //     setIsCustomServer(!isCustomServer)
+                                    //     // setDataServerItem({})
+                                    // }
                                 >
                                     Tuỳ chỉnh cấu hình{' '}
                                 </button>
@@ -438,13 +445,19 @@ const UpdateCloud: React.FC = () => {
                                         <div className="form-group">
                                             <label>CPU (vCPUs)</label>
                                             <Slider
-
                                                 min={1}
                                                 max={32}
                                                 value={CPU}
-                                                tooltip={1 === 1 ? { open: true } : { open: false }}
+                                                tooltip={
+                                                    1 === 1
+                                                        ? { open: true }
+                                                        : { open: false }
+                                                }
                                                 // @ts-ignore
-                                                defaultValue={+(currentDataById?.server?.cpu)}
+                                                defaultValue={
+                                                    +currentDataById?.server
+                                                        ?.cpu
+                                                }
                                                 marks={iCpuMark}
                                                 onChange={onChangeCPU}
                                             />
@@ -458,23 +471,23 @@ const UpdateCloud: React.FC = () => {
                                                 value={RAM}
                                                 tooltip={{ open: true }}
                                                 onChange={onChangeRAM}
-
                                             />
                                         </div>
                                         <div className="form-group">
                                             <label>SSD NVMe (GB)::</label>
                                             <Slider
                                                 // @ts-ignore
-                                                min={+(currentDataById?.server?.ssd)}
+                                                min={
+                                                    +currentDataById?.server
+                                                        ?.ssd
+                                                }
                                                 max={960}
                                                 marks={iSsdMark}
-
                                                 tooltip={{ open: true }}
                                                 value={SSD}
                                                 onChange={onChangeSSD}
-                                            // defaultValue={SSD}
-                                            // min={30}
-
+                                                // defaultValue={SSD}
+                                                // min={30}
                                             />
                                         </div>
                                         <div className="form-group">
@@ -492,15 +505,28 @@ const UpdateCloud: React.FC = () => {
                                         <div className="price_header">
                                             <span>Tùy Chỉnh Cấu Hình</span>
                                         </div>
-                                        <div className="price_number" style={{ display: payment > 0 ? "block" : "none" }}>
-                                            <div className="py-2" >
+                                        <div
+                                            className="price_number"
+                                            style={{
+                                                display:
+                                                    payment > 0
+                                                        ? 'block'
+                                                        : 'none',
+                                            }}
+                                        >
+                                            <div className="py-2">
                                                 <h4>
-                                                    <span style={{
-                                                        color: 'rgb(94,95,132)',
-                                                        fontSize: '1.5rem',
-                                                        marginRight: '0.3rem'
-                                                    }}>Phí:</span>
-                                                    {ConverMoney(payment)}	₫
+                                                    <span
+                                                        style={{
+                                                            color: 'rgb(94,95,132)',
+                                                            fontSize: '1.5rem',
+                                                            marginRight:
+                                                                '0.3rem',
+                                                        }}
+                                                    >
+                                                        Phí:
+                                                    </span>
+                                                    {ConverMoney(payment)} ₫
                                                 </h4>
                                             </div>
                                             <p className="money">
@@ -527,7 +553,6 @@ const UpdateCloud: React.FC = () => {
                                                     <strong className="ml-auto">
                                                         {/* {currentDataById?.server?.ram} GB */}
                                                         {RAM} GB
-
                                                     </strong>
                                                 </li>
                                                 <li>
@@ -580,8 +605,10 @@ const UpdateCloud: React.FC = () => {
                             <span className="create-cloud-location-title">
                                 CẤU HÌNH CÓ SẴN
                             </span>
-                            <div className="deploy_title" style={{ display: "flex" }}>
-
+                            <div
+                                className="deploy_title"
+                                style={{ display: 'flex' }}
+                            >
                                 <button
                                     className="btn btn-primary btn-sm"
                                     onClick={() =>
@@ -607,23 +634,30 @@ const UpdateCloud: React.FC = () => {
                             </div>
                         </div>
                         <div className="deploy_options">
-
                             <div className="row">
-
-                                {dataServer?.map((item) => {
-                                    //@ts-ignore
-                                    // console.log(`itemjhafjewjfew`, item)
-                                    return (item?.price > currentDataById?.server?.price &&
-                                        <Server
-                                            // @ts-ignore
-                                            currentPrice={currentDataById?.server?.price}
-                                            data={item}
-                                            unit={unit}
-                                            onchange={(data) => {
-                                                onclickServer(data)
-                                            }}
-                                        />)
-                                }
+                                {dataServer?.map(
+                                    (item) => {
+                                        //@ts-ignore
+                                        // console.log(`itemjhafjewjfew`, item)
+                                        return (
+                                            item?.price >
+                                                currentDataById?.server
+                                                    ?.price && (
+                                                <Server
+                                                    // @ts-ignore
+                                                    currentPrice={
+                                                        currentDataById?.server
+                                                            ?.price
+                                                    }
+                                                    data={item}
+                                                    unit={unit}
+                                                    onchange={(data) => {
+                                                        onclickServer(data)
+                                                    }}
+                                                />
+                                            )
+                                        )
+                                    }
                                     //@ts-ignore
                                 )}
                             </div>
@@ -660,22 +694,36 @@ const UpdateCloud: React.FC = () => {
                         </div> */}
 
                         <div className="deploy-summary-price">
-                            <span className="cost" style={{
-                                fontWeight: '500',
-                                fontSize: '0.9rem'
-                                //@ts-ignore
-                            }}> IP: {currentDataById?.server?.ipv4} </span>
-                            <div>
-
-                                <span style={{
-                                    fontSize: '1.5rem',
+                            <span
+                                className="cost"
+                                style={{
                                     fontWeight: '500',
-                                    color: 'rgb(0,123,252)'
-                                }}>VSK008_16</span><span style={{
-                                    fontSize: '1rem',
-                                    marginLeft: '0.3rem',
-                                    fontWeight: '400'
-                                }}>({CPU} vCPUs | {RAM} GB | {SSD} GB NVMe )</span>
+                                    fontSize: '0.9rem',
+                                    //@ts-ignore
+                                }}
+                            >
+                                {' '}
+                                IP: {currentDataById?.server?.ipv4}{' '}
+                            </span>
+                            <div>
+                                <span
+                                    style={{
+                                        fontSize: '1.5rem',
+                                        fontWeight: '500',
+                                        color: 'rgb(0,123,252)',
+                                    }}
+                                >
+                                    VSK008_16
+                                </span>
+                                <span
+                                    style={{
+                                        fontSize: '1rem',
+                                        marginLeft: '0.3rem',
+                                        fontWeight: '400',
+                                    }}
+                                >
+                                    ({CPU} vCPUs | {RAM} GB | {SSD} GB NVMe )
+                                </span>
                             </div>
                         </div>
                         <input

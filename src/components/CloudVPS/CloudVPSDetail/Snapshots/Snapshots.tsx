@@ -31,7 +31,7 @@ const Snapshots = ({
 }: {
     dataCloudServer?: ICloudServer
     dataSnapshots?: ISnapshots[]
-}) => { 
+}) => {
     const layout = useLayoutInit()
     const [snapshot, setSnapshot] = useState(dataSnapshots)
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -120,13 +120,13 @@ const Snapshots = ({
             const snapshots = await getSnapshotsByUserId(
                 dataCloudServer?.user,
                 dataCloudServer?._id,
-                pageIndex         
+                pageIndex
             )
             setSnapshot(snapshots.data?.data)
             setTotalPage(snapshots.data?.totalPages)
             setPageSize(Number(snapshots.data?.pageSize))
             setTotalItem(snapshots.data?.totalItem)
-            layout.setLoading(false) 
+            layout.setLoading(false)
         } catch (error) {
             console.log(error)
             layout.setLoading(false)
@@ -257,16 +257,15 @@ const Snapshots = ({
                         dataSource={snapshot}
                         scroll={{ x: '1000px', y: '600px' }}
                         pagination={false}
-                        
                     />
-                     <Pagination
-                    showTotal={showTotal}
-                    style={{ marginTop: '30px' }}
-                    current={pageIndex}
-                    total={totalItem}
-                    pageSize={pageSize}
-                    onChange={(value) => setPageIndex(value)}
-                />
+                    <Pagination
+                        showTotal={showTotal}
+                        style={{ marginTop: '30px' }}
+                        current={pageIndex}
+                        total={totalItem}
+                        pageSize={pageSize}
+                        onChange={(value) => setPageIndex(value)}
+                    />
                 </div>
             </div>
         </>

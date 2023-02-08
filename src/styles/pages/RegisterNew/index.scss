@@ -18,11 +18,11 @@
         border-radius: 32px;
         text-align: center;
         padding: 20px 60px;
-        border:1px solid rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.7);
         box-shadow: 0px 4px 33px 4px rgba(86, 197, 255, 0.25);
         backdrop-filter: blur(10px);
         .RegisterNew_container_title {
-            font-family: "SVN-Poppins";
+            font-family: 'SVN-Poppins';
             font-style: normal;
             font-weight: 700;
             font-size: 24px;
@@ -39,7 +39,7 @@
             color: #333333;
             text-align: left;
             margin-bottom: 7px;
-            .RegisterNew_From_Input{
+            .RegisterNew_From_Input {
                 border-radius: 15px;
             }
         }
@@ -51,7 +51,8 @@
     height: 35px !important;
 }
 
-.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
     background: #fff;
     border-color: #ff4d4f;
     height: 35px !important;

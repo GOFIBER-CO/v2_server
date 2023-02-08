@@ -5,6 +5,6 @@ export default interface IMenuCloud {
     name: string
     isCloud: boolean
     cloudId: string
-    cloudItem?: ICloudServer,
-    url: string,
+    cloudItem?: ICloudServer
+    url: string
 }

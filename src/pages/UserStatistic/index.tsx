@@ -29,11 +29,7 @@ const UserStatistic = () => {
     const getStatistic = async () => {
         try {
             layout.setLoading(true)
-            const result = await getUserStatistic(
-                pageIndex, 
-                filter,
-                pageSize
-                )
+            const result = await getUserStatistic(pageIndex, filter, pageSize)
             setStatistics(result.data?.statistic)
             setPageSize(result.data?.pageSize)
             setTotalItem(result.data?.totalItem)
@@ -137,8 +133,10 @@ const UserStatistic = () => {
                     current={Number(pageIndex)}
                     total={totalItem}
                     pageSize={pageSize}
-                    onChange={(page,pageSize) => {setPageIndex(page)
-                        setPageSize(pageSize)}}
+                    onChange={(page, pageSize) => {
+                        setPageIndex(page)
+                        setPageSize(pageSize)
+                    }}
                 />
             </div>
         </div>

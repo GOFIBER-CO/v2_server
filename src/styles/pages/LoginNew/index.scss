@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url(/images/background-2.png) ;
+    background-image: url(/images/background-2.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -19,7 +19,7 @@
         text-align: center;
         padding: 20px 60px;
         // border: 1px solid #00000036;
-        border:1px solid rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.7);
         box-shadow: 0px 4px 33px 4px rgba(86, 197, 255, 0.25);
         backdrop-filter: blur(10px);
         .LoginNew_container_title {
@@ -28,11 +28,11 @@
             font-weight: 700;
             font-size: 24px;
             line-height: 32px;
-            
+
             color: #333333;
         }
         .LoginNew_Form_email {
-            font-family: "SVN-Poppins";
+            font-family: 'SVN-Poppins';
             font-style: normal;
             font-weight: 500;
             font-size: 16px;
@@ -40,7 +40,7 @@
             color: #333333;
             text-align: left;
             margin-bottom: 5px;
-            .LoginNew_From_Input{
+            .LoginNew_From_Input {
                 border-radius: 15px;
             }
         }
@@ -52,7 +52,8 @@
     height: 35px !important;
 }
 
-.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper, .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
     background: #fff;
     border-color: #ff4d4f;
     height: 35px !important;

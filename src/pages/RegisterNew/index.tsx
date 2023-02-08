@@ -1,5 +1,5 @@
 import '@/styles/pages/RegisterNew/index.scss'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { useNavigate } from 'react-router'
 import { notifyType } from '@/App'
@@ -43,18 +43,23 @@ const RegisterNew = () => {
     return (
         <div className="RegisterNew_cotainer">
             <div className="RegisterNew_cotainer_center">
-                <div className='RegisterNew_container_title'>Đăng ký</div>
+                <div className="RegisterNew_container_title">Đăng ký</div>
                 <Form
                     name="basic"
                     initialValues={{ remember: true }}
-                      onFinish={onFinish}
+                    onFinish={onFinish}
                     //   onFinishFailed={onFinishFailed}
                     autoComplete="off"
-                    
                 >
-                    <div style={{marginTop:'20px'}} className='RegisterNew_Form_email'>Họ tên</div>
+                    <div
+                        style={{ marginTop: '20px' }}
+                        className="RegisterNew_Form_email"
+                    >
+                        Họ tên
+                    </div>
                     <Form.Item
-                        className='RegisterNew_From_Input' style={{border:'15px'}}
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
                         name="hoTen"
                         rules={[
                             {
@@ -62,21 +67,20 @@ const RegisterNew = () => {
                                 message: 'Họ tên không được bỏ trống',
                             },
                         ]}
-                        
                     >
-                        <Input 
-                              prefix={
+                        <Input
+                            prefix={
                                 <UserOutlined className="site-form-item-icon" />
                             }
                             placeholder="Tên đăng nhập"
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </Form.Item>
-                    <div className='RegisterNew_Form_email'>Địa chỉ email</div>
+                    <div className="RegisterNew_Form_email">Địa chỉ email</div>
                     <Form.Item
-                        className='RegisterNew_From_Input' style={{border:'15px'}}
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
                         name="email"
-                        
                         rules={[
                             {
                                 required: true,
@@ -84,7 +88,8 @@ const RegisterNew = () => {
                             },
                         ]}
                     >
-                        <Input type='email'
+                        <Input
+                            type="email"
                             prefix={
                                 <AiOutlineMail className="site-form-item-icon" />
                             }
@@ -93,9 +98,10 @@ const RegisterNew = () => {
                         />
                     </Form.Item>
 
-                    <div className='RegisterNew_Form_email'>Số điện thoại</div>
+                    <div className="RegisterNew_Form_email">Số điện thoại</div>
                     <Form.Item
-                        className='RegisterNew_From_Input' style={{border:'15px'}}
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
                         name="phone"
                         rules={[
                             {
@@ -104,8 +110,9 @@ const RegisterNew = () => {
                             },
                         ]}
                     >
-                        <Input type='number' 
-                             prefix={
+                        <Input
+                            type="number"
+                            prefix={
                                 <AiOutlinePhone className="site-form-item-icon" />
                             }
                             placeholder="Số điện thoại"
@@ -113,10 +120,10 @@ const RegisterNew = () => {
                         />
                     </Form.Item>
 
-
-                    <div className='RegisterNew_Form_email'>Mật khẩu</div>
+                    <div className="RegisterNew_Form_email">Mật khẩu</div>
                     <Form.Item
-                        className='RegisterNew_From_Input' style={{border:'15px'}}
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
                         name="password"
                         rules={[
                             {
@@ -125,7 +132,7 @@ const RegisterNew = () => {
                             },
                         ]}
                     >
-                        <Input.Password 
+                        <Input.Password
                             prefix={
                                 <LockOutlined className="site-form-item-icon" />
                             }
@@ -135,9 +142,12 @@ const RegisterNew = () => {
                         />
                     </Form.Item>
 
-                    <div className='RegisterNew_Form_email'>Nhập lại mật khẩu</div>
+                    <div className="RegisterNew_Form_email">
+                        Nhập lại mật khẩu
+                    </div>
                     <Form.Item
-                        className='RegisterNew_From_Input' style={{border:'15px'}}
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
                         name="re_password"
                         dependencies={['password']}
                         rules={[
@@ -162,8 +172,8 @@ const RegisterNew = () => {
                             }),
                         ]}
                     >
-                        <Input.Password 
-                             prefix={
+                        <Input.Password
+                            prefix={
                                 <LockOutlined className="site-form-item-icon" />
                             }
                             type="password"
@@ -172,12 +182,25 @@ const RegisterNew = () => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        
-                        <Button type="primary" htmlType="submit" style={{width:'100%', borderRadius:'10px', height:'35px', fontSize:'16px'}}>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            style={{
+                                width: '100%',
+                                borderRadius: '10px',
+                                height: '35px',
+                                fontSize: '16px',
+                            }}
+                        >
                             Đăng ký
                         </Button>
                     </Form.Item>
-                    <div>Bạn đã có tài khoản? <span style={{color:'#00ACD7'}}><Link to={'/'}>Đăng nhập</Link></span> </div>
+                    <div>
+                        Bạn đã có tài khoản?{' '}
+                        <span style={{ color: '#00ACD7' }}>
+                            <Link to={'/'}>Đăng nhập</Link>
+                        </span>{' '}
+                    </div>
                 </Form>
             </div>
         </div>

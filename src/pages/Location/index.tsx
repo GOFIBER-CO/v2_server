@@ -34,7 +34,7 @@ const Location = () => {
     const getLocations = async () => {
         try {
             layout.setLoading(true)
-            const location = await getAllLocation(pageIndex, filter,pageSize)
+            const location = await getAllLocation(pageIndex, filter, pageSize)
             setLocations(location.data?.data)
             setTotalPage(location.data?.totalPages)
             setTotalItem(location.data?.totalItem)
@@ -206,8 +206,7 @@ const Location = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

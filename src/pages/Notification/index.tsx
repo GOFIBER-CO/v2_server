@@ -28,11 +28,7 @@ const Notification = () => {
     const getNotifications = async () => {
         try {
             layout.setLoading(true)
-            const result = await getAllNotification(
-                pageIndex, 
-                filter,
-                pageSize
-                )
+            const result = await getAllNotification(pageIndex, filter, pageSize)
             setNotifications(result.data?.data)
             setTotalPage(result.data?.totalPage)
             setTotalItem(result.data?.totalItem)
@@ -160,8 +156,7 @@ const Notification = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

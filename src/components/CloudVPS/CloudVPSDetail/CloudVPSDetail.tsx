@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import GeneralInformation from './GeneralInformation/GeneralInformation'
-import { Tooltip } from 'antd';
+import { Tooltip } from 'antd'
 import Snapshots from './Snapshots/Snapshots'
 import Log from './Log/Log'
 import ICloudServer from '@/interfaces/ICloudServer'
@@ -16,8 +16,8 @@ import ITransactionHistory from '@/interfaces/ITransactionHistory'
 import ILog from '@/interfaces/ILog'
 import MenuCloudChildren from './MenuCloudChildren'
 import ISnapshots from '@/interfaces/ISnapshots'
-import "./cloudStack.css"
-import Chart from './Chart';
+import './cloudStack.css'
+import Chart from './Chart'
 
 const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
     const layout = useLayoutInit()
@@ -67,7 +67,6 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
     //
     const onChangeNameValue = (value: any) => {
         // console.log('value: ', value);
-
     }
     const getTransactionHistory = async () => {
         try {
@@ -144,9 +143,39 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                             <div className="mr-5">
                                 <div className="text-success">
                                     {'  '}
-                                    {data?.isShow
-                                        ? <><i className="fa fa-play text-success" style={{fontSize:"1.2rem"}}></i> <span style={{ color: "red", marginLeft: "5px",fontSize:"1rem" }}>Đang chạy</span></>
-                                        : <><i className="fa fa-pause text-danger" style={{fontSize:"1.2rem"}}></i>  <span style={{ color: "red", marginLeft: "5px",fontSize:"1rem" }}>Tạm dừng</span></>}
+                                    {data?.isShow ? (
+                                        <>
+                                            <i
+                                                className="fa fa-play text-success"
+                                                style={{ fontSize: '1.2rem' }}
+                                            ></i>{' '}
+                                            <span
+                                                style={{
+                                                    color: 'red',
+                                                    marginLeft: '5px',
+                                                    fontSize: '1rem',
+                                                }}
+                                            >
+                                                Đang chạy
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i
+                                                className="fa fa-pause text-danger"
+                                                style={{ fontSize: '1.2rem' }}
+                                            ></i>{' '}
+                                            <span
+                                                style={{
+                                                    color: 'red',
+                                                    marginLeft: '5px',
+                                                    fontSize: '1rem',
+                                                }}
+                                            >
+                                                Tạm dừng
+                                            </span>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                             <Tooltip title="prompt text">
@@ -178,7 +207,6 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                                     <i className="fa fa-trash"></i>
                                 </button>
                             </Tooltip>
-
                         </div>
                     </div>
                 </div>
@@ -191,10 +219,7 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                         onchange={(data) => onchangeMenuChildren(data)}
                     />
                 </div>
-                {optionId == 1 ? <GeneralInformation
-                    data={data}
-                /> : ''
-                }
+                {optionId == 1 ? <GeneralInformation data={data} /> : ''}
                 {optionId == 2 ? (
                     <Snapshots
                         dataCloudServer={data}
@@ -225,11 +250,7 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                 ) : (
                     ''
                 )}
-                {optionId == 5 ? (
-                    <Chart/>
-                ) : (
-                    ''
-                )}
+                {optionId == 5 ? <Chart /> : ''}
             </div>
         </>
     )

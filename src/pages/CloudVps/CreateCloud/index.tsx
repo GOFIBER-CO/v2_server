@@ -256,7 +256,7 @@ const CreateCloud: React.FC = () => {
     const onclickArea = (item: IArea) => {
         if (item.status == 0) {
             dataArea.map((val) => {
-                ; (val.isCheck = val._id == item._id ? true : false),
+                ;(val.isCheck = val._id == item._id ? true : false),
                     iArea.push(val)
             })
             newCloudServer.area = item._id || ''
@@ -304,7 +304,7 @@ const CreateCloud: React.FC = () => {
 
     const onclickServer = (item: IService) => {
         dataServer.map((val) => {
-            ; (val.isCheck = val._id == item._id ? true : false),
+            ;(val.isCheck = val._id == item._id ? true : false),
                 iService.push(val)
         })
         newCloudServer.server = item._id || ''
@@ -314,7 +314,7 @@ const CreateCloud: React.FC = () => {
 
     const onclickPackageServer = (item: IPackageServer) => {
         dataPackageServer.map((val) => {
-            ; (val.isCheck = val._id == item._id ? true : false),
+            ;(val.isCheck = val._id == item._id ? true : false),
                 iPackageServer.splice(
                     iPackageServer.findIndex((x) => x._id == val._id),
                     1,
@@ -324,7 +324,6 @@ const CreateCloud: React.FC = () => {
         onchangeLaodServer(item.status)
         loadUnit(item.status)
         setDataPackageServer(iPackageServer)
-
     }
 
     const onclickRandomPassword = () => {
@@ -530,7 +529,9 @@ const CreateCloud: React.FC = () => {
 
             layout.setLoading(true)
             newService.serverName = 'tuy_chinh_cau_hinh_' + Date.now()
-            newService.price = autoBackup ? priceServer + priceServer * 0.1 : priceServer
+            newService.price = autoBackup
+                ? priceServer + priceServer * 0.1
+                : priceServer
             newService.cpu = CPU.toString() + ' vCPU'
             newService.ram = RAM.toString()
             newService.ssd = SSD ? SSD.toString() : ''
@@ -591,7 +592,10 @@ const CreateCloud: React.FC = () => {
                 if (!validate(newClS[0])) return
                 const create = await createCloud(newClS[0])
                 if (create.data.status == 1) {
-                    notify(notifyType.NOTIFY_SUCCESS, 'Tạo thành công')
+                    notify(
+                        notifyType.NOTIFY_SUCCESS,
+                        'Tạo thành công vui lòng đợi vps khởi tạo'
+                    )
                 } else {
                     notify(notifyType.NOTIFY_ERROR, create.data.message)
                 }
@@ -607,7 +611,7 @@ const CreateCloud: React.FC = () => {
                 setTimeout(() => {
                     notify(
                         notifyType.NOTIFY_SUCCESS,
-                        `Tạo thành công ` + resCout
+                        `Tạo thành công vui lòng đợi vps khởi tạo` + resCout
                     )
                 }, 1000)
             }
@@ -633,7 +637,7 @@ const CreateCloud: React.FC = () => {
                     area: newCloudServer.area,
                     operatingSystem: newCloudServer.operatingSystem,
                     server: newCloudServer.server,
-                    autoBackup: autoBackup
+                    autoBackup: autoBackup,
                 }
                 iInserCloudServer.push(data)
             })
@@ -679,7 +683,7 @@ const CreateCloud: React.FC = () => {
     const handleChangeBackup = (checked: boolean) => {
         if (checked) {
             setAutoBackup(true)
-            return;
+            return
         }
         setAutoBackup(false)
     }
@@ -690,7 +694,6 @@ const CreateCloud: React.FC = () => {
         }
         return appendData()
     }, [])
-
 
     return (
         <>
@@ -901,8 +904,10 @@ const CreateCloud: React.FC = () => {
                             <span className="create-cloud-location-title">
                                 CẤU HÌNH CÓ SẴN
                             </span>
-                            <div className="deploy_title" style={{ display: "flex" }}>
-
+                            <div
+                                className="deploy_title"
+                                style={{ display: 'flex' }}
+                            >
                                 <button
                                     className="btn btn-primary btn-sm"
                                     onClick={() =>
@@ -942,19 +947,47 @@ const CreateCloud: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <div className="create-cloud-config" >
+                <div className="create-cloud-config">
                     <div className="server-config" style={{ display: 'block' }}>
                         <div className="create-cloud-location-title">
-                            <p style={{ marginBottom: '10px' }}>TỰ ĐỘNG BACKUP</p>
+                            <p style={{ marginBottom: '10px' }}>
+                                TỰ ĐỘNG BACKUP
+                            </p>
                         </div>
-                        <div className='server-auto-backup' style={{ display: 'flex', alignItems: 'center' }}>
-                            <Checkbox checked={autoBackup} onChange={(e) => e.target.checked ? setAutoBackup(true) : setAutoBackup(false)} />
-                            <img style={{ marginLeft: '10px' }} width={40} height={40} src='/images/server-icon.svg' />
-                            <p style={{ marginBottom: '0px', fontSize: '16px', marginLeft: '15px' }}>Server sẽ tự động được backup</p>
+                        <div
+                            className="server-auto-backup"
+                            style={{ display: 'flex', alignItems: 'center' }}
+                        >
+                            <Checkbox
+                                checked={autoBackup}
+                                onChange={(e) =>
+                                    e.target.checked
+                                        ? setAutoBackup(true)
+                                        : setAutoBackup(false)
+                                }
+                            />
+                            <img
+                                style={{ marginLeft: '10px' }}
+                                width={40}
+                                height={40}
+                                src="/images/server-icon.svg"
+                            />
+                            <p
+                                style={{
+                                    marginBottom: '0px',
+                                    fontSize: '16px',
+                                    marginLeft: '15px',
+                                }}
+                            >
+                                Server sẽ tự động được backup
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div className="create-cloud-server-name" style={{ marginTop: '15px' }}>
+                <div
+                    className="create-cloud-server-name"
+                    style={{ marginTop: '15px' }}
+                >
                     <p className="create-cloud-location-title">
                         CẤU HÌNH TÊN SERVER & NHÃN
                     </p>
@@ -1042,7 +1075,13 @@ const CreateCloud: React.FC = () => {
                             <span className="cost"> Chi phí: </span>
                             <div>
                                 <span className="order_total">
-                                    {autoBackup ? ConverMoney((price * numberCloud) + (price * numberCloud) * 0.1) : ConverMoney((price * numberCloud))} đ
+                                    {autoBackup
+                                        ? ConverMoney(
+                                              price * numberCloud +
+                                                  price * numberCloud * 0.1
+                                          )
+                                        : ConverMoney(price * numberCloud)}{' '}
+                                    đ
                                 </span>
                                 <span className="deploy-summary-price-label">
                                     /{unit}

@@ -5,7 +5,6 @@
     width: 100%;
     min-height: 100vh;
 
-
     &-location-title {
         font-size: 20px;
         text-transform: uppercase;
@@ -303,7 +302,7 @@
             margin-right: -12.5px;
             margin-left: -12.5px;
 
-            @media only screen and (max-width: 576px){
+            @media only screen and (max-width: 576px) {
                 flex-direction: column;
             }
             .col-sm-6 {

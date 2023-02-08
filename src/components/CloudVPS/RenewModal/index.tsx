@@ -12,17 +12,22 @@ import { notify, notifyType } from '@/App'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import { expiryDateTypeToNumber } from '@/helpers/expiryDateTypeToNumber'
 
-const RenewModal = ({id, closeFunction}:{id: string, closeFunction: ()=>void}) => {
-    
+const RenewModal = ({
+    id,
+    closeFunction,
+}: {
+    id: string
+    closeFunction: () => void
+}) => {
     const [quantity, setQuantity] = useState(1)
     const [cloudServer, setCloudServer] = useState<ICloudServer>()
     const [price, setPrice] = useState(0)
 
     const layout = useLayoutInit()
 
-    const handleChangeQuantity = (value:number|null) => {
-        if(value){
-            if(!isNaN(value) && value >= 1){
+    const handleChangeQuantity = (value: number | null) => {
+        if (value) {
+            if (!isNaN(value) && value >= 1) {
                 setQuantity(value)
             }
         }
@@ -30,7 +35,13 @@ const RenewModal = ({id, closeFunction}:{id: string, closeFunction: ()=>void}) =
 
     const extendCloudServer = async () => {
         try {
-            const result = await renewCloudServer(id, (cloudServer?.server.price || 1) * quantity, expiryDateTypeToNumber(cloudServer?.server?.expiryDateType || 3) * quantity)
+            const result = await renewCloudServer(
+                id,
+                (cloudServer?.server.price || 1) * quantity,
+                expiryDateTypeToNumber(
+                    cloudServer?.server?.expiryDateType || 3
+                ) * quantity
+            )
             // console.log(result.data)
             notify(notifyType.NOTIFY_SUCCESS, 'Gia hạn thành công')
             layout.setLoading(false)
@@ -51,26 +62,63 @@ const RenewModal = ({id, closeFunction}:{id: string, closeFunction: ()=>void}) =
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getCloudServer()
     }, [])
 
-
     return (
-        <div className = "renew-modal-blur-glass">
-            <div className = "renew-modal">
-                <h5 className='renew-modal-title'>Thay đổi hoá đơn Cloud Server {cloudServer?.cloudServerName}</h5>
+        <div className="renew-modal-blur-glass">
+            <div className="renew-modal">
+                <h5 className="renew-modal-title">
+                    Thay đổi hoá đơn Cloud Server {cloudServer?.cloudServerName}
+                </h5>
                 <p>Hoá đơn tính tiền:</p>
-                <p><Radio checked/> Giá theo {expiryDateType(cloudServer?.server?.expiryDateType || 1)} <span style={{color: '#3699ff', fontWeight: 600}}>{formatMoney((cloudServer?.server.price || 1) * quantity)}</span></p>
+                <p>
+                    <Radio checked /> Giá theo{' '}
+                    {expiryDateType(cloudServer?.server?.expiryDateType || 1)}{' '}
+                    <span style={{ color: '#3699ff', fontWeight: 600 }}>
+                        {formatMoney(
+                            (cloudServer?.server.price || 1) * quantity
+                        )}
+                    </span>
+                </p>
                 <p>Số lượng:</p>
-                <InputNumber value={quantity} onChange = {handleChangeQuantity}/>
-                <div className = "renew-modal-button-submit">
-                    <Button type='primary' style={{backgroundColor: '#e4e6ef', border: 'none', color: 'black'}} icon={<FaTimes size={18} style ={{marginRight: '3px'}} />} onClick={()=>closeFunction()}>Đóng</Button>
-                    <Button type='primary' style={{backgroundColor: '#1bc5bd', border: 'none', marginLeft: '10px'}} icon={<AiOutlineSave size={18} style ={{marginRight: '3px'}}/>}  onClick = {()=>extendCloudServer()}>Lưu lại</Button>
+                <InputNumber value={quantity} onChange={handleChangeQuantity} />
+                <div className="renew-modal-button-submit">
+                    <Button
+                        type="primary"
+                        style={{
+                            backgroundColor: '#e4e6ef',
+                            border: 'none',
+                            color: 'black',
+                        }}
+                        icon={
+                            <FaTimes size={18} style={{ marginRight: '3px' }} />
+                        }
+                        onClick={() => closeFunction()}
+                    >
+                        Đóng
+                    </Button>
+                    <Button
+                        type="primary"
+                        style={{
+                            backgroundColor: '#1bc5bd',
+                            border: 'none',
+                            marginLeft: '10px',
+                        }}
+                        icon={
+                            <AiOutlineSave
+                                size={18}
+                                style={{ marginRight: '3px' }}
+                            />
+                        }
+                        onClick={() => extendCloudServer()}
+                    >
+                        Lưu lại
+                    </Button>
                 </div>
             </div>
         </div>
-
     )
 }
 

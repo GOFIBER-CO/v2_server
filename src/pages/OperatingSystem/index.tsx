@@ -39,10 +39,11 @@ const OperatingSystem = () => {
     const getOs = async () => {
         try {
             layout.setLoading(true)
-            const os = await getAllOs(pageIndex, 
+            const os = await getAllOs(
+                pageIndex,
                 filter.operatingSystemName,
                 pageSize
-                )
+            )
             setOperatingSystems(os.data?.data)
             setTotalPage(os.data?.totalPages)
             setTotalItem(os.data?.totalItem)
@@ -207,8 +208,7 @@ const OperatingSystem = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

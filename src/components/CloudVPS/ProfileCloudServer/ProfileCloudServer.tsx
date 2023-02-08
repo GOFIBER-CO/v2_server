@@ -51,7 +51,7 @@ const ProfileCloudServer = ({
                         placeholder="Nhập nhãn dịch vụ mà bạn muốn"
                         onChange={(e) => onchangeName(data, e.target.value)}
                     />
-                </Form.Item> 
+                </Form.Item>
             </Form>
         </>
     )

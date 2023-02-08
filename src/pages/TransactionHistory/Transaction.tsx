@@ -58,13 +58,10 @@ const Transaction: React.FC = () => {
                 <Table columns={columns} />
                 <Pagination
                     style={{ marginTop: '30px' }}
-                  
-                               
                     current={1}
                     defaultCurrent={1}
                     total={100}
                     pageSize={1}
-
                 />
             </div>
         </div>

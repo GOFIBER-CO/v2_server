@@ -3,19 +3,17 @@ import Checkbox from '../Checkbox/Checkbox'
 import ConverMoney from '../Conver/ConverMoney'
 
 const Server = ({
-
     data,
     currentPrice,
     unit,
     onchange,
 }: {
-
-    data: IService,
-    currentPrice: any
+    data: IService
+    currentPrice?: any
     unit: string
     onchange: (value: IService) => void
 }) => {
-    console.log('currentPrice: ', currentPrice);
+    console.log('currentPrice: ', currentPrice)
 
     return (
         <div
@@ -30,8 +28,16 @@ const Server = ({
                 <div className="price_number">
                     <div className="py-2">
                         <h4>
-                            {/* { currentPrice !== undefined} ? {ConverMoney(data.price - currentPrice)} : {ConverMoney(data.price)} */}
-                            {(currentPrice) ? ConverMoney(data.price - currentPrice) : data.price} ₫
+                            {/* { currentPrice !== undefined} ? {ConverMoney(data.price - currentPrice)} : {ConverMoney(data.price)}
+                             */}
+                            {currentPrice && data.price
+                                ? ConverMoney(
+                                      data.price != undefined
+                                          ? data.price
+                                          : 0 - currentPrice
+                                  )
+                                : data.price}{' '}
+                            ₫
                         </h4>
                         {/* <h4>{ConverMoney(data.price - currentPrice)} ₫</h4> */}
                     </div>

@@ -426,7 +426,7 @@ const MainLayout: React.FC = () => {
         getNotification()
     }, [notificationType])
 
-    useEffect(()=>{
+    useEffect(() => {
         //@ts-ignore
         const handleClickOutSide = (e) => {
             //@ts-ignore
@@ -434,16 +434,24 @@ const MainLayout: React.FC = () => {
                 setPanel(false)
             }
             //@ts-ignore
-            if (refUserOption.current && !refUserOption.current.contains(e.target)) {
+            if (
+                refUserOption.current &&
+                //@ts-ignore
+                !refUserOption.current.contains(e.target)
+            ) {
                 setUserOption(false)
             }
-             //@ts-ignore
-             if (refNotificationBox.current && !refNotificationBox.current.contains(e.target)) {
+            //@ts-ignore
+            if (
+                refNotificationBox.current &&
+                //@ts-ignore
+                !refNotificationBox.current.contains(e.target)
+            ) {
                 setNotificationBox(false)
             }
         }
         document.addEventListener('click', handleClickOutSide, true)
-    },[])
+    }, [])
 
     return (
         <>
@@ -536,10 +544,16 @@ const MainLayout: React.FC = () => {
                             </div>
                             <div className="site-layout-surplus">
                                 <p>
-                                    Số dư:<span style={{fontSize:'15px'}}>{formatMoney(surplus)}</span>
+                                    Số dư:
+                                    <span style={{ fontSize: '15px' }}>
+                                        {formatMoney(surplus)}
+                                    </span>
                                 </p>
                             </div>
-                            <div className="site-layout-appstore"  ref={refPanel}>
+                            <div
+                                className="site-layout-appstore"
+                                ref={refPanel}
+                            >
                                 <AiOutlineAppstore
                                     size={20}
                                     style={{
@@ -560,7 +574,10 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="site-layout-notification"  ref={refNotificationBox}>
+                            <div
+                                className="site-layout-notification"
+                                ref={refNotificationBox}
+                            >
                                 <span
                                     className="site-layout-notification-ring"
                                     onClick={() => {
@@ -596,21 +613,21 @@ const MainLayout: React.FC = () => {
                                                     style={
                                                         notificationType == ''
                                                             ? {
-                                                                borderBottom:
-                                                                    '3px solid #1bc5bd',
-                                                                fontSize:
-                                                                    '17px',
-                                                                padding:
-                                                                    '0 10px',
-                                                                cursor: 'pointer',
-                                                            }
+                                                                  borderBottom:
+                                                                      '3px solid #1bc5bd',
+                                                                  fontSize:
+                                                                      '17px',
+                                                                  padding:
+                                                                      '0 10px',
+                                                                  cursor: 'pointer',
+                                                              }
                                                             : {
-                                                                fontSize:
-                                                                    '17px',
-                                                                padding:
-                                                                    '0 10px',
-                                                                cursor: 'pointer',
-                                                            }
+                                                                  fontSize:
+                                                                      '17px',
+                                                                  padding:
+                                                                      '0 10px',
+                                                                  cursor: 'pointer',
+                                                              }
                                                     }
                                                     onClick={() =>
                                                         setNotificationType('')
@@ -621,11 +638,11 @@ const MainLayout: React.FC = () => {
                                                 <li
                                                     style={
                                                         notificationType ==
-                                                            'shopping'
+                                                        'shopping'
                                                             ? {
-                                                                borderBottom:
-                                                                    '3px solid #1bc5bd',
-                                                            }
+                                                                  borderBottom:
+                                                                      '3px solid #1bc5bd',
+                                                              }
                                                             : {}
                                                     }
                                                     onClick={() =>
@@ -647,11 +664,11 @@ const MainLayout: React.FC = () => {
                                                 <li
                                                     style={
                                                         notificationType ==
-                                                            'cash'
+                                                        'cash'
                                                             ? {
-                                                                borderBottom:
-                                                                    '3px solid #1bc5bd',
-                                                            }
+                                                                  borderBottom:
+                                                                      '3px solid #1bc5bd',
+                                                              }
                                                             : {}
                                                     }
                                                     onClick={() =>
@@ -673,11 +690,11 @@ const MainLayout: React.FC = () => {
                                                 <li
                                                     style={
                                                         notificationType ==
-                                                            'ticket'
+                                                        'ticket'
                                                             ? {
-                                                                borderBottom:
-                                                                    '3px solid #1bc5bd',
-                                                            }
+                                                                  borderBottom:
+                                                                      '3px solid #1bc5bd',
+                                                              }
                                                             : {}
                                                     }
                                                     onClick={() =>
@@ -699,11 +716,11 @@ const MainLayout: React.FC = () => {
                                                 <li
                                                     style={
                                                         notificationType ==
-                                                            'home'
+                                                        'home'
                                                             ? {
-                                                                borderBottom:
-                                                                    '3px solid #1bc5bd',
-                                                            }
+                                                                  borderBottom:
+                                                                      '3px solid #1bc5bd',
+                                                              }
                                                             : {}
                                                     }
                                                     onClick={() =>
@@ -752,33 +769,50 @@ const MainLayout: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="site-layout-avatar" ref={refUserOption}>
-                                <Link className='site-layout-avatar-username' to="/profile" style={{verticalAlign: '-2px'}}>Hi, {auth.user.userName}</Link>
+                            <div
+                                className="site-layout-avatar"
+                                ref={refUserOption}
+                            >
+                                <Link
+                                    className="site-layout-avatar-username"
+                                    to="/profile"
+                                    style={{ verticalAlign: '-2px' }}
+                                >
+                                    Hi, {auth.user.userName}
+                                </Link>
                                 <Avatar
                                     onClick={() => {
                                         setUserOption(!userOption)
                                         setNotificationBox(false)
                                     }}
                                     size={35}
-                                    icon={<UserOutlined
-                                        style={{
-                                            position: "absolute",
-                                            top: "50%",
-                                            transform: "translate(-50%, -50%)",
-                                            left: "50%",
-                                        }}
-                                    />}
-                                    style={{ cursor: 'pointer', marginLeft: '10px' }}
+                                    icon={
+                                        <UserOutlined
+                                            style={{
+                                                position: 'absolute',
+                                                top: '50%',
+                                                transform:
+                                                    'translate(-50%, -50%)',
+                                                left: '50%',
+                                            }}
+                                        />
+                                    }
+                                    style={{
+                                        cursor: 'pointer',
+                                        marginLeft: '10px',
+                                    }}
                                 />
                                 {userOption && (
                                     <div className="site-layout-avatar--option">
                                         <ul>
-                                            <li style={{ lineHeight: 6 }} className="bg-img">
-
+                                            <li
+                                                style={{ lineHeight: 6 }}
+                                                className="bg-img"
+                                            >
                                                 <UserOutlined
                                                     style={{
                                                         verticalAlign: '1px',
-                                                        fontSize: '2rem'
+                                                        fontSize: '2rem',
                                                     }}
                                                 />
                                                 <span
@@ -786,12 +820,17 @@ const MainLayout: React.FC = () => {
                                                         marginLeft: '5px',
                                                     }}
                                                 >
-
                                                     {auth.user.userName}
                                                 </span>
                                             </li>
-                                             <li style={{ lineHeight: 2 }} className="bg-img">
-                                                <span>Số dư: {formatMoney(surplus)}</span>
+                                            <li
+                                                style={{ lineHeight: 2 }}
+                                                className="bg-img"
+                                            >
+                                                <span>
+                                                    Số dư:{' '}
+                                                    {formatMoney(surplus)}
+                                                </span>
                                             </li>
                                             <Divider
                                                 style={{
@@ -802,32 +841,63 @@ const MainLayout: React.FC = () => {
                                             <Link to="/profile">
                                                 {/* <div style={{display:'flex',alignItems:"center"}}> */}
 
-                                                <li className='info_profile'>
-                                                    <ImProfile size={20} color={"#1890ff"} className="icon_profile" />
-                                                    <span style={{ marginLeft: "10px", fontSize: "1rem" }}>Thông tin tài khoản</span>
+                                                <li className="info_profile">
+                                                    <ImProfile
+                                                        size={20}
+                                                        color={'#1890ff'}
+                                                        className="icon_profile"
+                                                    />
+                                                    <span
+                                                        style={{
+                                                            marginLeft: '10px',
+                                                            fontSize: '1rem',
+                                                        }}
+                                                    >
+                                                        Thông tin tài khoản
+                                                    </span>
                                                 </li>
                                                 {/* </div> */}
                                             </Link>
                                             <Link to="/change-password">
-                                                <li className='info_profile'>
-                                                    <RiLockPasswordLine size={20} color={"#1890ff"} className="icon_profile" />
-                                                    <span style={{ marginLeft: "10px", fontSize: "1rem" }}>Thay đổi mật khẩu</span>
+                                                <li className="info_profile">
+                                                    <RiLockPasswordLine
+                                                        size={20}
+                                                        color={'#1890ff'}
+                                                        className="icon_profile"
+                                                    />
+                                                    <span
+                                                        style={{
+                                                            marginLeft: '10px',
+                                                            fontSize: '1rem',
+                                                        }}
+                                                    >
+                                                        Thay đổi mật khẩu
+                                                    </span>
                                                 </li>
                                             </Link>
                                             <Link to="/2fa-security">
-                                                <li className='info_profile'>
-                                                    <MdOutlineSecurity size={20} color={"#1890ff"} className="icon_profile" />
-                                                    <span style={{ marginLeft: "10px", fontSize: "1rem" }}>Cài đặt bảo mật (2FA)</span>
+                                                <li className="info_profile">
+                                                    <MdOutlineSecurity
+                                                        size={20}
+                                                        color={'#1890ff'}
+                                                        className="icon_profile"
+                                                    />
+                                                    <span
+                                                        style={{
+                                                            marginLeft: '10px',
+                                                            fontSize: '1rem',
+                                                        }}
+                                                    >
+                                                        Cài đặt bảo mật (2FA)
+                                                    </span>
                                                 </li>
                                             </Link>
-
 
                                             <li onClick={() => logout()}>
                                                 <Link to="#">
                                                     <span>Đăng xuất</span>
                                                 </Link>
                                             </li>
-
                                         </ul>
                                     </div>
                                 )}

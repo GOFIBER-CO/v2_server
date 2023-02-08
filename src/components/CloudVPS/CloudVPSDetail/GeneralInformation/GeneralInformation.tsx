@@ -1,41 +1,46 @@
-import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
-import { Input } from 'antd';
-import { Component } from 'react';
+import React, { useState } from 'react'
+import { Button, Modal } from 'antd'
+import { Input } from 'antd'
+import { Component } from 'react'
 import ICloudServer from '@/interfaces/ICloudServer'
-import { HiPencilAlt } from 'react-icons/hi';
+import { HiPencilAlt } from 'react-icons/hi'
 import { MdOutlineSecurity } from 'react-icons/md'
-import { updateCloud, updateCloudServerName } from '@/services/apis';
-import { toast } from 'react-toastify';
+import { updateCloud, updateCloudServerName } from '@/services/apis'
+import { toast } from 'react-toastify'
 import './generalInformation.css'
 //@ts-ignore
-const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
+const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
     // console.log('dataaaa: ', data);
 
     // console.log('handleChangeNameValue: ', handleChangeNameValue);
     const [labelName, setLabelName] = useState('')
     const [localData, setLocalData] = useState(data)
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const showModal = () => {
-        setIsModalOpen(true);
-    };
+        setIsModalOpen(true)
+    }
     const handleOk = async () => {
         try {
-            setIsModalOpen(false);
-            const result = await updateCloudServerName(localData?._id, labelName)
+            setIsModalOpen(false)
+            const result = await updateCloudServerName(
+                localData?._id,
+                labelName
+            )
             // console.log(result.data)
             //@ts-ignore
-            setLocalData({ ...localData, cloudServerName: result.data?.data?.cloudServerName })
-            toast.success("Sửa tên thành công")
+            setLocalData({
+                ...localData,
+                cloudServerName: result.data?.data?.cloudServerName,
+            })
+            toast.success('Sửa tên thành công')
         } catch (error) {
             console.log(error)
-            toast.error("Sửa tên thất bại")
+            toast.error('Sửa tên thất bại')
         }
-
-    };
+    }
     const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+        setIsModalOpen(false)
+    }
     return (
         <>
             <div className="tab-content">
@@ -47,8 +52,18 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img width="20" src={typeof (localData?.area.file) == 'string' ? `${localData?.area.file}` : ''} />
-                                        <span style={{ marginLeft: '8px' }}>{localData?.area.areaName}</span>
+                                        <img
+                                            width="20"
+                                            src={
+                                                typeof localData?.area.file ==
+                                                'string'
+                                                    ? `${localData?.area.file}`
+                                                    : ''
+                                            }
+                                        />
+                                        <span style={{ marginLeft: '8px' }}>
+                                            {localData?.area.areaName}
+                                        </span>
                                     </span>
                                 </div>
                             </div>
@@ -58,7 +73,7 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        { }
+                                        {}
                                     </span>
                                 </div>
                             </div>
@@ -161,11 +176,17 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                             <div className="flexlayoutdata">
                                 <div className="title-name">Tên nhãn:</div>
                                 <div>
-                                    <span style={{ verticalAlign: 'middle', marginRight: "5px" }}>
+                                    <span
+                                        style={{
+                                            verticalAlign: 'middle',
+                                            marginRight: '5px',
+                                        }}
+                                    >
                                         {localData?.cloudServerName}
                                     </span>
 
-                                    <Button type="primary"
+                                    <Button
+                                        type="primary"
                                         style={{
                                             border: '0px',
                                             borderBottom: '0 !important',
@@ -173,11 +194,15 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                                             color: 'black',
                                             boxSizing: 'unset',
                                             // boxShadow: '0 !important',
-                                            boxShadow: 'unset'
+                                            boxShadow: 'unset',
                                         }}
                                         onClick={showModal}
                                     >
-                                        <HiPencilAlt size={20} style={{ cursor: "pointer" }} className="hover-icon" />
+                                        <HiPencilAlt
+                                            size={20}
+                                            style={{ cursor: 'pointer' }}
+                                            className="hover-icon"
+                                        />
                                     </Button>
                                     <Modal
                                         title="Tên nhãn"
@@ -187,8 +212,12 @@ const GeneralInformation = ({ data }: { data ? : ICloudServer }) => {
                                     >
                                         <Input
                                             placeholder="Nhập tên mới"
-                                            onChange={(e) => setLabelName(e.target.value)}
-                                            defaultValue={localData?.cloudServerName}
+                                            onChange={(e) =>
+                                                setLabelName(e.target.value)
+                                            }
+                                            defaultValue={
+                                                localData?.cloudServerName
+                                            }
                                         />
                                     </Modal>
                                 </div>

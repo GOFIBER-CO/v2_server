@@ -1,18 +1,18 @@
-export const expiryDateType = (type: number):string => {
-    switch(type){
-        case 1: 
+export const expiryDateType = (type: number): string => {
+    switch (type) {
+        case 1:
             return 'Giờ'
-        case 2: 
+        case 2:
             return 'Ngày'
-        case 3: 
+        case 3:
             return 'Tháng'
-        case 4: 
+        case 4:
             return '3 Tháng'
-        case 5: 
+        case 5:
             return '6 Tháng'
-        case 6: 
+        case 6:
             return 'Năm'
-        default: 
+        default:
             return ''
     }
 }

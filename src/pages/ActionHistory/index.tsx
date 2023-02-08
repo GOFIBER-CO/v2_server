@@ -1,6 +1,13 @@
 import ButtonFilter from '@/components/ButtonFilter'
 import '@/styles/pages/ActionHistory/ActionHistory.scss'
-import { AutoComplete, Input, Pagination, PaginationProps, Select, Tag } from 'antd'
+import {
+    AutoComplete,
+    Input,
+    Pagination,
+    PaginationProps,
+    Select,
+    Tag,
+} from 'antd'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import Table, { ColumnsType } from 'antd/lib/table'
 import { useEffect, useState } from 'react'
@@ -12,12 +19,12 @@ import { useLayoutInit } from '@/hooks/useInitLayOut'
 
 const { Option } = Select
 
-interface Action{
-    _id: string,
-    action: string,
+interface Action {
+    _id: string
+    action: string
     user: string | IUser
-    createdAt: string,
-    successAt?: string,
+    createdAt: string
+    successAt?: string
 }
 
 const ActionHistory: React.FC = () => {
@@ -31,11 +38,14 @@ const ActionHistory: React.FC = () => {
     const auth = useAuth()
     const layout = useLayoutInit()
 
-    
     const getActionsHistory = async () => {
         try {
             layout.setLoading(true)
-            const actions = await getActionHistoryByUserId(auth.user._id,pageSize, pageIndex)
+            const actions = await getActionHistoryByUserId(
+                auth.user._id,
+                pageSize,
+                pageIndex
+            )
             setActions(actions.data?.actions)
             setTotalDoc(actions.data?.totalDoc)
             setTotalPage(actions.data?.totalPage)
@@ -52,17 +62,17 @@ const ActionHistory: React.FC = () => {
         address: string
     }
 
-    const statusKey: {[key: string]: string} = {
-        'pending': 'Đang thực hiện',
-        'success': 'Thành công',
-        'fail': 'Thất bại'
+    const statusKey: { [key: string]: string } = {
+        pending: 'Đang thực hiện',
+        success: 'Thành công',
+        fail: 'Thất bại',
     }
 
     const columns: ColumnsType<DataType> = [
         {
             title: 'Người thực hiện',
             dataIndex: 'user',
-            render: (value) => value?.userName
+            render: (value) => value?.userName,
         },
         {
             title: 'Thao tác',
@@ -71,35 +81,34 @@ const ActionHistory: React.FC = () => {
         {
             title: 'Trạng thái',
             dataIndex: 'status',
-            render: (value:string) => {
-                if(value === 'pending'){
+            render: (value: string) => {
+                if (value === 'pending') {
                     return <Tag color="yellow">{statusKey[value]}</Tag>
-                }else if(value === 'success'){
+                } else if (value === 'success') {
                     return <Tag color="success">{statusKey[value]}</Tag>
-                }else{
+                } else {
                     return <Tag color="red">{statusKey[value]}</Tag>
                 }
-            }
-            
+            },
         },
         {
             title: 'Thời gian thực hiện',
             dataIndex: 'createdAt',
-            render: (value) => formatDate(value)
+            render: (value) => formatDate(value),
         },
         {
             title: 'Thời gian hoàn thành',
             dataIndex: 'successAt',
-            render: (value) => !value ? 'Chưa hoàn thành' : formatDate(value)
+            render: (value) => (!value ? 'Chưa hoàn thành' : formatDate(value)),
         },
     ]
     const onFiltered = () => {
         console.log('Filtered')
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getActionsHistory()
-    },[pageIndex, pageSize])
+    }, [pageIndex, pageSize])
 
     return (
         <div className="action-history-page">
@@ -148,8 +157,7 @@ const ActionHistory: React.FC = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

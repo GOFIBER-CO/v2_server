@@ -20,8 +20,7 @@ import { useEffect, useState } from 'react'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
 
-import "./Support.css"
-
+import './Support.css'
 
 const { Option } = Select
 
@@ -40,7 +39,7 @@ const Support: React.FC = () => {
         SupportTT: string
         SupportUT: string
         supportName: string
-    }>({ SupportTT: '',SupportUT:'', supportName: '' })
+    }>({ SupportTT: '', SupportUT: '', supportName: '' })
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
@@ -56,13 +55,18 @@ const Support: React.FC = () => {
     const getAllTickets = async () => {
         try {
             layout.setLoading(true)
-            const result = await getSupportByUserId(auth.user._id, pageIndex, filter.SupportTT, filter.SupportUT, filter.supportName
-                , pageSize
-                )
+            const result = await getSupportByUserId(
+                auth.user._id,
+                pageIndex,
+                filter.SupportTT,
+                filter.SupportUT,
+                filter.supportName,
+                pageSize
+            )
             setTickes(result.data?.data)
             setTotalPage(result.data?.totalPages)
             setTotalItem(result.data?.totalItem)
-            
+
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -137,7 +141,6 @@ const Support: React.FC = () => {
         getAllTickets()
     }
 
-    
     return (
         <div className="support-page">
             <div className="support-page-header">
@@ -161,66 +164,77 @@ const Support: React.FC = () => {
                         <Button type="primary">Tạo ticket</Button>
                     </Link>
                 </div>
-                <div className="support-page-create-ticket" style={{marginLeft:'10px'}}>
-                <Select
-                    defaultValue="--Trạng thái--"
-                    style={{ width: 130 , }}
-                    onChange={(value) =>
-                        setFilter({
-                            ...filter,
-                            SupportTT: value,
-                        })
-                    }
+                <div
+                    className="support-page-create-ticket"
+                    style={{ marginLeft: '10px' }}
                 >
-                    <Option value={0}>Chưa xác nhận</Option>
-                    <Option value={1}>Xác nhận</Option>
-                    <Option value={2}>Hoàn thành</Option>
-                </Select>
+                    <Select
+                        defaultValue="--Trạng thái--"
+                        style={{ width: 130 }}
+                        onChange={(value) =>
+                            setFilter({
+                                ...filter,
+                                SupportTT: value,
+                            })
+                        }
+                    >
+                        <Option value={0}>Chưa xác nhận</Option>
+                        <Option value={1}>Xác nhận</Option>
+                        <Option value={2}>Hoàn thành</Option>
+                    </Select>
                 </div>
-                <div className="support-page-create-ticket" style={{marginLeft:'10px'}}>
-                <Select
-                    defaultValue="--Cấp ưu tiên--"
-                    style={{ width: 140 , }}
-                    onChange={(value) =>
-                        setFilter({
-                            ...filter,
-                            SupportUT: value,
-                        })
-                    }                   
-                    options={[
-                        {
-                            value: 0,
-                            label: 'Tất cả',
-                        },
-                        {
-                            value: 1,
-                            label: 'Bình thường',
-                        },
-                        {
-                            value: 2,
-                            label: 'Ưu tiên',
-                        },
-                        {
-                            value: 3,
-                            label: 'Khẩn cấp',
-                        },
-                       
-                    ]}
+                <div
+                    className="support-page-create-ticket"
+                    style={{ marginLeft: '10px' }}
+                >
+                    <Select
+                        defaultValue="--Cấp ưu tiên--"
+                        style={{ width: 140 }}
+                        onChange={(value) =>
+                            setFilter({
+                                ...filter,
+                                SupportUT: value,
+                            })
+                        }
+                        options={[
+                            {
+                                value: 0,
+                                label: 'Tất cả',
+                            },
+                            {
+                                value: 1,
+                                label: 'Bình thường',
+                            },
+                            {
+                                value: 2,
+                                label: 'Ưu tiên',
+                            },
+                            {
+                                value: 3,
+                                label: 'Khẩn cấp',
+                            },
+                        ]}
                     />
                 </div>
-                
-                <div className="support-page-create-ticket" style={{marginLeft:'10px'}} >
-                <Input 
-                     onChange={(e) =>
-                        setFilter({
-                            ...filter,
-                            supportName: e.target.value,
-                        })
-                    }
-                />
+
+                <div
+                    className="support-page-create-ticket"
+                    style={{ marginLeft: '10px' }}
+                >
+                    <Input
+                        onChange={(e) =>
+                            setFilter({
+                                ...filter,
+                                supportName: e.target.value,
+                            })
+                        }
+                    />
                 </div>
 
-                <div className="support-page-create-ticket" style={{marginLeft:'10px'}}>
+                <div
+                    className="support-page-create-ticket"
+                    style={{ marginLeft: '10px' }}
+                >
                     <ButtonFilter buttonOnclick={onFiltered}></ButtonFilter>
                 </div>
                 <div className="support-page-filter-general"></div>
@@ -245,8 +259,7 @@ const Support: React.FC = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>

@@ -144,7 +144,20 @@ const Service = () => {
         {
             title: 'Giá theo',
             dataIndex: 'expiryDateType',
-            render : (value) => (value == 1 ? 'Giờ' : (value == 2 ? 'Ngày' : (value == 3 ? '1 Tháng' : (value == 4 ? '3 Tháng' : (value == 5 ? '6 Tháng' : (value == 6 ? '1 Năm' : ''))))))
+            render: (value) =>
+                value == 1
+                    ? 'Giờ'
+                    : value == 2
+                    ? 'Ngày'
+                    : value == 3
+                    ? '1 Tháng'
+                    : value == 4
+                    ? '3 Tháng'
+                    : value == 5
+                    ? '6 Tháng'
+                    : value == 6
+                    ? '1 Năm'
+                    : '',
         },
         {
             title: 'Ngày tạo',
@@ -264,8 +277,7 @@ const Service = () => {
                     onChange={(value, pageSize) => {
                         setPageIndex(value)
                         setPageSize(pageSize)
-                    }
-                    }
+                    }}
                 />
             </div>
         </div>
