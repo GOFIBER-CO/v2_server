@@ -272,6 +272,7 @@ const Service = () => {
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}
+                    defaultCurrent={pageIndex}
                     total={totalItem}
                     pageSize={pageSize}
                     onChange={(value, pageSize) => {

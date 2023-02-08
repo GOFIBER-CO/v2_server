@@ -198,6 +198,7 @@ const Location = () => {
                     pagination={false}
                 />
                 <Pagination
+                showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}

@@ -31,7 +31,7 @@ const ActionHistory: React.FC = () => {
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
     const [actions, setActions] = useState([])
-    const [pageSize, setPageSize] = useState(6)
+    const [pageSize, setPageSize] = useState(10)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalDoc, setTotalDoc] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
@@ -148,6 +148,7 @@ const ActionHistory: React.FC = () => {
                     rowKey="_id"
                 />
                 <Pagination
+                showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}

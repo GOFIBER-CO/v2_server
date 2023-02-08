@@ -72,7 +72,7 @@ const CloudVps: React.FC = () => {
 
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
-    const [pageSize, setPageSize] = useState(6)
+    const [pageSize, setPageSize] = useState(10)
     const [totalItem, setTotalItem] = useState(1)
     const [location, setLocation] = useState<IArea[]>([])
     const [order, setOrder] = useState<IOrder[]>([])
@@ -544,6 +544,8 @@ const CloudVps: React.FC = () => {
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setTotalItem(cloudVps.data?.totalItem)
+            setPageIndex(cloudVps?.data?.pageIndex)
+            setPageSize(cloudVps?.data?.pageSize)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -749,6 +751,7 @@ const CloudVps: React.FC = () => {
                                 rowKey="_id"
                             />
                             <Pagination
+                            showSizeChanger
                                 showTotal={showTotal}
                                 style={{ marginTop: '30px' }}
                                 current={pageIndex}
