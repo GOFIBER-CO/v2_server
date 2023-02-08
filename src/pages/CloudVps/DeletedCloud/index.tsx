@@ -105,7 +105,7 @@ const DeletedCloud: React.FC = () => {
             render: (value) => (
                 <>
                     <img
-                        src={value.img}
+                        src={value?.img}
                         style={{ maxWidth: '25px', maxHeight: '25px' }}
                     />
                 </>
