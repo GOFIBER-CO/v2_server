@@ -16,5 +16,6 @@ export default interface ICloudServer {
     isShow: boolean
     createdTime: Date
     order: IOrder
-    isAutoRenew: boolean
+    isAutoRenew: boolean,
+    status: string
 }

@@ -60,7 +60,7 @@ import formatMoney from '@/helpers/formatMoney'
 
 const { Header, Sider, Content } = Layout
 
-const socket = io('https://api.vngserver.vn')
+const socket = io('https://localhost:8079')
 
 const MainLayout: React.FC = () => {
     const [notifications, setNotifications] = useState<INotification[]>([])

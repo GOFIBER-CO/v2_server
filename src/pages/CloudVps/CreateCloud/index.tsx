@@ -23,6 +23,7 @@ import Area from '@/components/Area/Area'
 import ProfileCloudServer from '@/components/CloudVPS/ProfileCloudServer/ProfileCloudServer'
 import PackageServer from '@/components/PackageServer/PackageServer'
 import { Checkbox, Radio, Slider } from 'antd'
+import { useNavigate } from 'react-router'
 // import console from 'console'
 
 const CreateCloud: React.FC = () => {
@@ -61,6 +62,8 @@ const CreateCloud: React.FC = () => {
     const [autoBackup, setAutoBackup] = useState(false)
 
     let iInserCloudServer: IInserCloudServer[] = []
+
+    const navigate = useNavigate()
 
     const [newCloudServer, setNewCloudServer] = useState<IInserCloudServer>({
         cloudServerName: '',
@@ -596,6 +599,7 @@ const CreateCloud: React.FC = () => {
                         notifyType.NOTIFY_SUCCESS,
                         'Tạo thành công vui lòng đợi vps khởi tạo'
                     )
+                    navigate('/cloud-vps')
                 } else {
                     notify(notifyType.NOTIFY_ERROR, create.data.message)
                 }

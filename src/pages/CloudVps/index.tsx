@@ -47,6 +47,7 @@ import subtractDate from '@/helpers/subtractDate'
 import { Link } from 'react-router-dom'
 import RenewModal from '@/components/CloudVPS/RenewModal'
 import { Value } from 'sass'
+import { socket } from '@/socket'
 const { Option } = Select
 
 const CloudVps: React.FC = () => {
@@ -120,6 +121,7 @@ const CloudVps: React.FC = () => {
             layout.setLoading(false)
         }
     }
+
 
     const auth = useAuth()
     const menu = (
@@ -606,14 +608,27 @@ const CloudVps: React.FC = () => {
     }
 
     useEffect(() => {
-        getCloudServer()
         getAllLocation()
         // getAllOrder()
+        getCloudServer()
         getOperatingSystem()
     }, [pageIndex, pageSize])
     const updateLabelName = (value: any) => {
         console.log('value: ', value)
     }
+
+    console.log(cloudServer)
+
+
+    useEffect(() => {
+        socket.on('create cloudserver', (msg) => {
+            if(msg.status == 'active')
+                notify(notifyType.NOTIFY_SUCCESS, 'Cloudserver khởi tạo thành công')
+            else 
+                notify(notifyType.NOTIFY_ERROR, 'Cloudserver khời tạo thất bại')
+                getCloudServer()
+        })
+    }, [])
     // updateLabelName()
     return (
         <React.Fragment>
