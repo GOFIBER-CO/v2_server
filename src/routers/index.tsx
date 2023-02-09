@@ -47,6 +47,9 @@ import LoginNew from './../pages/LoginNew/index'
 import RegisterNew from '@/pages/RegisterNew'
 import UpdateCloud from '@/pages/CloudVps/UpdateCloud'
 import OperationHistory from '@/pages/OperationHistory'
+import ManagePrice from '@/pages/ManagePrice'
+import ManageIp from '@/pages/ManageIP'
+import CreateIp from '@/pages/ManageIP/CreateIp'
 const AppRouter: React.FC = () => {
     const auth = useAuth()
     const isLoggedIn = auth.isLoggedIn
@@ -61,7 +64,10 @@ const AppRouter: React.FC = () => {
                     !checkIsExpiredToken(auth.jwtToken)) ? (
                     <Route path="/" element={<MainLayout />}>
                         <Route index element={<Home />} />
+                        <Route path = "/manage-ip" element={<ManageIp />} />
+                        <Route path = "/manage-ip/create" element={<CreateIp />} />
                         <Route path="/cloud-vps" element={<CloudVps />} />
+                        <Route path='/manage-price' element={<ManagePrice/>}/>
                         <Route
                             path="/action-history"
                             element={<ActionHistory />}

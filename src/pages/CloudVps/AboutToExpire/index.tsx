@@ -491,7 +491,6 @@ const AboutToExpire: React.FC = () => {
         try {
             const result = await getAllOrder()
             // setOrder(result)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
@@ -518,7 +517,6 @@ const AboutToExpire: React.FC = () => {
                 pageIndex,
                 pageSize
             )
-            console.log(cloudVps)
             setCloudServer(cloudVps.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setPageSize(cloudVps.data?.pageSize)

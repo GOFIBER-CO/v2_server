@@ -462,6 +462,7 @@ const CreateCloud: React.FC = () => {
         }
 
         setPriceServer(price + 130000)
+        setPrice(price + 130000)
         setCPU(value)
     }
 
@@ -481,6 +482,7 @@ const CreateCloud: React.FC = () => {
         }
 
         setPriceServer(price + 130000)
+        setPrice(price + 130000)
         setRAM(value)
     }
 
@@ -500,6 +502,7 @@ const CreateCloud: React.FC = () => {
         }
 
         setPriceServer(price + 130000)
+        setPrice(price + 130000)
         setSSD(value)
         setHDD(0)
     }
@@ -554,6 +557,7 @@ const CreateCloud: React.FC = () => {
                         const createCloudServer = await createCloud(newClS[0])
                         if (createCloudServer.data.status == 1) {
                             notify(notifyType.NOTIFY_SUCCESS, 'Tạo thành công')
+                            navigate('/cloud-vps')
                         } else {
                             notify(
                                 notifyType.NOTIFY_ERROR,
@@ -776,7 +780,7 @@ const CreateCloud: React.FC = () => {
                                                 onChange={onChangeRAM}
                                                 defaultValue={1}
                                                 min={1}
-                                                max={8}
+                                                max={128}
                                             />
                                         </div>
                                         <div className="form-group">
@@ -785,7 +789,7 @@ const CreateCloud: React.FC = () => {
                                                 onChange={onChangeSSD}
                                                 defaultValue={30}
                                                 min={30}
-                                                max={960}
+                                                max={1000}
                                                 value={SSD}
                                             />
                                         </div>
@@ -983,7 +987,7 @@ const CreateCloud: React.FC = () => {
                                     marginLeft: '15px',
                                 }}
                             >
-                                Server sẽ tự động được backup
+                                Server sẽ tự động được backup (Chi phí tăng 10%)
                             </p>
                         </div>
                     </div>

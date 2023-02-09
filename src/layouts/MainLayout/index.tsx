@@ -5,7 +5,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 import { Divider, Layout, Menu, MenuProps } from 'antd'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router'
 import Avatar from 'antd/lib/avatar/avatar'
 import { Link, NavLink } from 'react-router-dom'
@@ -52,15 +52,14 @@ import { SlLocationPin } from 'react-icons/sl'
 import ModalConfirm from '@/components/Modal'
 import { getNotificationByUserId, getUserSurplus } from '@/services/apis'
 import INotification from '@/interfaces/INotification'
-import io from 'socket.io-client'
 import { notify, notifyType } from '@/App'
 import { isMobile } from 'react-device-detect'
 import { IoStatsChart } from 'react-icons/io5'
 import formatMoney from '@/helpers/formatMoney'
+import appConfig from '@/config/appConfig'
+import {socket} from '@/socket/index'
 
 const { Header, Sider, Content } = Layout
-
-const socket = io('https://localhost:8079')
 
 const MainLayout: React.FC = () => {
     const [notifications, setNotifications] = useState<INotification[]>([])
@@ -158,6 +157,35 @@ const MainLayout: React.FC = () => {
                                     }
                                 >
                                     Thêm hệ điều hành
+                                </NavLink>
+                            ),
+                        },
+                    ],
+                },
+                {
+                    key: '/manage-ip',
+                    icon: <MdOutlineSettingsSystemDaydream />,
+                    label: 'Quản lí IP',
+                    children: [
+                        {
+                            key: '/manage-ip',
+                            icon: <BsCardChecklist />,
+                            label: (
+                                <NavLink to={'/manage-ip'}>
+                                    Danh sách
+                                </NavLink>
+                            ),
+                        },
+                        {
+                            key: '/manage-ip/create',
+                            icon: <AiOutlineAppstoreAdd />,
+                            label: (
+                                <NavLink
+                                    to={
+                                        '/manage-ip/create'
+                                    }
+                                >
+                                    Thêm địa chỉ Ip
                                 </NavLink>
                             ),
                         },
@@ -295,6 +323,15 @@ const MainLayout: React.FC = () => {
                     label: (
                         <NavLink to={'/operation-history'}>
                             Lịch sử thao tác
+                        </NavLink>
+                    ),
+                },
+                {
+                    key: '/manage-price',
+                    icon: <RiMoneyPoundBoxLine />,
+                    label: (
+                        <NavLink to={'/manage-price'}>
+                            Quản lý giá cả
                         </NavLink>
                     ),
                 },

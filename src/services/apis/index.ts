@@ -409,3 +409,9 @@ export const getOperationHistory = (
     axiosInstance.get(
         `/api/action-history/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`
     )
+
+export const getIps = (pageSize: number, pageIndex: number, status: string) => axiosInstance.get(`/api/ip/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&status=${status}`)
+
+export const createIp = (ip: string) => axiosInstance.post(`/api/ip/create-ip`, {ip: ip})
+
+export const editIp = (ip: string, id: string) => axiosInstance.patch(`/api/ip/${ip}`, {id: id})

@@ -40,13 +40,10 @@ import { ListMenuCloud } from '@/interfaces/DataDefault/ListMenuCloud'
 import MenuCloud from '@/components/CloudVPS/MenuCloud'
 import IMenuCloud from '@/interfaces/IMenuCloud'
 import IOrder from '@/interfaces/IOrder'
-import Area from '@/components/Area/Area'
 import { notify, notifyType } from '@/App'
-import { triggerAsyncId } from 'async_hooks'
 import subtractDate from '@/helpers/subtractDate'
 import { Link } from 'react-router-dom'
 import RenewModal from '@/components/CloudVPS/RenewModal'
-import { Value } from 'sass'
 import { socket } from '@/socket'
 const { Option } = Select
 
@@ -453,7 +450,7 @@ const CloudVps: React.FC = () => {
                     <Tag color="orange">Đang khởi tạo</Tag>
                 ) : value == 'failed' ? (
                     <Tag color="red">Khởi tạo thất bại</Tag>
-                ) : (
+                ) : value == 'expired' ? <Tag color='red'>Hết hạn</Tag> :(
                     <Tag color="red">Ngưng</Tag>
                 ),
         },
@@ -514,7 +511,6 @@ const CloudVps: React.FC = () => {
         try {
             const result = await getAllOrder()
             // setOrder(result)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
@@ -601,7 +597,6 @@ const CloudVps: React.FC = () => {
     }
     // quyquy
     const onChangeNameValue = (value: any) => {
-        console.log('value: ', value)
         // console.log('key: ', key);
 
         // const temp = { ...webRtcInNetWork }
@@ -618,9 +613,6 @@ const CloudVps: React.FC = () => {
     const updateLabelName = (value: any) => {
         console.log('value: ', value)
     }
-
-    console.log(cloudServer)
-
 
     useEffect(() => {
         socket.on('create cloudserver', (msg) => {

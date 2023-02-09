@@ -107,8 +107,11 @@ const UpdateCloud: React.FC = () => {
     useEffect(() => {
         // @ts-ignore
         if (
+            // @ts-ignore
             CPU === parseInt(currentDataById?.server?.cpu) &&
+            // @ts-ignore
             RAM === parseInt(currentDataById?.server?.ram) &&
+            // @ts-ignore
             SSD === parseInt(currentDataById?.server?.ssd)
         ) {
             setPayment(0)
@@ -116,8 +119,11 @@ const UpdateCloud: React.FC = () => {
             // @ts-ignore
             // setPayment(priceServer - currentDataById?.server?.price - 1000)
             const total =
+                // @ts-ignore
                 parseInt(currentDataById.server?.cpu) * 50000 +
+                // @ts-ignore
                 parseInt(currentDataById.server?.ram) * 50000 +
+                // @ts-ignore
                 parseInt(currentDataById.server?.ssd) * 1000
             setPayment(priceServer - total)
         }
@@ -356,7 +362,9 @@ const UpdateCloud: React.FC = () => {
         //@ts-ignore
         // console.log('priceServer: ', priceServer, currentDataById?.server?.price, dataServerItem?.price);
         if (
+            // @ts-ignore
             priceServer > currentDataById?.server?.price ||
+            // @ts-ignore
             priceServer < dataServerItem?.price
         ) {
             try {
@@ -365,6 +373,7 @@ const UpdateCloud: React.FC = () => {
                     //@ts-ignore
                     // TH1: Chọn mặc định
                     const result = await updateDataOfServerInCloudServerById(
+                        // @ts-ignore
                         currentDataById?._id,
                         dataServerItem
                     )
@@ -455,6 +464,7 @@ const UpdateCloud: React.FC = () => {
                                                 }
                                                 // @ts-ignore
                                                 defaultValue={
+                                                    // @ts-ignore
                                                     +currentDataById?.server
                                                         ?.cpu
                                                 }
@@ -478,6 +488,7 @@ const UpdateCloud: React.FC = () => {
                                             <Slider
                                                 // @ts-ignore
                                                 min={
+                                                    // @ts-ignore
                                                     +currentDataById?.server
                                                         ?.ssd
                                                 }
@@ -640,12 +651,15 @@ const UpdateCloud: React.FC = () => {
                                         //@ts-ignore
                                         // console.log(`itemjhafjewjfew`, item)
                                         return (
+                                            //@ts-ignore
                                             item?.price >
+                                                //@ts-ignore
                                                 currentDataById?.server
                                                     ?.price && (
                                                 <Server
                                                     // @ts-ignore
                                                     currentPrice={
+                                                        // @ts-ignore
                                                         currentDataById?.server
                                                             ?.price
                                                     }
@@ -702,8 +716,10 @@ const UpdateCloud: React.FC = () => {
                                     //@ts-ignore
                                 }}
                             >
-                                {' '}
-                                IP: {currentDataById?.server?.ipv4}{' '}
+                                IP: {
+                                    //@ts-ignore
+                                    currentDataById?.server?.ipv4
+                                }
                             </span>
                             <div>
                                 <span
