@@ -415,3 +415,7 @@ export const getIps = (pageSize: number, pageIndex: number, status: string) => a
 export const createIp = (ip: string) => axiosInstance.post(`/api/ip/create-ip`, {ip: ip})
 
 export const editIp = (ip: string, id: string) => axiosInstance.patch(`/api/ip/${ip}`, {id: id})
+
+export const getIpById = (id:string) => axiosInstance.get(`/api/ip/${id}`)
+
+export const updateIp = (id: string, ip: string) => axiosInstance.patch(`/api/ip/${id}`, {ip: ip})

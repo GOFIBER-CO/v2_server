@@ -3,46 +3,61 @@ import ButtonNavigator from '@/components/ButtonNavigator'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import Ip from '@/interfaces/IIps'
 import IOperatingSystem from '@/interfaces/IOperatingSystem'
-import { createIp, createOs, getAllOs, getOs } from '@/services/apis'
+import { createIp, createOs, editIp, getAllOs, getIpById, getOs } from '@/services/apis'
 import '@/styles/pages/OperatingSystem/CreateOperatingSystem/index.scss'
 import { Button, Form, Input, Select, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { TfiMenuAlt } from 'react-icons/tfi'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 const { Option } = Select
 
-const CreateIp = () => {
-    const [newIp, setNewIp] =
+const EditIp = () => {
+    const [ipEdit, setIpEdit] =
         useState<Ip>({
             ip: '',
             status: true,
         })
 
+    const {id} = useParams()
+
     const navigate = useNavigate()
 
     const layout = useLayoutInit()
 
-    const createNewIp = async () => {
+    const editIpById = async () => {
         try {
-            if(!newIp.ip){
+            if(!ipEdit.ip){
                 notify(notifyType.NOTIFY_ERROR, 'IP không được để trống')
             }
-            const result = await createIp(newIp.ip)
+            const result = await editIp(id || "", ipEdit.ip)
             if(result.data){
-                notify(notifyType.NOTIFY_SUCCESS, 'Tạo IP thành công')
+                notify(notifyType.NOTIFY_SUCCESS, 'Cập nhật IP thành công')
                 navigate('/manage-ip')
             }
         } catch (error) {
             console.log(error)
-            notify(notifyType.NOTIFY_ERROR, 'Tạo IP thất bại')
+            notify(notifyType.NOTIFY_ERROR, 'Cập nhật IP thất bại')
         }
     }
 
  
     const onFinished = async () => {
-        createNewIp()
+        editIpById()
     }
+
+    const getById = async () => {
+        try {
+            const result = await getIpById(id || '')
+            setIpEdit(result.data?.ip)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        getById()
+    },[])
 
     return (
         <div className="create-operating-system-page">
@@ -83,11 +98,12 @@ const CreateIp = () => {
                         <Input
                             placeholder="Địa chỉ IP"
                             onChange={(e) =>
-                                setNewIp({
-                                    ...newIp,
+                                setIpEdit({
+                                    ...ipEdit,
                                     ip: e.target.value,
                                 })
                             }
+                            value={ipEdit.ip}
                         />
                     </Form.Item>
                     <Form.Item>
@@ -97,10 +113,10 @@ const CreateIp = () => {
                             htmlType="submit"
                             className="login-form-button"
                         >
-                            Tạo mới
+                            Cập nhật
                         </Button>
                         <ButtonNavigator
-                            url="/operating-system"
+                            url="/manage-ip"
                             name="Quay lại"
                         />
                     </Form.Item>
@@ -110,4 +126,4 @@ const CreateIp = () => {
     )
 }
 
-export default CreateIp
+export default EditIp

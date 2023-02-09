@@ -100,7 +100,7 @@ const CreateIp = () => {
                             Tạo mới
                         </Button>
                         <ButtonNavigator
-                            url="/operating-system"
+                            url="/manage-ip"
                             name="Quay lại"
                         />
                     </Form.Item>

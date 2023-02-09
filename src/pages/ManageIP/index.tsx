@@ -90,7 +90,7 @@ const ManageIp = () => {
             render: (value, record) => (
                 <div>
                     <span>
-                        <Link to={`/manage-ticket/${record._id}`}>
+                        <Link to={`/manage-ip/${record._id}`}>
                             <BiEdit style={actionIconStyle('blue')} />
                         </Link>
                     </span>
