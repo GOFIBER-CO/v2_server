@@ -286,7 +286,7 @@ const DeletedCloud: React.FC = () => {
         getAllLocation()
         // getAllOrder()
         getOperatingSystem()
-    }, [pageIndex])
+    }, [pageIndex, pageSize])
 
     return (
         <div className="cloud-vps-page">
