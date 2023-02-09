@@ -15,14 +15,26 @@ import IOrder from '@/interfaces/IOrder'
 import {
     deleteCloudServer,
     getCloudVpsByUserId,
-    getLocations, getOs,
-    switchAutoRenew
+    getLocations,
+    getOs,
+    switchAutoRenew,
 } from '@/services/apis'
 import '@/styles/pages/CloudVps/CloudVps.scss'
 import {
-    Button, Divider, Dropdown, Input, Menu, message, Modal, Pagination, PaginationProps,
-    Select, Space,
-    Switch, Table, Tag
+    Button,
+    Divider,
+    Dropdown,
+    Input,
+    Menu,
+    message,
+    Modal,
+    Pagination,
+    PaginationProps,
+    Select,
+    Space,
+    Switch,
+    Table,
+    Tag,
 } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import React, { CSSProperties, useEffect, useState } from 'react'
@@ -33,6 +45,8 @@ import { TfiMenuAlt } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
 import "./CloudVps.scss"
 import {socket} from '@/socket/index'
+import Modalprint from './Modalprint'
+import { useReactToPrint } from 'react-to-print'
 
 const { Option } = Select
 
@@ -67,7 +81,7 @@ const CloudVps: React.FC = () => {
     >([])
     const [optionCloud, setOptionCloud] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
     const actionIconStyle = (color: string): CSSProperties => {
@@ -77,6 +91,54 @@ const CloudVps: React.FC = () => {
             color: color,
         }
     }
+
+    //print
+    const componentRef = React.useRef(null)
+    const reactToPrintContent = React.useCallback(() => {
+        return componentRef.current
+    }, [componentRef.current])
+
+    const onBeforeGetContentResolve = React.useRef(null)
+
+    const [loading, setLoading] = React.useState(false)
+    const [none, setNone] = React.useState('')
+
+    const handleOnBeforeGetContent = React.useCallback(() => {
+        // console.log('`onBeforeGetContent` called') // tslint:disable-line no-console
+        // setLoading(true);
+        // setText("Loading new text...");
+
+        return new Promise((resolve : any) => {
+            onBeforeGetContentResolve.current = resolve
+            setNone("hiden");
+            setTimeout(() => {
+                setLoading(false)
+                // setText('New, Updated Text!')
+                resolve()
+            }, 1000)
+            
+        })
+    }, [])
+
+    const handleBeforePrint = React.useCallback(() => {
+        setNone("");
+        // console.log("`onBeforePrint` called"); // tslint:disable-line no-console
+      }, []);
+
+      const handleAfterPrint = React.useCallback(() => {
+        // console.log("`onAfterPrint` called"); // tslint:disable-line no-console
+      }, []);
+    const handlePrint =  useReactToPrint({
+            content: reactToPrintContent,
+            documentTitle: 'AwesomeFileName',
+            onBeforeGetContent: handleOnBeforeGetContent,
+            onBeforePrint: handleBeforePrint,
+            onAfterPrint: handleAfterPrint,
+            removeAfterPrint: true,
+           
+        })
+    
+
     // console.log('cloudServerItem: ', cloudServerItem);
     const changeIsAutoRenew = async (id: string, status: boolean) => {
         try {
@@ -108,18 +170,17 @@ const CloudVps: React.FC = () => {
         }
     }
 
-
     const showModal = () => {
-      setIsModalOpen(true);
-    };
-  
+        setIsModalOpen(true)
+    }
+
     const handleOk = () => {
-      setIsModalOpen(false);
-    };
-  
+        setIsModalOpen(false)
+    }
+
     const handleCancel = () => {
-      setIsModalOpen(false);
-    };
+        setIsModalOpen(false)
+    }
     const auth = useAuth()
     const menu = (
         <Menu
@@ -294,15 +355,17 @@ const CloudVps: React.FC = () => {
                     ),
                 },
                 {
-                    key:'10',
+                    key: '10',
                     // danger: true,
-                    label:(
-                        
-                        <a style={{display:'flex', alignItems:'center'}} onClick={showModal}>
-                            <TbFileExport style={{marginRight:'5px'}}/>
+                    label: (
+                        <a
+                            style={{ display: 'flex', alignItems: 'center' }}
+                            onClick={showModal}
+                        >
+                            <TbFileExport style={{ marginRight: '5px' }} />
                             <span>Xuất hóa đơn</span>
                         </a>
-                    )
+                    ),
                 },
             ]}
         />
@@ -754,7 +817,7 @@ const CloudVps: React.FC = () => {
                                 rowKey="_id"
                             />
                             <Pagination
-                            showSizeChanger
+                                showSizeChanger
                                 showTotal={showTotal}
                                 style={{ marginTop: '30px' }}
                                 current={pageIndex}
@@ -770,126 +833,14 @@ const CloudVps: React.FC = () => {
                     </>
                 )}
             </div>
-            <Modal open={isModalOpen} footer={false} onOk={handleOk} onCancel={handleCancel} width="1000px" style={{paddingTop:'20px'}} >
-                <div id="modal_Payment">
-                    <div className='modal_Payment-header'>
-                        <div className='modal_Payment-header-left'>
-                            <img src="./public/images/Logo.png" alt="" />
-                            <div className='modal_Payment-header-left-text'>Công ty TNHH Công nghệ phần mềm GoFiber</div>
-                        </div>
-                        <div className='modal_Payment-header-right'>
-                            <div style={{width:'50%'}} ></div>
-                            <div className='modal_Payment-header-right-check'>
-                            <BsCheckLg style={{color:'#219653'}} />
-                            <span className='modal_Payment-header-right-check-text' >Đã thanh toán</span>
-                            </div>
-                        </div>
-                        {/* <div className='modal_Payment-header-right'>
-                            <div style={{width:'50%'}} ></div>
-                            <div className='modal_Payment-header-right-check-no'>
-                            
-                            <span className='modal_Payment-header-right-check-no-text' >Chưa thanh toán</span>
-                            </div>
-                        </div> */}
-                    </div>
-                    <div className='modal_Payment-invoice' >
-                        Mã số hóa đơn: <span>6868</span>
-                    </div>
-                    <hr className='modal_Payment-hr' />
-                    <div className='modal_Payment-body'>
-                        <div className='modal_Payment-body-left'>
-                            <div className='modal_Payment-body-left-title'>Khách hàng</div>
-                            <div className='modal_Payment-body-left-text' >Công ty ABC</div>
-                            <div className='modal_Payment-body-left-text' >Trần Minh Quang</div>
-                            <div className='modal_Payment-body-left-text' >Số 137, Đường CN11, P. Sơn Kỳ, Q. Tân Phú, TPHCM</div>
-                        </div>
-                        <div className='modal_Payment-body-center'>
-                            <div className='modal_Payment-body-center-title' >Nhà cung cấp</div>
-                            <div className='modal_Payment-body-center-text' >Công ty TNHH Công nghệ phần mềm GoFiber</div>
-                            <div className='modal_Payment-body-center-text' >Số 131, Đường CN11, P. Sơn Kỳ, Q. Tân Phú, TPHCM</div>
-                            
-                        </div>
-                        <div className='modal_Payment-body-right'>
-                            <div className='modal_Payment-body-right-title'>Phương thức thanh toán</div>
-                            <Space>
-                            <Select
-                                
-                                style={{ width: 250, border:'1px solid #99DEEF' }}
-                               
-                                options={[
-                                    { value: 'Tiền mặt', label: 'Tiền mặt' },
-                                    { value: 'Chuyển khoản', label: 'Chuyển khoản' },
-                                ]}
-                                />
-                            </Space>
-                        </div>
-                    </div>
-                    <div className='modal_Payment-body1'>
-                        <div className='modal_Payment-body1-left'>
-                            <div className='modal_Payment-body1-left-title'>Ngày xuất</div>
-                            <div className='modal_Payment-body1-left-text' >12/02/2023</div>
-                        </div>
-                        <div className='modal_Payment-body1-right'>
-                            <div className='modal_Payment-body1-right-title'>Ngày cần thanh toán</div>
-                            <div className='modal_Payment-body1-right-text' >15/02/2023</div>
-                        </div>
-                    </div>
-                    <div className='modal_Payment-content'>
-                        <div className='modal_Payment-content-title'>Nội dung hóa đơn</div>
-                        <div className='modal_Payment-content-text'>
-                            <div className='modal_Payment-content-text-left'>Chi tiết hóa đơn</div>
-                            <div className='modal_Payment-content-text-right'>Tổng cộng</div>
-                        </div>
-                        <div className='modal_Payment-content-text'>
-                            <div className='modal_Payment-content-text-left'>Cloud VPS 32G <span className='modal_Payment-content-text-left-span'>gofiber.vn (03/07/2023 - 03/07/2024)</span></div>
-                            <div className='modal_Payment-content-text-right'>3,800,000 VND</div>
-                        </div>
-                        <div className='modal_Payment-content-text1'>
-                            <div className='modal_Payment-content-text1-left'></div>
-                            <div className='modal_Payment-content-text1-right'>
-                                <div style={{width:"100%", display:'flex', textAlign:'right'}}>
-                                    <span className='modal_Payment-content-text1-right-TT'>Thành tiền</span>
-                                    <span className='modal_Payment-content-text1-right-number'>3,800,000 VND</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='modal_Payment-content-text1'>
-                            <div className='modal_Payment-content-text1-left'></div>
-                            <div className='modal_Payment-content-text1-right'>
-                                <div style={{width:"100%", display:'flex', textAlign:'right'}}>
-                                    <span className='modal_Payment-content-text1-right-TT'>10% VAT</span>
-                                    <span className='modal_Payment-content-text1-right-number'>380,000 VND</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='modal_Payment-content-text1'>
-                            <div className='modal_Payment-content-text1-left'></div>
-                            <div className='modal_Payment-content-text1-right'>
-                                <div style={{width:"100%", display:'flex', textAlign:'right'}}>
-                                    <span className='modal_Payment-content-text1-right-TT'>Số tiền hiện có</span>
-                                    <span className='modal_Payment-content-text1-right-number'>0 VND</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='modal_Payment-content-text1'>
-                            <div className='modal_Payment-content-text1-left'></div>
-                            <div className='modal_Payment-content-text1-right'>
-                                <div style={{width:"100%", display:'flex', textAlign:'right'}}>
-                                    <span className='modal_Payment-content-text1-right-TT'>Tổng cộng</span>
-                                    <span className='modal_Payment-content-text1-right-number'>4,180,000 VND</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='modal_Payment-footer'>
-                        <div className='modal_Payment-footer-left'>* Đã bao gồm VAT</div>
-                        <div className='modal_Payment-footer-right'>
-                            <div style={{width:'75%'}}></div>
-                            <div className='modal_Payment-footer-right-button'><Button type="primary">In hóa đơn</Button></div>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
+            <Modalprint
+                handleCancel={handleCancel}
+                handleOk={handleOk}
+                isModalOpen={isModalOpen}
+                handlePrint={handlePrint}
+                componentRef={componentRef}
+                none={none}
+            />
         </React.Fragment>
     )
 }
