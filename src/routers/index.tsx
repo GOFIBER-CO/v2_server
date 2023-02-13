@@ -51,6 +51,7 @@ import ManagePrice from '@/pages/ManagePrice'
 import ManageIp from '@/pages/ManageIP'
 import CreateIp from '@/pages/ManageIP/CreateIp'
 import EditIp from '@/pages/ManageIP/EditIp'
+import EditPrice from '@/pages/ManagePrice/EditPrice'
 const AppRouter: React.FC = () => {
     const auth = useAuth()
     const isLoggedIn = auth.isLoggedIn
@@ -70,6 +71,7 @@ const AppRouter: React.FC = () => {
                         <Route path='/manage-ip/:id' element={<EditIp/>}/>
                         <Route path="/cloud-vps" element={<CloudVps />} />
                         <Route path='/manage-price' element={<ManagePrice/>}/>
+                        <Route path='/manage-price/:id' element={<EditPrice/>}/>
                         <Route
                             path="/action-history"
                             element={<ActionHistory />}

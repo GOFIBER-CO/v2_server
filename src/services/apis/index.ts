@@ -1,6 +1,7 @@
 import IDepartment from '@/interfaces/IDepartment'
 import IInserCloudServer from '@/interfaces/IInserCloudServer'
 import INewNotification from '@/interfaces/INewNotification'
+import IPrice from '@/interfaces/IPrice'
 import IService from '@/interfaces/IService'
 import IUpdateCloudServer from '@/interfaces/IUpdateCloudServer'
 import IUser from '@/interfaces/IUser'
@@ -419,3 +420,9 @@ export const editIp = (ip: string, id: string) => axiosInstance.patch(`/api/ip/$
 export const getIpById = (id:string) => axiosInstance.get(`/api/ip/${id}`)
 
 export const updateIp = (id: string, ip: string) => axiosInstance.patch(`/api/ip/${id}`, {ip: ip})
+
+export const getPrice = () => axiosInstance.get(`/api/price`)
+
+export const updatePrice = (id: string, data: IPrice) => axiosInstance.put(`/api/price/${id}`, data)
+
+export const getPriceById = (id: string) => axiosInstance.get(`/api/price/${id}`)

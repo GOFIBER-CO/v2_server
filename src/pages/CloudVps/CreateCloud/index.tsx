@@ -4,6 +4,7 @@ import {
     createService,
     getArea,
     getOperatingSystemChildren,
+    getPrice,
     getServer,
 } from '@/services/apis'
 import '@/styles/pages/CloudVps/CreateCloud/CreateCloud.scss'
@@ -24,6 +25,7 @@ import ProfileCloudServer from '@/components/CloudVPS/ProfileCloudServer/Profile
 import PackageServer from '@/components/PackageServer/PackageServer'
 import { Checkbox, Radio, Slider } from 'antd'
 import { useNavigate } from 'react-router'
+import IPrice from '@/interfaces/IPrice'
 // import console from 'console'
 
 const CreateCloud: React.FC = () => {
@@ -60,6 +62,28 @@ const CreateCloud: React.FC = () => {
     const [priceMonth, setPriceMonth] = useState(true)
     const [HDD, setHDD] = useState(0)
     const [autoBackup, setAutoBackup] = useState(false)
+    const [priceVps, setPriceVps] = useState<IPrice>({
+        ram: 1,
+        ssd: 1,
+        cpu: 1,
+    })
+
+    const getVpsPrice = async () => {
+        try {
+            layout.setLoading(true)
+            const result = await getPrice()
+            setPriceVps(result.data.price)
+            layout.setLoading(false)
+        } catch (error) {
+            console.log(error)
+            layout.setLoading(false)
+        }
+    }
+
+
+    useEffect(()=>{
+        getVpsPrice()
+    },[])   
 
     let iInserCloudServer: IInserCloudServer[] = []
 
@@ -449,16 +473,16 @@ const CreateCloud: React.FC = () => {
         //1 cpu 50k
         let price = 0
         if (value !== 1 && RAM !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (RAM - 1) * 50000 + (SSD - 30) * 1000
+            price = (value - 1) * priceVps.cpu + (RAM - 1) * priceVps.ram + (SSD - 30) * priceVps.ssd
         }
         if (value !== 1 && RAM !== 1) {
-            price = (value - 1) * 50000 + (RAM - 1) * 50000
+            price = (value - 1) * priceVps.cpu + (RAM - 1) * priceVps.ram
         } else if (value !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (SSD - 30) * 1000
+            price = (value - 1) * priceVps.cpu + (SSD - 30) * priceVps.ssd
         } else if (value === 1) {
-            price = (RAM - 1) * 50000 + (SSD - 30) * 1000
+            price = (RAM - 1) * priceVps.ram + (SSD - 30) * priceVps.ssd
         } else {
-            price = (value - 1) * 50000
+            price = (value - 1) * priceVps.ssd
         }
 
         setPriceServer(price + 130000)
@@ -470,15 +494,15 @@ const CreateCloud: React.FC = () => {
         //1 ram 50k
         let price = 0
         if (value !== 1 && CPU !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (CPU - 1) * 50000 + (SSD - 30) * 1000
+            price = (value - 1) * priceVps.ram + (CPU - 1) * priceVps.cpu + (SSD - 30) * priceVps.ssd
         } else if (CPU !== 1 && value !== 1) {
-            price = (CPU - 1) * 50000 + (value - 1) * 50000
+            price = (CPU - 1) * priceVps.cpu + (value - 1) * priceVps.ram
         } else if (value !== 1 && SSD !== 30) {
-            price = (value - 1) * 50000 + (SSD - 30) * 1000
+            price = (value - 1) * priceVps.ram + (SSD - 30) * priceVps.ssd
         } else if (value === 1) {
-            price = (CPU - 1) * 50000 + (SSD - 30) * 1000
+            price = (CPU - 1) * priceVps.cpu + (SSD - 30) * priceVps.ram
         } else {
-            price = (value - 1) * 50000
+            price = (value - 1) * priceVps.ram
         }
 
         setPriceServer(price + 130000)
@@ -490,15 +514,15 @@ const CreateCloud: React.FC = () => {
         //1GB ssd 1k
         let price = 0
         if (value !== 30 && CPU !== 1 && RAM !== 1) {
-            price = (value - 30) * 1000 + (CPU - 1) * 50000 + (RAM - 1) * 50000
+            price = (value - 30) * priceVps.ssd + (CPU - 1) * priceVps.cpu + (RAM - 1) * priceVps.ram
         } else if (value !== 30 && CPU !== 1) {
-            price = (value - 30) * 1000 + (CPU - 1) * 50000
+            price = (value - 30) * priceVps.ssd + (CPU - 1) * priceVps.cpu
         } else if (value !== 30 && RAM !== 1) {
-            price = (value - 30) * 1000 + (RAM - 1) * 50000
+            price = (value - 30) * priceVps.ssd + (RAM - 1) * priceVps.ram
         } else if (value === 30) {
-            price = (CPU - 1) * 50000 + (RAM - 1) * 50000
+            price = (CPU - 1) * priceVps.cpu + (RAM - 1) * priceVps.ram
         } else {
-            price = (value - 30) * 1000
+            price = (value - 30) * priceVps.ssd
         }
 
         setPriceServer(price + 130000)

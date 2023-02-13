@@ -21,17 +21,14 @@ import {
 } from '@/services/apis'
 import '@/styles/pages/CloudVps/CloudVps.scss'
 import {
-    Button,
     Divider,
     Dropdown,
     Input,
     Menu,
     message,
-    Modal,
     Pagination,
     PaginationProps,
     Select,
-    Space,
     Switch,
     Table,
     Tag,
@@ -44,7 +41,7 @@ import { TbFileExport } from 'react-icons/tb'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
 import "./CloudVps.scss"
-import {socket} from '@/socket/index'
+import {socket} from '@/layouts/MainLayout/index'
 import Modalprint from './Modalprint'
 import { useReactToPrint } from 'react-to-print'
 
@@ -400,7 +397,7 @@ const CloudVps: React.FC = () => {
         },
         {
             title: 'Địa chỉ IP',
-            dataIndex: ['server', 'area'],
+            dataIndex: ['server', 'area', 'ip'],
             width: '10%',
             render: (value, row) => (
                 <>
@@ -414,7 +411,7 @@ const CloudVps: React.FC = () => {
                     />
                     <strong style={{ fontSize: '12px' }}>
                         {' '}
-                        {row.server.ipv4}
+                        {row?.ip?.ip || row.server.ipv4}
                     </strong>
                     <br />
                     <span>{row.area?.areaName}</span>
@@ -695,6 +692,13 @@ const CloudVps: React.FC = () => {
             else 
                 notify(notifyType.NOTIFY_ERROR, 'Cloudserver khời tạo thất bại')
                 getCloudServer()
+        })
+        socket.on('set ip success', (msg) => {
+            notify(notifyType.NOTIFY_SUCCESS, 'Ip khởi tạo thành công')
+            getCloudServer()
+        })
+        socket.on('set ip failed', (msg) => {
+            notify(notifyType.NOTIFY_SUCCESS, 'Ip khởi tạo thất bại')
         })
     }, [])
     // updateLabelName()

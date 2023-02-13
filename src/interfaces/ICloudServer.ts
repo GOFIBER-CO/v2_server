@@ -1,4 +1,5 @@
 import IArea from './IArea'
+import Ip from './IIps'
 import IOperatingSystem from './IOperatingSystem'
 import IOrder from './IOrder'
 import IService from './IService'
@@ -17,5 +18,6 @@ export default interface ICloudServer {
     createdTime: Date
     order: IOrder
     isAutoRenew: boolean,
-    status: string
+    status: string,
+    ip: Ip,
 }

@@ -6,6 +6,7 @@ import {
     getOperatingSystemChildren,
     getServer,
     updateDataOfServerInCloudServerById,
+    getPrice,
 } from '@/services/apis'
 import '@/styles/pages/CloudVps/CreateCloud/CreateCloud.scss'
 import { useEffect, useState } from 'react'
@@ -21,6 +22,7 @@ import PackageServer from '@/components/PackageServer/PackageServer'
 import { Radio, Slider } from 'antd'
 import { useNavigate, useParams } from 'react-router'
 import { toast } from 'react-toastify'
+import IPrice from '@/interfaces/IPrice'
 // import console from 'console'
 
 const UpdateCloud: React.FC = () => {
@@ -66,6 +68,28 @@ const UpdateCloud: React.FC = () => {
     const [priceMonth, setPriceMonth] = useState(true)
     const [dataServerItem, setDataServerItem] = useState({})
     let iInserCloudServer: IInserCloudServer[] = []
+    const [priceVps, setPriceVps] = useState<IPrice>({
+        ram: 1,
+        ssd: 1,
+        cpu: 1,
+    })
+
+    const getVpsPrice = async () => {
+        try {
+            layout.setLoading(true)
+            const result = await getPrice()
+            setPriceVps(result.data.price)
+            layout.setLoading(false)
+        } catch (error) {
+            console.log(error)
+            layout.setLoading(false)
+        }
+    }
+
+
+    useEffect(()=>{
+        getVpsPrice()
+    },[]) 
     // const [newCloudServer, setNewCloudServer] = useState<IInserCloudServer>({
     //     cloudServerName: '',
     //     password: '',
@@ -120,11 +144,11 @@ const UpdateCloud: React.FC = () => {
             // setPayment(priceServer - currentDataById?.server?.price - 1000)
             const total =
                 // @ts-ignore
-                parseInt(currentDataById.server?.cpu) * 50000 +
+                parseInt(currentDataById.server?.cpu) * priceVps.cpu +
                 // @ts-ignore
-                parseInt(currentDataById.server?.ram) * 50000 +
+                parseInt(currentDataById.server?.ram) * priceVps.ram +
                 // @ts-ignore
-                parseInt(currentDataById.server?.ssd) * 1000
+                parseInt(currentDataById.server?.ssd) * priceVps.ssd
             setPayment(priceServer - total)
         }
     }, [priceServer])
@@ -326,7 +350,7 @@ const UpdateCloud: React.FC = () => {
             setDataServerItem({})
             //1 cpu 50k
             let price = 0
-            price = value * 50000 + RAM * 50000 + SSD * 1000
+            price = value * priceVps?.cpu + RAM * priceVps?.ram + SSD * priceVps?.ssd
             setPriceServer(price)
         }
     }
@@ -337,7 +361,7 @@ const UpdateCloud: React.FC = () => {
             setDataServerItem({})
             //1 ram 50k
             let price = 0
-            price = CPU * 50000 + value * 50000 + SSD * 1000
+            price = CPU * priceVps?.cpu + value * priceVps?.ram + SSD * priceVps?.ssd
             setPriceServer(price)
         }
     }
@@ -349,7 +373,7 @@ const UpdateCloud: React.FC = () => {
             setSSD(value)
             setDataServerItem({})
             let price = 0
-            price = CPU * 50000 + RAM * 50000 + value * 1000
+            price = CPU * priceVps?.cpu + RAM * priceVps?.ram + value * priceVps?.ssd
             setPriceServer(price)
         }
     }
