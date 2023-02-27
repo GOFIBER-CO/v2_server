@@ -56,12 +56,12 @@ import { notify, notifyType } from '@/App'
 import { isMobile } from 'react-device-detect'
 import { IoStatsChart } from 'react-icons/io5'
 import formatMoney from '@/helpers/formatMoney'
-import appConfig from '@/config/appConfig'
-import {socket} from '@/socket/index'
+import { socket, SocketContext } from '@/socket/index'
 
 const { Header, Sider, Content } = Layout
 
 const MainLayout: React.FC = () => {
+
     const [notifications, setNotifications] = useState<INotification[]>([])
     const location = useLocation()
     const [surplus, setSurplus] = useState('')
@@ -495,463 +495,465 @@ const MainLayout: React.FC = () => {
             {panel && <BlurGlass />}
             <ModalConfirm />
             {layout.loading && <Loading />}
-            <Layout style={{ minHeight: '100vh' }}>
-                {!isMobile && (
-                    <Sider
-                        trigger={null}
-                        collapsible
-                        collapsed={collapsed}
-                        width={'15%'}
-                        breakpoint="lg"
-                        collapsedWidth={60}
-                        onBreakpoint={(broken) => {
-                            if (broken) {
-                                setCollapsed(true)
-                            } else {
-                                setCollapsed(false)
-                            }
-                        }}
-                    >
-                        <div className="logo-navbar">
-                            {!collapsed && (
-                                <Link to={'/'} style={{ cursor: 'pointer' }}>
-                                    <img
-                                        width={170}
-                                        src="/images/Logo-vietserver.png"
-                                    />
-                                </Link>
-                            )}
-                        </div>
-                        <Menu
-                            theme="dark"
-                            mode="inline"
-                            defaultSelectedKeys={['/']}
-                            selectedKeys={[location.pathname]}
-                            items={menuSidebar}
-                            onOpenChange={onOpenChange}
-                            openKeys={openKeys}
-                        />
-                    </Sider>
-                )}
-                <Layout className="site-layout">
-                    {isMobile && (
-                        <Header>
+            <SocketContext.Provider value={socket}>
+                <Layout style={{ minHeight: '100vh' }}>
+                    {!isMobile && (
+                        <Sider
+                            trigger={null}
+                            collapsible
+                            collapsed={collapsed}
+                            width={'15%'}
+                            breakpoint="lg"
+                            collapsedWidth={60}
+                            onBreakpoint={(broken) => {
+                                if (broken) {
+                                    setCollapsed(true)
+                                } else {
+                                    setCollapsed(false)
+                                }
+                            }}
+                        >
+                            <div className="logo-navbar">
+                                {!collapsed && (
+                                    <Link to={'/'} style={{ cursor: 'pointer' }}>
+                                        <img
+                                            width={170}
+                                            src="/images/Logo-vietserver.png"
+                                        />
+                                    </Link>
+                                )}
+                            </div>
                             <Menu
                                 theme="dark"
-                                mode="horizontal"
+                                mode="inline"
                                 defaultSelectedKeys={['/']}
                                 selectedKeys={[location.pathname]}
                                 items={menuSidebar}
+                                onOpenChange={onOpenChange}
+                                openKeys={openKeys}
                             />
-                        </Header>
+                        </Sider>
                     )}
-                    <Header
-                        className="site-layout-background"
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <div className="site-layout-column">
-                            {React.createElement(
-                                collapsed
-                                    ? MenuUnfoldOutlined
-                                    : MenuFoldOutlined,
-                                {
-                                    className: 'trigger',
-                                    onClick: () => setCollapsed(!collapsed),
-                                }
-                            )}
-                            <div className="site-layout-create-server">
-                                <Link to={'/cloud-vps/create-cloud'}>
-                                    <div className="site-layout-create-server-button">
-                                        <AiOutlinePlus />
-                                        <span>Tạo mới cloud server</span>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="site-layout-column">
-                            <div className="site-layout-purchase">
-                                <Link to={'/deposit-guide'}>
-                                    <div className="site-layout-purchase-button">
-                                        Nạp tiền
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="site-layout-surplus">
-                                <p>
-                                    Số dư:
-                                    <span style={{ fontSize: '15px' }}>
-                                        {formatMoney(surplus)}
-                                    </span>
-                                </p>
-                            </div>
-                            <div
-                                className="site-layout-appstore"
-                                ref={refPanel}
-                            >
-                                <AiOutlineAppstore
-                                    size={20}
-                                    style={{
-                                        cursor: 'pointer',
-                                        color: '#3699ff',
-                                    }}
-                                    onClick={() => setPanel(true)}
+                    <Layout className="site-layout">
+                        {isMobile && (
+                            <Header>
+                                <Menu
+                                    theme="dark"
+                                    mode="horizontal"
+                                    defaultSelectedKeys={['/']}
+                                    selectedKeys={[location.pathname]}
+                                    items={menuSidebar}
                                 />
-                                {panel && (
-                                    <div className="site-layout-appstore-panel">
-                                        <div className="site-layout-appstore-panel-header">
-                                            <FaTimes
-                                                style={{ cursor: 'pointer' }}
-                                                size={20}
-                                                onClick={() => setPanel(false)}
-                                            />
-                                        </div>
-                                    </div>
+                            </Header>
+                        )}
+                        <Header
+                            className="site-layout-background"
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <div className="site-layout-column">
+                                {React.createElement(
+                                    collapsed
+                                        ? MenuUnfoldOutlined
+                                        : MenuFoldOutlined,
+                                    {
+                                        className: 'trigger',
+                                        onClick: () => setCollapsed(!collapsed),
+                                    }
                                 )}
+                                <div className="site-layout-create-server">
+                                    <Link to={'/cloud-vps/create-cloud'}>
+                                        <div className="site-layout-create-server-button">
+                                            <AiOutlinePlus />
+                                            <span>Tạo mới cloud server</span>
+                                        </div>
+                                    </Link>
+                                </div>
                             </div>
-                            <div
-                                className="site-layout-notification"
-                                ref={refNotificationBox}
-                            >
-                                <span
-                                    className="site-layout-notification-ring"
-                                    onClick={() => {
-                                        setNotificationBox(!notificationBox)
-                                        setUserOption(false)
-                                    }}
-                                ></span>
-                                <AiFillBell
-                                    className="site-layout-notification-icon"
-                                    size={20}
-                                    style={{
-                                        cursor: 'pointer',
-                                        color: '#3699ff',
-                                    }}
-                                    onClick={() => {
-                                        setNotificationBox(!notificationBox)
-                                        setUserOption(false)
-                                    }}
-                                />
-                                {notificationBox && (
-                                    <div className="site-layout-notification-box">
-                                        <div className="site-layout-notification-box-content-wrapper">
-                                            <div className="site-layout-notification-box-content">
-                                                <div className="site-layout-notification-box-content-text">
-                                                    <p>Thông báo</p>
-                                                    <div className="site-layout-notification-box-content-quantity">
-                                                        <span>0 new</span>
+                            <div className="site-layout-column">
+                                <div className="site-layout-purchase">
+                                    <Link to={'/deposit-guide'}>
+                                        <div className="site-layout-purchase-button">
+                                            Nạp tiền
+                                        </div>
+                                    </Link>
+                                </div>
+                                <div className="site-layout-surplus">
+                                    <p>
+                                        Số dư:
+                                        <span style={{ fontSize: '15px' }}>
+                                            {formatMoney(surplus)}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div
+                                    className="site-layout-appstore"
+                                    ref={refPanel}
+                                >
+                                    <AiOutlineAppstore
+                                        size={20}
+                                        style={{
+                                            cursor: 'pointer',
+                                            color: '#3699ff',
+                                        }}
+                                        onClick={() => setPanel(true)}
+                                    />
+                                    {panel && (
+                                        <div className="site-layout-appstore-panel">
+                                            <div className="site-layout-appstore-panel-header">
+                                                <FaTimes
+                                                    style={{ cursor: 'pointer' }}
+                                                    size={20}
+                                                    onClick={() => setPanel(false)}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div
+                                    className="site-layout-notification"
+                                    ref={refNotificationBox}
+                                >
+                                    <span
+                                        className="site-layout-notification-ring"
+                                        onClick={() => {
+                                            setNotificationBox(!notificationBox)
+                                            setUserOption(false)
+                                        }}
+                                    ></span>
+                                    <AiFillBell
+                                        className="site-layout-notification-icon"
+                                        size={20}
+                                        style={{
+                                            cursor: 'pointer',
+                                            color: '#3699ff',
+                                        }}
+                                        onClick={() => {
+                                            setNotificationBox(!notificationBox)
+                                            setUserOption(false)
+                                        }}
+                                    />
+                                    {notificationBox && (
+                                        <div className="site-layout-notification-box">
+                                            <div className="site-layout-notification-box-content-wrapper">
+                                                <div className="site-layout-notification-box-content">
+                                                    <div className="site-layout-notification-box-content-text">
+                                                        <p>Thông báo</p>
+                                                        <div className="site-layout-notification-box-content-quantity">
+                                                            <span>0 new</span>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <ul>
+                                                    <li
+                                                        style={
+                                                            notificationType == ''
+                                                                ? {
+                                                                    borderBottom:
+                                                                        '3px solid #1bc5bd',
+                                                                    fontSize:
+                                                                        '17px',
+                                                                    padding:
+                                                                        '0 10px',
+                                                                    cursor: 'pointer',
+                                                                }
+                                                                : {
+                                                                    fontSize:
+                                                                        '17px',
+                                                                    padding:
+                                                                        '0 10px',
+                                                                    cursor: 'pointer',
+                                                                }
+                                                        }
+                                                        onClick={() =>
+                                                            setNotificationType('')
+                                                        }
+                                                    >
+                                                        Tất cả
+                                                    </li>
+                                                    <li
+                                                        style={
+                                                            notificationType ==
+                                                                'shopping'
+                                                                ? {
+                                                                    borderBottom:
+                                                                        '3px solid #1bc5bd',
+                                                                }
+                                                                : {}
+                                                        }
+                                                        onClick={() =>
+                                                            setNotificationType(
+                                                                'shopping'
+                                                            )
+                                                        }
+                                                    >
+                                                        <AiOutlineShoppingCart
+                                                            size={24}
+                                                            style={{
+                                                                verticalAlign:
+                                                                    '-4px',
+                                                                boxSizing:
+                                                                    'content-box',
+                                                            }}
+                                                        />
+                                                    </li>
+                                                    <li
+                                                        style={
+                                                            notificationType ==
+                                                                'cash'
+                                                                ? {
+                                                                    borderBottom:
+                                                                        '3px solid #1bc5bd',
+                                                                }
+                                                                : {}
+                                                        }
+                                                        onClick={() =>
+                                                            setNotificationType(
+                                                                'cash'
+                                                            )
+                                                        }
+                                                    >
+                                                        <FaMoneyBillAlt
+                                                            size={24}
+                                                            style={{
+                                                                verticalAlign:
+                                                                    '-4px',
+                                                                boxSizing:
+                                                                    'content-box',
+                                                            }}
+                                                        />
+                                                    </li>
+                                                    <li
+                                                        style={
+                                                            notificationType ==
+                                                                'ticket'
+                                                                ? {
+                                                                    borderBottom:
+                                                                        '3px solid #1bc5bd',
+                                                                }
+                                                                : {}
+                                                        }
+                                                        onClick={() =>
+                                                            setNotificationType(
+                                                                'ticket'
+                                                            )
+                                                        }
+                                                    >
+                                                        <RiTicketLine
+                                                            size={24}
+                                                            style={{
+                                                                verticalAlign:
+                                                                    '-4px',
+                                                                boxSizing:
+                                                                    'content-box',
+                                                            }}
+                                                        />
+                                                    </li>
+                                                    <li
+                                                        style={
+                                                            notificationType ==
+                                                                'home'
+                                                                ? {
+                                                                    borderBottom:
+                                                                        '3px solid #1bc5bd',
+                                                                }
+                                                                : {}
+                                                        }
+                                                        onClick={() =>
+                                                            setNotificationType(
+                                                                'home'
+                                                            )
+                                                        }
+                                                    >
+                                                        <BiHomeAlt
+                                                            size={24}
+                                                            style={{
+                                                                verticalAlign:
+                                                                    '-4px',
+                                                                boxSizing:
+                                                                    'content-box',
+                                                            }}
+                                                        />
+                                                    </li>
+                                                </ul>
                                             </div>
+                                            <div className="site-layout-notification-box-content-list">
+                                                {notifications.map((item) => (
+                                                    <React.Fragment key={item._id}>
+                                                        <Link
+                                                            to={`/notification/${item.slug}`}
+                                                        >
+                                                            <p
+                                                                style={{
+                                                                    marginBottom:
+                                                                        '0px',
+                                                                }}
+                                                            >
+                                                                {item.name}
+                                                            </p>
+                                                        </Link>
+                                                        <Divider
+                                                            style={{
+                                                                marginTop: '0px',
+                                                                marginBottom: '0px',
+                                                                border: '0.5px solid #dedcdc',
+                                                            }}
+                                                        />
+                                                    </React.Fragment>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div
+                                    className="site-layout-avatar"
+                                    ref={refUserOption}
+                                >
+                                    <Link
+                                        className="site-layout-avatar-username"
+                                        to="/profile"
+                                        style={{ verticalAlign: '-2px' }}
+                                    >
+                                        Hi, {auth.user.userName}
+                                    </Link>
+                                    <Avatar
+                                        onClick={() => {
+                                            setUserOption(!userOption)
+                                            setNotificationBox(false)
+                                        }}
+                                        size={35}
+                                        icon={
+                                            <UserOutlined
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: '50%',
+                                                    transform:
+                                                        'translate(-50%, -50%)',
+                                                    left: '50%',
+                                                }}
+                                            />
+                                        }
+                                        style={{
+                                            cursor: 'pointer',
+                                            marginLeft: '10px',
+                                        }}
+                                    />
+                                    {userOption && (
+                                        <div className="site-layout-avatar--option">
                                             <ul>
                                                 <li
-                                                    style={
-                                                        notificationType == ''
-                                                            ? {
-                                                                  borderBottom:
-                                                                      '3px solid #1bc5bd',
-                                                                  fontSize:
-                                                                      '17px',
-                                                                  padding:
-                                                                      '0 10px',
-                                                                  cursor: 'pointer',
-                                                              }
-                                                            : {
-                                                                  fontSize:
-                                                                      '17px',
-                                                                  padding:
-                                                                      '0 10px',
-                                                                  cursor: 'pointer',
-                                                              }
-                                                    }
-                                                    onClick={() =>
-                                                        setNotificationType('')
-                                                    }
+                                                    style={{ lineHeight: 6 }}
+                                                    className="bg-img"
                                                 >
-                                                    Tất cả
-                                                </li>
-                                                <li
-                                                    style={
-                                                        notificationType ==
-                                                        'shopping'
-                                                            ? {
-                                                                  borderBottom:
-                                                                      '3px solid #1bc5bd',
-                                                              }
-                                                            : {}
-                                                    }
-                                                    onClick={() =>
-                                                        setNotificationType(
-                                                            'shopping'
-                                                        )
-                                                    }
-                                                >
-                                                    <AiOutlineShoppingCart
-                                                        size={24}
+                                                    <UserOutlined
                                                         style={{
-                                                            verticalAlign:
-                                                                '-4px',
-                                                            boxSizing:
-                                                                'content-box',
+                                                            verticalAlign: '1px',
+                                                            fontSize: '2rem',
                                                         }}
                                                     />
+                                                    <span
+                                                        style={{
+                                                            marginLeft: '5px',
+                                                        }}
+                                                    >
+                                                        {auth.user.userName}
+                                                    </span>
                                                 </li>
                                                 <li
-                                                    style={
-                                                        notificationType ==
-                                                        'cash'
-                                                            ? {
-                                                                  borderBottom:
-                                                                      '3px solid #1bc5bd',
-                                                              }
-                                                            : {}
-                                                    }
-                                                    onClick={() =>
-                                                        setNotificationType(
-                                                            'cash'
-                                                        )
-                                                    }
+                                                    style={{ lineHeight: 2 }}
+                                                    className="bg-img"
                                                 >
-                                                    <FaMoneyBillAlt
-                                                        size={24}
-                                                        style={{
-                                                            verticalAlign:
-                                                                '-4px',
-                                                            boxSizing:
-                                                                'content-box',
-                                                        }}
-                                                    />
+                                                    <span>
+                                                        Số dư:{' '}
+                                                        {formatMoney(surplus)}
+                                                    </span>
                                                 </li>
-                                                <li
-                                                    style={
-                                                        notificationType ==
-                                                        'ticket'
-                                                            ? {
-                                                                  borderBottom:
-                                                                      '3px solid #1bc5bd',
-                                                              }
-                                                            : {}
-                                                    }
-                                                    onClick={() =>
-                                                        setNotificationType(
-                                                            'ticket'
-                                                        )
-                                                    }
-                                                >
-                                                    <RiTicketLine
-                                                        size={24}
-                                                        style={{
-                                                            verticalAlign:
-                                                                '-4px',
-                                                            boxSizing:
-                                                                'content-box',
-                                                        }}
-                                                    />
-                                                </li>
-                                                <li
-                                                    style={
-                                                        notificationType ==
-                                                        'home'
-                                                            ? {
-                                                                  borderBottom:
-                                                                      '3px solid #1bc5bd',
-                                                              }
-                                                            : {}
-                                                    }
-                                                    onClick={() =>
-                                                        setNotificationType(
-                                                            'home'
-                                                        )
-                                                    }
-                                                >
-                                                    <BiHomeAlt
-                                                        size={24}
-                                                        style={{
-                                                            verticalAlign:
-                                                                '-4px',
-                                                            boxSizing:
-                                                                'content-box',
-                                                        }}
-                                                    />
+                                                <Divider
+                                                    style={{
+                                                        margin: '0',
+                                                        border: '0.5px solid gray',
+                                                    }}
+                                                />
+                                                <Link to="/profile">
+                                                    {/* <div style={{display:'flex',alignItems:"center"}}> */}
+
+                                                    <li className="info_profile">
+                                                        <ImProfile
+                                                            size={20}
+                                                            color={'#1890ff'}
+                                                            className="icon_profile"
+                                                        />
+                                                        <span
+                                                            style={{
+                                                                marginLeft: '10px',
+                                                                fontSize: '1rem',
+                                                            }}
+                                                        >
+                                                            Thông tin tài khoản
+                                                        </span>
+                                                    </li>
+                                                    {/* </div> */}
+                                                </Link>
+                                                <Link to="/change-password">
+                                                    <li className="info_profile">
+                                                        <RiLockPasswordLine
+                                                            size={20}
+                                                            color={'#1890ff'}
+                                                            className="icon_profile"
+                                                        />
+                                                        <span
+                                                            style={{
+                                                                marginLeft: '10px',
+                                                                fontSize: '1rem',
+                                                            }}
+                                                        >
+                                                            Thay đổi mật khẩu
+                                                        </span>
+                                                    </li>
+                                                </Link>
+                                                <Link to="/2fa-security">
+                                                    <li className="info_profile">
+                                                        <MdOutlineSecurity
+                                                            size={20}
+                                                            color={'#1890ff'}
+                                                            className="icon_profile"
+                                                        />
+                                                        <span
+                                                            style={{
+                                                                marginLeft: '10px',
+                                                                fontSize: '1rem',
+                                                            }}
+                                                        >
+                                                            Cài đặt bảo mật (2FA)
+                                                        </span>
+                                                    </li>
+                                                </Link>
+
+                                                <li onClick={() => logout()}>
+                                                    <Link to="#">
+                                                        <span>Đăng xuất</span>
+                                                    </Link>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div className="site-layout-notification-box-content-list">
-                                            {notifications.map((item) => (
-                                                <React.Fragment key={item._id}>
-                                                    <Link
-                                                        to={`/notification/${item.slug}`}
-                                                    >
-                                                        <p
-                                                            style={{
-                                                                marginBottom:
-                                                                    '0px',
-                                                            }}
-                                                        >
-                                                            {item.name}
-                                                        </p>
-                                                    </Link>
-                                                    <Divider
-                                                        style={{
-                                                            marginTop: '0px',
-                                                            marginBottom: '0px',
-                                                            border: '0.5px solid #dedcdc',
-                                                        }}
-                                                    />
-                                                </React.Fragment>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
-                            <div
-                                className="site-layout-avatar"
-                                ref={refUserOption}
-                            >
-                                <Link
-                                    className="site-layout-avatar-username"
-                                    to="/profile"
-                                    style={{ verticalAlign: '-2px' }}
-                                >
-                                    Hi, {auth.user.userName}
-                                </Link>
-                                <Avatar
-                                    onClick={() => {
-                                        setUserOption(!userOption)
-                                        setNotificationBox(false)
-                                    }}
-                                    size={35}
-                                    icon={
-                                        <UserOutlined
-                                            style={{
-                                                position: 'absolute',
-                                                top: '50%',
-                                                transform:
-                                                    'translate(-50%, -50%)',
-                                                left: '50%',
-                                            }}
-                                        />
-                                    }
-                                    style={{
-                                        cursor: 'pointer',
-                                        marginLeft: '10px',
-                                    }}
-                                />
-                                {userOption && (
-                                    <div className="site-layout-avatar--option">
-                                        <ul>
-                                            <li
-                                                style={{ lineHeight: 6 }}
-                                                className="bg-img"
-                                            >
-                                                <UserOutlined
-                                                    style={{
-                                                        verticalAlign: '1px',
-                                                        fontSize: '2rem',
-                                                    }}
-                                                />
-                                                <span
-                                                    style={{
-                                                        marginLeft: '5px',
-                                                    }}
-                                                >
-                                                    {auth.user.userName}
-                                                </span>
-                                            </li>
-                                            <li
-                                                style={{ lineHeight: 2 }}
-                                                className="bg-img"
-                                            >
-                                                <span>
-                                                    Số dư:{' '}
-                                                    {formatMoney(surplus)}
-                                                </span>
-                                            </li>
-                                            <Divider
-                                                style={{
-                                                    margin: '0',
-                                                    border: '0.5px solid gray',
-                                                }}
-                                            />
-                                            <Link to="/profile">
-                                                {/* <div style={{display:'flex',alignItems:"center"}}> */}
-
-                                                <li className="info_profile">
-                                                    <ImProfile
-                                                        size={20}
-                                                        color={'#1890ff'}
-                                                        className="icon_profile"
-                                                    />
-                                                    <span
-                                                        style={{
-                                                            marginLeft: '10px',
-                                                            fontSize: '1rem',
-                                                        }}
-                                                    >
-                                                        Thông tin tài khoản
-                                                    </span>
-                                                </li>
-                                                {/* </div> */}
-                                            </Link>
-                                            <Link to="/change-password">
-                                                <li className="info_profile">
-                                                    <RiLockPasswordLine
-                                                        size={20}
-                                                        color={'#1890ff'}
-                                                        className="icon_profile"
-                                                    />
-                                                    <span
-                                                        style={{
-                                                            marginLeft: '10px',
-                                                            fontSize: '1rem',
-                                                        }}
-                                                    >
-                                                        Thay đổi mật khẩu
-                                                    </span>
-                                                </li>
-                                            </Link>
-                                            <Link to="/2fa-security">
-                                                <li className="info_profile">
-                                                    <MdOutlineSecurity
-                                                        size={20}
-                                                        color={'#1890ff'}
-                                                        className="icon_profile"
-                                                    />
-                                                    <span
-                                                        style={{
-                                                            marginLeft: '10px',
-                                                            fontSize: '1rem',
-                                                        }}
-                                                    >
-                                                        Cài đặt bảo mật (2FA)
-                                                    </span>
-                                                </li>
-                                            </Link>
-
-                                            <li onClick={() => logout()}>
-                                                <Link to="#">
-                                                    <span>Đăng xuất</span>
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </Header>
-                    <Content
-                        className="site-layout-background"
-                        style={{
-                            margin: '24px 16px',
-                            padding: 24,
-                        }}
-                    >
-                        <Outlet />
-                    </Content>
+                        </Header>
+                        <Content
+                            className="site-layout-background"
+                            style={{
+                                margin: '24px 16px',
+                                padding: 24,
+                            }}
+                        >
+                            <Outlet />
+                        </Content>
+                    </Layout>
                 </Layout>
-            </Layout>
+            </SocketContext.Provider>
         </>
     )
 }

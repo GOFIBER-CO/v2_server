@@ -34,20 +34,21 @@ import {
     Tag,
 } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { CSSProperties, useContext, useEffect, useState } from 'react'
 import { BsCheckLg } from 'react-icons/bs'
 import { FaCog } from 'react-icons/fa'
 import { TbFileExport } from 'react-icons/tb'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
 import "./CloudVps.scss"
-import {socket} from '@/layouts/MainLayout/index'
 import Modalprint from './Modalprint'
 import { useReactToPrint } from 'react-to-print'
+import { SocketContext } from '@/socket'
 
 const { Option } = Select
 
 const CloudVps: React.FC = () => {
+    const socket = useContext(SocketContext)
     const [filter, setFilter] = useState<{
         location: string
         operatingSystem: string
