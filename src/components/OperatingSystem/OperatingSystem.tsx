@@ -11,18 +11,21 @@ const OperatingSystem = ({
     isShow,
     onchangeItem,
     setIsShow,
+    chosenOsTemplate,
 }: {
-    data: IOparatingSystemArray
+    data: any
     isShow?: boolean
     isCheck?: boolean
-    onchangeItem: (values: IOperatingSystem) => void
-    setIsShow: (id: string) => void
+    onchangeItem: (values: any) => void
+    setIsShow: (id: number) => void
+    chosenOsTemplate: any
 }) => {
-    const onchange = (id: string) => {
+    const onchange = (id: number) => {
+        console.log('dsad', id)
         setIsShow(id)
     }
 
-    const onchangeOperatingSystemItem = (event: IOperatingSystem) => {
+    const onchangeOperatingSystemItem = (event: any) => {
         if (event) {
             onchangeItem(event)
         }
@@ -33,32 +36,27 @@ const OperatingSystem = ({
             {
                 <div
                     className="servertype_labe"
-                    onClick={() => onchange(data._id || '')}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        onchange(data.id || '')
+                    }}
                 >
-                    <span className="img-country">
-                        <img
-                            src={`${appConfig.API_URL_UPLOAD_FILES}/${data.file}`}
-                            alt=""
-                            width={48}
-                            height={48}
-                        />
-                    </span>
-                    <Checkbox isCheck={data.isCheck} />
-                    <span className="name-system">
-                        {data.operatingSystemName}
-                    </span>
+                    <span className="img-country">{data?.image}</span>
+                    <Checkbox isCheck={isCheck} />
+                    <span className="name-system">{data.name}</span>
                     <span className="version">
-                        {data.version ? data.version : 'Chọn Version'}
+                        {chosenOsTemplate?.id && isCheck
+                            ? chosenOsTemplate?.name
+                            : 'Chọn Version'}
                     </span>
-                    {isShow ? (
+                    {isShow && (
                         <ListOperatingSystem
-                            data={data}
+                            setToggle={onchange}
+                            data={data?.template}
                             onchange={(data) => {
                                 onchangeOperatingSystemItem(data)
                             }}
                         />
-                    ) : (
-                        ''
                     )}
                 </div>
             }

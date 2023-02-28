@@ -3,23 +3,22 @@ import IPackageServer from '@/interfaces/IPackageServer'
 const PackageServer = ({
     data,
     onchange,
+    isCheck,
 }: {
-    data: IPackageServer
-    onchange: (values: IPackageServer) => void
+    data: any
+    onchange: (values: any) => void
+    isCheck: boolean
 }) => {
     return (
         <li className="package-server-item" onClick={() => onchange(data)}>
             <span className="tile-package-server-item">
-                <label
-                    className="name-package-server-item"
-                    style={
-                        data.isCheck == true
-                            ? { borderBottom: '2px solid #007bfc' }
-                            : {}
-                    }
+                <strong
+                    className={`name-package-server-item ${
+                        isCheck ? 'active' : ''
+                    }`}
                 >
                     {data.name}
-                </label>
+                </strong>
             </span>
         </li>
     )

@@ -411,18 +411,43 @@ export const getOperationHistory = (
         `/api/action-history/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&filter=${filter}`
     )
 
-export const getIps = (pageSize: number, pageIndex: number, status: string) => axiosInstance.get(`/api/ip/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&status=${status}`)
+export const getIps = (pageSize: number, pageIndex: number, status: string) =>
+    axiosInstance.get(
+        `/api/ip/getPaging?pageSize=${pageSize}&pageIndex=${pageIndex}&status=${status}`
+    )
 
-export const createIp = (ip: string) => axiosInstance.post(`/api/ip/create-ip`, {ip: ip})
+export const createIp = (ip: string) =>
+    axiosInstance.post(`/api/ip/create-ip`, { ip: ip })
 
-export const editIp = (ip: string, id: string) => axiosInstance.patch(`/api/ip/${ip}`, {id: id})
+export const editIp = (ip: string, id: string) =>
+    axiosInstance.patch(`/api/ip/${ip}`, { id: id })
 
-export const getIpById = (id:string) => axiosInstance.get(`/api/ip/${id}`)
+export const getIpById = (id: string) => axiosInstance.get(`/api/ip/${id}`)
 
-export const updateIp = (id: string, ip: string) => axiosInstance.patch(`/api/ip/${id}`, {ip: ip})
+export const updateIp = (id: string, ip: string) =>
+    axiosInstance.patch(`/api/ip/${id}`, { ip: ip })
 
 export const getPrice = () => axiosInstance.get(`/api/price`)
 
-export const updatePrice = (id: string, data: IPrice) => axiosInstance.put(`/api/price/${id}`, data)
+export const updatePrice = (id: string, data: IPrice) =>
+    axiosInstance.put(`/api/price/${id}`, data)
 
-export const getPriceById = (id: string) => axiosInstance.get(`/api/price/${id}`)
+export const getPriceById = (id: string) =>
+    axiosInstance.get(`/api/price/${id}`)
+
+const preUrl = '/api/v1'
+
+let axiosInstanceNew = axios.create({
+    baseURL: 'http://localhost:4000',
+})
+// order-pages
+export const getOrderPagesToShow = () =>
+    axiosInstanceNew.get(`${preUrl}/order-pages/get-order-pages-to-show`)
+
+export const getSubOrderPagesByParent = (slug: string) =>
+    axiosInstanceNew.get(
+        `${preUrl}/order-pages/get-sub-order-pages-by-parent/${slug}`
+    )
+
+export const getProductsBySubOrderPage = (id: string) =>
+    axiosInstanceNew.get(`${preUrl}/products/products-by-sub-order-page/${id}`)

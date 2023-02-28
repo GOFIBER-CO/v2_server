@@ -16,6 +16,21 @@
     font-size: 16px !important;
 }
 
+.popover-order-page {
+    .item {
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 6px;
+        margin: 12px 0px;
+        &:hover {
+            color: #fff;
+            background-color: #001529;
+        }
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .site-layout-surplus {
         display: none !important;
