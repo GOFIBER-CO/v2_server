@@ -2,7 +2,7 @@ import ButtonFilter from '@/components/ButtonFilter'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import IOrder from '@/interfaces/IOrder'
 import { getOrders } from '@/services/apis'
-import { Input, Pagination, PaginationProps } from 'antd'
+import { Input, Pagination, PaginationProps, Tag } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
 import { useEffect, useState } from 'react'
 import { TfiMenuAlt } from 'react-icons/tfi'
@@ -12,6 +12,7 @@ import formatMoney from '@/helpers/formatMoney'
 import reverseDate from '@/helpers/reverseDate'
 import { DatePicker } from 'antd'
 import moment from 'moment'
+import { getOrdersViettell } from '@/services/apiv2'
 
 const { RangePicker } = DatePicker
 
@@ -33,41 +34,50 @@ const ManageOrder = () => {
 
     const layout = useLayoutInit()
 
+    
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
 
     const columns: ColumnsType<IOrder> = [
-        {
-            title: 'Mã đơn hàng',
-            dataIndex: 'code',
-        },
+        // {
+        //     title: 'Mã đơn hàng',
+        //     dataIndex: 'client_id',
+        // },
         {
             title: 'Tên khách hàng',
-            dataIndex: 'user',
-            render: (value) => value?.userName,
+            dataIndex: 'firstname',
+            
         },
         {
-            title: 'Tên sản phẩm',
-            dataIndex: 'product',
-            render: (value) => value?.serverName,
+            title: 'Tên ngân hàng',
+            dataIndex: 'module',
+            // render: (value) => value?.serverName,
         },
         {
             title: 'Giá',
-            dataIndex: 'totalPrice',
+            dataIndex: 'total',
             render: (value) => formatMoney(value),
-            sorter: (a, b) => Number(a.totalPrice) - Number(b.totalPrice),
+            // sorter: (a, b) => Number(a.totalPrice) - Number(b.totalPrice),
         },
+        // {
+        //     title: 'Ngày mua',
+        //     dataIndex: 'createdAt',
+        //     render: (value) => formatDate(value),
+        //     sorter: (a, b) =>
+        //         new Date(reverseDate(formatDate(a.createdAt))).getTime() -
+        //         new Date(reverseDate(formatDate(b.createdAt))).getTime(),
+        // },
         {
-            title: 'Ngày mua',
-            dataIndex: 'createdAt',
-            render: (value) => formatDate(value),
-            sorter: (a, b) =>
-                new Date(reverseDate(formatDate(a.createdAt))).getTime() -
-                new Date(reverseDate(formatDate(b.createdAt))).getTime(),
-        },
-        {
-            title: 'Điều khiển',
-            dataIndex: 'control',
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            render:(value : any) => {
+                if(value === 'Pending'){
+                    return  <Tag color="orange">Đang chờ</Tag>
+                }
+                if(value === 'Active'){
+                    return  <Tag color="green">Xác nhận</Tag>
+                }
+            }
         },
     ]
 
@@ -83,14 +93,13 @@ const ManageOrder = () => {
     const getOrder = async () => {
         try {
             layout.setLoading(true)
-            const result = await getOrders(
+            const result = await getOrdersViettell(
                 pageIndex,
                 filter.name,
-                filter.timeFrom,
-                filter.timeTo,
                 pageSize
             )
-            setOrder(result.data?.order)
+            
+            setOrder(result.data?.data)
             setTotalItem(result.data?.totalItem)
             setTotalPage(result.data?.totalPages)
             layout.setLoading(false)
@@ -134,7 +143,7 @@ const ManageOrder = () => {
                         }
                     />
                 </div>
-                <div
+                {/* <div
                     className="manage-order-page-filter-time"
                     style={{ marginRight: '10px' }}
                 >
@@ -143,7 +152,7 @@ const ManageOrder = () => {
                             handleChangeTimeFilter(dateString)
                         }
                     />
-                </div>
+                </div> */}
                 <div className="manage-order-page-filter-button">
                     <ButtonFilter buttonOnclick={onFiltered} />
                 </div>

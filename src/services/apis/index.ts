@@ -468,3 +468,14 @@ export const getProductsBySubOrderPage = (id: string) =>
         pageSize: number
     ) =>
     axiosInstanceNew.get(`${preUrl}/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+
+    export const getOrdersViettell = (
+        // pageIndex: number,
+        // userName: string,
+        // pageSize?: number
+    ) =>
+    axiosInstanceNew.get(
+            `${preUrl}/client-order/getpaging`
+        )
+
+        // ?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}
