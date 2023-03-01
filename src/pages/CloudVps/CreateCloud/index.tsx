@@ -5,10 +5,11 @@ import {
     getArea,
     getOperatingSystemChildren,
     getPrice,
+    getProductsBySubOrderPage,
     getServer,
 } from '@/services/apis'
 import '@/styles/pages/CloudVps/CreateCloud/CreateCloud.scss'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import IArea from '@/interfaces/IArea'
 import IService from '@/interfaces/IService'
 import IOparatingSystemArray from '@/interfaces/IOperatingSystemPage'
@@ -21,12 +22,91 @@ import { notify, notifyType } from '@/App'
 import OperatingSystem from '@/components/OperatingSystem/OperatingSystem'
 import Server from '@/components/Server/Server'
 import Area from '@/components/Area/Area'
-import ProfileCloudServer from '@/components/CloudVPS/ProfileCloudServer/ProfileCloudServer'
 import PackageServer from '@/components/PackageServer/PackageServer'
-import { Checkbox, Radio, Slider } from 'antd'
+import { Radio, Slider } from 'antd'
 import { useNavigate } from 'react-router'
 import IPrice from '@/interfaces/IPrice'
+import { CYCLE_TIME } from '@/helpers'
 // import console from 'console'
+
+const osTemplate = [
+    {
+        id: 1,
+        name: 'Windows',
+        image: (
+            <img
+                src={'/public/images/icon-windows.svg'}
+                alt=""
+                width={48}
+                height={48}
+            />
+        ),
+        template: [
+            {
+                id: '302 win2019',
+                name: 'Windows Server 2019',
+                subOrderPage: 1,
+            },
+        ],
+    },
+    {
+        id: 2,
+        name: 'Linux',
+        image: (
+            <img
+                src={'/public/images/icon-ubuntu.svg'}
+                alt=""
+                width={48}
+                height={48}
+            />
+        ),
+        template: [
+            {
+                id: '256 ubuntu20.tino.org',
+                name: 'Ubuntu20',
+                subOrderPage: 2,
+            },
+            {
+                id: '308 centos7',
+                name: 'Centos7',
+                subOrderPage: 2,
+            },
+            {
+                id: '306 debian11.tino.org',
+                name: 'Debian11',
+                subOrderPage: 2,
+            },
+            {
+                id: '309 almalinux8',
+                name: 'Almalinux8',
+                subOrderPage: 2,
+            },
+        ],
+    },
+]
+
+const cycleTime = [
+    {
+        id: CYCLE_TIME.MONTHLY,
+        name: 'Giá Theo Tháng',
+        extra: 'Tháng',
+    },
+    {
+        id: CYCLE_TIME.QUARTERLY,
+        name: 'Giá Theo 3 Tháng',
+        extra: '3 Tháng',
+    },
+    {
+        id: CYCLE_TIME.SEMI_ANNUALLY,
+        name: 'Giá Theo 6 Tháng',
+        extra: '6 Tháng',
+    },
+    {
+        id: CYCLE_TIME.ANNUALLY,
+        name: 'Giá Theo Năm',
+        extra: 'Năm',
+    },
+]
 
 const CreateCloud: React.FC = () => {
     const layout = useLayoutInit()
@@ -50,7 +130,7 @@ const CreateCloud: React.FC = () => {
         useState(iProfileCloudServer)
 
     const [price, setPrice] = useState(0)
-    const [unit, setUnit] = useState('Tháng')
+    const [unit, setUnit] = useState(cycleTime[0])
 
     const [priceServer, setPriceServer] = useState(130000)
     const [CPU, setCPU] = useState(1)
@@ -67,6 +147,12 @@ const CreateCloud: React.FC = () => {
         ssd: 1,
         cpu: 1,
     })
+    const [chosenOsTemplate, setChosenOsTemplate] = useState<any>(
+        osTemplate[0].template[0]
+    )
+    const [products, setProducts] = useState([])
+    const [chosenProduct, setChosenProduct] = useState<any>({})
+    const [toggle, setToggle] = useState(0)
 
     const getVpsPrice = async () => {
         try {
@@ -80,10 +166,9 @@ const CreateCloud: React.FC = () => {
         }
     }
 
-
-    useEffect(()=>{
+    useEffect(() => {
         getVpsPrice()
-    },[])   
+    }, [])
 
     let iInserCloudServer: IInserCloudServer[] = []
 
@@ -169,30 +254,30 @@ const CreateCloud: React.FC = () => {
         setDataProfileCloudServer(iProfileCloudServer)
     }
 
-    const loadUnit = (expiryDateType: number) => {
-        switch (expiryDateType) {
-            case 1:
-                setUnit('Giờ')
-                break
-            case 2:
-                setUnit('Ngày')
-                break
-            case 3:
-                setUnit('Tháng')
-                break
-            case 4:
-                setUnit('Tháng')
-                break
-            case 5:
-                setUnit('Tháng')
-                break
-            case 6:
-                setUnit('Năm')
-                break
-            default:
-                break
-        }
-    }
+    // const loadUnit = (expiryDateType: number) => {
+    //     switch (expiryDateType) {
+    //         case 1:
+    //             setUnit('Giờ')
+    //             break
+    //         case 2:
+    //             setUnit('Ngày')
+    //             break
+    //         case 3:
+    //             setUnit('Tháng')
+    //             break
+    //         case 4:
+    //             setUnit('Tháng')
+    //             break
+    //         case 5:
+    //             setUnit('Tháng')
+    //             break
+    //         case 6:
+    //             setUnit('Năm')
+    //             break
+    //         default:
+    //             break
+    //     }
+    // }
 
     const laodArea = async () => {
         try {
@@ -291,66 +376,94 @@ const CreateCloud: React.FC = () => {
         }
     }
 
-    const toggleShowing = (id: string) => {
-        const newOperatingSystemArray = dataOperatingSystem.map((val) => {
-            if (id == val._id) {
-                if (val.isShow) val.isShow = false
-                else val.isShow = true
-            } else {
-                val.isShow = false
+    // const toggleShowing = (id: string) => {
+    //     const newOperatingSystemArray = dataOperatingSystem.map((val) => {
+    //         if (id == val._id) {
+    //             if (val.isShow) val.isShow = false
+    //             else val.isShow = true
+    //         } else {
+    //             val.isShow = false
+    //         }
+    //         return val
+    //     })
+    //     setDataOperatingSystem(newOperatingSystemArray)
+    // }
+
+    const onchanngeOperatingSystemItem = async (event: any) => {
+        // const newOperatingSystemArray: IOparatingSystemArray[] = []
+        // dataOperatingSystem.map((val) => {
+        //     if (
+        //         val.isCheck &&
+        //         !val.children.map((item) => item._id).includes(event._id)
+        //     ) {
+        //         val.isCheck = false
+        //         val.version = ''
+        //     } else if (
+        //         val.children.map((item) => item._id).includes(event._id)
+        //     ) {
+        //         val.isCheck = true
+        //         val.version = event.operatingSystemName
+        //     } else {
+        //         val.isCheck = false
+        //         val.version = ''
+        //     }
+        //     val.isShow = false
+        //     newOperatingSystemArray.push(val)
+        // })
+        // newCloudServer.operatingSystem = event._id || ''
+        // setDataOperatingSystem(newOperatingSystemArray);
+
+        setChosenOsTemplate(event)
+    }
+
+    useEffect(() => {
+        const getProductByOs = async (id: string) => {
+            try {
+                const result = await getProductsBySubOrderPage(id)
+
+                const { data } = result?.data
+                setProducts(data || [])
+
+                if (data?.length > 0) {
+                    setChosenProduct(data?.[0] || {})
+                }
+            } catch (error) {
+                console.log('getProductsBySubOrderPage', error)
             }
-            return val
-        })
-        setDataOperatingSystem(newOperatingSystemArray)
+        }
+
+        if (chosenOsTemplate?.subOrderPage)
+            getProductByOs(chosenOsTemplate?.subOrderPage)
+    }, [chosenOsTemplate])
+
+    const onclickServer = (item: any) => {
+        // dataServer.map((val) => {
+        //     ;(val.isCheck = val._id == item._id ? true : false),
+        //         iService.push(val)
+        // })
+        // newCloudServer.server = item._id || ''
+        // setDataServer(iService)
+        // setPrice(item.price || 0)
+        setChosenProduct(item)
     }
 
-    const onchanngeOperatingSystemItem = (event: IOperatingSystem) => {
-        const newOperatingSystemArray: IOparatingSystemArray[] = []
-        dataOperatingSystem.map((val) => {
-            if (
-                val.isCheck &&
-                !val.children.map((item) => item._id).includes(event._id)
-            ) {
-                val.isCheck = false
-                val.version = ''
-            } else if (
-                val.children.map((item) => item._id).includes(event._id)
-            ) {
-                val.isCheck = true
-                val.version = event.operatingSystemName
-            } else {
-                val.isCheck = false
-                val.version = ''
-            }
-            val.isShow = false
-            newOperatingSystemArray.push(val)
-        })
-        newCloudServer.operatingSystem = event._id || ''
-        setDataOperatingSystem(newOperatingSystemArray)
-    }
+    const cPrice = useMemo(() => {
+        return chosenProduct[unit.id]
+    }, [unit, chosenProduct])
 
-    const onclickServer = (item: IService) => {
-        dataServer.map((val) => {
-            ;(val.isCheck = val._id == item._id ? true : false),
-                iService.push(val)
-        })
-        newCloudServer.server = item._id || ''
-        setDataServer(iService)
-        setPrice(item.price || 0)
-    }
-
-    const onclickPackageServer = (item: IPackageServer) => {
-        dataPackageServer.map((val) => {
-            ;(val.isCheck = val._id == item._id ? true : false),
-                iPackageServer.splice(
-                    iPackageServer.findIndex((x) => x._id == val._id),
-                    1,
-                    val
-                )
-        })
-        onchangeLaodServer(item.status)
-        loadUnit(item.status)
-        setDataPackageServer(iPackageServer)
+    const onclickPackageServer = (item: any) => {
+        setUnit(item)
+        // dataPackageServer.map((val) => {
+        //     ;(val.isCheck = val._id == item._id ? true : false),
+        //         iPackageServer.splice(
+        //             iPackageServer.findIndex((x) => x._id == val._id),
+        //             1,
+        //             val
+        //         )
+        // })
+        // onchangeLaodServer(item.status)
+        // loadUnit(item.status)
+        // setDataPackageServer(iPackageServer)
     }
 
     const onclickRandomPassword = () => {
@@ -473,7 +586,10 @@ const CreateCloud: React.FC = () => {
         //1 cpu 50k
         let price = 0
         if (value !== 1 && RAM !== 1 && SSD !== 30) {
-            price = (value - 1) * priceVps.cpu + (RAM - 1) * priceVps.ram + (SSD - 30) * priceVps.ssd
+            price =
+                (value - 1) * priceVps.cpu +
+                (RAM - 1) * priceVps.ram +
+                (SSD - 30) * priceVps.ssd
         }
         if (value !== 1 && RAM !== 1) {
             price = (value - 1) * priceVps.cpu + (RAM - 1) * priceVps.ram
@@ -494,7 +610,10 @@ const CreateCloud: React.FC = () => {
         //1 ram 50k
         let price = 0
         if (value !== 1 && CPU !== 1 && SSD !== 30) {
-            price = (value - 1) * priceVps.ram + (CPU - 1) * priceVps.cpu + (SSD - 30) * priceVps.ssd
+            price =
+                (value - 1) * priceVps.ram +
+                (CPU - 1) * priceVps.cpu +
+                (SSD - 30) * priceVps.ssd
         } else if (CPU !== 1 && value !== 1) {
             price = (CPU - 1) * priceVps.cpu + (value - 1) * priceVps.ram
         } else if (value !== 1 && SSD !== 30) {
@@ -514,7 +633,10 @@ const CreateCloud: React.FC = () => {
         //1GB ssd 1k
         let price = 0
         if (value !== 30 && CPU !== 1 && RAM !== 1) {
-            price = (value - 30) * priceVps.ssd + (CPU - 1) * priceVps.cpu + (RAM - 1) * priceVps.ram
+            price =
+                (value - 30) * priceVps.ssd +
+                (CPU - 1) * priceVps.cpu +
+                (RAM - 1) * priceVps.ram
         } else if (value !== 30 && CPU !== 1) {
             price = (value - 30) * priceVps.ssd + (CPU - 1) * priceVps.cpu
         } else if (value !== 30 && RAM !== 1) {
@@ -727,6 +849,49 @@ const CreateCloud: React.FC = () => {
         return appendData()
     }, [])
 
+    const renderChooseOsTemplate = {
+        chosen: (
+            <>
+                <div className="package-server">
+                    <div className="tabs-container">
+                        <ul className="list-package-server">
+                            {cycleTime.map((item) => (
+                                <PackageServer
+                                    isCheck={unit?.id === item?.id}
+                                    data={item}
+                                    onchange={(data) => {
+                                        onclickPackageServer(data)
+                                    }}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+                <div className="deploy_options">
+                    <div className="row">
+                        {products?.map((item: any) => (
+                            <Server
+                                isCheck={
+                                    item.object_id === chosenProduct?.object_id
+                                }
+                                data={item}
+                                unit={unit?.id}
+                                onchange={(data) => {
+                                    onclickServer(data)
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </>
+        ),
+        notChoose: (
+            <div className="my-4 text-center">
+                <h5>Vui lòng chọn Hệ điều hành</h5>
+            </div>
+        ),
+    }
+
     return (
         <>
             <div className="create-cloud">
@@ -750,7 +915,7 @@ const CreateCloud: React.FC = () => {
                         CHỌN HỆ ĐIỀU HÀNH
                     </p>
                     <div className="servertype_section">
-                        <>
+                        {/* <>
                             {dataOperatingSystem?.map((item) => (
                                 <OperatingSystem
                                     data={item}
@@ -762,6 +927,25 @@ const CreateCloud: React.FC = () => {
                                     setIsShow={(id: string) =>
                                         toggleShowing(id)
                                     }
+                                />
+                            ))}
+                        </> */}
+
+                        <>
+                            {osTemplate?.map((item) => (
+                                <OperatingSystem
+                                    data={item}
+                                    isShow={Boolean(item.id === toggle)}
+                                    isCheck={Boolean(
+                                        item?.template.find(
+                                            (e) => e.id === chosenOsTemplate?.id
+                                        )
+                                    )}
+                                    onchangeItem={(data) => {
+                                        onchanngeOperatingSystemItem(data)
+                                    }}
+                                    setIsShow={setToggle}
+                                    chosenOsTemplate={chosenOsTemplate}
                                 />
                             ))}
                         </>
@@ -849,7 +1033,7 @@ const CreateCloud: React.FC = () => {
                                                 </h4>
                                             </div>
                                             <p className="money">
-                                                <span> VND</span>/{unit}
+                                                <span> VND</span>/{unit?.extra}
                                             </p>
                                         </div>
                                         <div className="price_body">
@@ -950,36 +1134,12 @@ const CreateCloud: React.FC = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="package-server">
-                            <div className="tabs-container">
-                                <ul className="list-package-server">
-                                    {dataPackageServer.map((item) => (
-                                        <PackageServer
-                                            data={item}
-                                            onchange={(data) => {
-                                                onclickPackageServer(data)
-                                            }}
-                                        />
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="deploy_options">
-                            <div className="row">
-                                {dataServer?.map((item) => (
-                                    <Server
-                                        data={item}
-                                        unit={unit}
-                                        onchange={(data) => {
-                                            onclickServer(data)
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                        </div>
+                        {chosenOsTemplate
+                            ? renderChooseOsTemplate['chosen']
+                            : renderChooseOsTemplate['notChoose']}
                     </div>
                 )}
-                <div className="create-cloud-config">
+                {/* <div className="create-cloud-config">
                     <div className="server-config" style={{ display: 'block' }}>
                         <div className="create-cloud-location-title">
                             <p style={{ marginBottom: '10px' }}>
@@ -1015,8 +1175,8 @@ const CreateCloud: React.FC = () => {
                             </p>
                         </div>
                     </div>
-                </div>
-                <div
+                </div> */}
+                {/* <div
                     className="create-cloud-server-name"
                     style={{ marginTop: '15px' }}
                 >
@@ -1030,12 +1190,12 @@ const CreateCloud: React.FC = () => {
                         <a onClick={() => onclickSamePassword()}>
                             TẠO MẬT KHẨU GIỐNG NHAU
                         </a>
-                        {/* <a onClick={() => onclickRandomPort()}>
+                        <a onClick={() => onclickRandomPort()}>
                             TẠO PORT DỊCH VỤ NGẪU NHIÊN
                         </a>
                         <a onClick={() => onclickSamePort()}>
                             TẠO PORT DỊCH VỤ GIỐNG NHAU
-                        </a> */}
+                        </a>
                     </div>
                     <div className="text-warning">
                         Vui lòng chọn
@@ -1048,14 +1208,14 @@ const CreateCloud: React.FC = () => {
                                 {' '}
                                 Mật khẩu{' '}
                             </div>
-                            {/* <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold">
+                            <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold">
                                 {' '}
                                 Port dịch vụ{' '}
                             </div>
                             <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold">
                                 {' '}
                                 Nhãn dịch vụ{' '}
-                            </div> */}
+                            </div>
                             <div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-3 text-uppercase font-weight-bold"></div>
                         </div>
                         <div className="row pt-3 row-items ng-untouched ng-pristine ng-valid">
@@ -1075,58 +1235,71 @@ const CreateCloud: React.FC = () => {
                             ))}
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="create-cloud-caculate-price">
                     <div className="sidebar-info">
-                        <div className="deploy-summary-info">
-                            <span className="number-server">
-                                {' '}
-                                Số lượng Cloud Server:{' '}
-                            </span>
-                            <div className="add-number">
-                                <button
-                                    className="instanceCountButton"
-                                    type="button"
-                                    onClick={() => onClickReduce()}
-                                >
-                                    <i className="fa fa-minus"></i>
-                                </button>
-                                <span className="instanceCount">
-                                    {numberCloud}
-                                </span>
-                                <button
-                                    className="instanceCountButton"
-                                    type="button"
-                                    onClick={() => onClickIncrease()}
-                                >
-                                    <i className="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div className="deploy-summary-price">
-                            <span className="cost"> Chi phí: </span>
-                            <div>
-                                <span className="order_total">
-                                    {autoBackup
-                                        ? ConverMoney(
-                                              price * numberCloud +
-                                                  price * numberCloud * 0.1
-                                          )
-                                        : ConverMoney(price * numberCloud)}{' '}
-                                    đ
-                                </span>
-                                <span className="deploy-summary-price-label">
-                                    /{unit}
-                                </span>
-                                <span className="order_total_spacer">
-                                    {' '}
-                                    &nbsp;{' '}
-                                    <span className="order_total_hr">
-                                        Miễn phí khởi tạo
+                        {chosenProduct?.object_id ? (
+                            <>
+                                {/* <div className="deploy-summary-info">
+                                    <span className="number-server">
+                                        {' '}
+                                        Số lượng Cloud Server:{' '}
                                     </span>
-                                </span>
-                            </div>
-                        </div>
+                                    <div className="add-number">
+                                        <button
+                                            className="instanceCountButton"
+                                            type="button"
+                                            onClick={() => onClickReduce()}
+                                        >
+                                            <i className="fa fa-minus"></i>
+                                        </button>
+                                        <span className="instanceCount">
+                                            {numberCloud}
+                                        </span>
+                                        <button
+                                            className="instanceCountButton"
+                                            type="button"
+                                            onClick={() => onClickIncrease()}
+                                        >
+                                            <i className="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div> */}
+                                <div className="deploy-summary-price">
+                                    <span className="cost"> Chi phí: </span>
+                                    <div>
+                                        <span className="order_total">
+                                            {/* {autoBackup
+                                                ? ConverMoney(
+                                                      price * numberCloud +
+                                                          price *
+                                                              numberCloud *
+                                                              0.1
+                                                  )
+                                                : ConverMoney(
+                                                      price * numberCloud
+                                                  )}{' '} */}
+                                            {ConverMoney(
+                                                cPrice * numberCloud || 0
+                                            )}
+                                            đ
+                                        </span>
+                                        <span className="deploy-summary-price-label">
+                                            /{unit?.extra}
+                                        </span>
+                                        <span className="order_total_spacer">
+                                            &nbsp;
+                                            <span className="order_total_hr">
+                                                Miễn phí khởi tạo
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div></div>
+                        )}
+
                         <input
                             onClick={() => onFinish()}
                             type="button"
