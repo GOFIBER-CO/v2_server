@@ -14,12 +14,6 @@ let axiosInstance = axios.create({
     baseURL: baseUrl,
 })
 
-axiosInstance.interceptors.request.use((config) => {
-    config.headers!.authorization = `Bearer ${
-        JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
-    }`
-    return config
-})
 
 export const login = (username: string, password: string) =>
     axiosInstance.post('/api/user/login', {

@@ -10,6 +10,7 @@ import {
     useState,
 } from 'react'
 import { NavigateFunction } from 'react-router'
+import jwtDecode from 'jwt-decode'
 
 interface IInitStateProvider {
     jwtToken: string
@@ -97,7 +98,7 @@ const useProvideAuth = () => {
         ...JSON.parse(localStorage.getItem('user') || 'null'),
     })
 
-    const loginSync = async (
+    const loginSync = async (  
         username: string,
         password: string,
         navigate: NavigateFunction
