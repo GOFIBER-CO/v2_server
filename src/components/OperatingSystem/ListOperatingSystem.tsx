@@ -5,41 +5,42 @@ import { useEffect, useState } from 'react'
 const ListOperatingSystem = ({
     data,
     onchange,
+    setToggle,
 }: {
-    data: IOparatingSystemArray
-    onchange: (value: IOperatingSystem) => void
+    data: any[]
+    onchange: (value: any) => void
+    setToggle: (e: number) => void
 }) => {
-    const [dataOperatingSystem, setDataOperatingSystem] = useState(data)
-    const [isShow, setIsShow] = useState(true)
+    // const [dataOperatingSystem, setDataOperatingSystem] = useState(data)
 
-    const onclickOperatingSystemShow = (event?: IOperatingSystem) => {
+    const onclickOperatingSystemShow = (event?: any) => {
         if (event) {
-            data.version = event?.operatingSystemName
-            setIsShow(!isShow)
+            // data.version = event?.operatingSystemName
+            setToggle(0)
             onchange(event)
         }
     }
 
-    useEffect(() => {
-        setDataOperatingSystem(data)
-    }, [data])
+    // useEffect(() => {
+    //     setDataOperatingSystem(data)
+    // }, [data])
 
     return (
         <>
-            {isShow
-                ? dataOperatingSystem?.children?.map((val) => (
-                      <span
-                          key={val._id}
-                          className="deploy_osversioncontainer"
-                          onClick={() => onclickOperatingSystemShow(val)}
-                      >
-                          <span className="deploy_osversionselector">
-                              {' '}
-                              {val.operatingSystemName}
-                          </span>
-                      </span>
-                  ))
-                : ''}
+            {data?.map((val: any) => (
+                <span
+                    key={val._id}
+                    className="deploy_osversioncontainer"
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        onclickOperatingSystemShow(val)
+                    }}
+                >
+                    <span className="deploy_osversionselector">
+                        {val?.name}
+                    </span>
+                </span>
+            ))}
         </>
     )
 }

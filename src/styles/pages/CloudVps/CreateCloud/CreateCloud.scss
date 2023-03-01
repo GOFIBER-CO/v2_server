@@ -289,6 +289,11 @@
                         .name-package-server-item {
                             font-size: 15px;
                             text-align: center;
+                            padding-bottom: 6px;
+
+                            &.active {
+                                border-bottom: 3px solid #007bfc;
+                            }
                         }
                     }
                 }
@@ -311,6 +316,7 @@
                 padding-right: 12.5px;
                 padding-left: 12.5px;
                 .price_box {
+                    cursor: pointer;
                     display: block;
                     margin-bottom: 30px;
                     box-shadow: 0 0.1rem 1rem 0.25rem rgba(0, 0, 0, 0.05) !important;
@@ -615,7 +621,7 @@
     }
     .sidebar-info {
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         padding: 16px 30px;
         margin: 0 auto;
