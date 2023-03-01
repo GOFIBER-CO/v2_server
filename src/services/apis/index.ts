@@ -8,7 +8,8 @@ import {IUser} from '@/interfaces/IUser'
 import axios from 'axios'
 
 // const baseUrl = ''
-const baseUrl = 'http://localhost:8079'
+// const baseUrl = 'http://localhost:8079'
+const baseUrl = 'http://localhost:4000/api/v1'
 
 let axiosInstance = axios.create({
     baseURL: baseUrl,
@@ -426,6 +427,17 @@ export const getPrice = () => axiosInstance.get(`/api/price`)
 export const updatePrice = (id: string, data: IPrice) =>
     axiosInstance.put(`/api/price/${id}`, data)
 
+// export const getPriceById = (id: string) => axiosInstance.get(`/api/price/${id}`)
+
+
+export const getAllOs1 = (
+    pageIndex?: number,
+    operatingSystemName?: string,
+    pageSize?: number
+) =>
+    axiosInstance.get(
+        `/serviceTemplate/getPaging?pageIndex=${pageIndex}&search=${operatingSystemName}&pageSize=${pageSize}`
+    )
 export const getPriceById = (id: string) =>
     axiosInstance.get(`/api/price/${id}`)
 
