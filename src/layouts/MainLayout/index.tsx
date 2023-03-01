@@ -50,7 +50,8 @@ import Loading from '@/components/Loading/Loading'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import { SlLocationPin } from 'react-icons/sl'
 import ModalConfirm from '@/components/Modal'
-import { getNotificationByUserId, getUserSurplus } from '@/services/apis'
+import { getNotificationByUserId } from '@/services/apis'
+import { getUserSurplus } from '@/services/apiv2'
 import INotification from '@/interfaces/INotification'
 import { notify, notifyType } from '@/App'
 import { isMobile } from 'react-device-detect'
@@ -99,9 +100,9 @@ const MainLayout: React.FC = () => {
     const getSurplus = async () => {
         try {
             layoutInit.setLoading(true)
-            const result = await getUserSurplus(auth.user._id)
+            const result = await getUserSurplus()
             if (result.data) {
-                setSurplus(result.data?.surplus)
+                setSurplus(result.data?.data.details.acc_credit)
             }
             layoutInit.setLoading(false)
         } catch (error) {
@@ -114,7 +115,7 @@ const MainLayout: React.FC = () => {
         try {
             layoutInit.setLoading(true)
             const result = await getNotificationByUserId(
-                auth.user._id,
+                auth.user ? auth.user._id : '',
                 notificationType
             )
             if (result.data?.notifications) {
@@ -436,16 +437,23 @@ const MainLayout: React.FC = () => {
     ]
     let menuSidebar = []
     const layout = useLayoutInit()
-    if (!auth.user.isCustomer) {
+    // if (!auth.user.isCustomer) {
+    //     menuSidebar = menu.concat(menuAdmin)
+    // } else {
+    //     menuSidebar = menu
+    // }
+
+    if (true) {
         menuSidebar = menu.concat(menuAdmin)
     } else {
         menuSidebar = menu
     }
 
+
     useEffect(() => {
         getSurplus()
         socket.emit('user connect', {
-            userId: auth.user._id,
+            userId: auth.user && auth.user._id,
         })
         socket.on('send notification', (msg) => {
             notify(notifyType.NOTIFY_SUCCESS, 'Bạn có 1 thông báo mới')
@@ -584,7 +592,7 @@ const MainLayout: React.FC = () => {
                                     <p>
                                         Số dư:
                                         <span style={{ fontSize: '15px' }}>
-                                            {formatMoney(surplus)}
+                                        {formatMoney(Math.ceil(Number(surplus)))}
                                         </span>
                                     </p>
                                 </div>
@@ -816,7 +824,7 @@ const MainLayout: React.FC = () => {
                                         to="/profile"
                                         style={{ verticalAlign: '-2px' }}
                                     >
-                                        Hi, {auth.user.userName}
+                                        Hi, {`${auth.user?.firstname} ${auth.user?.lastname}`}
                                     </Link>
                                     <Avatar
                                         onClick={() => {
@@ -858,7 +866,7 @@ const MainLayout: React.FC = () => {
                                                             marginLeft: '5px',
                                                         }}
                                                     >
-                                                        {auth.user.userName}
+                                                        {auth.user?.firstname} {auth.user?.lastname}
                                                     </span>
                                                 </li>
                                                 <li
@@ -867,7 +875,7 @@ const MainLayout: React.FC = () => {
                                                 >
                                                     <span>
                                                         Số dư:{' '}
-                                                        {formatMoney(surplus)}
+                                                        {formatMoney(Math.ceil(Number(surplus)))}
                                                     </span>
                                                 </li>
                                                 <Divider

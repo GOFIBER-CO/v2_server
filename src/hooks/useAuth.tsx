@@ -1,15 +1,18 @@
 import { notify } from '@/App'
 import saveToLocalStorage from '@/helpers/saveToLocalStorage'
-import { login, login2Fa } from '@/services/apis'
+import { getUserDetail, login } from '@/services/apiv2'
 import { AxiosError } from 'axios'
 import {
     createContext,
     ReactElement,
     ReactNode,
     useContext,
+    useEffect,
     useState,
 } from 'react'
 import { NavigateFunction } from 'react-router'
+import jwtDecode from 'jwt-decode'
+import {IUser} from '@/interfaces/IUser'
 
 interface IInitStateProvider {
     jwtToken: string
@@ -17,15 +20,7 @@ interface IInitStateProvider {
     buttonLoading?: boolean
     isEnable2FaAuthenticate: boolean
     isVerified: boolean
-    user: {
-        userName: string
-        _id: string
-        role: {
-            _id: string
-            roleName: string
-        }
-        isCustomer: boolean
-    }
+    user: IUser | null
 }
 
 interface IInitContext {
@@ -33,15 +28,7 @@ interface IInitContext {
     isLoggedIn: boolean
     isEnable2FaAuthenticate: boolean
     isVerified: boolean
-    user: {
-        userName: string
-        _id: string
-        role: {
-            _id: string
-            roleName: string
-        }
-        isCustomer: boolean
-    }
+    user: IUser | null
     buttonLoading?: boolean
     loginSync: (
         username: string,
@@ -50,7 +37,7 @@ interface IInitContext {
     ) => void
     logout: (navigate: NavigateFunction) => void
     setEnable2Fa: (status: boolean) => void
-    authenticate2FA: (token: string, navigate: NavigateFunction) => void
+    // authenticate2FA: (token: string, navigate: NavigateFunction) => void
 }
 
 const initContext: IInitContext = {
@@ -59,15 +46,7 @@ const initContext: IInitContext = {
     isLoggedIn: false,
     isEnable2FaAuthenticate: false,
     isVerified: false,
-    user: {
-        userName: '',
-        _id: '',
-        role: {
-            _id: '',
-            roleName: '',
-        },
-        isCustomer: false,
-    },
+    user: null,
     async loginSync(
         username: string,
         password: string,
@@ -75,7 +54,7 @@ const initContext: IInitContext = {
     ) {},
     logout(navigate: NavigateFunction) {},
     setEnable2Fa: (status: boolean) => {},
-    authenticate2FA: (token: string, navigate: NavigateFunction) => {},
+    // authenticate2FA: (token: string, navigate: NavigateFunction) => {},
 }
 
 const authContext = createContext(initContext)
@@ -97,7 +76,7 @@ const useProvideAuth = () => {
         ...JSON.parse(localStorage.getItem('user') || 'null'),
     })
 
-    const loginSync = async (
+    const loginSync = async (  
         username: string,
         password: string,
         navigate: NavigateFunction
@@ -107,8 +86,8 @@ const useProvideAuth = () => {
             const user = await login(username, password)
             if (user.data.data && user.data?.data.user) {
                 saveToLocalStorage<IInitStateProvider>('user', {
-                    jwtToken: user.data.data.token,
-                    user: user.data.data.user,
+                    jwtToken: user.data.data.accessToken,
+                    user: null,
                     isLoggedIn: true,
                     isEnable2FaAuthenticate:
                         user.data.data.user.isEnable2FaAuthenticate,
@@ -141,47 +120,47 @@ const useProvideAuth = () => {
         } catch (error: AxiosError | any) {
             setAuth({ ...auth, buttonLoading: false })
             console.log(error)
-            notify('error', error.response.data.message)
+            notify('error', error.response.data)
         }
     }
 
-    const authenticate2FA = async (
-        token: string,
-        navigate: NavigateFunction
-    ) => {
-        try {
-            setAuth({ ...auth, buttonLoading: true })
-            const user = await login2Fa(auth.user._id, token)
-            if (user.data.status == 1) {
-                saveToLocalStorage<IInitStateProvider>('user', {
-                    jwtToken: user.data.data.token,
-                    user: user.data.data.user,
-                    isLoggedIn: true,
-                    isEnable2FaAuthenticate:
-                        user.data.data.user.isEnable2FaAuthenticate,
-                    isVerified: true,
-                })
-                setAuth({
-                    ...auth,
-                    jwtToken: user.data.data.token,
-                    user: user.data.data.user,
-                    isLoggedIn: true,
-                    isEnable2FaAuthenticate: true,
-                    isVerified: true,
-                    buttonLoading: false,
-                })
-                notify('success', user.data.message)
-                navigate('/')
-            } else {
-                notify('error', user.data.message)
-                setAuth({ ...auth, buttonLoading: false })
-            }
-        } catch (error) {
-            console.log(error)
-            setAuth({ ...auth, buttonLoading: false })
-            notify('error', error.response.data.message)
-        }
-    }
+    // const authenticate2FA = async (
+    //     token: string,
+    //     navigate: NavigateFunction
+    // ) => {
+    //     try {
+    //         setAuth({ ...auth, buttonLoading: true })
+    //         const user = await ;l(auth.user._id, token)
+    //         if (user.data.status == 1) {
+    //             saveToLocalStorage<IInitStateProvider>('user', {
+    //                 jwtToken: user.data.data.token,
+    //                 user: user.data.data.user,
+    //                 isLoggedIn: true,
+    //                 isEnable2FaAuthenticate:
+    //                     user.data.data.user.isEnable2FaAuthenticate,
+    //                 isVerified: true,
+    //             })
+    //             setAuth({
+    //                 ...auth,
+    //                 jwtToken: user.data.data.token,
+    //                 user: user.data.data.user,
+    //                 isLoggedIn: true,
+    //                 isEnable2FaAuthenticate: true,
+    //                 isVerified: true,
+    //                 buttonLoading: false,
+    //             })
+    //             notify('success', user.data.message)
+    //             navigate('/')
+    //         } else {
+    //             notify('error', user.data.message)
+    //             setAuth({ ...auth, buttonLoading: false })
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //         setAuth({ ...auth, buttonLoading: false })
+    //         notify('error', error.response.data.message)
+    //     }
+    // }
 
     const setEnable2Fa = (status: boolean) => {
         const user = JSON.parse(localStorage.getItem('user') || '')
@@ -209,25 +188,29 @@ const useProvideAuth = () => {
             isLoggedIn: false,
             isEnable2FaAuthenticate: false,
             isVerified: false,
-            user: {
-                userName: '',
-                _id: '',
-                role: {
-                    _id: '',
-                    roleName: '',
-                },
-                isCustomer: true,
-            },
+            user:null,
         })
         notify('success', 'Đăng xuất thành công')
         navigate('/')
     }
+
+    const getUser = async () => {
+        try {
+            const user = await getUserDetail()
+            setAuth({...auth, user: user.data.data})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        getUser()
+    },[])
 
     return {
         ...auth,
         loginSync,
         logout,
         setEnable2Fa,
-        authenticate2FA,
     }
 }

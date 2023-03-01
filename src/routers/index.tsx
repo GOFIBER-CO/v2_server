@@ -116,7 +116,8 @@ const AppRouter: React.FC = () => {
                         />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/2fa-security" element={<FASecurity />} />
-                        {!auth.user.isCustomer && (
+                        {/* {!auth.user.isCustomer && ( */}
+                        {true && (
                             <>
                                 <Route
                                     path="/operating-system"

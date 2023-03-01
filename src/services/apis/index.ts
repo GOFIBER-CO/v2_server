@@ -4,7 +4,7 @@ import INewNotification from '@/interfaces/INewNotification'
 import IPrice from '@/interfaces/IPrice'
 import IService from '@/interfaces/IService'
 import IUpdateCloudServer from '@/interfaces/IUpdateCloudServer'
-import IUser from '@/interfaces/IUser'
+import {IUser} from '@/interfaces/IUser'
 import axios from 'axios'
 
 // const baseUrl = ''
@@ -15,12 +15,6 @@ let axiosInstance = axios.create({
     baseURL: baseUrl,
 })
 
-axiosInstance.interceptors.request.use((config) => {
-    config.headers!.authorization = `Bearer ${
-        JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
-    }`
-    return config
-})
 
 export const login = (username: string, password: string) =>
     axiosInstance.post('/api/user/login', {
