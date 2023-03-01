@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 import { socket } from '@/layouts/MainLayout'
 import { notify, notifyType } from '@/App'
 import formatDate from '@/helpers/formatDate'
+import { getpagingClientTicketViettel } from '@/services/apiv2'
 
 const { Option } = Select
 
@@ -41,13 +42,12 @@ const ManageTicket = () => {
     const getAllTickets = async () => {
         try {
             layout.setLoading(true)
-            const result = await getTickets(
-                pageIndex,
-                filter.level,
-                filter.email,
-                pageSize
+            const result = await getpagingClientTicketViettel(
+                pageIndex,  
+                pageSize,
+        filter.email,
             )
-            setTickets(result.data?.data)
+            setTickets(result?.data?.data)
             setTotalPage(result.data?.totalPages)
             setTotalItem(result.data?.totalItem)
             layout.setLoading(false)
@@ -76,77 +76,77 @@ const ManageTicket = () => {
     const columns: ColumnsType<ITicket> = [
         {
             title: 'Mã ticket',
-            dataIndex: 'code',
+            dataIndex: 'client_id',
         },
         {
-            title: 'Tiêu đề',
-            dataIndex: 'title',
+            title: 'Người dùng ',
+            dataIndex: 'name',
         },
         {
-            title: 'Mức độ ưu tiên',
-            dataIndex: 'level',
-            render: (value) =>
-                value == 1 ? (
-                    <Tag color="green">Bình Thường</Tag>
-                ) : value == 2 ? (
-                    <Tag color="yellow">Ưu Tiên</Tag>
-                ) : (
-                    <Tag color="red">Khẩn Cấp</Tag>
-                ),
+            title: 'Loại yêu cầu',
+            dataIndex: 'request_type',
+            // render: (value) =>
+            //     value == 1 ? (
+            //         <Tag color="green">Bình Thường</Tag>
+            //     ) : value == 2 ? (
+            //         <Tag color="yellow">Ưu Tiên</Tag>
+            //     ) : (
+            //         <Tag color="red">Khẩn Cấp</Tag>
+            //     ),
         },
         {
-            title: 'Người dùng',
-            dataIndex: 'user',
-            render: (value) => value?.email,
+            title: 'Deptname',
+            dataIndex: 'deptname',
+            // render: (value) => value?.email,
         },
         {
-            title: 'Người thao tác',
-            dataIndex: 'modifiedBy',
-            render: (value) => value?.email,
+            title: 'Type',
+            dataIndex: 'type',
+            // render: (value) => value?.email,
         },
-        {
-            title: 'File',
-            dataIndex: 'file',
-            render: (value) => (
-                <a
-                    target={'_blank'}
-                    href={`${appConfig.API_URL_UPLOAD_FILES}/${value}`}
-                >
-                    {value}
-                </a>
-            ),
-        },
-        {
-            title: 'Ngày Tạo',
-            dataIndex: 'createdTime',
-            render: (value) => formatDate(value),
-        },
+        // {
+        //     title: 'File',
+        //     dataIndex: 'file',
+        //     render: (value) => (
+        //         <a
+        //             target={'_blank'}
+        //             href={`${appConfig.API_URL_UPLOAD_FILES}/${value}`}
+        //         >
+        //             {value}
+        //         </a>
+        //     ),
+        // },
+        // {
+        //     title: 'Ngày Tạo',
+        //     dataIndex: 'createdTime',
+        //     render: (value) => formatDate(value),
+        // },
         {
             title: 'Trạng thái',
             dataIndex: 'status',
-            render: (value) =>
-                value == 0 ? (
-                    <Tag color="red">Chưa xác nhận</Tag>
-                ) : value == 1 ? (
-                    <Tag color="orange">Chờ giải quyết</Tag>
-                ) : (
-                    <Tag color="green">Đã giải quyết</Tag>
-                ),
+            // render: (value) =>
+            //     value == 0 ? (
+            //         <Tag color="red">Chưa xác nhận</Tag>
+            //     ) : value == 1 ? (
+            //         <Tag color="orange">Chờ giải quyết</Tag>
+            //     ) : (
+            //         <Tag color="green">Đã giải quyết</Tag>
+            //     ),
         },
-        {
-            key: 'id',
-            title: 'Điều khiển',
-            dataIndex: 'control',
-            render: (value, record) => (
-                <div>
-                    <span>
-                        <Link to={`/manage-ticket/${record._id}`}>
-                            <BiEdit style={actionIconStyle('blue')} />
-                        </Link>
-                    </span>
-                </div>
-            ),
-        },
+        // {
+        //     key: 'id',
+        //     title: 'Điều khiển',
+        //     dataIndex: 'control',
+        //     render: (value, record) => (
+        //         <div>
+        //             <span>
+        //                 <Link to={`/manage-ticket/${record._id}`}>
+        //                     <BiEdit style={actionIconStyle('blue')} />
+        //                 </Link>
+        //             </span>
+        //         </div>
+        //     ),
+        // },
     ]
 
     useEffect(() => {

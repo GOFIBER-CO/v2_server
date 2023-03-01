@@ -457,3 +457,25 @@ export const getSubOrderPagesByParent = (slug: string) =>
 
 export const getProductsBySubOrderPage = (id: string) =>
     axiosInstanceNew.get(`${preUrl}/products/products-by-sub-order-page/${id}`)
+
+
+    export const getCloudVpsByUserIdVietTell= (
+        // userId: string,
+        // areaId: string,
+        // operatingSystemId: string,
+        search: string,
+        pageIndex: number,
+        pageSize: number
+    ) =>
+    axiosInstanceNew.get(`${preUrl}/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+
+    export const getOrdersViettell = (
+        // pageIndex: number,
+        // userName: string,
+        // pageSize?: number
+    ) =>
+    axiosInstanceNew.get(
+            `${preUrl}/client-order/getpaging`
+        )
+
+        // ?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}

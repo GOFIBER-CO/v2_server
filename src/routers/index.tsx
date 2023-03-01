@@ -216,6 +216,10 @@ const AppRouter: React.FC = () => {
                         {auth.isEnable2FaAuthenticate && auth.isLoggedIn && (
                             <Route path="/verify-2fa" element={<TwoFactor />} />
                         )}
+                         <Route
+                                    path="/manage-order"
+                                    element={<ManageOrder />}
+                                />
                     </Route>
                 )}
                 <Route path="/*" element={<Navigate to={'/'} />} />

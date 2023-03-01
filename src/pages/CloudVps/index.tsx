@@ -15,6 +15,7 @@ import IOrder from '@/interfaces/IOrder'
 import {
     deleteCloudServer,
     getCloudVpsByUserId,
+    getCloudVpsByUserIdVietTell,
     getLocations,
     getOs,
     switchAutoRenew,
@@ -65,7 +66,7 @@ const CloudVps: React.FC = () => {
     }>({ isOpen: false, id: '' })
     const [listMenuCloud, setListMenuCloud] = useState(ListMenuCloud)
 
-    const [cloudServer, setCloudServer] = useState<ICloudServer[]>([])
+    const [cloudServer, setCloudServer] = useState<any>([])
     const [cloudServerItem, setCloudServerItem] = useState<ICloudServer>()
 
     const [pageIndex, setPageIndex] = useState(1)
@@ -74,9 +75,7 @@ const CloudVps: React.FC = () => {
     const [totalItem, setTotalItem] = useState(1)
     const [location, setLocation] = useState<IArea[]>([])
     const [order, setOrder] = useState<IOrder[]>([])
-    const [operatingSystem, setOperatingSystem] = useState<
-        IOparatingSystemArray[]
-    >([])
+    const [operatingSystem, setOperatingSystem] = useState<any>([])
     const [optionCloud, setOptionCloud] = useState(1)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -137,27 +136,27 @@ const CloudVps: React.FC = () => {
         })
     
 
-    // console.log('cloudServerItem: ', cloudServerItem);
-    const changeIsAutoRenew = async (id: string, status: boolean) => {
-        try {
-            const result = await switchAutoRenew(id, status)
-            const newList = cloudServer.map((item) => {
-                if (item._id == id) item.isAutoRenew = status
-                return item
-            })
-            setCloudServer(newList)
-            message.success(result.data?.message)
-        } catch (error) {
-            console.log(error)
-            message.error(error)
-        }
-    }
+  
+    // const changeIsAutoRenew = async (id: string, status: boolean) => {
+    //     try {
+    //         const result = await switchAutoRenew(id, status)
+    //         const newList = cloudServer.map((item : any) => {
+    //             if (item._id == id) item.isAutoRenew = status
+    //             return item
+    //         })
+    //         setCloudServer(newList)
+    //         message.success(result.data?.message)
+    //     } catch (error) {
+    //         console.log(error)
+    //         message.error(error)
+    //     }
+    // }
 
     const deleteCloud = async (id: string) => {
         try {
             layout.setLoading(true)
             const result = await deleteCloudServer(id)
-            const newList = cloudServer.filter((item) => item._id != id)
+            const newList = cloudServer.filter((item : any) => item._id != id)
             setCloudServer(newList)
             layout.setLoading(false)
             notify(notifyType.NOTIFY_SUCCESS, 'Huỷ thành công')
@@ -368,185 +367,192 @@ const CloudVps: React.FC = () => {
             ]}
         />
     )
-    const columns: ColumnsType<ICloudServer> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'Mã server',
-            dataIndex: 'code',
-            width: '10%',
+            dataIndex: 'list_id',
+            // width: '10%',
+            // render: (_ : any , record : any, index : any) => {
+            //     console.log(_);
+                
+            //     return <></>
+            // }
         },
         {
             title: 'Tên dịch vụ',
-            dataIndex: 'server',
-            render: (value) => (
-                <div>
-                    <a className="server_title">{value.serverName}</a>
-                    <div>
-                        {value.ram}GB | {value.cpu}vCPUs |{' '}
-                        {value.ssd || value.hdd}GB NVMe{' '}
-                        {value.ssd ? '(SSD)' : '(HDD)'}
-                    </div>
-                </div>
-            ),
-            onCell: (item) => {
-                return {
-                    onClick: () => {
-                        handleAddCloud(item)
-                        setOptionCloud(listMenuCloud.length)
-                    },
-                }
-            },
+            dataIndex: 'label',
+            // render: (value) => (
+            //     <div>
+            //         <a className="server_title">{value.serverName}</a>
+            //         <div>
+            //             {value.ram}GB | {value.cpu}vCPUs |{' '}
+            //             {value.ssd || value.hdd}GB NVMe{' '}
+            //             {value.ssd ? '(SSD)' : '(HDD)'}
+            //         </div>
+            //     </div>
+            // ),
+            // onCell: (item) => {
+            //     return {
+            //         onClick: () => {
+            //             handleAddCloud(item)
+            //             setOptionCloud(listMenuCloud.length)
+            //         },
+            //     }
+            // },
         },
         {
             title: 'Địa chỉ IP',
-            dataIndex: ['server', 'area', 'ip'],
-            width: '10%',
-            render: (value, row) => (
-                <>
-                    <img
-                        src={
-                            row.area?.file
-                                ? `${row.area?.file}`
-                                : `/images/VN.png`
-                        }
-                        style={{ maxWidth: '25px', maxHeight: '25px' }}
-                    />
-                    <strong style={{ fontSize: '12px' }}>
-                        {' '}
-                        {row?.ip?.ip || row.server.ipv4}
-                    </strong>
-                    <br />
-                    <span>{row.area?.areaName}</span>
-                </>
-            ),
+            dataIndex: "ip",
+            // width: '10%',
+            render: (_ : any, record:any , index: number) => {
+                
+                return <>{_?.ip}</>
+            }
+            
+        },
+        {
+            title: 'Địa chỉ IPV4',
+            dataIndex: "ipv4",
+            // width: '10%',
+            // render: (_ : any, record:any , index: number) => {
+                
+            //     return <>{_?.ipv4}</>
+            // }
+            
         },
         {
             title: 'HĐH',
-            dataIndex: 'operatingSystem',
-            width: '5.5%',
-            render: (value) => {
-                return (
-                    <>
-                        <img
-                            src={value?.img || `/images/${value?.file}`}
-                            style={{ maxWidth: '25px', maxHeight: '25px' }}
-                        />
-                    </>
-                )
-            },
+            dataIndex: 'template_name',
+            // width: '5.5%',
+            // render: (value) => {
+            //     return (
+            //         <>
+            //             <img
+            //                 src={value?.img || `/images/${value?.file}`}
+            //                 style={{ maxWidth: '25px', maxHeight: '25px' }}
+            //             />
+            //         </>
+            //     )
+            // },
         },
         {
-            title: 'Backup',
-            dataIndex: 'autoBackup',
-            width: '8%',
-            render: (value) => (value ? 'Có' : 'Không'),
+            title: 'Memory',
+            dataIndex: 'memory',
+            // width: '8%',
+            render: (value) =>{
+                const GB = value/1024
+                return <>{GB?.toFixed(2)} GB</>
+            }
         },
         {
-            title: 'Hoá đơn',
-            dataIndex: ['order', 'server'],
-            render: (value, row) => (
-                <strong>
-                    {row?.order?.totalPrice ? (
-                        <>
-                            <div className="order_price">
-                                {Intl.NumberFormat('en-US', {
-                                    maximumFractionDigits: 0,
-                                }).format(Number(row.order.totalPrice))}
-                                <small style={{}}>₫</small>
-                            </div>
-                            <Divider style={{ margin: '5px 0px' }} />
-                            <span className="unit-price">
-                                {row.server.expiryDateType === 1 ? (
-                                    <>Giờ</>
-                                ) : row.server.expiryDateType === 2 ? (
-                                    <>Ngày</>
-                                ) : row.server.expiryDateType === 3 ? (
-                                    <>Tháng</>
-                                ) : row.server.expiryDateType === 4 ? (
-                                    <>3 Tháng</>
-                                ) : row.server.expiryDateType === 5 ? (
-                                    <>6 Tháng</>
-                                ) : row.server.expiryDateType === 6 ? (
-                                    <>Năm</>
-                                ) : null}
-                            </span>
-                        </>
-                    ) : null}
-                </strong>
-            ),
-            width: '9%',
+            title: 'Disk',
+            dataIndex: 'disk',
+            // render: (value, row) => (
+            //     <strong>
+            //         {row?.order?.totalPrice ? (
+            //             <>
+            //                 <div className="order_price">
+            //                     {Intl.NumberFormat('en-US', {
+            //                         maximumFractionDigits: 0,
+            //                     }).format(Number(row.order.totalPrice))}
+            //                     <small style={{}}>₫</small>
+            //                 </div>
+            //                 <Divider style={{ margin: '5px 0px' }} />
+            //                 <span className="unit-price">
+            //                     {row.server.expiryDateType === 1 ? (
+            //                         <>Giờ</>
+            //                     ) : row.server.expiryDateType === 2 ? (
+            //                         <>Ngày</>
+            //                     ) : row.server.expiryDateType === 3 ? (
+            //                         <>Tháng</>
+            //                     ) : row.server.expiryDateType === 4 ? (
+            //                         <>3 Tháng</>
+            //                     ) : row.server.expiryDateType === 5 ? (
+            //                         <>6 Tháng</>
+            //                     ) : row.server.expiryDateType === 6 ? (
+            //                         <>Năm</>
+            //                     ) : null}
+            //                 </span>
+            //             </>
+            //         ) : null}
+            //     </strong>
+            // ),
+            // width: '9%',
         },
-        {
-            title: 'Ngày hết hạn',
-            dataIndex: 'expiryDate',
-            width: '12%',
-            render: (value) => (
-                <>
-                    <span>{formatDate(value)}</span>
-                    <span style={{ color: 'red', display: 'block' }}>
-                        {subtractDate(new Date(value), new Date()) / 30 >= 1
-                            ? `${Math.ceil(
-                                  subtractDate(new Date(value), new Date()) / 30
-                              )} tháng tới`
-                            : `${subtractDate(
-                                  new Date(value),
-                                  new Date()
-                              )} ngày tới`}{' '}
-                    </span>
-                </>
-            ),
-        },
-        {
-            title: 'GHTĐ',
-            dataIndex: 'isAutoRenew',
-            render: (value, record) => (
-                <>
-                    <Switch
-                        checked={value}
-                        onChange={(status) =>
-                            changeIsAutoRenew(record._id, status)
-                        }
-                        size="small"
-                    />
-                </>
-            ),
-            width: '6%',
-        },
+        // {
+        //     title: 'Ngày hết hạn',
+        //     dataIndex: 'expiryDate',
+        //     width: '12%',
+        //     render: (value) => (
+        //         <>
+        //             <span>{formatDate(value)}</span>
+        //             <span style={{ color: 'red', display: 'block' }}>
+        //                 {subtractDate(new Date(value), new Date()) / 30 >= 1
+        //                     ? `${Math.ceil(
+        //                           subtractDate(new Date(value), new Date()) / 30
+        //                       )} tháng tới`
+        //                     : `${subtractDate(
+        //                           new Date(value),
+        //                           new Date()
+        //                       )} ngày tới`}{' '}
+        //             </span>
+        //         </>
+        //     ),
+        // },
+        // {
+        //     title: 'Status',
+        //     dataIndex: 'status',
+        //     render: (value, record) => (
+        //         <>
+        //             <Switch
+        //                 checked={value}
+        //                 // onChange={(status) =>
+        //                 //     changeIsAutoRenew(record._id, status)
+        //                 // }
+        //                 size="small"
+        //             />
+        //         </>
+        //     ),
+        //     width: '6%',
+        // },
         {
             title: 'Trạng thái',
             dataIndex: 'status',
-            width: '10%',
+            // width: '10%',
             render: (value) =>
-                value == 'active' ? (
+                value == 'running' ? (
                     <Tag color="green">Hoạt động</Tag>
-                ) : value == 'not-active' ? (
-                    <Tag color="orange">Đang khởi tạo</Tag>
-                ) : value == 'failed' ? (
-                    <Tag color="red">Khởi tạo thất bại</Tag>
-                ) : value == 'expired' ? <Tag color='red'>Hết hạn</Tag> :(
-                    <Tag color="red">Ngưng</Tag>
-                ),
+                ) :<Tag color="red">Ngưng</Tag>
+                
+                // : value == 'not-active' ? (
+                //     <Tag color="orange">Đang khởi tạo</Tag>
+                // ) : value == 'failed' ? (
+                //     <Tag color="red">Khởi tạo thất bại</Tag>
+                // ) : value == 'expired' ? <Tag color='red'>Hết hạn</Tag> :(
+                //     <Tag color="red">Ngưng</Tag>
+                // ),
         },
         {
             title: '',
             dataIndex: 'server',
             width: '4%',
-            render: (item) => (
-                <div>
-                    <Dropdown overlay={menu} trigger={['click']}>
-                        <a onClick={(e) => e.preventDefault()}>
-                            <FaCog />
-                        </a>
-                    </Dropdown>
-                </div>
-            ),
-            onCell: (item) => {
-                return {
-                    onClick: () => {
-                        // handleAddCloud(item)
-                        setCloudServerItem(item)
-                    },
-                }
-            },
+            // render: (item) => (
+            //     <div>
+            //         <Dropdown overlay={menu} trigger={['click']}>
+            //             <a onClick={(e) => e.preventDefault()}>
+            //                 <FaCog />
+            //             </a>
+            //         </Dropdown>
+            //     </div>
+            // ),
+            // onCell: (item) => {
+            //     return {
+            //         onClick: () => {
+            //             // handleAddCloud(item)
+            //             setCloudServerItem(item)
+            //         },
+            //     }
+            // },
         },
     ]
 
@@ -587,29 +593,30 @@ const CloudVps: React.FC = () => {
             console.log(error)
         }
     }
-    const getOperatingSystem = async () => {
-        try {
-            const result = await getOs()
-            setOperatingSystem(result.data?.data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const getOperatingSystem = async () => {
+    //     try {
+    //         const result = await getOs()
+    //         setOperatingSystem(result.data?.data)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const layout = useLayoutInit()
 
     const getCloudServer = async () => {
         try {
             layout.setLoading(true)
-            const cloudVps = await getCloudVpsByUserId(
-                auth.user._id,
-                filter.location,
-                filter.operatingSystem,
+            const cloudVps = await getCloudVpsByUserIdVietTell(
+                // auth.user._id,
+                // filter.location,
+                // filter.operatingSystem,
                 filter.name,
                 pageIndex,
                 pageSize
             )
-            setCloudServer(cloudVps.data?.data)
+            setOperatingSystem(cloudVps?.data?.data)
+            setCloudServer(cloudVps?.data?.data)
             setTotalPage(cloudVps.data?.totalPages)
             setTotalItem(cloudVps.data?.totalItem)
             setPageIndex(cloudVps?.data?.pageIndex)
@@ -680,7 +687,7 @@ const CloudVps: React.FC = () => {
         getAllLocation()
         // getAllOrder()
         getCloudServer()
-        getOperatingSystem()
+        // getOperatingSystem()
     }, [pageIndex, pageSize])
     const updateLabelName = (value: any) => {
         console.log('value: ', value)
@@ -780,20 +787,20 @@ const CloudVps: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="cloud-vps-page-filter-os">
+                            {/* <div className="cloud-vps-page-filter-os">
                                 <Select
                                     defaultValue=""
                                     style={{ width: 180 }}
                                     onChange={handleChangeOs}
                                 >
                                     <Option value="">Hệ điều hành</Option>
-                                    {operatingSystem.map((item) => (
+                                    {operatingSystem.map((item : any) => (
                                         <Option key={item._id} value={item._id}>
                                             {item.operatingSystemName}
                                         </Option>
                                     ))}
                                 </Select>
-                            </div>
+                            </div> */}
                             {/* <div className="cloud-vps-page-filter-location">
                                 <Select
                                     defaultValue=""

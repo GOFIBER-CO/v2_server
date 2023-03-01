@@ -23,3 +23,16 @@ export const getUserSurplus = () =>
     axiosInstance.get(`/users/balance`)
 
 export const getUserDetail = () => axiosInstance.get('/users/detail')
+
+export const getOrdersViettell = (
+    pageIndex: number,
+    userName: string,
+    pageSize?: number
+) =>
+axiosInstance.get(
+        `/client-order/getpaging?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}`
+    )
+
+    export const getpagingClientTicketViettel = (
+         pageIndex : number,pageSize : number,search : string
+         ) => axiosInstance.get(`/client-ticket/getpaging?pageIndex=${pageIndex}&search=${search}&pageSize=${pageSize}`)
