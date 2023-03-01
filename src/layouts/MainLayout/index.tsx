@@ -115,7 +115,7 @@ const MainLayout: React.FC = () => {
         try {
             layoutInit.setLoading(true)
             const result = await getNotificationByUserId(
-                auth.user ? auth.user._id : '',
+                auth.user?._id ? auth.user._id : '',
                 notificationType
             )
             if (result.data?.notifications) {

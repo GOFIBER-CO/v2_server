@@ -1,8 +1,9 @@
 import { notify, notifyType } from '@/App'
 import { useAuth } from '@/hooks/useAuth'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-import IUser from '@/interfaces/IUser'
+import { IUser } from '@/interfaces/IUser'
 import { getUserById, updateProfile } from '@/services/apis'
+import { getUserDetail } from '@/services/apiv2'
 import '@/styles/pages/Profile/index.scss'
 import { Button, Divider, Form, Input, Select } from 'antd'
 import { useEffect, useState } from 'react'
@@ -10,17 +11,7 @@ import { useEffect, useState } from 'react'
 const { Option } = Select
 
 const Profile = () => {
-    const [userProfile, setUserProfile] = useState<IUser>({
-        email: '',
-        fullName: '',
-        phoneNumber: '',
-        sex: '',
-        surplus: 0,
-        role: '',
-        userName: '',
-        _id: '',
-        code: '',
-    })
+    const [userProfile, setUserProfile] = useState<IUser>()
     const auth = useAuth()
     const layoutInit = useLayoutInit()
     const layout = {
@@ -28,7 +19,7 @@ const Profile = () => {
         wrapperCol: { span: 10 },
     }
 
-    const onFinish = () => {}
+    const onFinish = () => { }
     const validateMessages = {
         required: '${label} is required!',
         types: {
@@ -43,8 +34,8 @@ const Profile = () => {
     const getUser = async () => {
         try {
             layoutInit.setLoading(true)
-            const result = await getUserById(auth.user._id)
-            setUserProfile(result.data)
+            const result = await getUserDetail()
+            setUserProfile(result.data?.data)
         } catch (error) {
             layoutInit.setLoading(false)
             console.log(error)
@@ -56,7 +47,7 @@ const Profile = () => {
     const updateUserProfile = async () => {
         try {
             layoutInit.setLoading(true)
-            const result = await updateProfile(userProfile._id, userProfile)
+            const result = await updateProfile(userProfile!.id, userProfile!)
             if (result.data?.status == 1) {
                 notify(notifyType.NOTIFY_SUCCESS, result.data.message)
             } else {
@@ -94,72 +85,42 @@ const Profile = () => {
                             label="Mã khách hàng:"
                             rules={[{ required: true }]}
                         >
-                            <Input value={userProfile.code} disabled />
+                            <Input value={userProfile?.id} disabled />
                         </Form.Item>
                         <Form.Item
                             label="Tên đăng nhập:"
                             rules={[{ required: true }]}
                         >
-                            <Input value={userProfile.userName} disabled />
+                            <Input value={userProfile?.email} disabled />
                         </Form.Item>
                         <Form.Item label="Họ và tên">
                             <Input
-                                value={userProfile.fullName}
-                                onChange={(e) =>
-                                    setUserProfile({
-                                        ...userProfile,
-                                        fullName: e.target.value,
-                                    })
-                                }
+                                value={`${userProfile?.firstname} ${userProfile?.lastname}`}
+                                disabled
                             />
                         </Form.Item>
                         <Form.Item label="Số điện thoại:">
                             <Input
-                                value={userProfile.phoneNumber}
+                                value={userProfile?.phonenumber}
                                 onChange={(e) =>
                                     setUserProfile({
-                                        ...userProfile,
-                                        phoneNumber: e.target.value,
+                                        ...userProfile!,
+                                        phonenumber: e.target.value,
                                     })
                                 }
                             />
                         </Form.Item>
-                        <Form.Item label="Email:" rules={[{ type: 'email' }]}>
-                            <Input
-                                value={userProfile.email}
-                                onChange={(e) =>
-                                    setUserProfile({
-                                        ...userProfile,
-                                        email: e.target.value,
-                                    })
-                                }
-                            />
-                        </Form.Item>
-                        <Form.Item label="Giới tính:">
-                            <Select
-                                defaultValue="male"
-                                value={userProfile.sex || 'male'}
-                                onChange={(value) =>
-                                    setUserProfile({
-                                        ...userProfile,
-                                        sex: value,
-                                    })
-                                }
-                            >
-                                <Option value="male">Nam</Option>
-                                <Option value="femail">Nữ</Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item style={{ textAlign: 'center' }}>
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                onClick={() => updateUserProfile()}
-                            >
-                                Cập nhật
-                            </Button>
-                        </Form.Item>
+
                     </Form>
+                    <div style={{textAlign: 'center'}}>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            onClick={() => updateUserProfile()}
+                        >
+                            Cập nhật
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>
