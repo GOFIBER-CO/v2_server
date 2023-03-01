@@ -4,7 +4,7 @@ import INewNotification from '@/interfaces/INewNotification'
 import IPrice from '@/interfaces/IPrice'
 import IService from '@/interfaces/IService'
 import IUpdateCloudServer from '@/interfaces/IUpdateCloudServer'
-import IUser from '@/interfaces/IUser'
+import {IUser} from '@/interfaces/IUser'
 import axios from 'axios'
 
 // const baseUrl = ''
