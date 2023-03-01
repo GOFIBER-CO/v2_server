@@ -3,7 +3,7 @@ import ButtonFilter from '@/components/ButtonFilter'
 import formatDate from '@/helpers/formatDate'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import IOparatingSystem from '@/interfaces/IOperatingSystem'
-import { deleteOs, getAllOs } from '@/services/apis'
+import { deleteOs, getAllOs, getAllOs1 } from '@/services/apis'
 import '@/styles/pages/OperatingSystem/index.scss'
 import { Button, Input, Pagination, PaginationProps, Select, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
@@ -39,11 +39,13 @@ const OperatingSystem = () => {
     const getOs = async () => {
         try {
             layout.setLoading(true)
-            const os = await getAllOs(
+            const os = await getAllOs1(
                 pageIndex,
                 filter.operatingSystemName,
                 pageSize
             )
+            
+            
             setOperatingSystems(os.data?.data)
             setTotalPage(os.data?.totalPages)
             setTotalItem(os.data?.totalItem)
@@ -92,51 +94,25 @@ const OperatingSystem = () => {
     }
 
     const columns: ColumnsType<IOparatingSystem> = [
-        {
-            title: 'Mã HĐH',
-            dataIndex: 'code',
-        },
+       
         {
             title: 'Tên hệ điều hành',
-            dataIndex: 'operatingSystemName',
+            dataIndex: 'name',
         },
         {
-            title: 'Parent',
-            dataIndex: 'parentName',
+            title: 'Type',
+            dataIndex: 'type',
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
         },
         {
             title: 'Ngày tạo',
             dataIndex: 'createdTime',
             render: (value) => formatDate(value),
         },
-        {
-            key: 'id',
-            title: 'Điều khiển',
-            dataIndex: 'control',
-            render: (value, record) => (
-                <div>
-                    <span>
-                        <Link to={`/operating-system/${record._id}`}>
-                            <BiEdit style={actionIconStyle('blue')} />
-                        </Link>
-                    </span>
-                    <span>
-                        <AiOutlineDelete
-                            onClick={() =>
-                                layout.setModal(
-                                    true,
-                                    () =>
-                                        deleteOperatingSystem(record._id || ''),
-                                    'Bạn có muốn xoá hệ điều hành này?',
-                                    'Xoá hệ điều hành'
-                                )
-                            }
-                            style={actionIconStyle('red')}
-                        />
-                    </span>
-                </div>
-            ),
-        },
+      
     ]
 
     useEffect(() => {
@@ -160,14 +136,14 @@ const OperatingSystem = () => {
                 </ul>
             </div>
             <div className="operating-system-page-filter">
-                <div
+                {/* <div
                     className="operating-system-page-create-operating-system"
                     style={{ marginTop: '20px' }}
                 >
                     <Link to={'/operating-system/create-operating-system'}>
                         <Button type="primary">Tạo hệ điều hành</Button>
                     </Link>
-                </div>
+                </div> */}
                 <Input
                     type="text"
                     placeholder="Tên HĐH..."
@@ -200,7 +176,7 @@ const OperatingSystem = () => {
                     pagination={false}
                 />
                 <Pagination
-                showSizeChanger
+                    showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}
