@@ -52,13 +52,13 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
             case 1:
                 break
             case 2:
-                getSnapshot()
+                // getSnapshot()
                 break
             case 3:
-                getTransactionHistory()
+                // getTransactionHistory()
                 break
             case 4:
-                getLog()
+                // getLog()
                 break
             default:
                 break
@@ -68,73 +68,72 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
     const onChangeNameValue = (value: any) => {
         // console.log('value: ', value);
     }
-    const getTransactionHistory = async () => {
-        try {
-            layout.setLoading(true)
-            const transactionHistory = await getTransactionHistoryByCloudId(
-                cloudServer?.user,
-                cloudServer?._id,
-                pageIndexTransactionHistory
-            )
+    // const getTransactionHistory = async () => {
+    //     try {
+    //         layout.setLoading(true)
+    //         const transactionHistory = await getTransactionHistoryByCloudId(
+    //             cloudServer?.user,
+    //             cloudServer?.id,
+    //             pageIndexTransactionHistory
+    //         )
 
-            setTransactionHistory(transactionHistory.data?.data)
-            setTotalPageTransactionHistory(transactionHistory.data?.totalPages)
-            setPageSizeTransactionHistory(transactionHistory.data?.pageSize)
-            setTotalItemTransactionHistory(transactionHistory.data?.totalItem)
-            layout.setLoading(false)
-        } catch (error) {
-            console.log(error)
-            layout.setLoading(false)
-        }
-    }
+    //         setTransactionHistory(transactionHistory.data?.data)
+    //         setTotalPageTransactionHistory(transactionHistory.data?.totalPages)
+    //         setPageSizeTransactionHistory(transactionHistory.data?.pageSize)
+    //         setTotalItemTransactionHistory(transactionHistory.data?.totalItem)
+    //         layout.setLoading(false)
+    //     } catch (error) {
+    //         console.log(error)
+    //         layout.setLoading(false)
+    //     }
+    // }
 
-    const getLog = async () => {
-        try {
-            layout.setLoading(true)
-            const log = await getLogByUserId(
-                cloudServer?.user,
-                cloudServer?._id,
-                pageIndexLog
-            )
+    // const getLog = async () => {
+    //     try {
+    //         layout.setLoading(true)
+    //         const log = await getLogByUserId(
+    //             cloudServer?.user,
+    //             cloudServer?._id,
+    //             pageIndexLog
+    //         )
 
-            setLog(log.data?.data)
-            setTotalPageLog(log.data?.totalPages)
-            setPageSizeLog(log.data?.pageSize)
-            setTotalItemLog(log.data?.totalItem)
-            layout.setLoading(false)
-        } catch (error) {
-            console.log(error)
-            layout.setLoading(false)
-        }
-    }
+    //         setLog(log.data?.data)
+    //         setTotalPageLog(log.data?.totalPages)
+    //         setPageSizeLog(log.data?.pageSize)
+    //         setTotalItemLog(log.data?.totalItem)
+    //         layout.setLoading(false)
+    //     } catch (error) {
+    //         console.log(error)
+    //         layout.setLoading(false)
+    //     }
+    // }
 
-    const getSnapshot = async () => {
-        try {
-            layout.setLoading(true)
+    // const getSnapshot = async () => {
+    //     try {
+    //         layout.setLoading(true)
 
-            const snapshots = await getSnapshotsByUserId(
-                cloudServer?.user,
-                cloudServer?._id
-            )
-            setSnapshot(snapshots.data?.data)
+    //         const snapshots = await getSnapshotsByUserId(
+    //             cloudServer?.user,
+    //             cloudServer?._id
+    //         )
+    //         setSnapshot(snapshots.data?.data)
 
-            layout.setLoading(false)
-        } catch (error) {
-            console.log(error)
-            layout.setLoading(false)
-        }
-    }
+    //         layout.setLoading(false)
+    //     } catch (error) {
+    //         console.log(error)
+    //         layout.setLoading(false)
+    //     }
+    // }
 
     return (
         <>
             <div className="card">
                 <div className="card-header">
                     <div className="card-title">
-                        <h1>{data?.cloudServerName}</h1>
+                        <h1>{data?.label}</h1>
                         <h3 className="card-label">
                             <span className="font-weight-normal font-size-base">
-                                {data?.area.areaName}{' '}
-                                {formatDate(data?.createdTime.toString() || '')}
+                                {formatDate(data?.createdAt.toString() || '')}
                             </span>
                         </h3>
                     </div>
@@ -143,7 +142,7 @@ const CloudVPSDetail = ({ data }: { data?: ICloudServer }) => {
                             <div className="mr-5">
                                 <div className="text-success">
                                     {'  '}
-                                    {data?.isShow ? (
+                                    {data?.status == 'running' ? (
                                         <>
                                             <i
                                                 className="fa fa-play text-success"
