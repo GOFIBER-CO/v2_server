@@ -192,7 +192,7 @@ const CloudVps: React.FC = () => {
                     onClick: () => {
                         if (cloudServerItem) {
                             let menuCloudItem = listMenuCloud.find(
-                                (x) => x.cloudId === cloudServerItem._id
+                                (x) => x.cloudId === cloudServerItem.id
                             )
                             if (!menuCloudItem) {
                                 setCloudServerItem(cloudServerItem)
@@ -200,9 +200,9 @@ const CloudVps: React.FC = () => {
                                     optionId: listMenuCloud.length + 1,
                                     name:
                                         'Chi tiết Cloud Vps #' +
-                                        cloudServerItem.code,
+                                        cloudServerItem.list_id,
                                     isCloud: true,
-                                    cloudId: cloudServerItem._id || '',
+                                    cloudId: cloudServerItem.id || '',
                                     cloudItem: cloudServerItem,
                                     url: '',
                                 }
@@ -226,7 +226,7 @@ const CloudVps: React.FC = () => {
                             onClick={() =>
                                 setRenewModal({
                                     isOpen: true,
-                                    id: cloudServerItem?._id || '',
+                                    id: cloudServerItem?.id || '',
                                 })
                             }
                         >
@@ -273,7 +273,6 @@ const CloudVps: React.FC = () => {
                             Tắt nguồn cloud server
                         </a>
                     ),
-                    disabled: true,
                 },
                 {
                     key: '5',
@@ -309,7 +308,7 @@ const CloudVps: React.FC = () => {
                     key: '7',
                     label: (
                         <Link
-                            to={`/cloud-vps/update-cloud/${cloudServerItem?._id}`}
+                            to={`/cloud-vps/update-cloud/${cloudServerItem?.id}`}
                         >
                             <i className="fa fa-upload"></i>
                             <span> Nâng cấp cấu hình</span>
@@ -340,7 +339,7 @@ const CloudVps: React.FC = () => {
                                 layout.setModal(
                                     true,
                                     () =>
-                                        deleteCloud(cloudServerItem?._id || ''),
+                                        deleteCloud(cloudServerItem?.id || ''),
                                     'Bạn có muốn huỷ ? Hành động này là không thể khôi phục!',
                                     'Huỷ cloud server'
                                 )
@@ -536,23 +535,23 @@ const CloudVps: React.FC = () => {
             title: '',
             dataIndex: 'server',
             width: '4%',
-            // render: (item) => (
-            //     <div>
-            //         <Dropdown overlay={menu} trigger={['click']}>
-            //             <a onClick={(e) => e.preventDefault()}>
-            //                 <FaCog />
-            //             </a>
-            //         </Dropdown>
-            //     </div>
-            // ),
-            // onCell: (item) => {
-            //     return {
-            //         onClick: () => {
-            //             // handleAddCloud(item)
-            //             setCloudServerItem(item)
-            //         },
-            //     }
-            // },
+            render: (item) => (
+                <div>
+                    <Dropdown overlay={menu} trigger={['click']}>
+                        <a onClick={(e) => e.preventDefault()}>
+                            <FaCog />
+                        </a>
+                    </Dropdown>
+                </div>
+            ),
+            onCell: (item) => {
+                return {
+                    onClick: () => {
+                        // handleAddCloud(item)
+                        setCloudServerItem(item)
+                    },
+                }
+            },
         },
     ]
 
@@ -634,14 +633,14 @@ const CloudVps: React.FC = () => {
     }
 
     const handleAddCloud = (item: ICloudServer) => {
-        let menuCloudItem = listMenuCloud.find((x) => x.cloudId === item._id)
+        let menuCloudItem = listMenuCloud.find((x) => x.cloudId === item.id)
         if (!menuCloudItem) {
             setCloudServerItem(item)
             let menuCloudItem: IMenuCloud = {
                 optionId: listMenuCloud.length + 1,
-                name: 'Chi tiết Cloud Vps #' + item.code,
+                name: 'Chi tiết Cloud Vps #' + item.list_id,
                 isCloud: true,
-                cloudId: item._id || '',
+                cloudId: item.id || '',
                 cloudItem: item,
                 url: '',
             }
