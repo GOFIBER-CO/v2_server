@@ -4,7 +4,8 @@ import formatDate from '@/helpers/formatDate'
 import { useAuth } from '@/hooks/useAuth'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import ITicket from '@/interfaces/ITicket'
-import { getSupportByUserId } from '@/services/apis'
+import { getSupportByUserId } from '@/services/apiv2'
+
 import '@/styles/pages/SupportPage/Support.scss'
 import {
     AutoComplete,
@@ -55,8 +56,7 @@ const Support: React.FC = () => {
     const getAllTickets = async () => {
         try {
             layout.setLoading(true)
-            const result = await getSupportByUserId(
-                auth.user._id,
+            const result = await getSupportByUserId(              
                 pageIndex,
                 filter.SupportTT,
                 filter.SupportUT,
@@ -77,7 +77,7 @@ const Support: React.FC = () => {
     const columns: ColumnsType<ITicket> = [
         {
             title: 'Mã yêu cầu',
-            dataIndex: 'code',
+            dataIndex: 'ticket_number',
         },
         {
             title: 'Cấp độ ưu tiên',
@@ -93,18 +93,18 @@ const Support: React.FC = () => {
         },
         {
             title: 'Phòng ban',
-            dataIndex: 'processingRoom',
-            render: (value) => value?.processingRoomName,
+            dataIndex: 'dept_id',
+            // render: (value) => value?.processingRoomName,
         },
-        {
-            title: 'Mã khách hàng',
-            dataIndex: 'user',
-            render: (value) => value?._id,
-        },
+        // {
+        //     title: 'Mã khách hàng',
+        //     dataIndex: 'user',
+        //     // render: (value) => value?._id,
+        // },
         {
             title: 'Tiêu đề',
-            dataIndex: 'title',
-            render: (value) => value?.title,
+            dataIndex: 'subject',
+            // render: (value) => value?.title,
         },
         {
             title: 'File đính kèm',
@@ -122,17 +122,18 @@ const Support: React.FC = () => {
             title: 'Trạng thái',
             dataIndex: 'status',
             render: (value) =>
-                value == 0 ? (
-                    <Tag color="red">Chưa xác nhận</Tag>
-                ) : value == 1 ? (
+                value == 'Open' ? (
+                    <Tag color="green">Đã giải quyết</Tag>
+                    
+                ) : value == 'Close' ? (
                     <Tag color="orange">Đang chờ giải quyết</Tag>
                 ) : (
-                    <Tag color="green">Đã giải quyết</Tag>
+                    <Tag color="red">Chưa xác nhận</Tag>
                 ),
         },
         {
             title: 'Ngày tạo',
-            dataIndex: 'createdTime',
+            dataIndex: 'updatedAt',
             render: (value) => formatDate(value),
         },
     ]
@@ -164,7 +165,7 @@ const Support: React.FC = () => {
                         <Button type="primary">Tạo ticket</Button>
                     </Link>
                 </div>
-                <div
+                {/* <div
                     className="support-page-create-ticket"
                     style={{ marginLeft: '10px' }}
                 >
@@ -182,7 +183,7 @@ const Support: React.FC = () => {
                         <Option value={1}>Xác nhận</Option>
                         <Option value={2}>Hoàn thành</Option>
                     </Select>
-                </div>
+                </div> */}
                 <div
                     className="support-page-create-ticket"
                     style={{ marginLeft: '10px' }}
@@ -198,7 +199,7 @@ const Support: React.FC = () => {
                         }
                         options={[
                             {
-                                value: 0,
+                                value: '',
                                 label: 'Tất cả',
                             },
                             {

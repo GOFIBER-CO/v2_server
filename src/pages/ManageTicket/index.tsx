@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom'
 import { socket } from '@/layouts/MainLayout'
 import { notify, notifyType } from '@/App'
 import formatDate from '@/helpers/formatDate'
-import { getpagingClientTicketViettel } from '@/services/apiv2'
+import { getpagingClientTicketViettel, getpagingSupport } from '@/services/apiv2'
 
 const { Option } = Select
 
@@ -42,7 +42,7 @@ const ManageTicket = () => {
     const getAllTickets = async () => {
         try {
             layout.setLoading(true)
-            const result = await getpagingClientTicketViettel(
+            const result = await getpagingSupport(
                 pageIndex,  
                 pageSize,
         filter.email,
@@ -76,46 +76,68 @@ const ManageTicket = () => {
     const columns: ColumnsType<ITicket> = [
         {
             title: 'Mã ticket',
-            dataIndex: 'client_id',
+            dataIndex: 'ticket_number',
         },
         {
-            title: 'Người dùng ',
-            dataIndex: 'name',
+            title: 'Cấp độ ưu tiên',
+            dataIndex: 'level',
+            render: (value) =>
+                value == 1 ? (
+                    <Tag color="green">Bình Thường</Tag>
+                ) : value == 2 ? (
+                    <Tag color="yellow">Ưu Tiên</Tag>
+                ) : (
+                    <Tag color="red">Khẩn Cấp</Tag>
+                ),
         },
         {
-            title: 'Loại yêu cầu',
-            dataIndex: 'request_type',
-            // render: (value) =>
-            //     value == 1 ? (
-            //         <Tag color="green">Bình Thường</Tag>
-            //     ) : value == 2 ? (
-            //         <Tag color="yellow">Ưu Tiên</Tag>
-            //     ) : (
-            //         <Tag color="red">Khẩn Cấp</Tag>
-            //     ),
+            title: 'Phòng ban',
+            dataIndex: 'dept_id',
+            // render: (value) => value?.processingRoomName,
         },
+        // {
+        //     title: 'Người dùng ',
+        //     dataIndex: 'name',
+        // },
+        // {
+        //     title: 'Loại yêu cầu',
+        //     dataIndex: 'request_type',
+        //     render: (value) =>
+        //         value == 1 ? (
+        //             <Tag color="green">Bình Thường</Tag>
+        //         ) : value == 2 ? (
+        //             <Tag color="yellow">Ưu Tiên</Tag>
+        //         ) : (
+        //             <Tag color="red">Khẩn Cấp</Tag>
+        //         ),
+        // },
         {
             title: 'Deptname',
             dataIndex: 'deptname',
             // render: (value) => value?.email,
         },
         {
-            title: 'Type',
-            dataIndex: 'type',
-            // render: (value) => value?.email,
+            title: 'Tiêu đề',
+            dataIndex: 'subject',
+            // render: (value) => value?.title,
         },
         // {
-        //     title: 'File',
-        //     dataIndex: 'file',
-        //     render: (value) => (
-        //         <a
-        //             target={'_blank'}
-        //             href={`${appConfig.API_URL_UPLOAD_FILES}/${value}`}
-        //         >
-        //             {value}
-        //         </a>
-        //     ),
+        //     title: 'Type',
+        //     dataIndex: 'type',
+        //     render: (value) => value?.email,
         // },
+        {
+            title: 'File',
+            dataIndex: 'file',
+            render: (value) => (
+                <a
+                    target={'_blank'}
+                    href={`${appConfig.API_URL_UPLOAD_FILES}/${value}`}
+                >
+                    {value}
+                </a>
+            ),
+        },
         // {
         //     title: 'Ngày Tạo',
         //     dataIndex: 'createdTime',
@@ -124,29 +146,31 @@ const ManageTicket = () => {
         {
             title: 'Trạng thái',
             dataIndex: 'status',
-            // render: (value) =>
-            //     value == 0 ? (
-            //         <Tag color="red">Chưa xác nhận</Tag>
-            //     ) : value == 1 ? (
-            //         <Tag color="orange">Chờ giải quyết</Tag>
-            //     ) : (
-            //         <Tag color="green">Đã giải quyết</Tag>
-            //     ),
+            render: (value) =>
+                value == 'Open' ? (
+                    <Tag color="green">Đã giải quyết</Tag>
+                    
+                ) : value == 'Close' ? (
+                    <Tag color="orange">Đang chờ giải quyết</Tag>
+                ) : (
+                    <Tag color="red">Chưa xác nhận</Tag>
+                ),
         },
-        // {
-        //     key: 'id',
-        //     title: 'Điều khiển',
-        //     dataIndex: 'control',
-        //     render: (value, record) => (
-        //         <div>
-        //             <span>
-        //                 <Link to={`/manage-ticket/${record._id}`}>
-        //                     <BiEdit style={actionIconStyle('blue')} />
-        //                 </Link>
-        //             </span>
-        //         </div>
-        //     ),
-        // },
+        {
+            key: 'id',
+            title: 'Điều khiển',
+            dataIndex: 'control',
+            render: (value, record) => 
+            (
+                <div>
+                    <span>
+                        <Link to={`/manage-ticket/${record._id}`}>
+                            <BiEdit style={actionIconStyle('blue')} />
+                        </Link>
+                    </span>
+                </div>
+            ),
+        },
     ]
 
     useEffect(() => {
