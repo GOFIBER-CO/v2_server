@@ -97,7 +97,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                         style={{ verticalAlign: 'middle' }}
                                         typeof="password"
                                     >
-                                        ********
+                                        {localData?.password ? localData.password : 'Không có mật khẩu'}
                                     </span>
                                 </div>
                             </div>

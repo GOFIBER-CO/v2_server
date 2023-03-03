@@ -50,6 +50,6 @@ export default interface ICloudServer {
    template_name: string,
    updatedAt: Date,
    uptime: number,
-   username: boolean
-
+   username: boolean,
+   password: boolean
 }
