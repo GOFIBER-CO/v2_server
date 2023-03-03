@@ -9,7 +9,7 @@ import {
     getServer,
 } from '@/services/apis'
 import '@/styles/pages/CloudVps/CreateCloud/CreateCloud.scss'
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import IArea from '@/interfaces/IArea'
 import IService from '@/interfaces/IService'
 import IOparatingSystemArray from '@/interfaces/IOperatingSystemPage'
@@ -23,14 +23,21 @@ import OperatingSystem from '@/components/OperatingSystem/OperatingSystem'
 import Server from '@/components/Server/Server'
 import Area from '@/components/Area/Area'
 import PackageServer from '@/components/PackageServer/PackageServer'
-import { Button, Radio, Slider } from 'antd'
+import { Button, Popover, Radio, Slider } from 'antd'
 import { useNavigate } from 'react-router'
 import IPrice from '@/interfaces/IPrice'
 import { CYCLE_TIME, RESPONSE_STATUS } from '@/helpers'
 import PaymentMethod from '@/components/CloudVPS/PaymentMethod'
 import ICreateNewService from '@/interfaces/ICreateNewService'
-import { createNewService, getProductDetailForConfig } from '@/services/apiv2'
+import {
+    createNewService,
+    getProductDetail,
+    getProductDetailForConfig,
+} from '@/services/apiv2'
 import { AiFillInfoCircle } from 'react-icons/ai'
+import useClickOutSide from '@/hooks/useClickOutSide'
+
+const PRODUCT_ID = '30'
 
 const dataForConfig = [
     {
@@ -279,7 +286,7 @@ const cycleTime = [
     {
         id: CYCLE_TIME.MONTHLY,
         name: 'Giá Theo Tháng',
-        extra: 'Tháng',
+        extra: '1 Tháng',
     },
     {
         id: CYCLE_TIME.QUARTERLY,
@@ -294,7 +301,7 @@ const cycleTime = [
     {
         id: CYCLE_TIME.ANNUALLY,
         name: 'Giá Theo Năm',
-        extra: 'Năm',
+        extra: '1 Năm',
     },
 ]
 
@@ -362,6 +369,21 @@ const CreateCloud: React.FC = () => {
         }>
     >([])
 
+    const [showInfoPrice, setShowInfoPrice] = useState<boolean>(false)
+    const [dataInfoPrice, setDataInfoPrice] = useState<{
+        price?: number
+        setup?: number
+        temporary?: number
+        cycleFee?: number
+        total?: number
+        cpu?: number
+        ram?: number
+        disk?: number
+    }>({})
+    const infoPrice = useRef(null)
+
+    useClickOutSide(infoPrice, () => setShowInfoPrice(false))
+
     const navigate = useNavigate()
 
     const [newCloudServer, setNewCloudServer] = useState<IInserCloudServer>({
@@ -426,15 +448,15 @@ const CreateCloud: React.FC = () => {
                 if (attr === 'cycle') {
                     total += value?.price
                 } else if (attr === 'ram') {
-                    total += RAM === value?.minValue ? 0 : value?.price * RAM
+                    total += value?.price * (RAM || 0)
                 } else if (attr === 'cpu') {
-                    total += CPU === value?.minValue ? 0 : value?.price * CPU
+                    total += value?.price * (CPU || 0)
                 } else if (attr === 'disk') {
-                    total += DISK === value?.minValue ? 0 : value?.price * DISK
+                    total += value?.price * (DISK || 0)
                 }
             })
 
-            return total === config?.cycle?.price ? 0 : total
+            return total
         }
 
         fee = items?.find((item) => item?.value === unit?.id)?.setup || 0
@@ -463,29 +485,21 @@ const CreateCloud: React.FC = () => {
 
     const getProductForConfig = async (id?: string, e?: any) => {
         try {
-            const result = await getProductDetailForConfig((id ||= '17'))
+            const result = await getProductDetailForConfig((id ||= PRODUCT_ID))
             const { data } = result?.data
 
-            const { form, product } = data?.config
+            const { forms, product } = data?.config
 
             const cycle = product.find((item: any) => item?.id === 'cycle')
-            const ram = dataForConfig.find(
-                (item) => item?.variable === 'memory'
-            )
+            const ram = forms.find((item: any) => item?.title.includes('RAM'))
+            const cpu = forms.find((item: any) => item?.title.includes('CPU'))
+            const disk = forms.find((item: any) => item?.title.includes('Disk'))
 
-            const cpu = dataForConfig.find(
-                (item) => item?.variable === 'cpu_cores'
-            )
+            const os = forms.find((item: any) => item?.title.includes('OS'))
 
-            const disk = dataForConfig.find(
-                (item) => item?.variable === 'disk_size'
-            )
-
-            const os = dataForConfig.find((item) => item?.variable === 'os')
-
-            setRAM(Number(ram?.config?.minvalue))
-            setCPU(Number(cpu?.config?.minvalue))
-            setDISK(Number(disk?.config?.minvalue))
+            setRAM(Number(ram?.config?.minvalue || 0))
+            setCPU(Number(cpu?.config?.minvalue || 0))
+            setDISK(Number(disk?.config?.minvalue || 0))
 
             setConfig({
                 cycle: {
@@ -494,28 +508,30 @@ const CreateCloud: React.FC = () => {
                 },
                 ram: {
                     name: `custom[${ram?.id}][${ram?.items[0].id}]`,
-                    price: Number(ram?.items[0]?.m || 0),
+                    title: ram?.title,
+                    price: Number(ram?.items[0]?.price || 0),
                     minValue: Number(ram?.config?.minvalue),
                     maxValue: Number(ram?.config?.maxvalue),
                     step: Number(ram?.config?.step),
                 },
                 cpu: {
                     name: `custom[${cpu?.id}][${cpu?.items[0].id}]`,
-                    price: Number(cpu?.items[0]?.m || 0),
+                    title: cpu?.title,
+                    price: Number(cpu?.items[0]?.price || 0),
                     minValue: Number(cpu?.config?.minvalue),
                     maxValue: Number(cpu?.config?.maxvalue),
                     step: Number(cpu?.config?.step),
                 },
                 disk: {
                     name: `custom[${disk?.id}][${disk?.items[0].id}]`,
-                    price: Number(disk?.items[0]?.m || 0),
+                    title: disk?.title,
+                    price: Number(disk?.items[0]?.price || 0),
                     minValue: Number(disk?.config?.minvalue),
                     maxValue: Number(disk?.config?.maxvalue),
                     step: Number(disk?.config?.step),
                 },
                 os: os?.items,
             })
-            console.log('items', cycle?.items)
             setItems(cycle?.items)
             e && setChosenProduct(e)
         } catch (error) {
@@ -523,9 +539,27 @@ const CreateCloud: React.FC = () => {
         }
     }
 
+    const getProductById = async (id: string) => {
+        try {
+            const result = await getProductDetail(id)
+
+            const { data } = result?.data
+
+            return data || {}
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         if (isCustomServer) {
-            getProductForConfig()
+            getProductById(PRODUCT_ID)
+                .then((product) => {
+                    getProductForConfig(PRODUCT_ID, product)
+                })
+                .catch((err) => {
+                    getProductForConfig()
+                })
         }
     }, [isCustomServer])
 
@@ -546,18 +580,18 @@ const CreateCloud: React.FC = () => {
 
                 Object.entries(config).forEach((item) => {
                     const [attr, value] = item
-                    if (attr === 'ram') {
+                    if (attr === 'ram' && value?.title) {
                         dataCustom.push(`${value?.name}: ${RAM}`)
-                    } else if (attr === 'cpu') {
+                    } else if (attr === 'cpu' && value?.title) {
                         dataCustom.push(`${value?.name}: ${CPU}`)
-                    } else if (attr === 'disk') {
+                    } else if (attr === 'disk' && value?.title) {
                         dataCustom.push(`${value?.name}: ${DISK}`)
                     }
                 })
 
                 data = {
                     ...data,
-                    product_id: '17',
+                    product_id: chosenProduct?.object_id,
                     os: chosenOsTemplate?.idCustom,
                     cycle: cPrice === 0 ? 'Free' : 'm',
                     type: 'custom',
@@ -565,8 +599,6 @@ const CreateCloud: React.FC = () => {
                 }
             }
 
-            console.log(data)
-            return
             const result = await createNewService(data)
 
             const { status, data: resData } = result?.data
@@ -628,10 +660,179 @@ const CreateCloud: React.FC = () => {
         ),
     }
 
+    const handleShowInfoPrice = (value: boolean) => {
+        setDataInfoPrice(
+            isCustomServer
+                ? {
+                      price: chosenProduct[unit.id],
+                      setup: chosenProduct[`${unit.id}_setup`],
+                      temporary: cPrice,
+                      cycleFee: chosenProduct[unit.id],
+                      total: cPrice,
+                  }
+                : {
+                      price: chosenProduct[unit.id],
+                      setup: cPrice - chosenProduct[unit.id],
+                      temporary: cPrice,
+                      cycleFee: chosenProduct[unit.id],
+                      total: cPrice,
+                  }
+        )
+        setShowInfoPrice(value)
+    }
+
+    const genMarkSlider = (data: any, custom?: boolean) => {
+        const marks: any = {}
+        const qty = data?.maxValue / data?.step
+        if (qty >= 10 && custom) {
+            const extra = data?.maxValue / 10
+            for (let i = data?.minValue; i <= data?.maxValue; i += extra) {
+                marks[i] = i.toString()
+            }
+        } else {
+            for (let i = data?.minValue; i <= data?.maxValue; i += data?.step) {
+                marks[i] = i.toString()
+            }
+        }
+
+        return marks
+    }
+
+    const renderInfoPrice = {
+        custom: (
+            <table>
+                <thead>
+                    <tr>
+                        <th className="description">Mô tả</th>
+                        <th className="price">Giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td className="description">{chosenProduct?.name}</td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.price) || 0}
+                            {' đ '}
+                            {unit?.extra}{' '}
+                            {(dataInfoPrice?.setup as number) > 0 &&
+                                ` + ${ConverMoney(
+                                    dataInfoPrice?.setup
+                                )} Phí cài đặt`}
+                        </td>
+                    </tr>
+                    {config?.cpu?.title && (
+                        <tr>
+                            <td className="description">
+                                {config?.cpu?.title}
+                            </td>
+                            <td className="price">
+                                {ConverMoney(config?.cpu?.price * CPU) || 0} đ
+                            </td>
+                        </tr>
+                    )}
+                    {config?.ram?.title && (
+                        <tr>
+                            <td className="description">
+                                {config?.ram?.title}
+                            </td>
+                            <td className="price">
+                                {ConverMoney(config?.ram?.price * RAM) || 0} đ
+                            </td>
+                        </tr>
+                    )}
+                    {config?.disk?.title && (
+                        <tr>
+                            <td className="description">
+                                {config?.disk?.title}
+                            </td>
+                            <td className="price">
+                                {ConverMoney(config?.disk?.price * DISK) || 0} đ
+                            </td>
+                        </tr>
+                    )}
+                    <tr>
+                        <td className="description">Tạm tính</td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.temporary) || 0} đ
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="description">Thanh toán theo chu kỳ</td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.cycleFee) || 0}
+                            {' đ '}
+                            {unit?.extra}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td
+                            className="description"
+                            style={{ fontWeight: '600 ' }}
+                        >
+                            Thành tiền
+                        </td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.total) || 0} đ
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        ),
+        instance: (
+            <table>
+                <thead>
+                    <tr>
+                        <th className="description">Mô tả</th>
+                        <th className="price">Giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td className="description">{chosenProduct?.name}</td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.price) || 0}
+                            {' đ '}
+                            {unit?.extra}{' '}
+                            {(dataInfoPrice?.setup as number) > 0 &&
+                                ` + ${ConverMoney(
+                                    dataInfoPrice?.setup
+                                )} Phí cài đặt`}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="description">Tạm tính</td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.temporary) || 0} đ
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="description">Thanh toán theo chu kỳ</td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.cycleFee) || 0}
+                            {' đ '}
+                            {unit?.extra}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td
+                            className="description"
+                            style={{ fontWeight: '600 ' }}
+                        >
+                            Thành tiền
+                        </td>
+                        <td className="price">
+                            {ConverMoney(dataInfoPrice?.total) || 0} đ
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        ),
+    }
+
     return (
         <>
             <div className="create-cloud">
-                <div className="create-cloud-location">
+                {/* <div className="create-cloud-location">
                     <p className="create-cloud-location-title">Chọn khu vực</p>
                     <div className="list-area">
                         <>
@@ -645,7 +846,7 @@ const CreateCloud: React.FC = () => {
                             ))}
                         </>
                     </div>
-                </div>
+                </div> */}
                 <div className="create-cloud-os">
                     <p className="create-cloud-location-title">
                         CHỌN HỆ ĐIỀU HÀNH
@@ -693,67 +894,92 @@ const CreateCloud: React.FC = () => {
                             <div className="row">
                                 <div className="col-12 col-sm-12 col-md-7">
                                     <div className="card-body">
-                                        <div className="form-group">
-                                            <div className="d-flex align-items-center justify-content-between">
-                                                CPU (vCPUs):
-                                                <label>
-                                                    <strong>{CPU}</strong>
-                                                </label>
+                                        {config?.cpu?.title && (
+                                            <div className="form-group">
+                                                <div className="d-flex align-items-center justify-content-between">
+                                                    <label>
+                                                        {config?.cpu?.title}:
+                                                    </label>
+                                                    <label>
+                                                        <strong>{CPU}</strong>
+                                                    </label>
+                                                </div>
+                                                <Slider
+                                                    onChange={(e) =>
+                                                        onChangeConfig(e, 'cpu')
+                                                    }
+                                                    defaultValue={
+                                                        config?.cpu?.minValue
+                                                    }
+                                                    marks={genMarkSlider(
+                                                        config?.cpu
+                                                    )}
+                                                    min={config?.cpu?.minValue}
+                                                    max={config?.cpu?.maxValue}
+                                                    step={config?.cpu?.step}
+                                                    value={CPU}
+                                                />
                                             </div>
-                                            <Slider
-                                                onChange={(e) =>
-                                                    onChangeConfig(e, 'cpu')
-                                                }
-                                                defaultValue={
-                                                    config?.cpu?.minValue
-                                                }
-                                                min={config?.cpu?.minValue}
-                                                max={config?.cpu?.maxValue}
-                                                step={config?.cpu?.step}
-                                                value={CPU}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <div className="d-flex align-items-center justify-content-between">
-                                                <label>RAM (GB):</label>
-                                                <label>
-                                                    <strong>{RAM}</strong>
-                                                </label>
-                                            </div>
+                                        )}
+                                        {config?.ram?.title && (
+                                            <div className="form-group">
+                                                <div className="d-flex align-items-center justify-content-between">
+                                                    <label>
+                                                        {config?.ram?.title}:
+                                                    </label>
+                                                    <label>
+                                                        <strong>{RAM}</strong>
+                                                    </label>
+                                                </div>
 
-                                            <Slider
-                                                onChange={(e) =>
-                                                    onChangeConfig(e, 'ram')
-                                                }
-                                                defaultValue={
-                                                    config?.ram?.minValue
-                                                }
-                                                min={config?.ram?.minValue}
-                                                max={config?.ram?.maxValue}
-                                                step={config?.ram?.step}
-                                                value={RAM}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <div className="d-flex align-items-center justify-content-between">
-                                                DISK SIZE(GB): {'   '}
-                                                <label>
-                                                    <strong>{DISK}</strong>
-                                                </label>
+                                                <Slider
+                                                    onChange={(e) =>
+                                                        onChangeConfig(e, 'ram')
+                                                    }
+                                                    defaultValue={
+                                                        config?.ram?.minValue
+                                                    }
+                                                    marks={genMarkSlider(
+                                                        config?.ram
+                                                    )}
+                                                    min={config?.ram?.minValue}
+                                                    max={config?.ram?.maxValue}
+                                                    step={config?.ram?.step}
+                                                    value={RAM}
+                                                />
                                             </div>
-                                            <Slider
-                                                onChange={(e) =>
-                                                    onChangeConfig(e, 'disk')
-                                                }
-                                                defaultValue={
-                                                    config?.cpu?.minValue
-                                                }
-                                                min={config?.disk?.minValue}
-                                                max={config?.disk?.maxValue}
-                                                step={config?.disk?.step}
-                                                value={DISK}
-                                            />
-                                        </div>
+                                        )}
+                                        {config?.disk?.title && (
+                                            <div className="form-group">
+                                                <div className="d-flex align-items-center justify-content-between">
+                                                    <label>
+                                                        {config?.disk?.title}:
+                                                    </label>
+                                                    <label>
+                                                        <strong>{DISK}</strong>
+                                                    </label>
+                                                </div>
+                                                <Slider
+                                                    onChange={(e) =>
+                                                        onChangeConfig(
+                                                            e,
+                                                            'disk'
+                                                        )
+                                                    }
+                                                    defaultValue={
+                                                        config?.cpu?.minValue
+                                                    }
+                                                    marks={genMarkSlider(
+                                                        config?.disk,
+                                                        true
+                                                    )}
+                                                    min={config?.disk?.minValue}
+                                                    max={config?.disk?.maxValue}
+                                                    step={config?.disk?.step}
+                                                    value={DISK}
+                                                />
+                                            </div>
+                                        )}
                                         <div className="form-group">
                                             <label>Hoá đơn tính theo:</label>
                                             <div>
@@ -877,18 +1103,38 @@ const CreateCloud: React.FC = () => {
                     </div>
                 </div>
                 <div className="create-cloud-caculate-price">
+                    <div
+                        ref={infoPrice}
+                        className={`info-price-vm ${
+                            showInfoPrice ? 'active' : ''
+                        }`}
+                    >
+                        {isCustomServer
+                            ? renderInfoPrice['custom']
+                            : renderInfoPrice['instance']}
+                    </div>
+
                     <div className="sidebar-info">
                         {chosenProduct?.object_id ? (
                             <>
                                 <div className="deploy-summary-price">
                                     <div className="d-flex align-items-center">
-                                        <span className="cost"> Chi phí: </span>
+                                        <span className="cost">
+                                            {' '}
+                                            Thanh toán theo chu kỳ:{' '}
+                                        </span>
+
                                         <button
                                             style={{
                                                 padding: '0px',
                                                 border: 'none',
                                                 background: 'transparent',
                                             }}
+                                            onClick={() =>
+                                                handleShowInfoPrice(
+                                                    !showInfoPrice
+                                                )
+                                            }
                                             className="mx-2"
                                         >
                                             <AiFillInfoCircle
