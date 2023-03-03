@@ -37,7 +37,7 @@ import {
 import { AiFillInfoCircle } from 'react-icons/ai'
 import useClickOutSide from '@/hooks/useClickOutSide'
 
-const PRODUCT_ID = '17'
+const PRODUCT_ID = '30'
 
 const dataForConfig = [
     {
@@ -456,7 +456,7 @@ const CreateCloud: React.FC = () => {
                 }
             })
 
-            return total === config?.cycle?.price ? 0 : total
+            return total
         }
 
         fee = items?.find((item) => item?.value === unit?.id)?.setup || 0
@@ -720,7 +720,7 @@ const CreateCloud: React.FC = () => {
                                 )} Phí cài đặt`}
                         </td>
                     </tr>
-                    {config?.cpu?.price > 0 && (
+                    {config?.cpu?.title && (
                         <tr>
                             <td className="description">
                                 {config?.cpu?.title}
@@ -730,7 +730,7 @@ const CreateCloud: React.FC = () => {
                             </td>
                         </tr>
                     )}
-                    {config?.ram?.price > 0 && (
+                    {config?.ram?.title && (
                         <tr>
                             <td className="description">
                                 {config?.ram?.title}
@@ -740,7 +740,7 @@ const CreateCloud: React.FC = () => {
                             </td>
                         </tr>
                     )}
-                    {config?.disk?.price > 0 && (
+                    {config?.disk?.title && (
                         <tr>
                             <td className="description">
                                 {config?.disk?.title}
