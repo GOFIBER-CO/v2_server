@@ -38,6 +38,10 @@ import { AiFillInfoCircle } from 'react-icons/ai'
 import useClickOutSide from '@/hooks/useClickOutSide'
 
 const PRODUCT_ID = '30'
+const ORDER_PAGE_ID = {
+    CLOUDVN: '1',
+    CUSTOM: '4',
+}
 
 const dataForConfig = [
     {
@@ -257,19 +261,19 @@ const osTemplate = [
             {
                 id: '118',
                 idCustom: '256 ubuntu20.tino.org',
-                name: 'Ubuntu20',
+                name: 'Ubuntu 20',
                 subOrderPage: 2,
             },
             {
                 id: '122',
                 idCustom: '308 centos7',
-                name: 'Centos7',
+                name: 'Centos 7',
                 subOrderPage: 2,
             },
             {
                 id: '121',
                 idCustom: '306 debian11.tino.org',
-                name: 'Debian11',
+                name: 'Debian 11',
                 subOrderPage: 2,
             },
             {
@@ -314,7 +318,7 @@ const paymentMethods = [
     {
         object_id: 14,
         name: 'Cổng thanh toán VNPAY',
-        image: 'https://downloadlogomienphi.com/sites/default/files/logos/download-logo-vector-vnpayqr-2021-mien-phi.jpg',
+        image: 'https://vnpay.vn/_nuxt/img/logo-primary.55e9c8c.svg',
     },
     {
         object_id: 15,
@@ -419,7 +423,7 @@ const CreateCloud: React.FC = () => {
 
                 const { data } = result?.data
                 setProducts(data || [])
-
+                console.log('data', data);
                 if (data?.length > 0) {
                     getProductForConfig(data?.[0]?.object_id, data?.[0])
                     // setChosenProduct( || {})
@@ -429,9 +433,9 @@ const CreateCloud: React.FC = () => {
             }
         }
 
-        if (chosenOsTemplate?.subOrderPage)
-            getProductByOs(chosenOsTemplate?.subOrderPage)
-    }, [chosenOsTemplate])
+        if (isCustomServer) getProductByOs(ORDER_PAGE_ID.CUSTOM)
+        else getProductByOs(ORDER_PAGE_ID.CLOUDVN)
+    }, [isCustomServer])
 
     const onclickServer = (item: any) => {
         getProductForConfig(item?.object_id, item)
@@ -461,7 +465,7 @@ const CreateCloud: React.FC = () => {
 
         fee = items?.find((item) => item?.value === unit?.id)?.setup || 0
         return chosenProduct[unit.id] + fee
-    }, [unit, chosenProduct, isCustomServer, CPU, RAM, DISK])
+    }, [unit, chosenProduct, CPU, RAM, DISK])
 
     const onclickPackageServer = (item: any) => {
         setUnit(item)
@@ -551,17 +555,17 @@ const CreateCloud: React.FC = () => {
         }
     }
 
-    useEffect(() => {
-        if (isCustomServer) {
-            getProductById(PRODUCT_ID)
-                .then((product) => {
-                    getProductForConfig(PRODUCT_ID, product)
-                })
-                .catch((err) => {
-                    getProductForConfig()
-                })
-        }
-    }, [isCustomServer])
+    // useEffect(() => {
+    //     if (isCustomServer) {
+    //         getProductById(PRODUCT_ID)
+    //             .then((product) => {
+    //                 getProductForConfig(PRODUCT_ID, product)
+    //             })
+    //             .catch((err) => {
+    //                 getProductForConfig()
+    //             })
+    //     }
+    // }, [isCustomServer])
 
     const onFinish = async () => {
         try {
@@ -592,7 +596,7 @@ const CreateCloud: React.FC = () => {
                 data = {
                     ...data,
                     product_id: chosenProduct?.object_id,
-                    os: chosenOsTemplate?.idCustom,
+                    os: chosenOsTemplate?.name,
                     cycle: cPrice === 0 ? 'Free' : 'm',
                     type: 'custom',
                     dataCustom,
@@ -1156,7 +1160,7 @@ const CreateCloud: React.FC = () => {
                                         <span className="deploy-summary-price-label">
                                             /
                                             {isCustomServer
-                                                ? 'Tháng'
+                                                ? '1 Tháng'
                                                 : unit?.extra}
                                         </span>
                                     </div>

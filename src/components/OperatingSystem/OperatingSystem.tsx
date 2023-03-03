@@ -43,7 +43,11 @@ const OperatingSystem = ({
                     <span className="img-country">{data?.image}</span>
                     <Checkbox isCheck={isCheck} />
                     <span className="name-system">{data.name}</span>
-                    <span className="version">
+                    <span
+                        className={`version ${
+                            chosenOsTemplate?.id && isCheck ? 'active' : ''
+                        }`}
+                    >
                         {chosenOsTemplate?.id && isCheck
                             ? chosenOsTemplate?.name
                             : 'Chọn Version'}
