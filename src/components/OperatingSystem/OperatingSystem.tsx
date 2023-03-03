@@ -21,7 +21,6 @@ const OperatingSystem = ({
     chosenOsTemplate: any
 }) => {
     const onchange = (id: number) => {
-        console.log('dsad', id)
         setIsShow(id)
     }
 

@@ -16,3 +16,8 @@ export enum CYCLE_TIME {
     SEMI_ANNUALLY = 's',
     ANNUALLY = 'a',
 }
+
+export enum RESPONSE_STATUS {
+    SUCCESS = 1,
+    FAILED = 0,
+}

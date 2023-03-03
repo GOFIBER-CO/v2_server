@@ -10,10 +10,11 @@ import { FaTimes } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import IProcessingRoom from '@/interfaces/IProcessingRoom'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-import { createNewTicket, getProcessingRoom } from '@/services/apis'
+import {  getProcessingRoom } from '@/services/apis'
 import ITicketCreate from '@/interfaces/ITicketCreate'
 import { notify, notifyType } from '@/App'
 import { useAuth } from '@/hooks/useAuth'
+import { createNewTicket } from '@/services/apiv2'
 
 const { Option } = Select
 
@@ -22,6 +23,8 @@ const CreateTicket: React.FC = () => {
         []
     )
     const auth = useAuth()
+
+    let userId= auth.user?.object_id
     const editorRef = useRef(null)
     const [description, setDescription] = useState('')
     const navigate = useNavigate()
@@ -81,18 +84,20 @@ const CreateTicket: React.FC = () => {
     }
 
     const onCreateTicket = async () => {
-        const data = new FormData()
+        const data = new FormData
         data.append('level', newTicket.level.toString())
-        data.append('title', newTicket.title || '')
-        data.append('content', newTicket.content || '')
-        data.append('user', auth.user._id)
+        data.append('subject', newTicket.title || '')
+        data.append('body', newTicket.content || '')
+        data.append('user', userId)
         data.append('file', newTicket.file ? newTicket.file : '')
-        data.append('processingRoom', newTicket.processingRoom)
+        data.append('dept_id', newTicket.processingRoom)
+        
+       
         try {
             layout.setLoading(true)
-            const result = await createNewTicket(data)
+            const result =  await createNewTicket(data)
             if (result.data) {
-                notify(notifyType.NOTIFY_SUCCESS, result.data?.message)
+                notify(notifyType.NOTIFY_SUCCESS, 'Tạo ticket thành công!')
             } else {
                 notify(
                     notifyType.NOTIFY_ERROR,
@@ -158,11 +163,12 @@ const CreateTicket: React.FC = () => {
                             })
                         }
                     >
-                        {processingRooms.map((item) => (
+                        <Option value="1">Phòng 1</Option>
+                        {/* {processingRooms.map((item) => (
                             <Option key={item._id} value={item._id}>
                                 {item.processingRoomName}
                             </Option>
-                        ))}
+                        ))} */}
                     </Select>
                 </div>
                 <div className="create-ticket-form-input-title">
