@@ -23,7 +23,10 @@ export const login = (username: string, password: string) =>
     })
 
 export const signup = (data: {
-    userName: string
+    firstname: string,
+    lastname: string,
+    country: string,
+    address1: string,
     password: string
     email: string
     phoneNumber: string

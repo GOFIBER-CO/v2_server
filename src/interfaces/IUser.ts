@@ -1,3 +1,11 @@
+export interface IRole {
+  id?: string;
+  code: string;
+  roleName: string;
+  createdAt: Date;
+  updateAt: Date;
+}
+
 export interface IUser {
     _id: string,
     id: string,
@@ -51,5 +59,6 @@ export interface IUser {
     group_color: string;
     accesstoken: string;
     refreshtoken: string;
+    role?: string | IRole
   }
   
