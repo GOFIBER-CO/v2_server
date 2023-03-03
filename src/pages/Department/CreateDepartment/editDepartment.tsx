@@ -1,7 +1,7 @@
 import { notify, notifyType } from '@/App'
 import IDepartment from '@/interfaces/IDepartment'
-import {  getByIdDepartment } from '@/services/apis'
-import { editDepartment } from '@/services/apiv2'
+
+import { editDepartment, getByIdDepartment } from '@/services/apiv2'
 import '@/styles/pages/Location/CreateLocation/index.scss'
 import { Button, Form, Input, Select } from 'antd'
 import { useEffect, useState } from 'react'
@@ -13,15 +13,23 @@ const { Option } = Select
 
 const EditDepartment = () => {
     const [newDepartment, setNewDepartment] = useState<string>('')
+    
     const navigate = useNavigate()
     const { id } = useParams()
-
+    const [form] = Form.useForm()
+    const getByIds = async() =>{
+        const data = await getByIdDepartment(id as string)
+        form.setFieldsValue({name: data?.data?.data?.name})
+        setNewDepartment(data?.data?.data?.name)
+        
+    } 
     useEffect(() => {
         if (id) {
-            const edit = getByIdDepartment(id)
+            getByIds()
         }
-    }, [])
-
+    }, [id])
+   
+    
     const onFinished = async () => {
         const dataRef = {
             name: newDepartment
@@ -41,7 +49,7 @@ const EditDepartment = () => {
     const turnBack = () => {
         navigate('/department')
     }
-
+ 
     return (
         <div className="create-location-page">
             <div className="create-location-page-header">
@@ -66,17 +74,20 @@ const EditDepartment = () => {
                     className="login-form"
                     initialValues={{ remember: true }}
                     onFinish={onFinished}
+                    form= {form}
                 >
                     <Form.Item
-                        name="server_name"
+                        name="name"
                         rules={[
                             {
                                 required: true,
                                 message: 'Hãy nhập tên phòng ban',
                             },
                         ]}
+                        
                     >
                         <Input
+                            value={newDepartment}
                             placeholder="Tên phòng ban"
                             onChange={(e) =>
                                 setNewDepartment(e.target.value)

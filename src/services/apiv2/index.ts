@@ -119,6 +119,9 @@ export const deleteDepartment = (id: string | undefined) =>
     export const editDepartment = (id: string | undefined, data: string) =>
     axiosInstance.put(`/department/update/${id}`, data)
 
+    export const getByIdDepartment = (id: string) =>
+    axiosInstance.get(`/department/getById/${id}`)
+
 export const createNewService = (data: ICreateNewService) =>
     axiosInstance.post(`/services/create-new-service`, data)
 

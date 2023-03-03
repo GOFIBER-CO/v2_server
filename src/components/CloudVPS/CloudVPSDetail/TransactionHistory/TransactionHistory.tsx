@@ -23,7 +23,7 @@ const TransactionHistory = ({
     totalItemValue: number
 }) => {
     const layout = useLayoutInit()
-    console.log(dataTransactionHistory)
+  
     const [transactionHistory, setTransactionHistory] = useState(
         dataTransactionHistory
     )
