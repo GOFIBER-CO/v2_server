@@ -1,5 +1,5 @@
 import '@/styles/pages/LoginNew/index.scss'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { useAuth } from '@/hooks/useAuth'
 import { useNavigate } from 'react-router'
@@ -7,19 +7,34 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
 const LoginNew = () => {
+    const [form] = Form.useForm()
+
     const auth = useAuth()
     const navigate = useNavigate()
     const onFinish = () => {
-        auth.loginSync(username, password, navigate)
+        auth.loginSync(
+            form.getFieldValue('email'),
+            form.getFieldValue('password'),
+            navigate
+        )
     }
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+
+    useEffect(() => {
+        form.setFieldsValue({
+            email: 'hieunguyendev102@gmail.com',
+            password: 'trunghieu111',
+        })
+    }, [])
+
     return (
         <div className="LoginNew_cotainer">
             <div className="LoginNew_cotainer_center">
                 <div className="LoginNew_container_title">Đăng nhập</div>
                 <Form
+                    form={form}
                     name="basic"
                     initialValues={{ remember: true }}
                     onFinish={onFinish}

@@ -23,14 +23,14 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
         try {
             setIsModalOpen(false)
             const result = await updateCloudServerName(
-                localData?._id,
+                localData?.id,
                 labelName
             )
             // console.log(result.data)
             //@ts-ignore
             setLocalData({
                 ...localData,
-                cloudServerName: result.data?.data?.cloudServerName,
+                label: result.data?.data?.cloudServerName,
             })
             toast.success('Sửa tên thành công')
         } catch (error) {
@@ -52,7 +52,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img
+                                        {/* <img
                                             width="20"
                                             src={
                                                 typeof localData?.area.file ==
@@ -60,9 +60,10 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                                     ? `${localData?.area.file}`
                                                     : ''
                                             }
-                                        />
+                                        /> */}
                                         <span style={{ marginLeft: '8px' }}>
-                                            {localData?.area.areaName}
+                                            {/* {localData?.area.areaName} */}
+                                            Viettel
                                         </span>
                                     </span>
                                 </div>
@@ -73,7 +74,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {}
+                                        {localData?.ipv4}
                                     </span>
                                 </div>
                             </div>
@@ -109,13 +110,12 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div>
                                     <span className="flag"></span>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        <img
+                                        {/* <img
                                             width="20"
                                             src={localData?.operatingSystem.img}
-                                        />
+                                        /> */}
                                         {
-                                            localData?.operatingSystem
-                                                .operatingSystemName
+                                            localData?.template_name
                                         }
                                     </span>
                                 </div>
@@ -127,7 +127,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Số vCpu:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {localData?.server.cpu}vCPU
+                                        {localData?.cpus}vCPU
                                     </span>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Bộ nhớ:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {localData?.server.ram} GB
+                                        {localData?.memory} GB
                                     </span>
                                 </div>
                             </div>
@@ -145,19 +145,19 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Ổ cứng:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {localData?.server.ssd}GB NVMe
+                                        {localData?.disk}GB NVMe
                                     </span>
                                 </div>
                             </div>
 
                             <div className="flexlayoutdata">
-                                <div className="title-name">Băng thông:</div>
+                                <div className="title-name">Băng thông: (Nhận/Gửi)</div>
                                 <div>
                                     <span
                                         style={{ verticalAlign: 'middle' }}
                                         typeof="password"
                                     >
-                                        {localData?.server.bandwidth}TB
+                                        {localData?.bandwidth.data_recieve && `${localData?.bandwidth.data_recieve}/${localData?.bandwidth.data_send}TB`}
                                     </span>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Mã Server:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {localData?.code}
+                                        {localData?.list_id}
                                     </span>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                             marginRight: '5px',
                                         }}
                                     >
-                                        {localData?.cloudServerName}
+                                        {localData?.label}
                                     </span>
 
                                     <Button
@@ -216,7 +216,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                                 setLabelName(e.target.value)
                                             }
                                             defaultValue={
-                                                localData?.cloudServerName
+                                                localData?.label
                                             }
                                         />
                                     </Modal>

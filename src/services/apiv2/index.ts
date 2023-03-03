@@ -1,3 +1,4 @@
+import ICreateNewService from '@/interfaces/ICreateNewService'
 import axios from 'axios'
 
 const baseUrl = 'http://localhost:4000/api/v1'
@@ -66,3 +67,8 @@ export const createNewTicket = (data: FormData) =>
             axiosInstance.get(
                 `/support/getpaging?pageIndex=${pageIndex}&search=${search}&pageSize=${pageSize}`
             )
+export const createNewService = (data: ICreateNewService) =>
+    axiosInstance.post(`/services/create-new-service`, data)
+
+export const getProductDetailForConfig = (id: string) =>
+    axiosInstance.get(`/products/product-detail-for-config/${id}`)
