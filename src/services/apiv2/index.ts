@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import jwtDecode from "jwt-decode"
 
 const baseUrl = 'http://localhost:4000/api/v1'
 
@@ -8,14 +8,25 @@ let axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use((config) => {
-    config.headers!.authorization = `Bearer ${
-        JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken || ''
-    }`
+    try {
+        const jwtToken = JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken
+        const decodedToken = jwtDecode<{exp: number, iat: number}>(jwtToken)
+    
+        if(!decodedToken.exp ||  decodedToken.exp * 1000 < new Date().getTime()){
+            localStorage.removeItem('user')
+            location.reload()
+        }
+    
+        config.headers!.authorization = `Bearer ${jwtToken}`
+    } catch (error) {
+        localStorage.removeItem('user')
+    }
+  
     return config
 })
 
 export const login = async (username: string, password: string) => axiosInstance.post(`/auth/login`, {
-    username: username, 
+    username: username,
     password: password
 })
 
@@ -29,10 +40,25 @@ export const getOrdersViettell = (
     userName: string,
     pageSize?: number
 ) =>
-axiosInstance.get(
+    axiosInstance.get(
         `/client-order/getpaging?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}`
     )
 
-    export const getpagingClientTicketViettel = (
-         pageIndex : number,pageSize : number,search : string
-         ) => axiosInstance.get(`/client-ticket/getpaging?pageIndex=${pageIndex}&search=${search}&pageSize=${pageSize}`)
+export const signup = (data: {
+    firstname: string,
+    lastname: string,
+    country: string,
+    address1: string,
+    password: string,
+    password2: string,
+    email: string
+    phonenumber: string
+}) => axiosInstance.post('/users/register', data)
+
+export const getpagingClientTicketViettel = (
+    pageIndex: number, pageSize: number, search: string
+) => axiosInstance.get(`/client-ticket/getpaging?pageIndex=${pageIndex}&search=${search}&pageSize=${pageSize}`)
+
+export const getActionHistoryByUserId = (pageSize: number, pageIndex: number) => axiosInstance.get(`/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+
+export const getAllActionHistory = (pageSize: number, pageIndex: number) => axiosInstance.get(`/action-history/get-by-user?pageSize=${pageSize}&pageIndex=${pageIndex}`)

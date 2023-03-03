@@ -128,6 +128,7 @@ const MainLayout: React.FC = () => {
         }
     }
 
+
     let menuAdmin = [
         {
             icon: <MdManageAccounts />,
@@ -437,11 +438,15 @@ const MainLayout: React.FC = () => {
     ]
     let menuSidebar = []
     const layout = useLayoutInit()
-    // if (!auth.user.isCustomer) {
-    //     menuSidebar = menu.concat(menuAdmin)
-    // } else {
-    //     menuSidebar = menu
-    // }
+    
+    const getMenu = (roleName = '') => {
+        switch(roleName){
+            case 'admin':
+                return [...menuAdmin, ...menu]
+            default: 
+                return [...menu]
+        }
+    }
 
     if (true) {
         menuSidebar = menu.concat(menuAdmin)
@@ -536,7 +541,7 @@ const MainLayout: React.FC = () => {
                                 mode="inline"
                                 defaultSelectedKeys={['/']}
                                 selectedKeys={[location.pathname]}
-                                items={menuSidebar}
+                                items={getMenu(typeof auth.user?.role != 'string' ? auth.user?.role?.roleName : '')}
                                 onOpenChange={onOpenChange}
                                 openKeys={openKeys}
                             />

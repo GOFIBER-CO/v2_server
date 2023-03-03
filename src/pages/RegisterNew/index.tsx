@@ -1,31 +1,46 @@
 import '@/styles/pages/RegisterNew/index.scss'
-import React, { useState } from 'react'
-import { Button, Checkbox, Form, Input } from 'antd'
+import React, { useMemo, useState } from 'react'
+import { Button, Checkbox, Form, Input, Select } from 'antd'
 import { useNavigate } from 'react-router'
 import { notifyType } from '@/App'
 import { notify } from '@/App'
-import { signup } from '@/services/apis'
+import { signup } from '@/services/apiv2'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
+import nationJson from '@/config/nation.json'
+
+const {Option} = Select
+
+type ObjecType = {
+    [key: string]: string
+}
 
 const RegisterNew = () => {
     const [buttonLoading, setButtonLoading] = useState(false)
-    const [username, setUsername] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [nation, setNation] = useState('vn')
+    const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [re_password, setRePassword] = useState('')
     const navigate = useNavigate()
 
+    const urlImageNation = 'https://flagcdn.com/16x12'
     const onFinish = async () => {
         try {
             setButtonLoading(true)
             const register = await signup({
-                userName: username,
+                firstname: firstName,
+                lastname: lastName,
+                country: nation.toUpperCase(),
+                address1: address,
                 password: password,
+                password2: re_password,
                 email: email,
-                phoneNumber: phoneNumber,
+                phonenumber: phoneNumber,
             })
             if (register.data?.status == 1) {
                 notify(notifyType.NOTIFY_SUCCESS, register.data?.message)
@@ -35,6 +50,7 @@ const RegisterNew = () => {
             }
         } catch (error) {
             console.log(error)
+            notify(notifyType.NOTIFY_ERROR, error.response.data)
             setButtonLoading(false)
         } finally {
             setButtonLoading(false)
@@ -55,16 +71,16 @@ const RegisterNew = () => {
                         style={{ marginTop: '20px' }}
                         className="RegisterNew_Form_email"
                     >
-                        Họ tên
+                        Họ: 
                     </div>
                     <Form.Item
                         className="RegisterNew_From_Input"
                         style={{ border: '15px' }}
-                        name="hoTen"
+                        name="ho"
                         rules={[
                             {
                                 required: true,
-                                message: 'Họ tên không được bỏ trống',
+                                message: 'Không được bỏ trống họ',
                             },
                         ]}
                     >
@@ -72,9 +88,78 @@ const RegisterNew = () => {
                             prefix={
                                 <UserOutlined className="site-form-item-icon" />
                             }
-                            placeholder="Tên đăng nhập"
-                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Họ"
+                            onChange={(e) => setFirstName(e.target.value)}
                         />
+                    </Form.Item>
+                    <div
+                        style={{ marginTop: '20px' }}
+                        className="RegisterNew_Form_email"
+                    >
+                        Tên: 
+                    </div>
+                    <Form.Item
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
+                        name="ten"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Không được bỏ trống tên',
+                            },
+                        ]}
+                    >
+                        <Input
+                            prefix={
+                                <UserOutlined className="site-form-item-icon" />
+                            }
+                            placeholder="Tên"
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </Form.Item>
+                    <div
+                        style={{ marginTop: '20px' }}
+                        className="RegisterNew_Form_email"
+                    >
+                        Địa chỉ: 
+                    </div>
+                    <Form.Item
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
+                        name="address"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Không được bỏ trống địa chỉ',
+                            },
+                        ]}
+                    >
+                        <Input
+                            prefix={
+                                <UserOutlined className="site-form-item-icon" />
+                            }
+                            placeholder="Địa chỉ"
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                    </Form.Item>
+                    <div
+                        style={{ marginTop: '20px' }}
+                        className="RegisterNew_Form_email"
+                    >
+                        Quốc gia: 
+                    </div>
+                    <Form.Item
+                        className="RegisterNew_From_Input"
+                        style={{ border: '15px' }}
+                        name="nation"
+                    >
+                       <Select style={{textAlign: 'start'}} defaultValue={'vn'} onChange={(value)=>setNation(value)}>
+                            
+                            {
+                                //@ts-ignore
+                                Object.keys(nationJson).map((key, index)=><Option value = {key}><img style={{marginRight: '5px'}} src={`${urlImageNation}/${key}.png`}/>{nationJson[key as keyof ObjecType]}</Option>) 
+                            }
+                       </Select>
                     </Form.Item>
                     <div className="RegisterNew_Form_email">Địa chỉ email</div>
                     <Form.Item
