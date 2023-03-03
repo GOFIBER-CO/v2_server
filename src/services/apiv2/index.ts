@@ -72,3 +72,6 @@ export const createNewService = (data: ICreateNewService) =>
 
 export const getProductDetailForConfig = (id: string) =>
     axiosInstance.get(`/products/product-detail-for-config/${id}`)
+
+export const getProductDetail = (id: string) =>
+    axiosInstance.get(`/products/product-detail/${id}`)
