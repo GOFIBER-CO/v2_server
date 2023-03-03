@@ -11,8 +11,8 @@ import {
 import { TfiMenuAlt } from 'react-icons/tfi'
 import Table, { ColumnsType } from 'antd/lib/table'
 import { useEffect, useState } from 'react'
-import IUser from '@/interfaces/IUser'
-import { getActionHistoryByUserId } from '@/services/apis'
+import {IUser} from '@/interfaces/IUser'
+import { getActionHistoryByUserId } from '@/services/apiv2'
 import { useAuth } from '@/hooks/useAuth'
 import formatDate from '@/helpers/formatDate'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
@@ -42,7 +42,6 @@ const ActionHistory: React.FC = () => {
         try {
             layout.setLoading(true)
             const actions = await getActionHistoryByUserId(
-                auth.user._id,
                 pageSize,
                 pageIndex
             )
