@@ -20,8 +20,8 @@ import { getpagingClientTicketViettel, getpagingSupport } from '@/services/apiv2
 const { Option } = Select
 
 const ManageTicket = () => {
-    const [filter, setFilter] = useState<{ level: number; email: string }>({
-        level: 0,
+    const [filter, setFilter] = useState<{ level: string; email: string }>({
+        level: "" ,
         email: '',
     })
     const [tickets, setTickets] = useState<ITicket[]>([])
@@ -45,7 +45,8 @@ const ManageTicket = () => {
             const result = await getpagingSupport(
                 pageIndex,  
                 pageSize,
-        filter.email,
+        filter.email || "",
+        filter.level || ""
             )
             setTickets(result?.data?.data)
             setTotalPage(result.data?.totalPages)
@@ -202,13 +203,13 @@ const ManageTicket = () => {
             <div className="manage-ticket-page-filter">
                 <div className="manage-ticket-page-filter-level">
                     <Select
-                        defaultValue="0"
+                        defaultValue="Tất cả"
                         style={{ width: '100%' }}
                         onChange={(value) =>
-                            setFilter({ ...filter, level: Number(value) })
+                            setFilter({ ...filter, level:value })
                         }
                     >
-                        <Option value="0">Tất cả</Option>
+                        <Option value="">Tất cả</Option>
                         <Option value="1">Bình thường</Option>
                         <Option value="2">Ưu tiên</Option>
                         <Option value="3">Khẩn cấp</Option>

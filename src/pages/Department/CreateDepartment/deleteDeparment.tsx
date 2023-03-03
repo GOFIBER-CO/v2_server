@@ -1,6 +1,7 @@
 import { notify, notifyType } from '@/App'
 import IDepartment from '@/interfaces/IDepartment'
-import { deleteDepartment, getByIdDepartment } from '@/services/apis'
+import {  getByIdDepartment } from '@/services/apis'
+import { deleteDepartment } from '@/services/apiv2'
 import '@/styles/pages/Location/CreateLocation/index.scss'
 import { Button, Form, Input, Select } from 'antd'
 import { useEffect, useState } from 'react'

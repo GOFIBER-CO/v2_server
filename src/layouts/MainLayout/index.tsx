@@ -584,8 +584,17 @@ const MainLayout: React.FC = () => {
                                         </div>
                                     </Link>
                                 </div>
+                                <div className="site-layout-create-server">
+                                    <Link to={'/support/create-ticket'}>
+                                        <div  className="site-layout-create-server-ticket">
+                                            <AiOutlinePlus />
+                                            <span>Tạo ticket</span>
+                                        </div>
+                                    </Link>
+                                </div>
                             </div>
                             <div className="site-layout-column">
+                                
                                 <div className="site-layout-purchase">
                                     <Link to={'/deposit-guide'}>
                                         <div className="site-layout-purchase-button">

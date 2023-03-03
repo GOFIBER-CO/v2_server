@@ -72,27 +72,53 @@ export const getpagingClientTicketViettel = (
 export const createNewTicket = (data: FormData) =>
     axiosInstance.post('/support/create/', data)
 
-    export const getSupportByUserId = (
-        
-        pageIndex: number,
-        SupportTT: string,
-        SupportUT: string,
-        supportName: string,
-        pageSize: number
-    ) =>
-        axiosInstance.get(
-            `/support/getpagingSupportByUserId?pageIndex=${pageIndex}&supportTT=${SupportTT}&supportUT=${SupportUT}&search=${supportName}&pageSize=${pageSize}`
-        )
+export const getSupportByUserId = (
+    pageIndex: number,
+    SupportTT: string,
+    SupportUT: string,
+    supportName: string,
+    pageSize: number
+) =>
+    axiosInstance.get(
+        `/support/getpagingSupportByUserId?pageIndex=${pageIndex}&supportTT=${SupportTT}&supportUT=${SupportUT}&search=${supportName}&pageSize=${pageSize}`
+    )
 
+export const getpagingSupport = (
+    pageIndex: number,
+    pageSize: number,
+    search: string,
+    level: string
+) =>
+    axiosInstance.get(
+        `/support/getpaging?pageIndex=${pageIndex}&search=${search}&pageSize=${pageSize}&level=${level}`
+    )
 
-        export const getpagingSupport = (
-            pageIndex: number,
-            pageSize: number,
-            search: string
-        ) =>
-            axiosInstance.get(
-                `/support/getpaging?pageIndex=${pageIndex}&search=${search}&pageSize=${pageSize}`
-            )
+export const getTicketById = (id: string) =>
+    axiosInstance.post(`/support/getById`, { supportId: id })
+
+export const updateTicket = (id: string, data: any) =>
+    axiosInstance.put(`/support/update/${id}`, data)
+
+//Department
+
+export const createDepartments = (data: any) =>
+    axiosInstance.post('/department/create', data)
+
+export const getAllDepartment = (
+    pageIndex: number,
+    filter: string,
+    pageSize?: number
+) =>
+    axiosInstance.get(
+        `/department/getPaging?pageIndex=${pageIndex}&search=${filter}&pageSize=${pageSize}`
+    )
+
+export const deleteDepartment = (id: string | undefined) =>
+    axiosInstance.delete(`/department/delete/${id}`)
+
+    export const editDepartment = (id: string | undefined, data: string) =>
+    axiosInstance.put(`/department/update/${id}`, data)
+
 export const createNewService = (data: ICreateNewService) =>
     axiosInstance.post(`/services/create-new-service`, data)
 

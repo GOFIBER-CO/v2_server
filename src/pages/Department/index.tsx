@@ -1,6 +1,6 @@
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import IDepartment from '@/interfaces/IDepartment'
-import { getAllDepartment } from '@/services/apis'
+import { getAllDepartment } from '@/services/apiv2'
 import '@/styles/pages/Location/index.scss'
 import { Button, Input, Pagination, PaginationProps, Tag } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
@@ -48,7 +48,7 @@ const Department = () => {
         },
         {
             title: 'Tên phòng ban',
-            dataIndex: 'processingRoomName',
+            dataIndex: 'name',
         },
         {
             title: 'Điều khiển',
