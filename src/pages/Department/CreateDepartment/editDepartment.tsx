@@ -1,6 +1,7 @@
 import { notify, notifyType } from '@/App'
 import IDepartment from '@/interfaces/IDepartment'
-import { editDepartment, getByIdDepartment } from '@/services/apis'
+import {  getByIdDepartment } from '@/services/apis'
+import { editDepartment } from '@/services/apiv2'
 import '@/styles/pages/Location/CreateLocation/index.scss'
 import { Button, Form, Input, Select } from 'antd'
 import { useEffect, useState } from 'react'
@@ -11,10 +12,7 @@ import { useNavigate, useParams } from 'react-router'
 const { Option } = Select
 
 const EditDepartment = () => {
-    const [newDepartment, setNewDepartment] = useState<IDepartment>({
-        processingRoomName: '',
-        code: '',
-    })
+    const [newDepartment, setNewDepartment] = useState<string>('')
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -25,8 +23,11 @@ const EditDepartment = () => {
     }, [])
 
     const onFinished = async () => {
+        const dataRef = {
+            name: newDepartment
+        } as any
         try {
-            const edit = await editDepartment(id, newDepartment)
+            const edit = await editDepartment(id,dataRef )
             if (edit.data.status == 1) {
                 notify(notifyType.NOTIFY_SUCCESS, 'Chỉnh sửa thành công')
                 navigate('/department')
@@ -78,10 +79,7 @@ const EditDepartment = () => {
                         <Input
                             placeholder="Tên phòng ban"
                             onChange={(e) =>
-                                setNewDepartment({
-                                    ...newDepartment,
-                                    processingRoomName: e.target.value,
-                                })
+                                setNewDepartment(e.target.value)
                             }
                         />
                     </Form.Item>

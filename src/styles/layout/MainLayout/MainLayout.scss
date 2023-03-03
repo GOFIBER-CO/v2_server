@@ -432,5 +432,23 @@
                 margin-left: 10px;
             }
         }
+        &-ticket {
+            height: 35px;
+            border-radius: 4px;
+            background-color: #10411b;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            color: white;
+            transition: 0.2s;
+
+            &:hover {
+                background-color: #186328;
+            }
+
+            & span {
+                margin-left: 10px;
+            }
+        }
     }
 }

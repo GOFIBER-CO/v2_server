@@ -1,23 +1,20 @@
 export default interface ITicket {
-    _id: string
-    code: string
-    supportName: string
-    level: number
-    processingRoom: {
-        processingRoomName: string
-    }
-    title: string
-    content: string
-    file: string
-    user: {
+    email: string;
+    _doc :{
+        attachments: [];
+        body: string,
+        client_read: number;
+        createdAt: string;
+        date: string;
+        dept_id: number;
+        deptname: string;
+        file: string;
+        level: number;
+        status:string;
+        subject: string;
+        ticket_number: number;
+        updatedAt: string;
+        userId: string;
         _id: string
-        email: string
     }
-    status: number
-    createdTime: string
-    feedBack: string
-    modifiedBy: {
-        email: string
-    }
-    updatedTime: string
 }

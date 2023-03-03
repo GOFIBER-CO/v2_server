@@ -4,7 +4,7 @@ import appConfig from '@/config/appConfig'
 import { useAuth } from '@/hooks/useAuth'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import ITicket from '@/interfaces/ITicket'
-import { getTicketById, updateTicket } from '@/services/apis'
+import { getTicketById ,updateTicket} from '@/services/apiv2'
 import '@/styles/pages/ManageTicket/EditTicket/index.scss'
 import { Editor } from '@tinymce/tinymce-react'
 import { Button, Input, Select } from 'antd'
@@ -18,32 +18,13 @@ const { Option } = Select
 const EditTicket = () => {
     const [status, setStatus] = useState(0)
     const [feedBack, setFeedBack] = useState('')
-    const [support, setSupport] = useState<ITicket>({
-        _id: '',
-        title: '',
-        content: '',
-        level: 1,
-        user: {
-            _id: '',
-            email: '',
-        },
-        status: 1,
-        supportName: '',
-        processingRoom: {
-            processingRoomName: '',
-        },
-        createdTime: '',
-        file: '',
-        feedBack: '',
-        modifiedBy: {
-            email: '',
-        },
-        updatedTime: '',
-        code: '',
-    })
+    const [support, setSupport] = useState<ITicket>()
     const layout = useLayoutInit()
     const auth = useAuth()
+    
     const { id } = useParams()
+    
+    
     const getSupport = async () => {
         try {
             layout.setLoading(true)
@@ -59,12 +40,14 @@ const EditTicket = () => {
     const onSubmit = async () => {
         try {
             layout.setLoading(true)
-            const result = await updateTicket(support._id, {
-                modifiedUser: auth.user._id,
+            const dataRef =  {
+                modifiedUser: auth?.user?.object_id,
                 feedBack: feedBack,
                 status: status,
-                userId: support.user._id,
-            })
+                // userId: support.user._id,
+            } as any
+            
+            const result = await updateTicket(support?._doc?._id as string, dataRef)
             if (result.data.status == 1) {
                 notify(notifyType.NOTIFY_SUCCESS, 'Cập nhật thành công')
             } else {
@@ -100,31 +83,31 @@ const EditTicket = () => {
             </div>
             <div className="edit-ticket-page-content">
                 <h2 className="edit-ticket-page-content-title">
-                    Tiêu đề: {support.title}
+                    Tiêu đề: {support?._doc?.subject}
                 </h2>
                 <p>
                     Email người gửi:{' '}
                     <span style={{ fontWeight: 600, fontSize: '16px' }}>
-                        {support.user?.email}
+                        {support?.email}
                     </span>
                 </p>
                 <p>
                     Ngày gửi:{' '}
                     <span
                         style={{ fontWeight: 600, fontSize: '16px' }}
-                    >{`${new Date(support.createdTime).getDate()}-${new Date(
-                        support.createdTime
+                    >{`${new Date(support?._doc?.updatedAt).getDate()}-${new Date(
+                        support?._doc?.createdAt
                     ).getMonth()}-${new Date(
-                        support.createdTime
+                        support?._doc?.createdAt
                     ).getFullYear()}`}</span>
                 </p>
                 <p>
                     File đính kèm:{' '}
                     <a
                         target={'_blank'}
-                        href={`${appConfig.API_URL_UPLOAD_FILES}/${support.file}`}
+                        href={`${appConfig.API_URL_UPLOAD_FILES1}/${support?._doc?.file}`}
                     >
-                        {support.file}
+                        {support?._doc?.file}
                     </a>
                 </p>
                 <p>
@@ -133,12 +116,13 @@ const EditTicket = () => {
                         Nội dung:
                     </span>
                 </p>
-                <p dangerouslySetInnerHTML={{ __html: support.content }}></p>
+                <p dangerouslySetInnerHTML={{ __html: support?._doc?.body } }></p>
                 <div className="edit-ticket-page-feed-back">
                     <div className="edit-ticket-form-input-status">
                         <p>Trạng thái: </p>
                         <Select
-                            defaultValue={support.status}
+                            defaultValue={support?._doc?.level}
+                            value={support?._doc?.level}
                             style={{ width: '15%' }}
                             onChange={(value) => setStatus(Number(value))}
                         >

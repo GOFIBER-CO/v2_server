@@ -1,6 +1,7 @@
 import { notify, notifyType } from '@/App'
 import IDepartment from '@/interfaces/IDepartment'
-import { createDepartment, getByIdDepartment } from '@/services/apis'
+import {  getByIdDepartment } from '@/services/apis'
+import { createDepartments } from '@/services/apiv2'
 import '@/styles/pages/Location/CreateLocation/index.scss'
 import { Button, Form, Input, Select } from 'antd'
 import { useEffect, useState } from 'react'
@@ -11,10 +12,7 @@ import { useNavigate, useParams } from 'react-router'
 const { Option } = Select
 
 const CreateDepartment = () => {
-    const [newDepartment, setNewDepartment] = useState<IDepartment>({
-        processingRoomName: '',
-        code: '',
-    })
+    const [newDepartment, setNewDepartment] = useState<string>('')
     const navigate = useNavigate()
     const { id } = useParams()
 
@@ -25,15 +23,19 @@ const CreateDepartment = () => {
     }, [])
 
     const onFinished = async () => {
+        const dataRef = {
+            name: newDepartment,
+            
+        }
         try {
-            const create = await createDepartment(newDepartment)
-            if (create.data.status == 1) {
+            const create = await createDepartments(dataRef)
+            if (create.data.status === 1) {
                 notify(notifyType.NOTIFY_SUCCESS, 'Tạo thành công')
-            } else {
-                notify(notifyType.NOTIFY_ERROR, create.data.message)
             }
         } catch (error) {
-            console.log(error)
+            if(error?.response?.data?.status === 0){
+                notify(notifyType.NOTIFY_ERROR, 'Tên phòng ban đã tồn tại!')
+            }
         }
     }
     const turnBack = () => {
@@ -77,10 +79,10 @@ const CreateDepartment = () => {
                         <Input
                             placeholder="Tên phòng ban"
                             onChange={(e) =>
-                                setNewDepartment({
-                                    ...newDepartment,
-                                    processingRoomName: e.target.value,
-                                })
+                                setNewDepartment(
+                                  
+                                     e.target.value,
+                                )
                             }
                         />
                     </Form.Item>
