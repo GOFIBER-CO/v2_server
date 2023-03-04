@@ -36,6 +36,7 @@ import {
 } from '@/services/apiv2'
 import { AiFillInfoCircle } from 'react-icons/ai'
 import useClickOutSide from '@/hooks/useClickOutSide'
+import moment from 'moment'
 
 const PRODUCT_ID = '30'
 const ORDER_PAGE_ID = {
@@ -423,7 +424,7 @@ const CreateCloud: React.FC = () => {
 
                 const { data } = result?.data
                 setProducts(data || [])
-                console.log('data', data);
+                console.log('data', data)
                 if (data?.length > 0) {
                     getProductForConfig(data?.[0]?.object_id, data?.[0])
                     // setChosenProduct( || {})
@@ -572,7 +573,7 @@ const CreateCloud: React.FC = () => {
             layout.setLoading(true)
             let data: ICreateNewService = {
                 cycle: unit.id,
-                domain: 'test.com',
+                domain: `test${moment().format('hhvmmvssvDDvMMvYYYY')}`,
                 pay_method: paymentMethod?.object_id,
                 product_id: chosenProduct?.object_id,
                 os: chosenOsTemplate?.name,
