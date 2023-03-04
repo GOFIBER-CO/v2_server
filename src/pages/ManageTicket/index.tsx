@@ -75,9 +75,14 @@ const ManageTicket = () => {
         }
     }
     const columns: ColumnsType<ITicket> = [
+        // {
+        //     title: 'Mã ticket',
+        //     dataIndex: 'ticket_number',
+        // },
         {
-            title: 'Mã ticket',
-            dataIndex: 'ticket_number',
+            title: 'Tiêu đề',
+            dataIndex: 'subject',
+            // render: (value) => value?.title,
         },
         {
             title: 'Cấp độ ưu tiên',
@@ -94,7 +99,7 @@ const ManageTicket = () => {
         {
             title: 'Phòng ban',
             dataIndex: 'dept_id',
-            // render: (value) => value?.processingRoomName,
+            render: (value) => value?.name,
         },
         // {
         //     title: 'Người dùng ',
@@ -112,16 +117,12 @@ const ManageTicket = () => {
         //             <Tag color="red">Khẩn Cấp</Tag>
         //         ),
         // },
-        {
-            title: 'Deptname',
-            dataIndex: 'deptname',
-            // render: (value) => value?.email,
-        },
-        {
-            title: 'Tiêu đề',
-            dataIndex: 'subject',
-            // render: (value) => value?.title,
-        },
+        // {
+        //     title: 'Deptname',
+        //     dataIndex: 'deptname',
+        //     // render: (value) => value?.email,
+        // },
+       
         // {
         //     title: 'Type',
         //     dataIndex: 'type',
@@ -148,10 +149,10 @@ const ManageTicket = () => {
             title: 'Trạng thái',
             dataIndex: 'status',
             render: (value) =>
-                value == 'Open' ? (
+                value == '1' ? (
                     <Tag color="green">Đã giải quyết</Tag>
                     
-                ) : value == 'Close' ? (
+                ) : value == '2' ? (
                     <Tag color="orange">Đang chờ giải quyết</Tag>
                 ) : (
                     <Tag color="red">Chưa xác nhận</Tag>
@@ -196,7 +197,7 @@ const ManageTicket = () => {
                                 color: '#3699ff',
                             }}
                         />
-                        <span>Quản lý ticket</span>
+                        <span>Quản lý ticket </span>
                     </li>
                 </ul>
             </div>

@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom'
 const { Option } = Select
 
 const EditTicket = () => {
-    const [status, setStatus] = useState(0)
+    const [status, setStatus] = useState('')
     const [feedBack, setFeedBack] = useState('')
     const [support, setSupport] = useState<ITicket>()
     const layout = useLayoutInit()
@@ -41,7 +41,7 @@ const EditTicket = () => {
         try {
             layout.setLoading(true)
             const dataRef =  {
-                modifiedUser: auth?.user?.object_id,
+                modifiedUser: auth?.user?.id,
                 feedBack: feedBack,
                 status: status,
                 // userId: support.user._id,
@@ -121,14 +121,14 @@ const EditTicket = () => {
                     <div className="edit-ticket-form-input-status">
                         <p>Trạng thái: </p>
                         <Select
-                            defaultValue={support?._doc?.level}
-                            value={support?._doc?.level}
+                            // defaultValue={support?._doc?.level}
+                            // value={support?._doc?.level}
                             style={{ width: '15%' }}
-                            onChange={(value) => setStatus(Number(value))}
+                            onChange={(value) => setStatus(value)}
                         >
-                            <Option value={0}>Chưa xác nhận</Option>
-                            <Option value={1}>Xác nhận</Option>
-                            <Option value={2}>Hoàn thành</Option>
+                            <Option value="0">Chưa xác nhận</Option>
+                            <Option value="2">Xác nhận</Option>
+                            <Option value="1">Hoàn thành</Option>
                         </Select>
                     </div>
                     <div

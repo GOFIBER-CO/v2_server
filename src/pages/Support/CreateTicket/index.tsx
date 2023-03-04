@@ -14,7 +14,7 @@ import {  getProcessingRoom } from '@/services/apis'
 import ITicketCreate from '@/interfaces/ITicketCreate'
 import { notify, notifyType } from '@/App'
 import { useAuth } from '@/hooks/useAuth'
-import { createNewTicket } from '@/services/apiv2'
+import { createNewTicket, getAllDepartments } from '@/services/apiv2'
 
 const { Option } = Select
 
@@ -24,7 +24,9 @@ const CreateTicket: React.FC = () => {
     )
     const auth = useAuth()
 
-    let userId= auth.user?.object_id
+    let userId= auth.user?.id
+  
+    
     const editorRef = useRef(null)
     const [description, setDescription] = useState('')
     const navigate = useNavigate()
@@ -37,6 +39,8 @@ const CreateTicket: React.FC = () => {
         file: null,
     })
 
+    console.log(newTicket,'newTicket');
+    
     const layout = useLayoutInit()
 
     const handleChangeDescription = (value: string) => {
@@ -54,7 +58,10 @@ const CreateTicket: React.FC = () => {
     const getAllProcessingRoom = async () => {
         try {
             layout.setLoading(true)
-            const result = await getProcessingRoom()
+            const result = await getAllDepartments()
+            console.log(result);
+           
+            
             setProcessingRooms(result.data?.data)
         } catch (error) {
             console.log(error)
@@ -156,19 +163,19 @@ const CreateTicket: React.FC = () => {
                     <p>Phòng xử lí: </p>
                     <Select
                         style={{ width: '100%' }}
-                        onChange={(value) =>
+                        onChange={(e) =>
                             setNewTicket({
                                 ...newTicket,
-                                processingRoom: value,
+                                processingRoom: e ,
                             })
                         }
                     >
-                        <Option value="1">Phòng 1</Option>
-                        {/* {processingRooms.map((item) => (
+                        
+                        {processingRooms.map((item) => (
                             <Option key={item._id} value={item._id}>
-                                {item.processingRoomName}
+                                {item.name}
                             </Option>
-                        ))} */}
+                        ))}
                     </Select>
                 </div>
                 <div className="create-ticket-form-input-title">

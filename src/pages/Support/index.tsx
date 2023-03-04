@@ -75,9 +75,14 @@ const Support: React.FC = () => {
     }
 
     const columns: ColumnsType<ITicket> = [
+        // {
+        //     title: 'Mã yêu cầu',
+        //     dataIndex: 'ticket_number',
+        // },
         {
-            title: 'Mã yêu cầu',
-            dataIndex: 'ticket_number',
+            title: 'Tiêu đề',
+            dataIndex: 'subject',
+            // render: (value) => value?.title,
         },
         {
             title: 'Cấp độ ưu tiên',
@@ -94,18 +99,16 @@ const Support: React.FC = () => {
         {
             title: 'Phòng ban',
             dataIndex: 'dept_id',
-            // render: (value) => value?.processingRoomName,
+            render: (value,record) => {
+                return <>{value?.name}</>
+            },
         },
         // {
         //     title: 'Mã khách hàng',
         //     dataIndex: 'user',
         //     // render: (value) => value?._id,
         // },
-        {
-            title: 'Tiêu đề',
-            dataIndex: 'subject',
-            // render: (value) => value?.title,
-        },
+       
         {
             title: 'File đính kèm',
             dataIndex: 'file',
@@ -122,10 +125,10 @@ const Support: React.FC = () => {
             title: 'Trạng thái',
             dataIndex: 'status',
             render: (value) =>
-                value == 'Open' ? (
+                value == '1' ? (
                     <Tag color="green">Đã giải quyết</Tag>
                     
-                ) : value == 'Close' ? (
+                ) : value == '2' ? (
                     <Tag color="orange">Đang chờ giải quyết</Tag>
                 ) : (
                     <Tag color="red">Chưa xác nhận</Tag>

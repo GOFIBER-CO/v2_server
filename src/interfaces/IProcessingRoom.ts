@@ -1,5 +1,5 @@
 export default interface IProcessingRoom {
-    processingRoomName: string
+    name: string
     code: string
     _id: string
     createdTime: string
