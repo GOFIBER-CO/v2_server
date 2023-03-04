@@ -130,3 +130,7 @@ export const getProductDetailForConfig = (id: string) =>
 
 export const getProductDetail = (id: string) =>
     axiosInstance.get(`/products/product-detail/${id}`)
+
+export const shutDownCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/shutdown/${service_id}/${id}`)
+
+export const startCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
