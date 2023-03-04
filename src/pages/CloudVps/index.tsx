@@ -45,6 +45,7 @@ import "./CloudVps.scss"
 import Modalprint from './Modalprint'
 import { useReactToPrint } from 'react-to-print'
 import { SocketContext } from '@/socket'
+import { shutDownCloud, startCloud } from '@/services/apiv2'
 
 const { Option } = Select
 
@@ -178,6 +179,42 @@ const CloudVps: React.FC = () => {
     const handleCancel = () => {
         setIsModalOpen(false)
     }
+
+    const shutDownCloudVps = async (cloudVps: ICloudServer) => {
+        try {
+            const result = shutDownCloud(cloudVps.list_id, cloudVps.service_id)
+            notify(notifyType.NOTIFY_SUCCESS, "Cloud vps đang được tắt nguồn vui lòng đợi")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const openCloudVps = async (cloudVps: ICloudServer) => {
+        try {
+            const result = startCloud(cloudVps.list_id, cloudVps.service_id)
+            notify(notifyType.NOTIFY_SUCCESS, "Cloud vps đang được khởi động vui lòng đợi")
+            getCloudServer()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const deleteCloudServerBeforeExp = async (cloudVps: ICloudServer) => {
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
+    const rebootVps = async (cloudVps: ICloudServer) => {
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
     const auth = useAuth()
     const menu = (
         <Menu
@@ -244,63 +281,48 @@ const CloudVps: React.FC = () => {
                 {
                     key: '3',
                     label: (
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.luohanacademy.com"
-                        >
+                       <span>
                             <i
                                 className="fa fa-terminal"
                                 style={{ color: '#3699ff' }}
                             ></i>{' '}
                             Xem Console
-                        </a>
+                        </span>
                     ),
                     disabled: false,
                 },
                 {
                     key: '4',
                     label: (
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.luohanacademy.com"
-                        >
+                        <span onClick = {()=>shutDownCloudVps(cloudServerItem!)}>
                             <i
                                 className="fa fa-power-off"
                                 style={{ color: 'purple' }}
                             ></i>{' '}
                             Tắt nguồn cloud server
-                        </a>
+                        </span>
                     ),
+                    disabled: !cloudServerItem?.power
                 },
                 {
                     key: '5',
                     label: (
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.luohanacademy.com"
-                        >
+                        <span onClick={()=>openCloudVps(cloudServerItem!)}>
                             <i
                                 className="fa fa-play"
                                 style={{ color: '#1bc5bd' }}
                             ></i>{' '}
                             Mở nguồn Cloud server
-                        </a>
+                        </span>
                     ),
-                    disabled: false,
+                    disabled: cloudServerItem?.power
                 },
                 {
                     key: '6',
                     label: (
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.luohanacademy.com"
-                        >
+                        <span>
                             <i className="fa fa-refresh"></i> Khởi động lại
-                        </a>
+                        </span>
                     ),
                     disabled: false,
                 },
@@ -319,14 +341,10 @@ const CloudVps: React.FC = () => {
                 {
                     key: '8',
                     label: (
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.luohanacademy.com"
-                        >
+                        <span>
                             <i className="fa fa-wrench"></i> Cài lại hệ điều
                             hành
-                        </a>
+                        </span>
                     ),
                     disabled: false,
                 },
@@ -518,8 +536,8 @@ const CloudVps: React.FC = () => {
             title: 'Trạng thái',
             dataIndex: 'status',
             // width: '10%',
-            render: (value) =>
-                value == 'running' ? (
+            render: (value, record) =>
+                !record.power ? <Tag color="red">Đã tắt nguồn</Tag> : value == 'running' ? (
                     <Tag color="green">Hoạt động</Tag>
                 ) :<Tag color="red">Ngưng</Tag>
                 
@@ -693,6 +711,26 @@ const CloudVps: React.FC = () => {
     }
 
     useEffect(() => {
+        socket.on('Shut down vms success', (msg) => {
+            notify(notifyType.NOTIFY_SUCCESS, "Tắt nguồn cloud server thành công")
+            getCloudServer()
+        })
+
+        socket.on('Shut down vms failed', (msg) => {
+            notify(notifyType.NOTIFY_ERROR, "Tắt nguồn cloud server thất bại")
+        })
+
+        socket.on('Start vms success', (msg)=>{
+            notify(notifyType.NOTIFY_SUCCESS, "Khời động cloud server thành công")
+            getCloudServer()
+        })
+
+        socket.on('Start vms failed', () => {
+            notify(notifyType.NOTIFY_ERROR, "Khởi động cloud server thất bại")
+
+            }
+        )
+
         socket.on('create cloudserver', (msg) => {
             if(msg.status == 'active')
                 notify(notifyType.NOTIFY_SUCCESS, 'Cloudserver khởi tạo thành công')
