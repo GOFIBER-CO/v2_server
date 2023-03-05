@@ -4,7 +4,7 @@ import INewNotification from '@/interfaces/INewNotification'
 import IPrice from '@/interfaces/IPrice'
 import IService from '@/interfaces/IService'
 import IUpdateCloudServer from '@/interfaces/IUpdateCloudServer'
-import {IUser} from '@/interfaces/IUser'
+import { IUser } from '@/interfaces/IUser'
 import axios from 'axios'
 
 // const baseUrl = ''
@@ -15,7 +15,6 @@ let axiosInstance = axios.create({
     baseURL: baseUrl,
 })
 
-
 export const login = (username: string, password: string) =>
     axiosInstance.post('/api/user/login', {
         userName: username,
@@ -23,10 +22,10 @@ export const login = (username: string, password: string) =>
     })
 
 export const signup = (data: {
-    firstname: string,
-    lastname: string,
-    country: string,
-    address1: string,
+    firstname: string
+    lastname: string
+    country: string
+    address1: string
     password: string
     email: string
     phoneNumber: string
@@ -415,7 +414,6 @@ export const updatePrice = (id: string, data: IPrice) =>
 
 // export const getPriceById = (id: string) => axiosInstance.get(`/api/price/${id}`)
 
-
 export const getAllOs1 = (
     pageIndex?: number,
     operatingSystemName?: string,
@@ -444,24 +442,22 @@ export const getSubOrderPagesByParent = (slug: string) =>
 export const getProductsBySubOrderPage = (id: string) =>
     axiosInstanceNew.get(`${preUrl}/products/products-by-sub-order-page/${id}`)
 
+// export const getCloudVpsByUserIdVietTell = (
+//     // userId: string,
+//     // areaId: string,
+//     // operatingSystemId: string,
+//     search: string,
+//     pageIndex: number,
+//     pageSize: number
+// ) =>
+//     axiosInstanceNew.get(
+//         `${preUrl}/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
+//     )
 
-    export const getCloudVpsByUserIdVietTell= (
-        // userId: string,
-        // areaId: string,
-        // operatingSystemId: string,
-        search: string,
-        pageIndex: number,
-        pageSize: number
-    ) =>
-    axiosInstanceNew.get(`${preUrl}/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+export const getOrdersViettell = () =>
+    // pageIndex: number,
+    // userName: string,
+    // pageSize?: number
+    axiosInstanceNew.get(`${preUrl}/client-order/getpaging`)
 
-    export const getOrdersViettell = (
-        // pageIndex: number,
-        // userName: string,
-        // pageSize?: number
-    ) =>
-    axiosInstanceNew.get(
-            `${preUrl}/client-order/getpaging`
-        )
-
-        // ?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}
+// ?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}

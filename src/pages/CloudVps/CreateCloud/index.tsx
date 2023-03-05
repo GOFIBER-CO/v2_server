@@ -316,16 +316,16 @@ const paymentMethods = [
         name: 'ACB - Ngân hàng TMCP Á Châu',
         image: 'https://cdn.tgdd.vn/2020/04/GameApp/unnamed-200x200-18.png',
     },
-    {
-        object_id: 14,
-        name: 'Cổng thanh toán VNPAY',
-        image: 'https://vnpay.vn/_nuxt/img/logo-primary.55e9c8c.svg',
-    },
-    {
-        object_id: 15,
-        name: 'Ví điện tử MoMo',
-        image: 'https://cdn.tgdd.vn/2020/03/GameApp/Untitled-2-200x200.jpg',
-    },
+    // {
+    //     object_id: 14,
+    //     name: 'Cổng thanh toán VNPAY',
+    //     image: 'https://vnpay.vn/_nuxt/img/logo-primary.55e9c8c.svg',
+    // },
+    // {
+    //     object_id: 15,
+    //     name: 'Ví điện tử MoMo',
+    //     image: 'https://cdn.tgdd.vn/2020/03/GameApp/Untitled-2-200x200.jpg',
+    // },
 ]
 
 const CreateCloud: React.FC = () => {
@@ -610,10 +610,22 @@ const CreateCloud: React.FC = () => {
 
             if (status === RESPONSE_STATUS.SUCCESS) {
                 console.log('resData', resData)
+                notify(
+                    notifyType.NOTIFY_SUCCESS,
+                    'Đang tạo dịch vụ vui lòng đợi'
+                )
+                navigate('/cloud-vps')
+            } else if (status === RESPONSE_STATUS.REDIRECT) {
+                const { account, amount, bankcode, noidung } = resData
+                navigate('/payment-service', {
+                    state: {
+                        account,
+                        amount,
+                        bankcode,
+                        noidung,
+                    },
+                })
             }
-
-            notify(notifyType.NOTIFY_SUCCESS, 'Đang tạo dịch vụ vui lòng đợi')
-            navigate('/cloud-vps')
         } catch (error) {
             console.log(error)
         } finally {

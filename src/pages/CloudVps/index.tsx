@@ -15,7 +15,6 @@ import IOrder from '@/interfaces/IOrder'
 import {
     deleteCloudServer,
     getCloudVpsByUserId,
-    getCloudVpsByUserIdVietTell,
     getLocations,
     getOs,
     switchAutoRenew,
@@ -40,12 +39,16 @@ import { BsCheckLg } from 'react-icons/bs'
 import { FaCog } from 'react-icons/fa'
 import { TbFileExport } from 'react-icons/tb'
 import { TfiMenuAlt } from 'react-icons/tfi'
-import { Link } from 'react-router-dom'
-import "./CloudVps.scss"
+import { Link, useNavigate } from 'react-router-dom'
+import './CloudVps.scss'
 import Modalprint from './Modalprint'
 import { useReactToPrint } from 'react-to-print'
 import { SocketContext } from '@/socket'
-import { shutDownCloud, startCloud } from '@/services/apiv2'
+import {
+    getCloudVpsByUserIdVietTell,
+    shutDownCloud,
+    startCloud,
+} from '@/services/apiv2'
 
 const { Option } = Select
 
@@ -100,44 +103,41 @@ const CloudVps: React.FC = () => {
 
     const [loading, setLoading] = React.useState(false)
     const [none, setNone] = React.useState('')
+    const navigate = useNavigate()
 
     const handleOnBeforeGetContent = React.useCallback(() => {
         // console.log('`onBeforeGetContent` called') // tslint:disable-line no-console
         // setLoading(true);
         // setText("Loading new text...");
 
-        return new Promise((resolve : any) => {
+        return new Promise((resolve: any) => {
             onBeforeGetContentResolve.current = resolve
-            setNone("hiden");
+            setNone('hiden')
             setTimeout(() => {
                 setLoading(false)
                 // setText('New, Updated Text!')
                 resolve()
             }, 1000)
-            
         })
     }, [])
 
     const handleBeforePrint = React.useCallback(() => {
-        setNone("");
+        setNone('')
         // console.log("`onBeforePrint` called"); // tslint:disable-line no-console
-      }, []);
+    }, [])
 
-      const handleAfterPrint = React.useCallback(() => {
+    const handleAfterPrint = React.useCallback(() => {
         // console.log("`onAfterPrint` called"); // tslint:disable-line no-console
-      }, []);
-    const handlePrint =  useReactToPrint({
-            content: reactToPrintContent,
-            documentTitle: 'AwesomeFileName',
-            onBeforeGetContent: handleOnBeforeGetContent,
-            onBeforePrint: handleBeforePrint,
-            onAfterPrint: handleAfterPrint,
-            removeAfterPrint: true,
-           
-        })
-    
+    }, [])
+    const handlePrint = useReactToPrint({
+        content: reactToPrintContent,
+        documentTitle: 'AwesomeFileName',
+        onBeforeGetContent: handleOnBeforeGetContent,
+        onBeforePrint: handleBeforePrint,
+        onAfterPrint: handleAfterPrint,
+        removeAfterPrint: true,
+    })
 
-  
     // const changeIsAutoRenew = async (id: string, status: boolean) => {
     //     try {
     //         const result = await switchAutoRenew(id, status)
@@ -157,7 +157,7 @@ const CloudVps: React.FC = () => {
         try {
             layout.setLoading(true)
             const result = await deleteCloudServer(id)
-            const newList = cloudServer.filter((item : any) => item._id != id)
+            const newList = cloudServer.filter((item: any) => item._id != id)
             setCloudServer(newList)
             layout.setLoading(false)
             notify(notifyType.NOTIFY_SUCCESS, 'Huỷ thành công')
@@ -183,7 +183,10 @@ const CloudVps: React.FC = () => {
     const shutDownCloudVps = async (cloudVps: ICloudServer) => {
         try {
             const result = shutDownCloud(cloudVps.list_id, cloudVps.service_id)
-            notify(notifyType.NOTIFY_SUCCESS, "Cloud vps đang được tắt nguồn vui lòng đợi")
+            notify(
+                notifyType.NOTIFY_SUCCESS,
+                'Cloud vps đang được tắt nguồn vui lòng đợi'
+            )
         } catch (error) {
             console.log(error)
         }
@@ -192,7 +195,10 @@ const CloudVps: React.FC = () => {
     const openCloudVps = async (cloudVps: ICloudServer) => {
         try {
             const result = startCloud(cloudVps.list_id, cloudVps.service_id)
-            notify(notifyType.NOTIFY_SUCCESS, "Cloud vps đang được khởi động vui lòng đợi")
+            notify(
+                notifyType.NOTIFY_SUCCESS,
+                'Cloud vps đang được khởi động vui lòng đợi'
+            )
             getCloudServer()
         } catch (error) {
             console.log(error)
@@ -201,18 +207,12 @@ const CloudVps: React.FC = () => {
 
     const deleteCloudServerBeforeExp = async (cloudVps: ICloudServer) => {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
     const rebootVps = async (cloudVps: ICloudServer) => {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
     const auth = useAuth()
@@ -228,6 +228,13 @@ const CloudVps: React.FC = () => {
                     ),
                     onClick: () => {
                         if (cloudServerItem) {
+                            if (cloudServerItem?.status === 'pending') {
+                                navigate(
+                                    `/service-detail-payment/${cloudServerItem?.service_id}`
+                                )
+                                return
+                            }
+
                             let menuCloudItem = listMenuCloud.find(
                                 (x) => x.cloudId === cloudServerItem.id
                             )
@@ -281,7 +288,7 @@ const CloudVps: React.FC = () => {
                 {
                     key: '3',
                     label: (
-                       <span>
+                        <span>
                             <i
                                 className="fa fa-terminal"
                                 style={{ color: '#3699ff' }}
@@ -294,7 +301,9 @@ const CloudVps: React.FC = () => {
                 {
                     key: '4',
                     label: (
-                        <span onClick = {()=>shutDownCloudVps(cloudServerItem!)}>
+                        <span
+                            onClick={() => shutDownCloudVps(cloudServerItem!)}
+                        >
                             <i
                                 className="fa fa-power-off"
                                 style={{ color: 'purple' }}
@@ -302,12 +311,12 @@ const CloudVps: React.FC = () => {
                             Tắt nguồn cloud server
                         </span>
                     ),
-                    disabled: !cloudServerItem?.power
+                    disabled: !cloudServerItem?.power,
                 },
                 {
                     key: '5',
                     label: (
-                        <span onClick={()=>openCloudVps(cloudServerItem!)}>
+                        <span onClick={() => openCloudVps(cloudServerItem!)}>
                             <i
                                 className="fa fa-play"
                                 style={{ color: '#1bc5bd' }}
@@ -315,7 +324,7 @@ const CloudVps: React.FC = () => {
                             Mở nguồn Cloud server
                         </span>
                     ),
-                    disabled: cloudServerItem?.power
+                    disabled: cloudServerItem?.power,
                 },
                 {
                     key: '6',
@@ -385,81 +394,61 @@ const CloudVps: React.FC = () => {
         />
     )
     const columns: ColumnsType<any> = [
-        {
-            title: 'Mã server',
-            dataIndex: 'list_id',
-            // width: '10%',
-            // render: (_ : any , record : any, index : any) => {
-            //     console.log(_);
-                
-            //     return <></>
-            // }
-        },
+        // {
+        //     title: 'Mã server',
+        //     dataIndex: 'object_id',
+        //     // width: '10%',
+        //     // render: (_ : any , record : any, index : any) => {
+        //     //     console.log(_);
+
+        //     //     return <></>
+        //     // }
+        // },
         {
             title: 'Tên dịch vụ',
-            dataIndex: 'label',
-            // render: (value) => (
-            //     <div>
-            //         <a className="server_title">{value.serverName}</a>
-            //         <div>
-            //             {value.ram}GB | {value.cpu}vCPUs |{' '}
-            //             {value.ssd || value.hdd}GB NVMe{' '}
-            //             {value.ssd ? '(SSD)' : '(HDD)'}
-            //         </div>
-            //     </div>
-            // ),
-            // onCell: (item) => {
-            //     return {
-            //         onClick: () => {
-            //             handleAddCloud(item)
-            //             setOptionCloud(listMenuCloud.length)
-            //         },
-            //     }
-            // },
+            dataIndex: 'service',
+            render: (value) => (
+                <>
+                    <div>{value?.name}</div>
+                    <div>{value?.label ? `(${value?.label})` : ''}</div>
+                </>
+            ),
+        },
+        {
+            title: 'Domain',
+            dataIndex: 'service',
+            render: (value) => {
+                return <div>{value?.domain}</div>
+            },
         },
         {
             title: 'Địa chỉ IP',
-            dataIndex: "ip",
+            dataIndex: 'ip',
             // width: '10%',
-            render: (_ : any, record:any , index: number) => {
-                
-                return <>{_?.ip}</>
-            }
-            
+            render: (_: any, record: any, index: number) => {
+                return <div>{_?.ip ? _?.ip : '-'}</div>
+            },
         },
         {
             title: 'Địa chỉ IPV4',
-            dataIndex: "ipv4",
+            dataIndex: 'ipv4',
+            render: (value) => {
+                return <div>{value ? value : '-'}</div>
+            },
             // width: '10%',
             // render: (_ : any, record:any , index: number) => {
-                
+
             //     return <>{_?.ipv4}</>
             // }
-            
-        },
-        {
-            title: 'HĐH',
-            dataIndex: 'template_name',
-            // width: '5.5%',
-            // render: (value) => {
-            //     return (
-            //         <>
-            //             <img
-            //                 src={value?.img || `/images/${value?.file}`}
-            //                 style={{ maxWidth: '25px', maxHeight: '25px' }}
-            //             />
-            //         </>
-            //     )
-            // },
         },
         {
             title: 'Memory',
             dataIndex: 'memory',
             // width: '8%',
-            render: (value) =>{
-                const GB = value/1024
-                return <>{GB?.toFixed(2)} GB</>
-            }
+            render: (value) => {
+                const GB = value / 1024
+                return <>{GB ? `${GB?.toFixed(2)} GB` : '-'}</>
+            },
         },
         {
             title: 'Disk',
@@ -537,17 +526,23 @@ const CloudVps: React.FC = () => {
             dataIndex: 'status',
             // width: '10%',
             render: (value, record) =>
-                !record.power ? <Tag color="red">Đã tắt nguồn</Tag> : value == 'running' ? (
+                !record.power ? (
+                    <Tag color="yellow">Đã tắt nguồn</Tag>
+                ) : value == 'running' ? (
                     <Tag color="green">Hoạt động</Tag>
-                ) :<Tag color="red">Ngưng</Tag>
-                
-                // : value == 'not-active' ? (
-                //     <Tag color="orange">Đang khởi tạo</Tag>
-                // ) : value == 'failed' ? (
-                //     <Tag color="red">Khởi tạo thất bại</Tag>
-                // ) : value == 'expired' ? <Tag color='red'>Hết hạn</Tag> :(
-                //     <Tag color="red">Ngưng</Tag>
-                // ),
+                ) : value == 'pending' ? (
+                    <Tag color="blue">Đang chờ</Tag>
+                ) : (
+                    <Tag color="red">Ngưng</Tag>
+                ),
+
+            // : value == 'not-active' ? (
+            //     <Tag color="orange">Đang khởi tạo</Tag>
+            // ) : value == 'failed' ? (
+            //     <Tag color="red">Khởi tạo thất bại</Tag>
+            // ) : value == 'expired' ? <Tag color='red'>Hết hạn</Tag> :(
+            //     <Tag color="red">Ngưng</Tag>
+            // ),
         },
         {
             title: '',
@@ -694,7 +689,6 @@ const CloudVps: React.FC = () => {
     // quyquy
     const onChangeNameValue = (value: any) => {
         // console.log('key: ', key);
-
         // const temp = { ...webRtcInNetWork }
         // temp[key] = value
         // setWebRtcInNetWork(temp)
@@ -712,31 +706,38 @@ const CloudVps: React.FC = () => {
 
     useEffect(() => {
         socket.on('Shut down vms success', (msg) => {
-            notify(notifyType.NOTIFY_SUCCESS, "Tắt nguồn cloud server thành công")
+            notify(
+                notifyType.NOTIFY_SUCCESS,
+                'Tắt nguồn cloud server thành công'
+            )
             getCloudServer()
         })
 
         socket.on('Shut down vms failed', (msg) => {
-            notify(notifyType.NOTIFY_ERROR, "Tắt nguồn cloud server thất bại")
+            notify(notifyType.NOTIFY_ERROR, 'Tắt nguồn cloud server thất bại')
         })
 
-        socket.on('Start vms success', (msg)=>{
-            notify(notifyType.NOTIFY_SUCCESS, "Khời động cloud server thành công")
+        socket.on('Start vms success', (msg) => {
+            notify(
+                notifyType.NOTIFY_SUCCESS,
+                'Khời động cloud server thành công'
+            )
             getCloudServer()
         })
 
         socket.on('Start vms failed', () => {
-            notify(notifyType.NOTIFY_ERROR, "Khởi động cloud server thất bại")
-
-            }
-        )
+            notify(notifyType.NOTIFY_ERROR, 'Khởi động cloud server thất bại')
+        })
 
         socket.on('create cloudserver', (msg) => {
-            if(msg.status == 'active')
-                notify(notifyType.NOTIFY_SUCCESS, 'Cloudserver khởi tạo thành công')
-            else 
+            if (msg.status == 'active')
+                notify(
+                    notifyType.NOTIFY_SUCCESS,
+                    'Cloudserver khởi tạo thành công'
+                )
+            else
                 notify(notifyType.NOTIFY_ERROR, 'Cloudserver khời tạo thất bại')
-                getCloudServer()
+            getCloudServer()
         })
         socket.on('set ip success', (msg) => {
             notify(notifyType.NOTIFY_SUCCESS, 'Ip khởi tạo thành công')

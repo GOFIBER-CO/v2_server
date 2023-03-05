@@ -52,8 +52,6 @@ import CreateIp from '@/pages/ManageIP/CreateIp'
 import EditIp from '@/pages/ManageIP/EditIp'
 import EditPrice from '@/pages/ManagePrice/EditPrice'
 import PaymentForService from '@/pages/Payment/PaymentForService'
-import ServiceDetailPayment from '@/pages/Payment/ServiceDetailPayment'
-import InvoicePage from '@/pages/Invoice'
 const AppRouter: React.FC = () => {
     const auth = useAuth()
     const isLoggedIn = auth.isLoggedIn
@@ -127,6 +125,7 @@ const AppRouter: React.FC = () => {
                         />
                         <Route path="/manage-ip/:id" element={<EditIp />} />
                         <Route path="/cloud-vps" element={<CloudVps />} />
+                        <Route path="/manage-price" element={<ManagePrice />} />
                         <Route
                             path="/manage-price/:id"
                             element={<EditPrice />}
@@ -170,17 +169,12 @@ const AppRouter: React.FC = () => {
                             element={<CreateTicket />}
                         />
                         <Route
-                            path="/payment-service"
-                            element={<PaymentForService />}
-                        />
-                        <Route
-                            path="/service-detail-payment/:id"
-                            element={<ServiceDetailPayment />}
-                        />
-                        <Route path="/invoices" element={<InvoicePage />} />
-                        <Route
                             path="/notification/:slug"
                             element={<NotificationDetail />}
+                        />
+                        <Route
+                            path="/payment-service"
+                            element={<PaymentForService />}
                         />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/2fa-security" element={<FASecurity />} />
