@@ -19,9 +19,7 @@ import {
     getOs,
     switchAutoRenew,
 } from '@/services/apis'
-import {
-    getCloudVpsByUserIdVietTell,
-} from '@/services/apiv2'
+
 import '@/styles/pages/CloudVps/CloudVps.scss'
 import {
     Divider,
@@ -397,16 +395,16 @@ const CloudVps: React.FC = () => {
         />
     )
     const columns: ColumnsType<any> = [
-        // {
-        //     title: 'Mã server',
-        //     dataIndex: 'object_id',
-        //     // width: '10%',
-        //     // render: (_ : any , record : any, index : any) => {
-        //     //     console.log(_);
+        {
+            title: 'Mã server',
+            dataIndex: 'object_id',
+            // width: '10%',
+            // render: (_ : any , record : any, index : any) => {
+            //     console.log(_);
 
-        //     //     return <></>
-        //     // }
-        // },
+            //     return <></>
+            // }
+        },
         {
             title: 'Tên dịch vụ',
             dataIndex: 'service',
