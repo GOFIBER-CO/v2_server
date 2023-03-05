@@ -5,7 +5,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 import { Divider, Layout, Menu, MenuProps } from 'antd'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Outlet } from 'react-router'
 import Avatar from 'antd/lib/avatar/avatar'
 import { Link, NavLink } from 'react-router-dom'
@@ -23,6 +23,7 @@ import { MdOutlineSecurity } from 'react-icons/md'
 import { ImProfile } from 'react-icons/im'
 import { FaTimes, FaMoneyBillAlt, FaHistory } from 'react-icons/fa'
 import { RiMoneyPoundBoxLine, RiTicketLine } from 'react-icons/ri'
+import { TbFileInvoice } from 'react-icons/tb'
 import { BiBuildingHouse, BiHomeAlt } from 'react-icons/bi'
 import {
     MdOutlineComputer,
@@ -50,7 +51,7 @@ import Loading from '@/components/Loading/Loading'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import { SlLocationPin } from 'react-icons/sl'
 import ModalConfirm from '@/components/Modal'
-import { getNotificationByUserId } from '@/services/apis'
+import { getNotificationByUser } from '@/services/apiv2'
 import { getUserSurplus } from '@/services/apiv2'
 import INotification from '@/interfaces/INotification'
 import { notify, notifyType } from '@/App'
@@ -62,7 +63,6 @@ import { socket, SocketContext } from '@/socket/index'
 const { Header, Sider, Content } = Layout
 
 const MainLayout: React.FC = () => {
-
     const [notifications, setNotifications] = useState<INotification[]>([])
     const location = useLocation()
     const [surplus, setSurplus] = useState('')
@@ -114,10 +114,7 @@ const MainLayout: React.FC = () => {
     const getNotification = async () => {
         try {
             layoutInit.setLoading(true)
-            const result = await getNotificationByUserId(
-                auth.user?._id ? auth.user._id : '',
-                notificationType
-            )
+            const result = await getNotificationByUser(notificationType)
             if (result.data?.notifications) {
                 setNotifications(result.data.notifications)
             }
@@ -128,6 +125,15 @@ const MainLayout: React.FC = () => {
         }
     }
 
+    const countUnReadNotification = useMemo(() => {
+        let count = 0
+        notifications.forEach((item) => {
+            if (!item.readBy.includes(auth.user?.id!)) {
+                count++
+            }
+        })
+        return count
+    }, [notifications])
 
     let menuAdmin = [
         {
@@ -173,20 +179,14 @@ const MainLayout: React.FC = () => {
                             key: '/manage-ip',
                             icon: <BsCardChecklist />,
                             label: (
-                                <NavLink to={'/manage-ip'}>
-                                    Danh sách
-                                </NavLink>
+                                <NavLink to={'/manage-ip'}>Danh sách</NavLink>
                             ),
                         },
                         {
                             key: '/manage-ip/create',
                             icon: <AiOutlineAppstoreAdd />,
                             label: (
-                                <NavLink
-                                    to={
-                                        '/manage-ip/create'
-                                    }
-                                >
+                                <NavLink to={'/manage-ip/create'}>
                                     Thêm địa chỉ Ip
                                 </NavLink>
                             ),
@@ -328,15 +328,6 @@ const MainLayout: React.FC = () => {
                         </NavLink>
                     ),
                 },
-                {
-                    key: '/manage-price',
-                    icon: <RiMoneyPoundBoxLine />,
-                    label: (
-                        <NavLink to={'/manage-price'}>
-                            Quản lý giá cả
-                        </NavLink>
-                    ),
-                },
             ],
         },
     ]
@@ -409,6 +400,11 @@ const MainLayout: React.FC = () => {
             label: 'THÔNG TIN',
             children: [
                 {
+                    key: '/invoices',
+                    icon: <TbFileInvoice />,
+                    label: <NavLink to={'/invoices'}>Hóa đơn</NavLink>,
+                },
+                {
                     key: '/deposit-guide',
                     icon: <MdOutlineSupportAgent />,
                     label: (
@@ -438,12 +434,12 @@ const MainLayout: React.FC = () => {
     ]
     let menuSidebar = []
     const layout = useLayoutInit()
-    
+
     const getMenu = (roleName = '') => {
-        switch(roleName){
+        switch (roleName) {
             case 'admin':
                 return [...menuAdmin, ...menu]
-            default: 
+            default:
                 return [...menu]
         }
     }
@@ -454,17 +450,17 @@ const MainLayout: React.FC = () => {
         menuSidebar = menu
     }
 
-
     useEffect(() => {
         getSurplus()
+
         socket.emit('user connect', {
             userId: auth.user && auth.user._id,
         })
-        socket.on('send notification', (msg) => {
+        socket.on('new notification is sent', (msg) => {
             notify(notifyType.NOTIFY_SUCCESS, 'Bạn có 1 thông báo mới')
             setNotifications((state) => [msg, ...state])
         })
-        socket.on('new ticket is sent', (msg) => {
+        socket.on('new ticket is created', (msg) => {
             notify(notifyType.NOTIFY_SUCCESS, 'Một ticket đã được gửi đến')
         })
         socket.on('set surplus', (msg) => {
@@ -528,7 +524,10 @@ const MainLayout: React.FC = () => {
                         >
                             <div className="logo-navbar">
                                 {!collapsed && (
-                                    <Link to={'/'} style={{ cursor: 'pointer' }}>
+                                    <Link
+                                        to={'/'}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         <img
                                             width={170}
                                             src="/images/Logo-vietserver.png"
@@ -541,7 +540,11 @@ const MainLayout: React.FC = () => {
                                 mode="inline"
                                 defaultSelectedKeys={['/']}
                                 selectedKeys={[location.pathname]}
-                                items={getMenu(typeof auth.user?.role != 'string' ? auth.user?.role?.roleName : '')}
+                                items={getMenu(
+                                    typeof auth.user?.role != 'string'
+                                        ? auth.user?.role?.roleName
+                                        : ''
+                                )}
                                 onOpenChange={onOpenChange}
                                 openKeys={openKeys}
                             />
@@ -586,7 +589,7 @@ const MainLayout: React.FC = () => {
                                 </div>
                                 <div className="site-layout-create-server">
                                     <Link to={'/support/create-ticket'}>
-                                        <div  className="site-layout-create-server-ticket">
+                                        <div className="site-layout-create-server-ticket">
                                             <AiOutlinePlus />
                                             <span>Tạo ticket</span>
                                         </div>
@@ -594,7 +597,6 @@ const MainLayout: React.FC = () => {
                                 </div>
                             </div>
                             <div className="site-layout-column">
-                                
                                 <div className="site-layout-purchase">
                                     <Link to={'/deposit-guide'}>
                                         <div className="site-layout-purchase-button">
@@ -606,7 +608,9 @@ const MainLayout: React.FC = () => {
                                     <p>
                                         Số dư:
                                         <span style={{ fontSize: '15px' }}>
-                                        {formatMoney(Math.ceil(Number(surplus)))}
+                                            {formatMoney(
+                                                Math.ceil(Number(surplus))
+                                            )}
                                         </span>
                                     </p>
                                 </div>
@@ -626,9 +630,13 @@ const MainLayout: React.FC = () => {
                                         <div className="site-layout-appstore-panel">
                                             <div className="site-layout-appstore-panel-header">
                                                 <FaTimes
-                                                    style={{ cursor: 'pointer' }}
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                    }}
                                                     size={20}
-                                                    onClick={() => setPanel(false)}
+                                                    onClick={() =>
+                                                        setPanel(false)
+                                                    }
                                                 />
                                             </div>
                                         </div>
@@ -664,33 +672,41 @@ const MainLayout: React.FC = () => {
                                                     <div className="site-layout-notification-box-content-text">
                                                         <p>Thông báo</p>
                                                         <div className="site-layout-notification-box-content-quantity">
-                                                            <span>0 new</span>
+                                                            <span>
+                                                                {
+                                                                    countUnReadNotification
+                                                                }{' '}
+                                                                new
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <ul>
                                                     <li
                                                         style={
-                                                            notificationType == ''
+                                                            notificationType ==
+                                                            'all'
                                                                 ? {
-                                                                    borderBottom:
-                                                                        '3px solid #1bc5bd',
-                                                                    fontSize:
-                                                                        '17px',
-                                                                    padding:
-                                                                        '0 10px',
-                                                                    cursor: 'pointer',
-                                                                }
+                                                                      borderBottom:
+                                                                          '3px solid #1bc5bd',
+                                                                      fontSize:
+                                                                          '17px',
+                                                                      padding:
+                                                                          '0 10px',
+                                                                      cursor: 'pointer',
+                                                                  }
                                                                 : {
-                                                                    fontSize:
-                                                                        '17px',
-                                                                    padding:
-                                                                        '0 10px',
-                                                                    cursor: 'pointer',
-                                                                }
+                                                                      fontSize:
+                                                                          '17px',
+                                                                      padding:
+                                                                          '0 10px',
+                                                                      cursor: 'pointer',
+                                                                  }
                                                         }
                                                         onClick={() =>
-                                                            setNotificationType('')
+                                                            setNotificationType(
+                                                                'all'
+                                                            )
                                                         }
                                                     >
                                                         Tất cả
@@ -698,11 +714,11 @@ const MainLayout: React.FC = () => {
                                                     <li
                                                         style={
                                                             notificationType ==
-                                                                'shopping'
+                                                            'shopping'
                                                                 ? {
-                                                                    borderBottom:
-                                                                        '3px solid #1bc5bd',
-                                                                }
+                                                                      borderBottom:
+                                                                          '3px solid #1bc5bd',
+                                                                  }
                                                                 : {}
                                                         }
                                                         onClick={() =>
@@ -724,11 +740,11 @@ const MainLayout: React.FC = () => {
                                                     <li
                                                         style={
                                                             notificationType ==
-                                                                'cash'
+                                                            'cash'
                                                                 ? {
-                                                                    borderBottom:
-                                                                        '3px solid #1bc5bd',
-                                                                }
+                                                                      borderBottom:
+                                                                          '3px solid #1bc5bd',
+                                                                  }
                                                                 : {}
                                                         }
                                                         onClick={() =>
@@ -750,11 +766,11 @@ const MainLayout: React.FC = () => {
                                                     <li
                                                         style={
                                                             notificationType ==
-                                                                'ticket'
+                                                            'ticket'
                                                                 ? {
-                                                                    borderBottom:
-                                                                        '3px solid #1bc5bd',
-                                                                }
+                                                                      borderBottom:
+                                                                          '3px solid #1bc5bd',
+                                                                  }
                                                                 : {}
                                                         }
                                                         onClick={() =>
@@ -776,11 +792,11 @@ const MainLayout: React.FC = () => {
                                                     <li
                                                         style={
                                                             notificationType ==
-                                                                'home'
+                                                            'home'
                                                                 ? {
-                                                                    borderBottom:
-                                                                        '3px solid #1bc5bd',
-                                                                }
+                                                                      borderBottom:
+                                                                          '3px solid #1bc5bd',
+                                                                  }
                                                                 : {}
                                                         }
                                                         onClick={() =>
@@ -803,23 +819,40 @@ const MainLayout: React.FC = () => {
                                             </div>
                                             <div className="site-layout-notification-box-content-list">
                                                 {notifications.map((item) => (
-                                                    <React.Fragment key={item._id}>
+                                                    <React.Fragment
+                                                        key={item._id}
+                                                    >
                                                         <Link
                                                             to={`/notification/${item.slug}`}
                                                         >
                                                             <p
-                                                                style={{
-                                                                    marginBottom:
-                                                                        '0px',
-                                                                }}
+                                                                style={
+                                                                    !item.readBy.includes(
+                                                                        auth
+                                                                            .user
+                                                                            ?.id!
+                                                                    )
+                                                                        ? {
+                                                                              backgroundColor:
+                                                                                  '#edf0f0',
+                                                                              marginBottom:
+                                                                                  '0',
+                                                                          }
+                                                                        : {
+                                                                              marginBottom:
+                                                                                  '0',
+                                                                          }
+                                                                }
                                                             >
                                                                 {item.name}
                                                             </p>
                                                         </Link>
                                                         <Divider
                                                             style={{
-                                                                marginTop: '0px',
-                                                                marginBottom: '0px',
+                                                                marginTop:
+                                                                    '0px',
+                                                                marginBottom:
+                                                                    '0px',
                                                                 border: '0.5px solid #dedcdc',
                                                             }}
                                                         />
@@ -838,7 +871,8 @@ const MainLayout: React.FC = () => {
                                         to="/profile"
                                         style={{ verticalAlign: '-2px' }}
                                     >
-                                        Hi, {`${auth.user?.firstname} ${auth.user?.lastname}`}
+                                        Hi,{' '}
+                                        {`${auth.user?.firstname} ${auth.user?.lastname}`}
                                     </Link>
                                     <Avatar
                                         onClick={() => {
@@ -871,7 +905,8 @@ const MainLayout: React.FC = () => {
                                                 >
                                                     <UserOutlined
                                                         style={{
-                                                            verticalAlign: '1px',
+                                                            verticalAlign:
+                                                                '1px',
                                                             fontSize: '2rem',
                                                         }}
                                                     />
@@ -880,7 +915,8 @@ const MainLayout: React.FC = () => {
                                                             marginLeft: '5px',
                                                         }}
                                                     >
-                                                        {auth.user?.firstname} {auth.user?.lastname}
+                                                        {auth.user?.firstname}{' '}
+                                                        {auth.user?.lastname}
                                                     </span>
                                                 </li>
                                                 <li
@@ -889,7 +925,11 @@ const MainLayout: React.FC = () => {
                                                 >
                                                     <span>
                                                         Số dư:{' '}
-                                                        {formatMoney(Math.ceil(Number(surplus)))}
+                                                        {formatMoney(
+                                                            Math.ceil(
+                                                                Number(surplus)
+                                                            )
+                                                        )}
                                                     </span>
                                                 </li>
                                                 <Divider
@@ -909,8 +949,10 @@ const MainLayout: React.FC = () => {
                                                         />
                                                         <span
                                                             style={{
-                                                                marginLeft: '10px',
-                                                                fontSize: '1rem',
+                                                                marginLeft:
+                                                                    '10px',
+                                                                fontSize:
+                                                                    '1rem',
                                                             }}
                                                         >
                                                             Thông tin tài khoản
@@ -927,8 +969,10 @@ const MainLayout: React.FC = () => {
                                                         />
                                                         <span
                                                             style={{
-                                                                marginLeft: '10px',
-                                                                fontSize: '1rem',
+                                                                marginLeft:
+                                                                    '10px',
+                                                                fontSize:
+                                                                    '1rem',
                                                             }}
                                                         >
                                                             Thay đổi mật khẩu
@@ -944,11 +988,14 @@ const MainLayout: React.FC = () => {
                                                         />
                                                         <span
                                                             style={{
-                                                                marginLeft: '10px',
-                                                                fontSize: '1rem',
+                                                                marginLeft:
+                                                                    '10px',
+                                                                fontSize:
+                                                                    '1rem',
                                                             }}
                                                         >
-                                                            Cài đặt bảo mật (2FA)
+                                                            Cài đặt bảo mật
+                                                            (2FA)
                                                         </span>
                                                     </li>
                                                 </Link>

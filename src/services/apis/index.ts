@@ -4,7 +4,7 @@ import INewNotification from '@/interfaces/INewNotification'
 import IPrice from '@/interfaces/IPrice'
 import IService from '@/interfaces/IService'
 import IUpdateCloudServer from '@/interfaces/IUpdateCloudServer'
-import {IUser} from '@/interfaces/IUser'
+import { IUser } from '@/interfaces/IUser'
 import axios from 'axios'
 
 // const baseUrl = ''
@@ -15,7 +15,6 @@ let axiosInstance = axios.create({
     baseURL: baseUrl,
 })
 
-
 export const login = (username: string, password: string) =>
     axiosInstance.post('/api/user/login', {
         userName: username,
@@ -23,10 +22,10 @@ export const login = (username: string, password: string) =>
     })
 
 export const signup = (data: {
-    firstname: string,
-    lastname: string,
-    country: string,
-    address1: string,
+    firstname: string
+    lastname: string
+    country: string
+    address1: string
     password: string
     email: string
     phoneNumber: string
@@ -264,25 +263,8 @@ export const getByIdDepartment = (id: string) =>
 export const deleteDepartment = (id: string | undefined) =>
     axiosInstance.delete(`/api/processingRoom/delete/${id}`)
 
-export const getNotificationByUserId = (id: string, type?: string) =>
-    axiosInstance.get(`/api/notification/getByUserId?userId=${id}&type=${type}`)
-
-export const getNotificationBySlug = (slug: string, userId: string) =>
-    axiosInstance.get(
-        `/api/notification/getBySlug?slug=${slug}&userId=${userId}`
-    )
-
-export const getAllNotification = (
-    pageIndex: number,
-    filter: string,
-    pageSize?: number
-) =>
-    axiosInstance.get(
-        `/api/notification/getPaging?pageIndex=${pageIndex}&search=${filter}&pageSize=${pageSize}`
-    )
-
-export const createNotification = (data: INewNotification) =>
-    axiosInstance.post(`/api/notification/insert`, data)
+export const getNotificationByUserId = (type?: string) =>
+    axiosInstance.get(`/notification/get-by-user?type=${type}`)
 
 export const getTicketById = (id: string) =>
     axiosInstance.post(`/api/support/getById`, { supportId: id })
@@ -432,7 +414,6 @@ export const updatePrice = (id: string, data: IPrice) =>
 
 // export const getPriceById = (id: string) => axiosInstance.get(`/api/price/${id}`)
 
-
 export const getAllOs1 = (
     pageIndex?: number,
     operatingSystemName?: string,
@@ -461,16 +442,22 @@ export const getSubOrderPagesByParent = (slug: string) =>
 export const getProductsBySubOrderPage = (id: string) =>
     axiosInstanceNew.get(`${preUrl}/products/products-by-sub-order-page/${id}`)
 
+// export const getCloudVpsByUserIdVietTell = (
+//     // userId: string,
+//     // areaId: string,
+//     // operatingSystemId: string,
+//     search: string,
+//     pageIndex: number,
+//     pageSize: number
+// ) =>
+//     axiosInstanceNew.get(
+//         `${preUrl}/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
+//     )
 
-   
+export const getOrdersViettell = () =>
+    // pageIndex: number,
+    // userName: string,
+    // pageSize?: number
+    axiosInstanceNew.get(`${preUrl}/client-order/getpaging`)
 
-    export const getOrdersViettell = (
-        // pageIndex: number,
-        // userName: string,
-        // pageSize?: number
-    ) =>
-    axiosInstanceNew.get(
-            `${preUrl}/client-order/getpaging`
-        )
-
-        // ?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}
+// ?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}

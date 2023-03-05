@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
     return (
         <div className="App">
-            <ToastContainer pauseOnFocusLoss={false} autoClose={2000} />
+            <ToastContainer pauseOnFocusLoss={false} autoClose={2000} limit={3} />
             <LayoutProvider child={<AuthProvider child={<AppRouter />} />} />
         </div>
     )

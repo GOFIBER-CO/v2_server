@@ -2,8 +2,9 @@ import ButtonNavigator from '@/components/ButtonNavigator'
 import { useAuth } from '@/hooks/useAuth'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import INotification from '@/interfaces/INotification'
-import { getNotificationBySlug } from '@/services/apis'
+import { getNotificationBySlug } from '@/services/apiv2'
 import '@/styles/pages/Notification/NotificationDetail/index.scss'
+import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import { useParams } from 'react-router'
@@ -12,28 +13,15 @@ const NotificationDetail = () => {
     const layout = useLayoutInit()
     const auth = useAuth()
     const { slug } = useParams()
-    const [notification, setNotification] = useState<INotification>({
-        code: '',
-        type: '',
-        content: '',
-        reciever: [''],
-        sender: {
-            email: '',
-            _id: '',
-        },
-        name: '',
-        slug: '',
-        status: true,
-    })
+    const [notification, setNotification] = useState<INotification>()
 
     const getNotification = async () => {
         try {
             layout.setLoading(true)
             const result = await getNotificationBySlug(
                 slug || '',
-                auth.user._id
             )
-            setNotification(result.data?.notification)
+            setNotification(result.data?.data)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -45,7 +33,6 @@ const NotificationDetail = () => {
         getNotification()
     }, [slug])
 
-    // console.log(notification)
     return (
         <div className="notification-detail">
             <div className="notification-detail-header">
@@ -79,13 +66,7 @@ const NotificationDetail = () => {
                     Ngày gửi:{' '}
                     <span
                         style={{ fontWeight: 600, fontSize: '16px' }}
-                    >{`${new Date(
-                        notification.createdTime || ''
-                    ).getDate()}-${new Date(
-                        notification.createdTime || ''
-                    ).getMonth()}-${new Date(
-                        notification.createdTime || ''
-                    ).getFullYear()}`}</span>
+                    >{`${moment(notification?.createdAt).format('DD-MM-YYYY')}`}</span>
                 </p>
                 <p>
                     {' '}
@@ -94,7 +75,7 @@ const NotificationDetail = () => {
                     </span>
                 </p>
                 <p
-                    dangerouslySetInnerHTML={{ __html: notification.content }}
+                    dangerouslySetInnerHTML={{ __html: notification?.content || '' }}
                 ></p>
             </div>
             <ButtonNavigator url="/" name="Quay lại" />

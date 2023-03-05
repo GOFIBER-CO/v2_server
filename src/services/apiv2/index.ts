@@ -1,6 +1,8 @@
-import jwtDecode from "jwt-decode"
+import jwtDecode from 'jwt-decode'
 import ICreateNewService from '@/interfaces/ICreateNewService'
 import axios from 'axios'
+import INotification from '@/interfaces/INotification'
+import INewNotification from '@/interfaces/INewNotification'
 
 const baseUrl = 'http://localhost:4000/api/v1'
 
@@ -10,26 +12,32 @@ let axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
     try {
-        const jwtToken = JSON.parse(localStorage.getItem('user') || 'null')?.jwtToken
-        const decodedToken = jwtDecode<{exp: number, iat: number}>(jwtToken)
-    
-        if(!decodedToken.exp ||  decodedToken.exp * 1000 < new Date().getTime()){
+        const jwtToken = JSON.parse(
+            localStorage.getItem('user') || 'null'
+        )?.jwtToken
+        const decodedToken = jwtDecode<{ exp: number; iat: number }>(jwtToken)
+
+        if (
+            !decodedToken.exp ||
+            decodedToken.exp * 1000 < new Date().getTime()
+        ) {
             localStorage.removeItem('user')
             location.reload()
         }
-    
+
         config.headers!.authorization = `Bearer ${jwtToken}`
     } catch (error) {
         localStorage.removeItem('user')
     }
-  
+
     return config
 })
 
-export const login = async (username: string, password: string) => axiosInstance.post(`/auth/login`, {
-    username: username,
-    password: password
-})
+export const login = async (username: string, password: string) =>
+    axiosInstance.post(`/auth/login`, {
+        username: username,
+        password: password,
+    })
 
 export const getUserSurplus = () => axiosInstance.get(`/users/balance`)
 
@@ -45,20 +53,25 @@ export const getOrdersViettell = (
     )
 
 export const signup = (data: {
-    firstname: string,
-    lastname: string,
-    country: string,
-    address1: string,
-    password: string,
-    password2: string,
+    firstname: string
+    lastname: string
+    country: string
+    address1: string
+    password: string
+    password2: string
     email: string
     phonenumber: string
 }) => axiosInstance.post('/users/register', data)
 
+export const getActionHistoryByUserId = (pageSize: number, pageIndex: number) =>
+    axiosInstance.get(
+        `/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}`
+    )
 
-export const getActionHistoryByUserId = (pageSize: number, pageIndex: number) => axiosInstance.get(`/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}`)
-
-export const getAllActionHistory = (pageSize: number, pageIndex: number) => axiosInstance.get(`/action-history/get-by-user?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+export const getAllActionHistory = (pageSize: number, pageIndex: number) =>
+    axiosInstance.get(
+        `/action-history/get-by-user?pageSize=${pageSize}&pageIndex=${pageIndex}`
+    )
 export const getpagingClientTicketViettel = (
     pageIndex: number,
     pageSize: number,
@@ -116,14 +129,13 @@ export const getAllDepartment = (
 export const deleteDepartment = (id: string | undefined) =>
     axiosInstance.delete(`/department/delete/${id}`)
 
-    export const editDepartment = (id: string | undefined, data: string) =>
+export const editDepartment = (id: string | undefined, data: string) =>
     axiosInstance.put(`/department/update/${id}`, data)
 
-    export const getByIdDepartment = (id: string) =>
+export const getByIdDepartment = (id: string) =>
     axiosInstance.get(`/department/getById/${id}`)
 
-    export const getAllDepartments = () =>
-    axiosInstance.get('/department/getAll')
+export const getAllDepartments = () => axiosInstance.get('/department/getAll')
 
 export const createNewService = (data: ICreateNewService) =>
     axiosInstance.post(`/services/create-new-service`, data)
@@ -134,16 +146,42 @@ export const getProductDetailForConfig = (id: string) =>
 export const getProductDetail = (id: string) =>
     axiosInstance.get(`/products/product-detail/${id}`)
 
-export const shutDownCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/shutdown/${service_id}/${id}`)
+export const shutDownCloud = (id: number, service_id: number) =>
+    axiosInstance.post(`/listVMS/shutdown/${service_id}/${id}`)
 
-export const startCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
+export const startCloud = (id: number, service_id: number) =>
+    axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
 
-export const getCloudVpsByUserIdVietTell= (
-    // userId: string,
-    // areaId: string,
-    // operatingSystemId: string,
+export const getNotificationByUser = (type: string) =>
+    axiosInstance.get(`/notification/get-by-user?type=${type}`)
+
+export const getAllNotification = (
+    pageIndex: number,
+    filter: string,
+    pageSize?: number
+) =>
+    axiosInstance.get(
+        `/notification/getPaging?pageIndex=${pageIndex}&search=${filter}&pageSize=${pageSize}`
+    )
+
+export const createNotification = (data: INewNotification) =>
+    axiosInstance.post(`/notification`, data)
+
+export const getNotificationBySlug = (slug: string) =>
+    axiosInstance.get(`/notification/get-by-slug?slug=${slug}`)
+
+export const getAllUser = () => axiosInstance.get(`/users/get-all`)
+
+export const getCloudVpsByUserIdVietTell = (
     search: string,
     pageIndex: number,
     pageSize: number
 ) =>
-axiosInstance.get(`/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+    axiosInstance.get(
+        `/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
+    )
+
+export const getServiceDetailForPayment = (id: string) =>
+    axiosInstance.get(`/services/service-detail-for-payment/${id}`)
+
+export const getAllInvoices = () => axiosInstance.get(`/invoices/all-invoices`)

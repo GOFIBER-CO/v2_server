@@ -1,6 +1,7 @@
 export default interface ITicket {
     email: string;
     _doc :{
+        id?: string,
         attachments: [];
         body: string,
         client_read: number;

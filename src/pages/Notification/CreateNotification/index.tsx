@@ -8,7 +8,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import '@/styles/pages/Notification/CreateNotification/index.scss'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-import { createNotification, getAllUser } from '@/services/apis'
+import { createNotification, getAllUser } from '@/services/apiv2'
 import { useAuth } from '@/hooks/useAuth'
 import INewNotification from '@/interfaces/INewNotification'
 import { notify, notifyType } from '@/App'
@@ -20,7 +20,7 @@ const CreateNotification = () => {
     const auth = useAuth()
     const [users, setUsers] = useState<
         {
-            _id: string
+            id: string
             userName: string
             role: { roleName: string }
             email: string
@@ -47,7 +47,7 @@ const CreateNotification = () => {
         try {
             layout.setLoading(true)
             const result = await getAllUser()
-            setUsers(result.data.users)
+            setUsers(result.data?.data)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -78,13 +78,13 @@ const CreateNotification = () => {
         else {
             setNewNotification({
                 ...newNotification,
-                reciever: users.map((item) => item._id),
+                reciever: users?.map((item) => item.id),
             })
         }
     }
 
     useEffect(() => {
-        setNewNotification({ ...newNotification, sender: auth.user._id })
+        setNewNotification({ ...newNotification, sender: auth.user?._id! })
         getUsers()
     }, [])
     const options: SelectProps['options'] = []
@@ -153,8 +153,8 @@ const CreateNotification = () => {
                         value={newNotification?.reciever}
                     >
                         <Option value={'all'}>Select All</Option>
-                        {users.map((item) => (
-                            <Option key={item._id} value={item._id}>
+                        {users?.map((item) => (
+                            <Option key={item.id} value={item.id}>
                                 {item.email}
                             </Option>
                         ))}

@@ -1,0 +1,18 @@
+.money-item {
+    .money {
+        font-size: 22px;
+
+        &.red {
+            color: red;
+        }
+
+        &.green {
+            color: green;
+        }
+    }
+
+    .extra {
+        font-size: 14px;
+        color: #5c5c5c;
+    }
+}

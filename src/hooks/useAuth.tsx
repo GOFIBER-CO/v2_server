@@ -197,7 +197,6 @@ const useProvideAuth = () => {
     const getUser = async () => {
         try {
             const user = await getUserDetail()
-            console.log(user)
             setAuth({...auth, user: user.data.data})
         } catch (error) {
             console.log(error)
