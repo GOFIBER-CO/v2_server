@@ -185,3 +185,6 @@ export const getServiceDetailForPayment = (id: string) =>
     axiosInstance.get(`/services/service-detail-for-payment/${id}`)
 
 export const getAllInvoices = () => axiosInstance.get(`/invoices/all-invoices`)
+
+export const getInvoiceById = (id: string) =>
+    axiosInstance.get(`/invoices/invoice-by-id/${id}`)
