@@ -166,7 +166,7 @@ const ManageTicket = () => {
             (
                 <div>
                     <span>
-                        <Link to={`/manage-ticket/${record._id}`}>
+                        <Link to={`/manage-ticket/${record?._id}`}>
                             <BiEdit style={actionIconStyle('blue')} />
                         </Link>
                     </span>
