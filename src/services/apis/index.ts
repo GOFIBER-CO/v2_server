@@ -264,25 +264,8 @@ export const getByIdDepartment = (id: string) =>
 export const deleteDepartment = (id: string | undefined) =>
     axiosInstance.delete(`/api/processingRoom/delete/${id}`)
 
-export const getNotificationByUserId = (id: string, type?: string) =>
-    axiosInstance.get(`/api/notification/getByUserId?userId=${id}&type=${type}`)
-
-export const getNotificationBySlug = (slug: string, userId: string) =>
-    axiosInstance.get(
-        `/api/notification/getBySlug?slug=${slug}&userId=${userId}`
-    )
-
-export const getAllNotification = (
-    pageIndex: number,
-    filter: string,
-    pageSize?: number
-) =>
-    axiosInstance.get(
-        `/api/notification/getPaging?pageIndex=${pageIndex}&search=${filter}&pageSize=${pageSize}`
-    )
-
-export const createNotification = (data: INewNotification) =>
-    axiosInstance.post(`/api/notification/insert`, data)
+export const getNotificationByUserId = (type?: string) =>
+    axiosInstance.get(`/notification/get-by-user?type=${type}`)
 
 export const getTicketById = (id: string) =>
     axiosInstance.post(`/api/support/getById`, { supportId: id })

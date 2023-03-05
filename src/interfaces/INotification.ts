@@ -1,4 +1,4 @@
-import IUser from './IUser'
+import {IUser} from './IUser'
 
 export default interface INotification {
     _id?: string
@@ -8,8 +8,9 @@ export default interface INotification {
     type: string
     reciever: IUser[] | string[]
     content: string
-    createdTime?: Date
-    updatedTime?: Date
     sender: { email: string; _id: string } | string
-    status: boolean
+    status: boolean,
+    createdAt: Date,
+    updatedAt: Date,
+    readBy: string[]
 }

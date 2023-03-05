@@ -5,7 +5,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 import { Divider, Layout, Menu, MenuProps } from 'antd'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Outlet } from 'react-router'
 import Avatar from 'antd/lib/avatar/avatar'
 import { Link, NavLink } from 'react-router-dom'
@@ -50,7 +50,7 @@ import Loading from '@/components/Loading/Loading'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import { SlLocationPin } from 'react-icons/sl'
 import ModalConfirm from '@/components/Modal'
-import { getNotificationByUserId } from '@/services/apis'
+import { getNotificationByUser } from '@/services/apiv2'
 import { getUserSurplus } from '@/services/apiv2'
 import INotification from '@/interfaces/INotification'
 import { notify, notifyType } from '@/App'
@@ -114,8 +114,7 @@ const MainLayout: React.FC = () => {
     const getNotification = async () => {
         try {
             layoutInit.setLoading(true)
-            const result = await getNotificationByUserId(
-                auth.user?._id ? auth.user._id : '',
+            const result = await getNotificationByUser(
                 notificationType
             )
             if (result.data?.notifications) {
@@ -127,6 +126,16 @@ const MainLayout: React.FC = () => {
             layoutInit.setLoading(false)
         }
     }
+
+    const countUnReadNotification = useMemo(()=> {
+        let count = 0
+        notifications.forEach(item => {
+           if(!item.readBy.includes(auth.user?.id!)){
+                count++ 
+           }
+        })
+        return count
+    },[notifications])
 
 
     let menuAdmin = [
@@ -328,15 +337,6 @@ const MainLayout: React.FC = () => {
                         </NavLink>
                     ),
                 },
-                {
-                    key: '/manage-price',
-                    icon: <RiMoneyPoundBoxLine />,
-                    label: (
-                        <NavLink to={'/manage-price'}>
-                            Quản lý giá cả
-                        </NavLink>
-                    ),
-                },
             ],
         },
     ]
@@ -457,14 +457,15 @@ const MainLayout: React.FC = () => {
 
     useEffect(() => {
         getSurplus()
+
         socket.emit('user connect', {
             userId: auth.user && auth.user._id,
         })
-        socket.on('send notification', (msg) => {
+        socket.on('new notification is sent', (msg) => {
             notify(notifyType.NOTIFY_SUCCESS, 'Bạn có 1 thông báo mới')
             setNotifications((state) => [msg, ...state])
         })
-        socket.on('new ticket is sent', (msg) => {
+        socket.on('new ticket is created', (msg) => {
             notify(notifyType.NOTIFY_SUCCESS, 'Một ticket đã được gửi đến')
         })
         socket.on('set surplus', (msg) => {
@@ -664,14 +665,14 @@ const MainLayout: React.FC = () => {
                                                     <div className="site-layout-notification-box-content-text">
                                                         <p>Thông báo</p>
                                                         <div className="site-layout-notification-box-content-quantity">
-                                                            <span>0 new</span>
+                                                            <span>{countUnReadNotification} new</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <ul>
                                                     <li
                                                         style={
-                                                            notificationType == ''
+                                                            notificationType == 'all'
                                                                 ? {
                                                                     borderBottom:
                                                                         '3px solid #1bc5bd',
@@ -690,7 +691,7 @@ const MainLayout: React.FC = () => {
                                                                 }
                                                         }
                                                         onClick={() =>
-                                                            setNotificationType('')
+                                                            setNotificationType('all')
                                                         }
                                                     >
                                                         Tất cả
@@ -808,10 +809,7 @@ const MainLayout: React.FC = () => {
                                                             to={`/notification/${item.slug}`}
                                                         >
                                                             <p
-                                                                style={{
-                                                                    marginBottom:
-                                                                        '0px',
-                                                                }}
+                                                                style={!item.readBy.includes(auth.user?.id!) ? {backgroundColor: '#edf0f0', marginBottom: '0'} : {marginBottom: '0'}}
                                                             >
                                                                 {item.name}
                                                             </p>

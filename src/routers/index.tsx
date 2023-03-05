@@ -166,7 +166,6 @@ const AppRouter: React.FC = () => {
                         <Route path="/manage-ip/create" element={<CreateIp />} />
                         <Route path='/manage-ip/:id' element={<EditIp />} />
                         <Route path="/cloud-vps" element={<CloudVps />} />
-                        <Route path='/manage-price' element={<ManagePrice />} />
                         <Route path='/manage-price/:id' element={<EditPrice />} />
                         <Route
                             path="/action-history"

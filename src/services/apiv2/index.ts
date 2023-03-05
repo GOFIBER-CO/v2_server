@@ -1,6 +1,8 @@
 import jwtDecode from "jwt-decode"
 import ICreateNewService from '@/interfaces/ICreateNewService'
 import axios from 'axios'
+import INotification from "@/interfaces/INotification"
+import INewNotification from "@/interfaces/INewNotification"
 
 const baseUrl = 'http://localhost:4000/api/v1'
 
@@ -137,3 +139,25 @@ export const getProductDetail = (id: string) =>
 export const shutDownCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/shutdown/${service_id}/${id}`)
 
 export const startCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
+
+export const getNotificationByUser = (type: string) => axiosInstance.get(`/notification/get-by-user?type=${type}`)
+
+export const getAllNotification = (
+    pageIndex: number,
+    filter: string,
+    pageSize?: number
+) =>
+    axiosInstance.get(
+        `/notification/getPaging?pageIndex=${pageIndex}&search=${filter}&pageSize=${pageSize}`
+    )
+
+
+export const createNotification = (data: INewNotification) =>
+    axiosInstance.post(`/notification`, data)
+
+export const getNotificationBySlug = (slug: string) =>
+    axiosInstance.get(
+        `/notification/get-by-slug?slug=${slug}`
+    )
+
+export const getAllUser = () => axiosInstance.get(`/users/get-all`)
