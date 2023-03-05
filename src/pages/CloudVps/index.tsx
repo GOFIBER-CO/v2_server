@@ -15,11 +15,13 @@ import IOrder from '@/interfaces/IOrder'
 import {
     deleteCloudServer,
     getCloudVpsByUserId,
-    getCloudVpsByUserIdVietTell,
     getLocations,
     getOs,
     switchAutoRenew,
 } from '@/services/apis'
+import {
+    getCloudVpsByUserIdVietTell,
+} from '@/services/apiv2'
 import '@/styles/pages/CloudVps/CloudVps.scss'
 import {
     Divider,

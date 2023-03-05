@@ -137,3 +137,13 @@ export const getProductDetail = (id: string) =>
 export const shutDownCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/shutdown/${service_id}/${id}`)
 
 export const startCloud = (id: number, service_id: number) => axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
+
+export const getCloudVpsByUserIdVietTell= (
+    // userId: string,
+    // areaId: string,
+    // operatingSystemId: string,
+    search: string,
+    pageIndex: number,
+    pageSize: number
+) =>
+axiosInstance.get(`/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
