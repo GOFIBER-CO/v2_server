@@ -11,7 +11,7 @@ import { TfiMenuAlt } from 'react-icons/tfi'
 
 const UserStatistic = () => {
     const [filter, setFilter] = useState('')
-    const [statistics, setStatistics] = useState<IUserStatistic[]>([])
+    const [statistics, setStatistics] = useState<any[]>([])
     const [pageSize, setPageSize] = useState(1)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
@@ -61,12 +61,9 @@ const UserStatistic = () => {
         },
         // {
         //     title: 'Tổng tiền đã nạp',
-        //     dataIndex: 'invoice_paid',
-        //     render:(_,record,index)=>{
-        //         console.log(record, 'â');
-
-        //         const sum: number = Number(record?.credit) + Number(record?.invoice_paid)
-        //         return <>{sum}</>
+        //     dataIndex: 'credit',
+        //     render:(value,record,index)=>{
+        //         return <>{value}</>
         //     }
         //     // sorter: (a, b) => a.numberOfPricePurchase - b.numberOfPricePurchase,
         // },
@@ -74,11 +71,12 @@ const UserStatistic = () => {
             title: 'Tổng tiền đã dùng',
             dataIndex: 'invoice_paid',
             render: (value) => (formatMoney(value)),
-            // sorter: (a, b) => Number(a.priceUsed) - Number(b.priceUsed),
+            sorter: (a, b) => Number(a?.invoice_paid) - Number(b?.invoice_paid),
         },
         {
             title: 'Số cloud vps đã mua',
             dataIndex: 'service',
+            sorter: (a, b) => Number(a?.service) - Number(b?.service),
         },
         {
             title: 'Số ticket đã gửi',
@@ -110,7 +108,6 @@ const UserStatistic = () => {
 
     
     const Search = (value: any) => {
-
         const filterTable = statistics.filter((o: any) =>
             Object.keys(o).some(k =>
               String(o[k])
@@ -118,7 +115,6 @@ const UserStatistic = () => {
                 .includes(value.toLowerCase())
             )
           );
-               
             setfilterTable(filterTable as any)    
     }
 
