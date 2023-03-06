@@ -1,5 +1,5 @@
 import ICloudServer from './ICloudServer'
-import IUser from './IUser'
+import {IUser} from './IUser'
 
 export default interface IOrder {
     code: string

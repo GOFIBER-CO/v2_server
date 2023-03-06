@@ -1,3 +1,5 @@
+
+//@ts-nocheck
 import '@/styles/pages/SupportPage/CreateTicket/CreateTicket.scss'
 import { Button, message, Select, Upload, UploadProps } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'

@@ -5,6 +5,7 @@ import IOrder from './IOrder'
 import IService from './IService'
 
 export default interface ICloudServer {
+    object_id: number,
    bandwidth: {
     data_recieve: number,
     data_send: number,

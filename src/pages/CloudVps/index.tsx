@@ -182,7 +182,7 @@ const CloudVps: React.FC = () => {
 
     const shutDownCloudVps = async (cloudVps: ICloudServer) => {
         try {
-            const result = shutDownCloud(cloudVps.list_id, cloudVps.service_id)
+            const result = shutDownCloud(cloudVps.object_id, cloudVps.service_id)
             notify(
                 notifyType.NOTIFY_SUCCESS,
                 'Cloud vps đang được tắt nguồn vui lòng đợi'
@@ -194,7 +194,7 @@ const CloudVps: React.FC = () => {
 
     const openCloudVps = async (cloudVps: ICloudServer) => {
         try {
-            const result = startCloud(cloudVps.list_id, cloudVps.service_id)
+            const result = startCloud(cloudVps.object_id, cloudVps.service_id)
             notify(
                 notifyType.NOTIFY_SUCCESS,
                 'Cloud vps đang được khởi động vui lòng đợi'
@@ -244,7 +244,7 @@ const CloudVps: React.FC = () => {
                                     optionId: listMenuCloud.length + 1,
                                     name:
                                         'Chi tiết Cloud Vps #' +
-                                        cloudServerItem.list_id,
+                                        cloudServerItem.object_id,
                                     isCloud: true,
                                     cloudId: cloudServerItem.id || '',
                                     cloudItem: cloudServerItem,

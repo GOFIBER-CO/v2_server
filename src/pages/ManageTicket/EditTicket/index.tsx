@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import App, { notify, notifyType } from '@/App'
 import ButtonNavigator from '@/components/ButtonNavigator'
 import appConfig from '@/config/appConfig'

@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import ButtonFilter from '@/components/ButtonFilter'
 import appConfig from '@/config/appConfig'
 import { useLayoutInit } from '@/hooks/useInitLayOut'

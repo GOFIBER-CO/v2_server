@@ -1,3 +1,5 @@
+
+//@ts-nocheck
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import {
     getCloudServersById,

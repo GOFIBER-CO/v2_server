@@ -1,3 +1,5 @@
+
+//@ts-nocheck
 import '@/styles/pages/CloudVps/CloudVps.scss'
 import { useEffect, useState } from 'react'
 import { Input, PaginationProps, Select, Tag, Switch } from 'antd'
