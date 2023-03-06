@@ -226,7 +226,7 @@ const osTemplate = [
         name: 'Windows',
         image: (
             <img
-                src={'/public/images/icon-windows.svg'}
+                src={'/images/icon-windows.svg'}
                 alt=""
                 width={48}
                 height={48}
@@ -246,7 +246,7 @@ const osTemplate = [
         name: 'Linux',
         image: (
             <img
-                src={'/public/images/icon-ubuntu.svg'}
+                src={'/images/icon-ubuntu.svg'}
                 alt=""
                 width={48}
                 height={48}
