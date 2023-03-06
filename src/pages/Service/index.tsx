@@ -76,7 +76,7 @@ function ServiceListPage() {
         },
         {
             title: '',
-            dataIndex: 'service_id',
+            dataIndex: 'id',
             width: '4%',
             render: (value) => (
                 <div>

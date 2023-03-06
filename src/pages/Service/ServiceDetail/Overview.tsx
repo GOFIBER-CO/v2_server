@@ -1,4 +1,4 @@
-import { convertByteToMB, timeCalculator } from '@/helpers'
+import { convertByteToMB, convertMBtoGB, timeCalculator } from '@/helpers'
 import { Button, Popover, Switch } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
@@ -137,7 +137,7 @@ function Overview({ service, vm }: Props) {
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>RAM</div>
-                            <div>{vm?.memory}</div>
+                            <div>{convertMBtoGB(vm?.memory || 0)} GB</div>
                         </div>
                     </div>
                 </div>

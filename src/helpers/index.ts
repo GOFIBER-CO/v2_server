@@ -45,3 +45,7 @@ export const convertByteToMB = (value: number) => {
 
     return mbValue + ' MB'
 }
+
+export function convertMBtoGB(mb: number) {
+    return parseFloat((mb / 1024).toFixed(2))
+}

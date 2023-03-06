@@ -15,11 +15,6 @@ const menu = [
         value: 'overview',
     },
     {
-        id: 2,
-        name: 'Network',
-        value: 'network',
-    },
-    {
         id: 3,
         name: 'Interfaces',
         value: 'interfaces',
@@ -43,11 +38,6 @@ const menu = [
         id: 7,
         name: 'Nhật ký hệ thống',
         value: 'daily',
-    },
-    {
-        id: 8,
-        name: 'Usage',
-        value: 'usage',
     },
     {
         id: 9,
