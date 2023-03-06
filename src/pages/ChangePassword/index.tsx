@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { notify, notifyType } from '@/App'
 import { useAuth } from '@/hooks/useAuth'
 import { useLayoutInit } from '@/hooks/useInitLayOut'

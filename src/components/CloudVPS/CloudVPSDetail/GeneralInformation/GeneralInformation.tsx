@@ -168,7 +168,7 @@ const GeneralInformation = ({ data }: { data?: ICloudServer }) => {
                                 <div className="title-name">Mã Server:</div>
                                 <div>
                                     <span style={{ verticalAlign: 'middle' }}>
-                                        {localData?.list_id}
+                                        {localData?.object_id}
                                     </span>
                                 </div>
                             </div>

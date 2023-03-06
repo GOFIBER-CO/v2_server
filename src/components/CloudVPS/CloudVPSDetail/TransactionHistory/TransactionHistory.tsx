@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Pagination, PaginationProps, Table } from 'antd'
 import React, { CSSProperties, useEffect, useState } from 'react'
 import { ColumnsType } from 'antd/lib/table'

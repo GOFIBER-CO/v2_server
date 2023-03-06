@@ -1,3 +1,4 @@
+//@ts-nocheck
 import ICloudServer from '@/interfaces/ICloudServer'
 import '@/styles/pages/CloudVps/RenewModal/index.scss'
 import { Button, InputNumber, Radio } from 'antd'

@@ -198,3 +198,13 @@ export const getUserStatistic = (
     axiosInstance.get(
         `/users/getpagingUser?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}`
     )
+    export const getOrderPagesToShow = () =>
+    axiosInstance.get(`/order-pages/get-order-pages-to-show`)
+
+export const getSubOrderPagesByParent = (slug: string) =>
+    axiosInstance.get(
+        `/order-pages/get-sub-order-pages-by-parent/${slug}`
+    )
+
+export const getProductsBySubOrderPage = (id: string) =>
+    axiosInstance.get(`/products/products-by-sub-order-page/${id}`)

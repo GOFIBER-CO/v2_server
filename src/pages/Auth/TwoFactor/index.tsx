@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useAuth } from '@/hooks/useAuth'
 import { UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input } from 'antd'

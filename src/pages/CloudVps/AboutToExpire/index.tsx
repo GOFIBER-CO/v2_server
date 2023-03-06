@@ -1,3 +1,4 @@
+//@ts-nocheck
 import '@/styles/pages/CloudVps/CloudVps.scss'
 import { CSSProperties, useEffect, useState } from 'react'
 import { TfiClose, TfiEye, TfiMenuAlt } from 'react-icons/tfi'

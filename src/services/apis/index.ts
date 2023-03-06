@@ -431,16 +431,7 @@ let axiosInstanceNew = axios.create({
     baseURL: 'http://localhost:4000',
 })
 // order-pages
-export const getOrderPagesToShow = () =>
-    axiosInstanceNew.get(`${preUrl}/order-pages/get-order-pages-to-show`)
 
-export const getSubOrderPagesByParent = (slug: string) =>
-    axiosInstanceNew.get(
-        `${preUrl}/order-pages/get-sub-order-pages-by-parent/${slug}`
-    )
-
-export const getProductsBySubOrderPage = (id: string) =>
-    axiosInstanceNew.get(`${preUrl}/products/products-by-sub-order-page/${id}`)
 
 // export const getCloudVpsByUserIdVietTell = (
 //     // userId: string,
