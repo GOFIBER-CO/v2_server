@@ -189,7 +189,7 @@ export const getAllInvoices = () => axiosInstance.get(`/invoices/all-invoices`)
 export const getInvoiceById = (id: string) =>
     axiosInstance.get(`/invoices/invoice-by-id/${id}`)
 
-//thống kê người dùng 
+//thống kê người dùng
 export const getUserStatistic = (
     pageIndex: number,
     userName: string,
@@ -198,13 +198,20 @@ export const getUserStatistic = (
     axiosInstance.get(
         `/users/getpagingUser?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}`
     )
-    export const getOrderPagesToShow = () =>
+export const getOrderPagesToShow = () =>
     axiosInstance.get(`/order-pages/get-order-pages-to-show`)
 
 export const getSubOrderPagesByParent = (slug: string) =>
-    axiosInstance.get(
-        `/order-pages/get-sub-order-pages-by-parent/${slug}`
-    )
+    axiosInstance.get(`/order-pages/get-sub-order-pages-by-parent/${slug}`)
 
 export const getProductsBySubOrderPage = (id: string) =>
     axiosInstance.get(`/products/products-by-sub-order-page/${id}`)
+
+export const getPagingServices = (
+    search: string,
+    pageIndex: number,
+    pageSize: number
+) =>
+    axiosInstance.get(
+        `/services/get-paging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
+    )
