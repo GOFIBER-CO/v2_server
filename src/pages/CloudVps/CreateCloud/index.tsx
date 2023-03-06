@@ -1,13 +1,7 @@
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import {
-    createCloud,
-    createService,
-    getArea,
-    getOperatingSystemChildren,
-    getPrice,
     getProductsBySubOrderPage,
-    getServer,
-} from '@/services/apis'
+} from '@/services/apiv2'
 import '@/styles/pages/CloudVps/CreateCloud/CreateCloud.scss'
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import IArea from '@/interfaces/IArea'
