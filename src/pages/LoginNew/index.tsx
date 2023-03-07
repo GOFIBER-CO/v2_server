@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useNavigate } from 'react-router'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import Loading from '@/components/Loading/Loading'
 
 const LoginNew = () => {
     const [form] = Form.useForm()
@@ -12,13 +13,21 @@ const LoginNew = () => {
     const auth = useAuth()
     const navigate = useNavigate()
     const onFinish = () => {
-        auth.loginSync(
-            form.getFieldValue('email'),
-            form.getFieldValue('password'),
-            navigate
-        )
+        try {
+            setButtonLoading(true)
+            auth.loginSync(
+                form.getFieldValue('email'),
+                form.getFieldValue('password'),
+                navigate
+            )
+        } catch (error) {
+            console.log(error)
+        } finally{
+            setButtonLoading(false)
+        }
+       
     }
-
+    const [buttonLoading, setButtonLoading] = useState(false)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -31,6 +40,7 @@ const LoginNew = () => {
 
     return (
         <div className="LoginNew_cotainer">
+            {buttonLoading && <Loading/>}
             <div className="LoginNew_cotainer_center">
                 <div className="LoginNew_container_title">Đăng nhập</div>
                 <Form

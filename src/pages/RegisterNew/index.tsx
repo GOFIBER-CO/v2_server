@@ -9,6 +9,9 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import nationJson from '@/config/nation.json'
+import { useLayoutInit } from '@/hooks/useInitLayOut'
+import Loading from '@/components/Loading/Loading'
+import Capcha from '@/components/CapchaComponent'
 
 const {Option} = Select
 
@@ -18,6 +21,7 @@ type ObjecType = {
 
 const RegisterNew = () => {
     const [buttonLoading, setButtonLoading] = useState(false)
+    const [isDoneCaptcha, setIsDoneCaptcha] = useState(false)
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [nation, setNation] = useState('vn')
@@ -27,6 +31,7 @@ const RegisterNew = () => {
     const [phoneNumber, setPhoneNumber] = useState('')
     const [re_password, setRePassword] = useState('')
     const navigate = useNavigate()
+
 
     const urlImageNation = 'https://flagcdn.com/16x12'
     const onFinish = async () => {
@@ -51,13 +56,14 @@ const RegisterNew = () => {
         } catch (error) {
             console.log(error)
             notify(notifyType.NOTIFY_ERROR, error.response.data)
-            setButtonLoading(false)
         } finally {
             setButtonLoading(false)
+
         }
     }
     return (
         <div className="RegisterNew_cotainer">
+            {buttonLoading && <Loading/>}
             <div className="RegisterNew_cotainer_center">
                 <div className="RegisterNew_container_title">Đăng ký</div>
                 <Form
@@ -157,7 +163,7 @@ const RegisterNew = () => {
                             
                             {
                                 //@ts-ignore
-                                Object.keys(nationJson).map((key, index)=><Option value = {key}><img style={{marginRight: '5px'}} src={`${urlImageNation}/${key}.png`}/>{nationJson[key as keyof ObjecType]}</Option>) 
+                                Object.keys(nationJson).map((key, index)=><Option key={key} value = {key}><img style={{marginRight: '5px'}} src={`${urlImageNation}/${key}.png`}/>{nationJson[key as keyof ObjecType]}</Option>) 
                             }
                        </Select>
                     </Form.Item>
@@ -266,6 +272,7 @@ const RegisterNew = () => {
                             onChange={(e) => setRePassword(e.target.value)}
                         />
                     </Form.Item>
+                    <Capcha setIsDone={setIsDoneCaptcha}/>
                     <Form.Item>
                         <Button
                             type="primary"
@@ -275,7 +282,9 @@ const RegisterNew = () => {
                                 borderRadius: '10px',
                                 height: '35px',
                                 fontSize: '16px',
+                                marginTop: '10px'
                             }}
+                            disabled = {!isDoneCaptcha}
                         >
                             Đăng ký
                         </Button>
