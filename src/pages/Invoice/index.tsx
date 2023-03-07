@@ -37,7 +37,6 @@ function InvoicePage() {
     const getSurplus = async () => {
         try {
             const result = await getUserSurplus()
-            console.log(result?.data)
             if (result.data) {
                 setCredit(Number(result.data?.data?.details?.acc_credit || 0))
                 setBalance(result.data?.data?.details?.acc_balance || 0)

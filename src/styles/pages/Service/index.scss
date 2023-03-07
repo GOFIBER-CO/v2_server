@@ -53,4 +53,22 @@
             font-size: 15px;
         }
     }
+    .interfaces,
+    .storage {
+        table,
+        tr,
+        thead,
+        tbody {
+            width: 100%;
+        }
+
+        thead {
+            background-color: #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+        }
+    }
 }

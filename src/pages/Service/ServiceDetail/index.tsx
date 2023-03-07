@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import '@/styles/pages/Service/index.scss'
 import Overview from './Overview'
+import NetworkInterfaces from './NetworkInterfaces'
+import Storage from './Storage'
+import Payment from './Payment'
 
 type Props = {
     service: any
@@ -19,41 +22,41 @@ const menu = [
         name: 'Interfaces',
         value: 'interfaces',
     },
-    {
-        id: 4,
-        name: 'Firewall',
-        value: 'firewall',
-    },
+    // {
+    //     id: 4,
+    //     name: 'Firewall',
+    //     value: 'firewall',
+    // },
     {
         id: 5,
         name: 'Storage',
         value: 'storage',
     },
-    {
-        id: 6,
-        name: 'Snapshots',
-        value: 'snapshots',
-    },
-    {
-        id: 7,
-        name: 'Nhật ký hệ thống',
-        value: 'daily',
-    },
-    {
-        id: 9,
-        name: 'Resources',
-        value: 'resources',
-    },
-    {
-        id: 10,
-        name: 'Network traffic',
-        value: 'traffic',
-    },
-    {
-        id: 11,
-        name: 'ISO List',
-        value: 'iso',
-    },
+    // {
+    //     id: 6,
+    //     name: 'Snapshots',
+    //     value: 'snapshots',
+    // },
+    // {
+    //     id: 7,
+    //     name: 'Nhật ký hệ thống',
+    //     value: 'daily',
+    // },
+    // {
+    //     id: 9,
+    //     name: 'Resources',
+    //     value: 'resources',
+    // },
+    // {
+    //     id: 10,
+    //     name: 'Network traffic',
+    //     value: 'traffic',
+    // },
+    // {
+    //     id: 11,
+    //     name: 'ISO List',
+    //     value: 'iso',
+    // },
     {
         id: 12,
         name: 'Thanh toán',
@@ -66,6 +69,9 @@ function ServiceDetailPage({ service, vm, invoice }: Props) {
 
     const render = {
         overview: <Overview vm={vm} service={service} />,
+        interfaces: <NetworkInterfaces vm={vm} />,
+        storage: <Storage vm={vm} />,
+        payment: <Payment service={service} />,
     }
 
     return (
@@ -93,7 +99,7 @@ function ServiceDetailPage({ service, vm, invoice }: Props) {
                     </ul>
                 </div>
                 <div className="col col-12 col-md-9">
-                    {render[`${tab}` as 'overview']}
+                    {render[`${tab}` as 'overview' | 'interfaces']}
                 </div>
             </div>
         </div>

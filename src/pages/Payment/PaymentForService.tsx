@@ -11,7 +11,6 @@ function PaymentForService() {
         if (!state) {
             navigate('/cloud-vps')
         }
-        console.log(state)
     }, [])
 
     return (

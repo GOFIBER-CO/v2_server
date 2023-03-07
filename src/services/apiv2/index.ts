@@ -189,6 +189,9 @@ export const getAllInvoices = () => axiosInstance.get(`/invoices/all-invoices`)
 export const getInvoiceById = (id: string) =>
     axiosInstance.get(`/invoices/invoice-by-id/${id}`)
 
+export const getInvoiceForDetail = (id: string) =>
+    axiosInstance.get(`/invoices/invoice-for-detail/${id}`)
+
 //thống kê người dùng
 export const getUserStatistic = (
     pageIndex: number,

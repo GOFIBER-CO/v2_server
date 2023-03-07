@@ -1,7 +1,5 @@
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-import {
-    getProductsBySubOrderPage,
-} from '@/services/apiv2'
+import { getProductsBySubOrderPage } from '@/services/apiv2'
 import '@/styles/pages/CloudVps/CreateCloud/CreateCloud.scss'
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import IArea from '@/interfaces/IArea'
@@ -31,6 +29,7 @@ import {
 import { AiFillInfoCircle } from 'react-icons/ai'
 import useClickOutSide from '@/hooks/useClickOutSide'
 import moment from 'moment'
+import { useAuth } from '@/hooks/useAuth'
 
 const PRODUCT_ID = '30'
 const ORDER_PAGE_ID = {
@@ -341,6 +340,7 @@ const CreateCloud: React.FC = () => {
     const [chosenProduct, setChosenProduct] = useState<any>({})
     const [toggle, setToggle] = useState(0)
     const [paymentMethod, setPaymentMethod] = useState<any>(paymentMethods[0])
+    const auth = useAuth()
 
     const [config, setConfig] = useState<{
         ram?: any
@@ -565,9 +565,13 @@ const CreateCloud: React.FC = () => {
     const onFinish = async () => {
         try {
             layout.setLoading(true)
+            const domain =
+                (auth?.user?.firstname as string) +
+                auth?.user?.lastname +
+                moment().format('mmDMYY')
             let data: ICreateNewService = {
                 cycle: unit.id,
-                domain: `test${moment().format('hhvmmvssvDDvMMvYYYY')}`,
+                domain: domain.toLowerCase(),
                 pay_method: paymentMethod?.object_id,
                 product_id: chosenProduct?.object_id,
                 os: chosenOsTemplate?.name,

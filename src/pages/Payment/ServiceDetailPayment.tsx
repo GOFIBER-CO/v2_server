@@ -26,7 +26,6 @@ function ServiceDetailPayment() {
             const result = await getServiceDetailForPayment(id)
 
             const { data } = result?.data
-            console.log('data', data)
             setData({
                 invoice: data?.invoice || {},
                 service: data?.service || {},
@@ -80,19 +79,21 @@ function ServiceDetailPayment() {
                         <div className="col col-12 col-lg-6">
                             <div className="info-item">
                                 <div>Ngày đăng ký</div>
-                                <div>{data?.invoice?.date}</div>
+                                <div>{data?.service?.date_created}</div>
                             </div>
                             <div className="info-item">
                                 <div>Số tiền thanh toán định kỳ</div>
                                 <div>
-                                    {ConverMoney(data?.service?.total) || 0} đ{' '}
-                                    {genCycle(data?.service?.billingcycle)}
+                                    {ConverMoney(
+                                        Number(data?.service?.total)
+                                    ) || 0}{' '}
+                                    đ {genCycle(data?.service?.billingcycle)}
                                 </div>
                             </div>
                             <div className="info-item">
                                 <div>Ngày hết hạn</div>
                                 <div style={{ color: 'red' }}>
-                                    {data?.service?.next_due}
+                                    {data?.service?.expires}
                                 </div>
                             </div>
                         </div>
@@ -103,7 +104,7 @@ function ServiceDetailPayment() {
                             </div>
                             <div className="info-item">
                                 <div>Hoá đơn tiếp theo</div>
-                                <div>{data?.service?.next_due}</div>
+                                <div>{data?.service?.next_invoice}</div>
                             </div>
                             {data?.service?.status !== 'Terminated' && (
                                 <div className="info-item">
