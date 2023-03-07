@@ -13,6 +13,7 @@
     "dependencies": {
         "@ant-design/icons": "^4.7.0",
         "@ant-design/plots": "^1.2.3",
+        "@iconify/react": "^4.1.0",
         "@popperjs/core": "^2.11.6",
         "@tinymce/tinymce-react": "^4.2.0",
         "antd": "^4.23.6",

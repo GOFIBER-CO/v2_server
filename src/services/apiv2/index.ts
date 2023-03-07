@@ -152,6 +152,9 @@ export const shutDownCloud = (id: number, service_id: number) =>
 export const startCloud = (id: number, service_id: number) =>
     axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
 
+export const stopCloud = (id: number, service_id: number) =>
+    axiosInstance.post(`/listVMS/stop/${service_id}/${id}`)
+
 export const getNotificationByUser = (type: string) =>
     axiosInstance.get(`/notification/get-by-user?type=${type}`)
 
@@ -180,6 +183,9 @@ export const getCloudVpsByUserIdVietTell = (
     axiosInstance.get(
         `/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
+
+export const getVMDetail = (id: string, service_id: string) =>
+    axiosInstance.get(`/listVMS/${service_id}/${id}`)
 
 export const getServiceDetailForPayment = (id: string) =>
     axiosInstance.get(`/services/service-detail-for-payment/${id}`)

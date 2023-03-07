@@ -9,6 +9,7 @@ type Props = {
     service: any
     vm: any
     invoice: any
+    handleRefreshVm: (vm: any) => void
 }
 
 const menu = [
@@ -64,11 +65,11 @@ const menu = [
     },
 ]
 
-function ServiceDetailPage({ service, vm, invoice }: Props) {
+function ServiceDetailPage({ service, vm, invoice, handleRefreshVm }: Props) {
     const [tab, setTab] = useState<string>(menu?.[0]?.value)
 
     const render = {
-        overview: <Overview vm={vm} service={service} />,
+        overview: <Overview handleRefreshVm={handleRefreshVm} vm={vm} service={service} />,
         interfaces: <NetworkInterfaces vm={vm} />,
         storage: <Storage vm={vm} />,
         payment: <Payment service={service} />,

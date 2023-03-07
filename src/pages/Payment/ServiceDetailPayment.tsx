@@ -61,9 +61,19 @@ function ServiceDetailPayment() {
         return description?.split('\n + ')
     }
 
+    const handleRefreshVm = (vm: any) => {
+        setData((prevState) => {
+            return {
+                ...prevState,
+                vm,
+            }
+        })
+    }
+
     const renderByStatus = {
         active: (
             <ServiceDetailPage
+                handleRefreshVm={handleRefreshVm}
                 service={data?.service}
                 invoice={data?.invoice}
                 vm={data?.vm}

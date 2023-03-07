@@ -201,7 +201,7 @@ function InvoiceDetailPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr style={{ width: '100%' }}>
+                                    <tr>
                                         <td className="extra20">
                                             {
                                                 (
@@ -217,19 +217,12 @@ function InvoiceDetailPage() {
                                         </td>
                                         <td
                                             style={{ textAlign: 'center' }}
-                                            className="extra50"
+                                            className="description"
                                         >
-                                            <div
-                                                style={{
-                                                    maxWidth: '100%',
-                                                    overflow: 'hidden',
-                                                }}
-                                            >
-                                                {transaction?.trans_id}
-                                            </div>
+                                            <div>{transaction?.trans_id}</div>
                                         </td>
                                         <td
-                                            className="extra10"
+                                            className="description"
                                             style={{ textAlign: 'end' }}
                                         >
                                             {ConverMoney(

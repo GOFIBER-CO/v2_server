@@ -572,6 +572,7 @@ const CreateCloud: React.FC = () => {
             let data: ICreateNewService = {
                 cycle: unit.id,
                 domain: domain.toLowerCase(),
+                // domain: 'testdungxoanhaacuong',
                 pay_method: paymentMethod?.object_id,
                 product_id: chosenProduct?.object_id,
                 os: chosenOsTemplate?.name,
