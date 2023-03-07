@@ -63,9 +63,9 @@ export const signup = (data: {
     phonenumber: string
 }) => axiosInstance.post('/users/register', data)
 
-export const getActionHistoryByUserId = (pageSize: number, pageIndex: number) =>
+export const getActionHistoryByUserId = (pageSize: number, pageIndex: number,search: string) =>
     axiosInstance.get(
-        `/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}`
+        `/action-history/get-by-user?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${search}`
     )
 
 export const getAllActionHistory = (pageSize: number, pageIndex: number) =>
@@ -214,4 +214,15 @@ export const getPagingServices = (
 ) =>
     axiosInstance.get(
         `/services/get-paging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
+    )
+
+
+//action history
+export const getOperationHistory = (
+    pageSize: number,
+    pageIndex: number,
+    filter: string
+) =>
+    axiosInstance.get(
+        `/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${filter}`
     )

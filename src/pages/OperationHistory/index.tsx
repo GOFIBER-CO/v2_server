@@ -1,7 +1,7 @@
 import ButtonFilter from '@/components/ButtonFilter'
 import formatDate from '@/helpers/formatDate'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
-import { getOperationHistory } from '@/services/apis'
+import { getOperationHistory } from '@/services/apiv2'
 import '@/styles/pages/ActionHistory/ActionHistory.scss'
 import { Input, Pagination, PaginationProps, Tag } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
@@ -14,7 +14,7 @@ const OperationHistory = () => {
     const layout = useLayoutInit()
     const [filter, setFilter] = useState('')
     const [operation, setOperation] = useState([])
-    const [pageSize, setPageSize] = useState(3)
+    const [pageSize, setPageSize] = useState(10)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
@@ -28,9 +28,9 @@ const OperationHistory = () => {
                 pageIndex,
                 filter
             )
-            setOperation(operation.data.actions)
-            setTotalPage(operation.data?.totalPage)
-            setTotalItem(operation.data?.count)
+            setOperation(operation.data.data.actions)
+            setTotalPage(operation.data?.data.totalPage)
+            setTotalItem(operation.data?.data.totalDocs)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -61,7 +61,11 @@ const OperationHistory = () => {
         {
             title: 'Người thực hiện',
             dataIndex: 'user',
-            render: (value) => value?.userName,
+            render: (value,record, index) => {
+               
+                const name = `${value?.lastname} ${value?.firstname}`
+                return <>{name}</>
+            },
         },
         {
             title: 'Thao tác',
@@ -112,7 +116,7 @@ const OperationHistory = () => {
                                 color: '#3699ff',
                             }}
                         />
-                        <span>Lịch sử thao tác</span>
+                        <span>Lịch sử thao tác </span>
                     </li>
                 </ul>
             </div>

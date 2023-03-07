@@ -35,6 +35,7 @@ const ActionHistory: React.FC = () => {
     const [pageIndex, setPageIndex] = useState(1)
     const [totalDoc, setTotalDoc] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
+    const [search, setSearch]= useState('')
     const auth = useAuth()
     const layout = useLayoutInit()
 
@@ -43,11 +44,12 @@ const ActionHistory: React.FC = () => {
             layout.setLoading(true)
             const actions = await getActionHistoryByUserId(
                 pageSize,
-                pageIndex
+                pageIndex,
+                search
             )
-            setActions(actions.data?.actions)
-            setTotalDoc(actions.data?.totalDoc)
-            setTotalPage(actions.data?.totalPage)
+            setActions(actions.data?.data?.actions)
+            setTotalDoc(actions.data?.data?.totalDocs)
+            setTotalPage(actions.data?.data?.totalPage)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -64,14 +66,17 @@ const ActionHistory: React.FC = () => {
     const statusKey: { [key: string]: string } = {
         pending: 'Đang thực hiện',
         success: 'Thành công',
-        fail: 'Thất bại',
+        failed: 'Thất bại',
     }
 
     const columns: ColumnsType<DataType> = [
         {
             title: 'Người thực hiện',
             dataIndex: 'user',
-            render: (value) => value?.userName,
+            render: (value) => {
+                const name = `${value?.lastname} ${value?.firstname}`
+                return <>{name}</>
+            },
         },
         {
             title: 'Thao tác',
@@ -103,6 +108,7 @@ const ActionHistory: React.FC = () => {
     ]
     const onFiltered = () => {
         console.log('Filtered')
+        getActionsHistory()
     }
 
     useEffect(() => {
@@ -131,7 +137,7 @@ const ActionHistory: React.FC = () => {
                     <Input
                         type="text"
                         placeholder="Từ khóa.."
-                        onChange={(e) => {}}
+                        onChange={(e) => {setSearch(e.target.value)}}
                     />
                 </div>
                 <div className="action-history-page-filter-button">
