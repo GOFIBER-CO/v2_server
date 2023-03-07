@@ -8,7 +8,6 @@ import Payment from './Payment'
 type Props = {
     service: any
     vm: any
-    invoice: any
     handleRefreshVm: (vm: any) => void
 }
 
@@ -65,11 +64,17 @@ const menu = [
     },
 ]
 
-function ServiceDetailPage({ service, vm, invoice, handleRefreshVm }: Props) {
+function ServiceDetailPage({ service, vm, handleRefreshVm }: Props) {
     const [tab, setTab] = useState<string>(menu?.[0]?.value)
 
     const render = {
-        overview: <Overview handleRefreshVm={handleRefreshVm} vm={vm} service={service} />,
+        overview: (
+            <Overview
+                handleRefreshVm={handleRefreshVm}
+                vm={vm}
+                service={service}
+            />
+        ),
         interfaces: <NetworkInterfaces vm={vm} />,
         storage: <Storage vm={vm} />,
         payment: <Payment service={service} />,

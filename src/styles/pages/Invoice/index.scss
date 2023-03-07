@@ -69,6 +69,11 @@
     }
 }
 
+.title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
 @media (max-width: 600px) {
     td,
     th {
@@ -84,5 +89,13 @@
         .content {
             padding: 24px 12px !important;
         }
+    }
+
+    .money {
+        font-size: 14px !important;
+        font-weight: 500;
+    }
+    .extra {
+        font-size: 12px !important;
     }
 }

@@ -608,7 +608,6 @@ const CreateCloud: React.FC = () => {
             const { status, data: resData } = result?.data
 
             if (status === RESPONSE_STATUS.SUCCESS) {
-                console.log('resData', resData)
                 notify(
                     notifyType.NOTIFY_SUCCESS,
                     'Đang tạo dịch vụ vui lòng đợi'

@@ -63,7 +63,11 @@ export const signup = (data: {
     phonenumber: string
 }) => axiosInstance.post('/users/register', data)
 
-export const getActionHistoryByUserId = (pageSize: number, pageIndex: number,search: string) =>
+export const getActionHistoryByUserId = (
+    pageSize: number,
+    pageIndex: number,
+    search: string
+) =>
     axiosInstance.get(
         `/action-history/get-by-user?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${search}`
     )
@@ -149,11 +153,17 @@ export const getProductDetail = (id: string) =>
 export const shutDownCloud = (id: number, service_id: number) =>
     axiosInstance.post(`/listVMS/shutdown/${service_id}/${id}`)
 
+export const resetCloud = (id: number, service_id: number) =>
+    axiosInstance.post(`/listVMS/reset/${service_id}/${id}`)
+
 export const startCloud = (id: number, service_id: number) =>
     axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
 
 export const stopCloud = (id: number, service_id: number) =>
     axiosInstance.post(`/listVMS/stop/${service_id}/${id}`)
+
+export const rebootCloud = (id: number, service_id: number) =>
+    axiosInstance.post(`/listVMS/reboot/${service_id}/${id}`)
 
 export const getNotificationByUser = (type: string) =>
     axiosInstance.get(`/notification/get-by-user?type=${type}`)
@@ -224,7 +234,6 @@ export const getPagingServices = (
     axiosInstance.get(
         `/services/get-paging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
-
 
 //action history
 export const getOperationHistory = (

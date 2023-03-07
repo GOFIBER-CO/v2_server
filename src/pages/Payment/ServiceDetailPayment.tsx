@@ -26,6 +26,7 @@ function ServiceDetailPayment() {
             const result = await getServiceDetailForPayment(id)
 
             const { data } = result?.data
+            console.log(data)
             setData({
                 invoice: data?.invoice || {},
                 service: data?.service || {},
@@ -75,7 +76,6 @@ function ServiceDetailPayment() {
             <ServiceDetailPage
                 handleRefreshVm={handleRefreshVm}
                 service={data?.service}
-                invoice={data?.invoice}
                 vm={data?.vm}
             />
         ),

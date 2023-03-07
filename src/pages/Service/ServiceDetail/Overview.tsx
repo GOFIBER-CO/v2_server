@@ -1,9 +1,27 @@
 import { convertByteToMB, convertMBtoGB, timeCalculator } from '@/helpers'
-import { Button, Popconfirm, Popover, Switch } from 'antd'
+import {
+    Button,
+    Dropdown,
+    Form,
+    Input,
+    MenuProps,
+    Modal,
+    Popconfirm,
+    Popover,
+    Switch,
+} from 'antd'
 import moment from 'moment'
-import React, { useState } from 'react'
-import { getVMDetail, startCloud, stopCloud } from '@/services/apiv2'
+import React, { useEffect, useState } from 'react'
+import {
+    getVMDetail,
+    rebootCloud,
+    resetCloud,
+    shutDownCloud,
+    startCloud,
+    stopCloud,
+} from '@/services/apiv2'
 import { Icon } from '@iconify/react'
+import { notify, notifyType } from '@/App'
 
 type Props = {
     service: any
@@ -12,15 +30,74 @@ type Props = {
 }
 
 function Overview({ service, vm, handleRefreshVm }: Props) {
+    const [form] = Form.useForm()
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [isStarting, setIsStarting] = useState<boolean>(false)
     const [isStopping, setIsStopping] = useState<boolean>(false)
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
     const [isShowConfirmStart, setIsShowConfirmStart] = useState<boolean>(false)
-    const [isShowConfirmReboot, setIsShowConfirmReboot] =
-        useState<boolean>(false)
-    const [isShowConfirmShutdown, setIsShowConfirmShutdown] =
-        useState<boolean>(false)
+    const [isRebooting, setIsRebooting] = useState<boolean>(false)
+    const [isShutdown, setIsShutdown] = useState<boolean>(false)
+    const [isResetting, setIsResetting] = useState<boolean>(false)
+    const [isShowControlPanel, setIsControlPanel] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (vm?.status === 'rebooting') {
+            setIsRebooting(true)
+        } else {
+            setIsRebooting(false)
+            setIsStarting(false)
+            setIsStopping(false)
+            setIsShutdown(false)
+            setIsResetting(false)
+        }
+    }, [vm])
+
+    const items: MenuProps['items'] = [
+        {
+            label: <a>Reset</a>,
+            key: '0',
+            onClick: () => handleResetVM(),
+        },
+        {
+            type: 'divider',
+        },
+        // {
+        //     label: <a>Cài đặt lại</a>,
+        //     key: '1',
+        // },
+        // {
+        //     type: 'divider',
+        // },
+        // {
+        //     label: <a>Upgrade</a>,
+        //     key: '5',
+        // },
+        // {
+        //     type: 'divider',
+        // },
+        {
+            label: <a>Panel Login</a>,
+            key: '2',
+            onClick: () => {
+                setIsControlPanel(true)
+            },
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: <a>Boot Order</a>,
+            key: '3',
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: <a>ISO Image</a>,
+            key: '4',
+        },
+    ]
 
     const genIP = () => {
         return Object.values(vm?.ip)?.[0] as any
@@ -34,7 +111,8 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
     const handleStartVM = async () => {
         try {
             setIsStarting(true)
-            console.log(service)
+            notify(notifyType.NOTIFY_SUCCESS, 'VM đang được start')
+
             const result = await startCloud(vm?.id, service?.id)
         } catch (error) {
             console.log(error)
@@ -45,8 +123,42 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
         try {
             setIsShowConfirmStart(false)
             setIsStopping(true)
-            console.log(service)
+            notify(notifyType.NOTIFY_SUCCESS, 'VM đang được stop')
+
             const result = await stopCloud(vm?.id, service?.id)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleRebootVM = async () => {
+        try {
+            setIsRebooting(true)
+            notify(notifyType.NOTIFY_SUCCESS, 'VM đang được reboot')
+
+            const result = await rebootCloud(vm?.id, service?.id)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleShutdownVM = async () => {
+        try {
+            setIsShutdown(true)
+            notify(notifyType.NOTIFY_SUCCESS, 'VM đang được shutdown')
+
+            const result = await shutDownCloud(vm?.id, service?.id)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleResetVM = async () => {
+        try {
+            setIsResetting(true)
+            notify(notifyType.NOTIFY_SUCCESS, 'VM đang được reset')
+
+            const result = await resetCloud(vm?.id, service?.id)
         } catch (error) {
             console.log(error)
         }
@@ -65,6 +177,9 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
             setIsRefreshing(false)
             setIsStarting(false)
             setIsStopping(false)
+            setIsRebooting(false)
+            setIsResetting(false)
+            setIsShutdown(false)
         }
     }
 
@@ -72,7 +187,11 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
         <div className="overview">
             <div className="d-flex align-items-center justify-content-between">
                 <h5>Server Details</h5>
-                {isStarting || isStopping ? (
+                {isStarting ||
+                isStopping ||
+                isRebooting ||
+                isShutdown ||
+                isResetting ? (
                     <div>
                         <Icon
                             style={{
@@ -88,21 +207,45 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     <div>
                         <Button type="default">Console</Button>
                         <Popconfirm
-                            open={isShowConfirmReboot}
-                            placement="bottomLeft"
+                            placement="bottom"
                             title={'Bạn có muốn reboot VM không?'}
-                            // onConfirm={handleStopVM}
+                            onConfirm={handleRebootVM}
                             okText="Yes"
                             cancelText="No"
-                            onCancel={() => setIsShowConfirmStart(false)}
                         >
                             <Button type="default">Reboot</Button>
                         </Popconfirm>
-                        <Button type="default">Shutdown</Button>
-                        <Button type="default">More</Button>
+                        <Popconfirm
+                            placement="bottom"
+                            title={'Bạn có muốn shutdown VM không?'}
+                            onConfirm={handleShutdownVM}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button type="default">Shutdown</Button>
+                        </Popconfirm>
+                        <Dropdown
+                            placement="bottomRight"
+                            menu={{ items }}
+                            trigger={['click']}
+                        >
+                            <Button type="default">More</Button>
+                        </Dropdown>
                     </div>
                 ) : (
-                    <div>sterp</div>
+                    <div>
+                        <Button onClick={handleStartVM} type="default">
+                            Startup
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setIsControlPanel(true)
+                            }}
+                            type="default"
+                        >
+                            Panel Login
+                        </Button>
+                    </div>
                 )}
             </div>
             <div className="content">
@@ -112,9 +255,15 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                             <div>Trạng thái</div>
                             <div className="d-flex align-items-center">
                                 {isStarting ? (
-                                    <div>Starting</div>
+                                    <div className="running">STARTING</div>
                                 ) : isStopping ? (
-                                    <div>Stopping</div>
+                                    <div className="running">STOPPING</div>
+                                ) : isRebooting ? (
+                                    <div className="running">REBOOTING</div>
+                                ) : isShutdown ? (
+                                    <div className="running">SHUTDOWN</div>
+                                ) : isResetting ? (
+                                    <div className="running">RESETTING</div>
                                 ) : (
                                     <Popconfirm
                                         open={isShowConfirmStart}
@@ -157,7 +306,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     <div className="row">
                         <div className="col col-12 col-md-6">
                             <div>Tên đăng nhập</div>
-                            <div>root</div>
+                            <div>{service?.username}</div>
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>Mật khẩu</div>
@@ -261,6 +410,30 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     </div>
                 </div>
             </div>
+
+            <Modal
+                title="Panel Login"
+                open={isShowControlPanel}
+                onCancel={() => setIsControlPanel(false)}
+                footer={null}
+            >
+                <Form layout="vertical">
+                    <Form.Item label="Tên đăng nhập" name="username">
+                        <Input
+                            readOnly
+                            placeholder="Tên đăng nhập"
+                            defaultValue={service?.username}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Mật khẩu" name="password">
+                        <Input
+                            readOnly
+                            placeholder="input placeholder"
+                            defaultValue={service?.password}
+                        />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     )
 }

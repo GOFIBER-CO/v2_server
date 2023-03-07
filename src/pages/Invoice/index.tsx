@@ -119,8 +119,8 @@ function InvoicePage() {
 
     return (
         <div className="invoice-page">
-            <div className="d-flex align-items-center justify-content-between">
-                <h4>Hóa đơn</h4>
+            <div className="d-flex align-items-center justify-content-between mx-1 my-1">
+                <div className="title">Hóa đơn</div>
                 <div className="d-flex align-items-center">
                     <div style={{ marginRight: '12px' }} className="money-item">
                         <div className="money red">
@@ -142,6 +142,7 @@ function InvoicePage() {
                     dataSource={invoices}
                     pagination={false}
                     sticky
+                    scroll={{ x: '1200px', y: '600px' }}
                     rowKey="number"
                 />
             </div>
