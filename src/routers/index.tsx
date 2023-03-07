@@ -55,6 +55,7 @@ import PaymentForService from '@/pages/Payment/PaymentForService'
 import ServiceDetailPayment from '@/pages/Payment/ServiceDetailPayment'
 import InvoicePage from '@/pages/Invoice'
 import InvoiceDetailPage from '@/pages/Invoice/InvoiceDetail'
+import ServiceListPage from '@/pages/Service'
 const AppRouter: React.FC = () => {
     const auth = useAuth()
     const isLoggedIn = auth.isLoggedIn
@@ -183,6 +184,7 @@ const AppRouter: React.FC = () => {
                             path="/invoice-detail/:id"
                             element={<InvoiceDetailPage />}
                         />
+                        <Route path="/services" element={<ServiceListPage />} />
                         <Route
                             path="/notification/:slug"
                             element={<NotificationDetail />}

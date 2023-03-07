@@ -5,9 +5,12 @@ import '@/styles/pages/Payment/index.scss'
 import { Divider } from 'antd'
 import ConverMoney from '@/components/Conver/ConverMoney'
 import { Link } from 'react-router-dom'
+import { useLayoutInit } from '@/hooks/useInitLayOut'
+import ServiceDetailPage from '../Service/ServiceDetail'
 
 function ServiceDetailPayment() {
     const { id } = useParams()
+    const layout = useLayoutInit()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [data, setData] = useState<{
@@ -19,10 +22,10 @@ function ServiceDetailPayment() {
     const getServiceDetail = async (id: string) => {
         try {
             setIsLoading(true)
+            layout.setLoading(true)
             const result = await getServiceDetailForPayment(id)
 
             const { data } = result?.data
-
             setData({
                 invoice: data?.invoice || {},
                 service: data?.service || {},
@@ -31,6 +34,7 @@ function ServiceDetailPayment() {
         } catch (error) {
             console.log('getServiceDetailForPayment', error)
         } finally {
+            layout.setLoading(false)
             setIsLoading(false)
         }
     }
@@ -47,69 +51,108 @@ function ServiceDetailPayment() {
 
     const genStatus = (value: string) => {
         if (value === 'Pending') return `Đang chờ`
-
+        else if (value === 'Terminated') return `Đã xóa`
         return ``
+    }
+
+    const genDescription = (description: string) => {
+        if (!description) return []
+
+        return description?.split('\n + ')
+    }
+
+    const handleRefreshVm = (vm: any) => {
+        setData((prevState) => {
+            return {
+                ...prevState,
+                vm,
+            }
+        })
+    }
+
+    const renderByStatus = {
+        active: (
+            <ServiceDetailPage
+                handleRefreshVm={handleRefreshVm}
+                service={data?.service}
+                invoice={data?.invoice}
+                vm={data?.vm}
+            />
+        ),
+        inactive: (
+            <div className="row">
+                <div className="col col-12 col-lg-3"></div>
+                <div className="col col-12 col-lg-9">
+                    <h4>Thanh toán</h4>
+                    <Divider />
+                    <div className="row">
+                        <div className="col col-12 col-lg-6">
+                            <div className="info-item">
+                                <div>Ngày đăng ký</div>
+                                <div>{data?.service?.date_created}</div>
+                            </div>
+                            <div className="info-item">
+                                <div>Số tiền thanh toán định kỳ</div>
+                                <div>
+                                    {ConverMoney(
+                                        Number(data?.service?.total)
+                                    ) || 0}{' '}
+                                    đ {genCycle(data?.service?.billingcycle)}
+                                </div>
+                            </div>
+                            <div className="info-item">
+                                <div>Ngày hết hạn</div>
+                                <div style={{ color: 'red' }}>
+                                    {data?.service?.expires}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col col-12 col-lg-6">
+                            <div className="info-item">
+                                <div>Trạng thái</div>
+                                <div>{genStatus(data?.service?.status)}</div>
+                            </div>
+                            <div className="info-item">
+                                <div>Hoá đơn tiếp theo</div>
+                                <div>{data?.service?.next_invoice}</div>
+                            </div>
+                            {data?.service?.status !== 'Terminated' && (
+                                <div className="info-item">
+                                    <div>Hoá đơn chưa thanh toán</div>
+                                    <div>
+                                        <Link
+                                            to={`/invoice-detail/${data?.invoice?.id}`}
+                                        >
+                                            #{data?.invoice?.proforma_id}
+                                        </Link>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div>
+                            {genDescription(
+                                data?.invoice?.items?.[0]?.description
+                            ).map((item: any) => (
+                                <div className="line-item" key={item}>
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ),
     }
 
     const render = {
         loading: <div></div>,
         notLoading: (
             <div className="service-detail-for-payment">
-                <div className="row">
-                    <div className="col col-12 col-lg-3"></div>
-                    <div className="col col-12 col-lg-9">
-                        <h4>Thanh toán</h4>
-                        <Divider />
-                        <div className="row">
-                            <div className="col col-12 col-lg-6">
-                                <div className="info-item">
-                                    <div>Ngày đăng ký</div>
-                                    <div>{data?.invoice?.date}</div>
-                                </div>
-                                <div className="info-item">
-                                    <div>Số tiền thanh toán định kỳ</div>
-                                    <div>
-                                        {ConverMoney(
-                                            data?.invoice?.grandtotal
-                                        ) || 0}{' '}
-                                        đ{' '}
-                                        {genCycle(data?.service?.billingcycle)}
-                                    </div>
-                                </div>
-                                <div className="info-item">
-                                    <div>Ngày hết hạn</div>
-                                    <div style={{ color: 'red' }}>
-                                        {data?.service?.expires}
-                                    </div>
-                                </div>
-                                <div className="info-item">
-                                    <div>Hoá đơn chưa thanh toán</div>
-                                    <div>
-                                        <Link to={'/'}>
-                                            #{data?.invoice?.proforma_id}
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col col-12 col-lg-6">
-                                <div className="info-item">
-                                    <div>Trạng thái</div>
-                                    <div>
-                                        {genStatus(data?.service?.status)}
-                                    </div>
-                                </div>
-                                <div className="info-item">
-                                    <div>Hoá đơn tiếp theo</div>
-                                    <div>{data?.service?.next_due}</div>
-                                </div>
-                                <div className="info-item">
-                                    <div>OS Template</div>
-                                    <div>{data?.vm?.template_name}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {data?.service?.status === 'Active'
+                    ? renderByStatus['active']
+                    : renderByStatus['inactive']}
             </div>
         ),
     }

@@ -1,4 +1,4 @@
-import { getInvoiceById } from '@/services/apiv2'
+import { getInvoiceById, getInvoiceForDetail } from '@/services/apiv2'
 import { Button, Modal, Tag } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
@@ -8,6 +8,7 @@ import ConverMoney from '@/components/Conver/ConverMoney'
 
 function InvoiceDetailPage() {
     const [invoice, setInvoice] = useState<any>({})
+    const [transaction, setTransaction] = useState<any>({})
     const { id } = useParams()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [modal, setModal] = useState(false)
@@ -15,11 +16,12 @@ function InvoiceDetailPage() {
     const getInvoice = async (id: any) => {
         try {
             setIsLoading(true)
-            const result = await getInvoiceById(id)
+            const result = await getInvoiceForDetail(id)
 
             const { data } = result?.data
 
-            setInvoice(data || {})
+            setInvoice(data?.invoice || {})
+            setTransaction(data?.transaction || {})
             console.log(data)
         } catch (error) {
             console.log(error)
@@ -41,7 +43,10 @@ function InvoiceDetailPage() {
                 </div>
                 <div className="mt-4">
                     <div>
-                        <Tag color="green">Đã thanh toán</Tag>
+                        <Tag color="green">
+                            Đã thanh toán:{' '}
+                            {(invoice?.datepaid as string)?.split(' ')[0]}
+                        </Tag>
                         <Tag style={{ padding: '0px 8px' }} color="light">
                             <span style={{ color: '#000' }}>
                                 {invoice?.date}
@@ -98,7 +103,12 @@ function InvoiceDetailPage() {
                                     <th className="extra">Thuế</th>
                                     <th className="extra">Đơn giá</th>
                                     <th className="extra">Số lượng</th>
-                                    <th className="extra">Giá</th>
+                                    <th
+                                        style={{ textAlign: 'end' }}
+                                        className="extra"
+                                    >
+                                        Giá
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,7 +134,10 @@ function InvoiceDetailPage() {
                                         <td className="extra">
                                             {Number(item?.qty) || 'Không'}
                                         </td>
-                                        <td className="extra">
+                                        <td
+                                            style={{ textAlign: 'end' }}
+                                            className="extra"
+                                        >
                                             {ConverMoney(
                                                 Number(item?.linetotal)
                                             )}{' '}
@@ -154,6 +167,72 @@ function InvoiceDetailPage() {
                             <strong>
                                 Tổng: {ConverMoney(invoice?.total)} đ
                             </strong>
+                        </div>
+                    </div>
+                    <div className="row mt-4">
+                        <div>
+                            <strong>Giao dịch liên quan</strong>
+                        </div>
+                        <div className="col col-12 mt-2">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th className="extra20">
+                                            Ngày giao dịch
+                                        </th>
+                                        <th
+                                            style={{ textAlign: 'center' }}
+                                            className="extra20"
+                                        >
+                                            Hình thức thanh toán
+                                        </th>
+                                        <th
+                                            style={{ textAlign: 'center' }}
+                                            className="extra50"
+                                        >
+                                            Mã giao dịch
+                                        </th>
+                                        <th
+                                            className="extra10"
+                                            style={{ textAlign: 'end' }}
+                                        >
+                                            Số tiền
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="extra20">
+                                            {
+                                                (
+                                                    transaction?.date as string
+                                                )?.split(' ')[0]
+                                            }
+                                        </td>
+                                        <td
+                                            style={{ textAlign: 'center' }}
+                                            className="extra20"
+                                        >
+                                            {transaction?.module}
+                                        </td>
+                                        <td
+                                            style={{ textAlign: 'center' }}
+                                            className="description"
+                                        >
+                                            <div>{transaction?.trans_id}</div>
+                                        </td>
+                                        <td
+                                            className="description"
+                                            style={{ textAlign: 'end' }}
+                                        >
+                                            {ConverMoney(
+                                                Number(transaction?.in)
+                                            ) || 0}{' '}
+                                            đ
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

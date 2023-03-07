@@ -63,9 +63,9 @@ export const signup = (data: {
     phonenumber: string
 }) => axiosInstance.post('/users/register', data)
 
-export const getActionHistoryByUserId = (pageSize: number, pageIndex: number) =>
+export const getActionHistoryByUserId = (pageSize: number, pageIndex: number,search: string) =>
     axiosInstance.get(
-        `/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}`
+        `/action-history/get-by-user?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${search}`
     )
 
 export const getAllActionHistory = (pageSize: number, pageIndex: number) =>
@@ -152,6 +152,9 @@ export const shutDownCloud = (id: number, service_id: number) =>
 export const startCloud = (id: number, service_id: number) =>
     axiosInstance.post(`/listVMS/start/${service_id}/${id}`)
 
+export const stopCloud = (id: number, service_id: number) =>
+    axiosInstance.post(`/listVMS/stop/${service_id}/${id}`)
+
 export const getNotificationByUser = (type: string) =>
     axiosInstance.get(`/notification/get-by-user?type=${type}`)
 
@@ -181,6 +184,9 @@ export const getCloudVpsByUserIdVietTell = (
         `/listVMS/getpaging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
 
+export const getVMDetail = (id: string, service_id: string) =>
+    axiosInstance.get(`/listVMS/${service_id}/${id}`)
+
 export const getServiceDetailForPayment = (id: string) =>
     axiosInstance.get(`/services/service-detail-for-payment/${id}`)
 
@@ -189,13 +195,43 @@ export const getAllInvoices = () => axiosInstance.get(`/invoices/all-invoices`)
 export const getInvoiceById = (id: string) =>
     axiosInstance.get(`/invoices/invoice-by-id/${id}`)
 
-    export const getOrderPagesToShow = () =>
+export const getInvoiceForDetail = (id: string) =>
+    axiosInstance.get(`/invoices/invoice-for-detail/${id}`)
+
+//thống kê người dùng
+export const getUserStatistic = (
+    pageIndex: number,
+    userName: string,
+    pageSize?: number
+) =>
+    axiosInstance.get(
+        `/users/getpagingUser?pageIndex=${pageIndex}&search=${userName}&pageSize=${pageSize}`
+    )
+export const getOrderPagesToShow = () =>
     axiosInstance.get(`/order-pages/get-order-pages-to-show`)
 
 export const getSubOrderPagesByParent = (slug: string) =>
-    axiosInstance.get(
-        `/order-pages/get-sub-order-pages-by-parent/${slug}`
-    )
+    axiosInstance.get(`/order-pages/get-sub-order-pages-by-parent/${slug}`)
 
 export const getProductsBySubOrderPage = (id: string) =>
     axiosInstance.get(`/products/products-by-sub-order-page/${id}`)
+
+export const getPagingServices = (
+    search: string,
+    pageIndex: number,
+    pageSize: number
+) =>
+    axiosInstance.get(
+        `/services/get-paging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
+    )
+
+
+//action history
+export const getOperationHistory = (
+    pageSize: number,
+    pageIndex: number,
+    filter: string
+) =>
+    axiosInstance.get(
+        `/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${filter}`
+    )

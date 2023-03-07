@@ -695,7 +695,7 @@ const CloudVps: React.FC = () => {
     }
 
     useEffect(() => {
-        getAllLocation()
+        // getAllLocation()
         // getAllOrder()
         getCloudServer()
         // getOperatingSystem()

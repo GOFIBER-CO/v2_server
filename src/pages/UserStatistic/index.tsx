@@ -1,7 +1,8 @@
 import ButtonFilter from '@/components/ButtonFilter'
+import formatMoney from '@/helpers/formatMoney'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import IUserStatistic from '@/interfaces/IUserStatistic'
-import { getUserStatistic } from '@/services/apis'
+import { getUserStatistic } from '@/services/apiv2'
 import '@/styles/pages/UserStatistic/index.scss'
 import { Input, Pagination, PaginationProps } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
@@ -10,11 +11,12 @@ import { TfiMenuAlt } from 'react-icons/tfi'
 
 const UserStatistic = () => {
     const [filter, setFilter] = useState('')
-    const [statistics, setStatistics] = useState<IUserStatistic[]>([])
-    const [pageSize, setPageSize] = useState(10)
+    const [statistics, setStatistics] = useState<any[]>([])
+    const [pageSize, setPageSize] = useState(1)
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [totalItem, setTotalItem] = useState(1)
+    const [filterTable, setfilterTable] = useState(null)
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     const layout = useLayoutInit()
@@ -30,11 +32,12 @@ const UserStatistic = () => {
         try {
             layout.setLoading(true)
             const result = await getUserStatistic(pageIndex, filter, pageSize)
-            setStatistics(result.data?.statistic)
-            setPageSize(result.data?.pageSize)
-            setTotalItem(result.data?.totalItem)
-            setPageIndex(Number(result.data?.pageIndex))
-            setTotalPage(result.data?.totalPages)
+        
+            setStatistics(result.data?.data)
+            // setPageSize(result.data?.pageSize)
+            // setTotalItem(result.data?.totalItem)
+            // setPageIndex(Number(result.data?.pageIndex))
+            // setTotalPage(result.data?.totalPages)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -48,46 +51,75 @@ const UserStatistic = () => {
     }
 
     const columns: ColumnsType<IUserStatistic> = [
-        {
-            title: 'Mã khách hàng',
-            dataIndex: 'code',
-        },
+        // {
+        //     title: 'Mã khách hàng',
+        //     // dataIndex: 'code',
+        // },
         {
             title: 'Tên khách hàng',
-            dataIndex: 'userName',
+            dataIndex: 'name',
         },
-        {
-            title: 'Tổng tiền đã nạp',
-            dataIndex: 'numberOfPricePurchase',
-            sorter: (a, b) => a.numberOfPricePurchase - b.numberOfPricePurchase,
-        },
+        // {
+        //     title: 'Tổng tiền đã nạp',
+        //     dataIndex: 'credit',
+        //     render:(value,record,index)=>{
+        //         return <>{value}</>
+        //     }
+        //     // sorter: (a, b) => a.numberOfPricePurchase - b.numberOfPricePurchase,
+        // },
         {
             title: 'Tổng tiền đã dùng',
-            dataIndex: 'priceUsed',
-            render: (value) => value.sum,
-            sorter: (a, b) => Number(a.priceUsed) - Number(b.priceUsed),
+            dataIndex: 'invoice_paid',
+            render: (value) => (formatMoney(value)),
+            sorter: (a, b) => Number(a?.invoice_paid) - Number(b?.invoice_paid),
         },
         {
             title: 'Số cloud vps đã mua',
-            dataIndex: 'numberOfCloudVps',
+            dataIndex: 'service',
+            sorter: (a, b) => Number(a?.service) - Number(b?.service),
         },
         {
             title: 'Số ticket đã gửi',
-            dataIndex: 'numberOfTicketSent',
+            dataIndex: 'count_ticket',
         },
         {
             title: 'Số ticket đã được giải quyết',
-            dataIndex: 'numberOfTicketSolved',
+            dataIndex: 'soTicket',
+            render:(value,record)=>{
+                const data : any = []
+                value?.map((item : any) => {
+                    if(item === 3 ){
+                        return data.push(item)
+                    }
+                })
+                return <>{data.length}</>
+            }
         },
     ]
 
     const onFiltered = () => {
-        getStatistic()
+        // getStatistic()
+        // Search();
     }
 
     useEffect(() => {
         getStatistic()
     }, [pageIndex, pageSize])
+
+    
+    const Search = (value: any) => {
+        const filterTable = statistics.filter((o: any) =>
+            Object.keys(o).some(k =>
+              String(o[k])
+                .toLowerCase()
+                .includes(value.toLowerCase())
+            )
+          );
+            setfilterTable(filterTable as any)    
+    }
+
+    
+    
     return (
         <div className="user-statistic-page">
             <div className="user-statistic-page-header">
@@ -111,23 +143,25 @@ const UserStatistic = () => {
                     style={{ marginLeft: '10px', marginRight: '10px' }}
                 >
                     <Input
+                        style={{width:'300px'}}
                         type="text"
                         placeholder="Tên người dùng..."
-                        onChange={(e) => setFilter(e.target.value)}
+                        onChange={(e: any)=>Search(e.target.value)}
                     />
                 </div>
-                <div className="user-statistic-page-filter-button">
+                {/* <div className="user-statistic-page-filter-button">
                     <ButtonFilter buttonOnclick={onFiltered} />
-                </div>
+                </div> */}
             </div>
             <div className="user-statistic-page-table">
                 <Table
                     columns={columns}
-                    dataSource={statistics}
+                    dataSource={filterTable == null ? statistics : filterTable}
                     scroll={{ x: '1350px', y: '400px' }}
-                    pagination={false}
+                    // pagination={false}
+                    rowSelection={rowSelection}
                 />
-                <Pagination
+                {/* <Pagination
                     showSizeChanger    
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
@@ -138,7 +172,7 @@ const UserStatistic = () => {
                         setPageIndex(page)
                         setPageSize(pageSize)
                     }}
-                />
+                /> */}
             </div>
         </div>
     )

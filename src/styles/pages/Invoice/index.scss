@@ -55,6 +55,34 @@
             .extra {
                 width: 15%;
             }
+
+            .extra20 {
+                width: 20%;
+            }
+            .extra50 {
+                width: 50%;
+            }
+            .extra10 {
+                width: 10%;
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    td,
+    th {
+        font-size: 10px !important;
+    }
+
+    .extra50 {
+        width: 50% !important;
+        overflow-x: hidden;
+    }
+
+    .invoice-detail-page {
+        .content {
+            padding: 24px 12px !important;
         }
     }
 }

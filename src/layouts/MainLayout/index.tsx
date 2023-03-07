@@ -59,6 +59,7 @@ import { isMobile } from 'react-device-detect'
 import { IoStatsChart } from 'react-icons/io5'
 import formatMoney from '@/helpers/formatMoney'
 import { socket, SocketContext } from '@/socket/index'
+import { HiOutlineDesktopComputer } from 'react-icons/hi'
 
 const { Header, Sider, Content } = Layout
 
@@ -357,6 +358,20 @@ const MainLayout: React.FC = () => {
                                 <NavLink to={'/cloud-vps/create-cloud'}>
                                     Tạo mới cloud server
                                 </NavLink>
+                            ),
+                        },
+                    ],
+                },
+                {
+                    key: '/services',
+                    icon: <HiOutlineDesktopComputer />,
+                    label: 'Service',
+                    children: [
+                        {
+                            key: '/service-list',
+                            icon: <BsCardChecklist />,
+                            label: (
+                                <NavLink to={'/services'}>Danh sách</NavLink>
                             ),
                         },
                     ],
