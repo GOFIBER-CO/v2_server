@@ -246,3 +246,15 @@ export const getOperationHistory = (
     )
 
 export const getPagingUser = (pageSize: number, pageIndex: number, username: string) => axiosInstance.get(`/users/getpaging?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${username}`)
+
+//danh sach dich vu
+export const getService = (
+    pageIndex: number,
+    serverDefault?: string,
+    serviceName?: string,
+    pageSize?: number,
+    
+) =>
+    axiosInstance.get(
+        `/products/getPaging?pageIndex=${pageIndex}&serverDefault=${serverDefault}&search=${serviceName}&pageSize=${pageSize}`
+    )

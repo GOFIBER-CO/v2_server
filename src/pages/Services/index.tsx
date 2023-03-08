@@ -1,9 +1,11 @@
 import { notify, notifyType } from '@/App'
 import ButtonFilter from '@/components/ButtonFilter'
 import formatDate from '@/helpers/formatDate'
+import formatMoney from '@/helpers/formatMoney'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import IService from '@/interfaces/IService'
-import { deleteService, getService } from '@/services/apis'
+import { deleteService } from '@/services/apis'
+import {  getService } from '@/services/apiv2'
 import '@/styles/pages/Services/index.scss'
 import { Button, Input, Pagination, PaginationProps, Select } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
@@ -12,6 +14,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
 import { TfiMenuAlt } from 'react-icons/tfi'
 import { Link } from 'react-router-dom'
+import {convertDescriptionProductToObject} from "../../helpers/index"
 
 const { Option } = Select
 
@@ -64,7 +67,7 @@ const Service = () => {
             )
             setTotalPage(services.data.totalPages)
             setServices(services.data?.data)
-            setTotalItem(services.data?.totalItem)
+            setTotalItem(services.data?.count)
             layout.setLoading(false)
         } catch (error) {
             console.log(error)
@@ -106,86 +109,130 @@ const Service = () => {
     const columns: ColumnsType<IService> = [
         {
             title: 'Mã server',
-            dataIndex: 'code',
+            dataIndex: 'object_id',
         },
         {
             title: 'Tên dịch vụ',
-            dataIndex: 'serverName',
+            dataIndex: 'name',
         },
         {
-            title: 'Giá',
-            dataIndex: 'price',
+            title: 'Giá theo tháng',
+            dataIndex: 'm',
+            render(value, record, index) {
+                return formatMoney(value)
+            },
+        },
+        {
+            title: 'Giá theo 3 tháng',
+            dataIndex: 'q',
+            render(value, record, index) {
+                return formatMoney(value)
+            },
+        },
+        {
+            title: 'Giá theo 6 tháng',
+            dataIndex: 's',
+            render(value, record, index) {
+                return formatMoney(value)
+            },
+        },
+        {
+            title: 'Giá theo 1 năm',
+            dataIndex: 'a',
+            render(value, record, index) {
+                return formatMoney(value)
+            },
         },
         {
             title: 'RAM',
-            dataIndex: 'ram',
+            dataIndex: 'description',
+            render(value, record, index) {
+                const data = convertDescriptionProductToObject(value)
+               
+                return<>{data.Ram}</>
+            },
         },
         {
             title: 'SSD',
-            dataIndex: 'ssd',
+            dataIndex: 'description',
+            render(value, record, index) {
+                const data = convertDescriptionProductToObject(value)
+               
+                return<>{data.Storage}</>
+            },
         },
         {
             title: 'Băng thông',
-            dataIndex: 'bandwidth',
+           dataIndex: 'description',
+          render(value, record, index) {
+              const data = convertDescriptionProductToObject(value)
+             
+              return<>{data.Bandwidth}</>
+          },
         },
         {
-            title: 'Transfer',
-            dataIndex: 'tranfer',
+            title: 'CPU',
+            dataIndex: 'description',
+            render(value, record, index) {
+                const data = convertDescriptionProductToObject(value)
+               
+                return<>{data.CPU}</>
+            },
         },
-        {
-            title: 'ipv4',
-            dataIndex: 'ipv4',
-        },
+        // {
+        //     title: 'ipv4',
+        //     dataIndex: 'ipv4',
+        // },
         {
             title: 'Trạng Thái',
             dataIndex: 'serverDefault',
             render: (value) => (value ? 'True' : 'False'),
         },
-        {
-            title: 'Giá theo',
-            dataIndex: 'expiryDateType',
-            render: (value) =>
-                value == 1
-                    ? 'Giờ'
-                    : value == 2
-                    ? 'Ngày'
-                    : value == 3
-                    ? '1 Tháng'
-                    : value == 4
-                    ? '3 Tháng'
-                    : value == 5
-                    ? '6 Tháng'
-                    : value == 6
-                    ? '1 Năm'
-                    : '',
-        },
+        // {
+        //     title: 'Giá theo',
+        //     dataIndex: 'expiryDateType',
+        //     render: (value) =>
+        //         value == 1
+        //             ? 'Giờ'
+        //             : value == 2
+        //             ? 'Ngày'
+        //             : value == 3
+        //             ? '1 Tháng'
+        //             : value == 4
+        //             ? '3 Tháng'
+        //             : value == 5
+        //             ? '6 Tháng'
+        //             : value == 6
+        //             ? '1 Năm'
+        //             : '',
+        // },
         {
             title: 'Ngày tạo',
             dataIndex: 'createdTime',
             render: (value) => formatDate(value),
         },
-        {
-            key: 'id',
-            title: 'Điều khiển',
-            dataIndex: 'control',
-            render: (value, record) => (
-                <div>
-                    <span>
-                        <Link to={`/service/${record._id}`}>
-                            <BiEdit style={actionIconStyle('blue')} />
-                        </Link>
-                    </span>
-                    <span>
-                        <AiOutlineDelete
-                            onClick={() =>
-                                deleteCurrentService(record._id || '')
-                            }
-                            style={actionIconStyle('red')}
-                        />
-                    </span>
-                </div>
-            ),
-        },
+        // {
+        //     key: 'id',
+        //     title: 'Điều khiển',
+        //     dataIndex: 'control',
+        //     render: (value, record) => (
+        //         <div>
+        //             <span>
+        //                 <Link to={`/service/${record._id}`}>
+        //                     <BiEdit style={actionIconStyle('blue')} />
+        //                 </Link>
+        //             </span>
+        //             <span>
+        //                 <AiOutlineDelete
+        //                     onClick={() =>
+        //                         deleteCurrentService(record._id || '')
+        //                     }
+        //                     style={actionIconStyle('red')}
+        //                 />
+        //             </span>
+        //         </div>
+        //     ),
+        // },
     ]
 
     return (
@@ -206,14 +253,14 @@ const Service = () => {
                 </ul>
             </div>
             <div className="service-page-filter">
-                <div
+                {/* <div
                     className="service-page-create-service"
                     style={{ marginTop: '20px' }}
                 >
                     <Link to={'/service/create-service'}>
                         <Button type="primary">Tạo dịch vụ</Button>
                     </Link>
-                </div>
+                </div> */}
                 <div
                     className="service-page-filter-name"
                     style={{ marginLeft: '20px', marginTop: '20px' }}
@@ -230,7 +277,7 @@ const Service = () => {
                         style={{ width: '200px' }}
                     />
                 </div>
-                <div
+                {/* <div
                     className="service-page-filter-status"
                     style={{
                         marginLeft: '20px',
@@ -252,7 +299,7 @@ const Service = () => {
                         <Option value="true">True</Option>
                         <Option value="false">False</Option>
                     </Select>
-                </div>
+                </div> */}
                 <div
                     className="service-page-filter-button"
                     style={{ marginTop: '20px' }}
@@ -269,6 +316,7 @@ const Service = () => {
                     pagination={false}
                 />
                 <Pagination
+                showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}

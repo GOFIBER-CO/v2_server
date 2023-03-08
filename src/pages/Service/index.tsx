@@ -1,5 +1,5 @@
 import { getPagingServices } from '@/services/apiv2'
-import { Pagination, Table, Tag } from 'antd'
+import { Button, Input, Pagination, Select, Table, Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import React, { useEffect, useState } from 'react'
 import { FaCog } from 'react-icons/fa'
@@ -11,25 +11,28 @@ import formatMoney from '@/helpers/formatMoney'
 
 function ServiceListPage() {
     const [services, setServices] = useState<any[]>([])
+    const [allServices, setAllServices] = useState<any[]>([])
+    const [data, setData] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [search, setSearch] = useState<string>('')
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(10)
+    const [status, setStatus] = useState<string>('All')
     const navigate = useNavigate()
 
     const auth = useAuth()
     const clientId = auth.user?.client_id
 
- 
     const getService = async () => {
         try {
             setIsLoading(true)
 
             const result = await getPagingServices(search, pageIndex, pageSize)
-        
 
             const { data } = result?.data
-            setServices(data?.data || [])
+            setData(data?.data || [])
+            setAllServices(data?.data || [])
+            setServices(data?.data?.slice(0, pageSize) || [])
             setPageIndex(data?.pageIndex || 0)
             setPageSize(data?.pageSize || 0)
         } catch (error) {
@@ -41,7 +44,18 @@ function ServiceListPage() {
 
     useEffect(() => {
         getService()
-    }, [pageIndex, pageSize])
+    }, [])
+
+    // useEffect(() => {
+    //     setServices((prevState) => {
+    //         const newState = allServices.slice(
+    //             (pageIndex - 1) * pageSize,
+    //             pageIndex * pageSize
+    //         )
+
+    //         return newState
+    //     })
+    // }, [pageIndex, pageSize, allServices])
 
     const columnsClientId22: ColumnsType<any> = [
         {
@@ -49,9 +63,7 @@ function ServiceListPage() {
             dataIndex: 'ip',
             render: (value, record) => (
                 <>
-                    <div className="extra">
-                       {value}
-                    </div>
+                    <div className="extra">{value}</div>
                 </>
             ),
         },
@@ -101,7 +113,8 @@ function ServiceListPage() {
             render: (value) => {
                 return <div>{value}</div>
             },
-        },   {
+        },
+        {
             title: 'Tổng tiền',
             dataIndex: 'price',
             render: (value) => {
@@ -251,29 +264,83 @@ function ServiceListPage() {
         },
     ]
 
+    const handleSearch = () => {
+        if (!search && status === 'All') {
+            setAllServices(data)
+            setServices(data?.slice(0, pageSize) || [])
+        } else {
+            const result = allServices?.filter((item) => {
+                const text = search ? item?.domain?.includes(search) : true
+                const sta = status !== 'All' ? item?.status === status : true
+
+                return text && sta
+            })
+            setAllServices(result)
+            setServices(result?.slice(0, pageSize) || [])
+            setPageIndex(1)
+        }
+    }
+
     return (
         <div className="table-list-service">
+            <div className="d-flex align-items-center mb-4">
+                <div>
+                    <Input
+                        type="text"
+                        style={{ width: '300px' }}
+                        placeholder="Domain"
+                        onChange={(e) => setSearch(e.target?.value)}
+                    />
+                </div>
+                <Select
+                    defaultValue="All"
+                    style={{ width: '200px', marginLeft: '5px' }}
+                    options={[
+                        { value: 'All', label: 'Tất cả' },
+                        { value: 'Active', label: 'Hoạt động' },
+                        { value: 'Terminated', label: 'Đã xóa' },
+                    ]}
+                    onChange={(e) => setStatus(e)}
+                />
+
+                <Button
+                    onClick={handleSearch}
+                    style={{ marginLeft: '5px' }}
+                    type="primary"
+                >
+                    Lọc
+                </Button>
+            </div>
             <Table
                 columns={Number(clientId) == 22 ? columnsClientId22 : columns}
                 dataSource={Number(clientId) == 22 ? dataservice : services}
                 scroll={{ x: '1200px', y: '720px' }}
+                loading={isLoading}
                 pagination={false}
                 sticky
                 rowKey="_id"
             />
-            {/* <Pagination
-                showSizeChanger
-                // showTotal={showTotal}
-                style={{ marginTop: '30px' }}
-                current={pageIndex}
-                defaultCurrent={pageIndex}
-                // total={totalItem}
-                pageSize={pageSize}
-                onChange={(value, pageSize) => {
-                    setPageIndex(value)
-                    setPageSize(pageSize)
-                }}
-            /> */}
+            {Number(clientId) !== 22 && (
+                <Pagination
+                    style={{ marginTop: '30px' }}
+                    current={pageIndex}
+                    total={allServices?.length}
+                    defaultCurrent={pageIndex}
+                    pageSize={pageSize}
+                    onChange={(value, pageSize) => {
+                        setServices((prevState) => {
+                            const newState = allServices.slice(
+                                (value - 1) * pageSize,
+                                value * pageSize
+                            )
+
+                            return newState
+                        })
+                        setPageIndex(value)
+                        setPageSize(pageSize)
+                    }}
+                />
+            )}
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '@/styles/pages/Invoice/index.scss'
 import { getAllInvoices, getUserSurplus } from '@/services/apiv2'
-import { Table, Tag } from 'antd'
+import { Pagination, Table, Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { Link, useNavigate } from 'react-router-dom'
 import ConverMoney from '@/components/Conver/ConverMoney'
@@ -16,6 +16,8 @@ function InvoicePage() {
     const navigate = useNavigate()
     const [credit, setCredit] = useState(0)
     const [balance, setBalance] = useState(0)
+    const [pageIndex, setPageIndex] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
 
     const auth = useAuth()
 

@@ -418,7 +418,6 @@ const CreateCloud: React.FC = () => {
 
                 const { data } = result?.data
                 setProducts(data || [])
-                console.log('data', data)
                 if (data?.length > 0) {
                     getProductForConfig(data?.[0]?.object_id, data?.[0])
                     // setChosenProduct( || {})
@@ -486,8 +485,12 @@ const CreateCloud: React.FC = () => {
         try {
             const result = await getProductDetailForConfig((id ||= PRODUCT_ID))
             const { data } = result?.data
+           
+            
 
             const { forms, product } = data?.config
+            console.log(product,'forms');
+            
 
             const cycle = product.find((item: any) => item?.id === 'cycle')
             const ram = forms.find((item: any) => item?.title.includes('RAM'))
@@ -637,6 +640,7 @@ const CreateCloud: React.FC = () => {
                 <div className="package-server">
                     <div className="tabs-container">
                         <ul className="list-package-server">
+                            
                             {cycleTime.map((item) => (
                                 <PackageServer
                                     key={item?.id}

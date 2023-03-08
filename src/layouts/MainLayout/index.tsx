@@ -377,20 +377,6 @@ const MainLayout: React.FC = () => {
                 //     ],
                 // },
                 {
-                    key: '/services',
-                    icon: <HiOutlineDesktopComputer />,
-                    label: 'Service',
-                    children: [
-                        {
-                            key: '/service-list',
-                            icon: <BsCardChecklist />,
-                            label: (
-                                <NavLink to={'/services'}>Danh sách</NavLink>
-                            ),
-                        },
-                    ],
-                },
-                {
                     key: '/action-history',
                     icon: <BsMenuButtonWide />,
                     label: (
