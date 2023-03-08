@@ -107,7 +107,6 @@ const ActionHistory: React.FC = () => {
         },
     ]
     const onFiltered = () => {
-        console.log('Filtered')
         getActionsHistory()
     }
 

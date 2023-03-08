@@ -25,6 +25,7 @@ function ServiceListPage() {
             setIsLoading(true)
 
             const result = await getPagingServices(search, pageIndex, pageSize)
+        
 
             const { data } = result?.data
             setServices(data?.data || [])
@@ -168,11 +169,18 @@ function ServiceListPage() {
             ),
         },
         {
-            title: 'Domain',
+            title: 'Domain ',
             dataIndex: 'domain',
             render: (value) => {
                 return <div style={{ color: '#3891f2' }}>{value}</div>
             },
+        },
+        {
+            title: 'Ipaddress ',
+            dataIndex: 'ipaddress',
+            // render: (value) => {
+            //     return <div style={{ color: '#3891f2' }}>{value}</div>
+            // },
         },
         {
             title: 'Ngày hết hạn',
