@@ -65,13 +65,13 @@ function ServiceListPage() {
                 </>
             ),
         },
-        {
-            title: 'Domain',
-            dataIndex: 'domain',
-            render: (value) => {
-                return <div>{value || 'https://gofiber.vn'}</div>
-            },
-        },
+        // {
+        //     title: 'Domain',
+        //     dataIndex: 'domain',
+        //     render: (value) => {
+        //         return <div>{value || 'https://gofiber.vn'}</div>
+        //     },
+        // },
         {
             title: 'CPU',
             dataIndex: 'cpu',

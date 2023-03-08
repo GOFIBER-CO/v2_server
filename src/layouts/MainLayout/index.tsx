@@ -24,7 +24,7 @@ import { ImProfile } from 'react-icons/im'
 import { FaTimes, FaMoneyBillAlt, FaHistory } from 'react-icons/fa'
 import { RiMoneyPoundBoxLine, RiTicketLine } from 'react-icons/ri'
 import { TbFileInvoice } from 'react-icons/tb'
-import { BiBuildingHouse, BiHomeAlt } from 'react-icons/bi'
+import { BiBuildingHouse, BiHomeAlt, BiUser } from 'react-icons/bi'
 import {
     MdOutlineComputer,
     MdOutlineSupportAgent,
@@ -190,6 +190,20 @@ const MainLayout: React.FC = () => {
                                 <NavLink to={'/manage-ip/create'}>
                                     Thêm địa chỉ Ip
                                 </NavLink>
+                            ),
+                        },
+                    ],
+                },
+                {
+                    key: '/manage-user',
+                    icon: <BiUser />,
+                    label: 'Quản lí người dùng',
+                    children: [
+                        {
+                            key: '/manage-user',
+                            icon: <BsCardChecklist />,
+                            label: (
+                                <NavLink to={'/manage-user'}>Danh sách</NavLink>
                             ),
                         },
                     ],
