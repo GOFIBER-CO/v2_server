@@ -339,16 +339,39 @@ const MainLayout: React.FC = () => {
             icon: <CgList />,
             label: 'QUẢN LÝ',
             children: [
+                // {
+                //     key: '/cloud',
+                //     icon: <MdOutlineComputer />,
+                //     label: 'Cloud VPS',
+                //     children: [
+                //         {
+                //             key: '/cloud-vps',
+                //             icon: <BsCardChecklist />,
+                //             label: (
+                //                 <NavLink to={'/cloud-vps'}>Danh sách</NavLink>
+                //             ),
+                //         },
+                //         {
+                //             key: '/cloud-vps/create-cloud',
+                //             icon: <MdOutlineAddLink />,
+                //             label: (
+                //                 <NavLink to={'/cloud-vps/create-cloud'}>
+                //                     Tạo mới cloud server
+                //                 </NavLink>
+                //             ),
+                //         },
+                //     ],
+                // },
                 {
-                    key: '/cloud',
-                    icon: <MdOutlineComputer />,
-                    label: 'Cloud VPS',
+                    key: '/services',
+                    icon: <HiOutlineDesktopComputer />,
+                    label: 'Dịch vụ',
                     children: [
                         {
-                            key: '/cloud-vps',
+                            key: '/service-list',
                             icon: <BsCardChecklist />,
                             label: (
-                                <NavLink to={'/cloud-vps'}>Danh sách</NavLink>
+                                <NavLink to={'/services'}>Danh sách</NavLink>
                             ),
                         },
                         {
@@ -358,20 +381,6 @@ const MainLayout: React.FC = () => {
                                 <NavLink to={'/cloud-vps/create-cloud'}>
                                     Tạo mới cloud server
                                 </NavLink>
-                            ),
-                        },
-                    ],
-                },
-                {
-                    key: '/services',
-                    icon: <HiOutlineDesktopComputer />,
-                    label: 'Service',
-                    children: [
-                        {
-                            key: '/service-list',
-                            icon: <BsCardChecklist />,
-                            label: (
-                                <NavLink to={'/services'}>Danh sách</NavLink>
                             ),
                         },
                     ],
