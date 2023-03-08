@@ -5,6 +5,10 @@ import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import '@/styles/pages/Invoice/index.scss'
 import ConverMoney from '@/components/Conver/ConverMoney'
+import Modalprint from '@/pages/CloudVps/Modalprint'
+import { useReactToPrint } from 'react-to-print'
+import moment from 'moment'
+import formatMoney from '@/helpers/formatMoney'
 
 function InvoiceDetailPage() {
     const [invoice, setInvoice] = useState<any>({})
@@ -12,6 +16,7 @@ function InvoiceDetailPage() {
     const { id } = useParams()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [modal, setModal] = useState(false)
+    const [modalprint, setModelPrint] = useState(false)
 
     const getInvoice = async (id: any) => {
         try {
@@ -168,6 +173,9 @@ function InvoiceDetailPage() {
                                 Tổng: {ConverMoney(invoice?.grandtotal)} đ
                             </strong>
                         </div>
+                        <div className="mt-4">
+                            <Button onClick = {()=>setModelPrint(true)} type='primary'>Xuất hóa đơn</Button>
+                        </div>
                     </div>
                     {transaction?.date && (
                         <div className="row mt-4">
@@ -233,6 +241,7 @@ function InvoiceDetailPage() {
                                                 ) || 0}{' '}
                                                 đ
                                             </td>
+                                          
                                         </tr>
                                     </tbody>
                                 </table>
@@ -369,11 +378,54 @@ function InvoiceDetailPage() {
                                 Tổng: {ConverMoney(invoice?.total)} đ
                             </strong>
                         </div>
+                        <Button onClick = {()=>setModelPrint(true)} type='primary'>Xuất hóa đơn</Button>
                     </div>
+                    
                 </div>
             </div>
         ),
     }
+
+    const componentRef = React.useRef(null)
+    const onBeforeGetContentResolve = React.useRef(null)
+    const reactToPrintContent = React.useCallback(() => {
+        return componentRef.current
+    }, [componentRef.current])
+
+    const [none, setNone] = React.useState('')
+
+    const handleOnBeforeGetContent = React.useCallback(() => {
+        // console.log('`onBeforeGetContent` called') // tslint:disable-line no-console
+        // setLoading(true);
+        // setText("Loading new text...");
+
+        return new Promise((resolve: any) => {
+            onBeforeGetContentResolve.current = resolve
+            setNone('hiden')
+            setTimeout(() => {
+                resolve()
+            }, 1000)
+        })
+    }, [])
+
+    const handleBeforePrint = React.useCallback(() => {
+        setNone('')
+        // console.log("`onBeforePrint` called"); // tslint:disable-line no-console
+    }, [])
+
+    const handleAfterPrint = React.useCallback(() => {
+        // console.log("`onAfterPrint` called"); // tslint:disable-line no-console
+    }, [])
+
+
+    const handlePrint = useReactToPrint({
+        content: reactToPrintContent,
+        documentTitle: 'AwesomeFileName',
+        onBeforeGetContent: handleOnBeforeGetContent,
+        onBeforePrint: handleBeforePrint,
+        onAfterPrint: handleAfterPrint,
+        removeAfterPrint: true,
+    })
 
     const render = {
         loading: <div></div>,
@@ -389,6 +441,7 @@ function InvoiceDetailPage() {
     return (
         <>
             {isLoading ? render['loading'] : render['notLoading']}{' '}
+            <Modalprint totalBill = {formatMoney(invoice.grandtotal)} dateExport={moment(new Date(invoice.duedate)).format("DD-MM-YYYY")} datePaid={moment(new Date(invoice.paybefore)).format("DD-MM-YYYY")} status = {invoice?.status} billCode = {`#${invoice?.number}`} billDetail = {`Thanh toán hóa đơn #${invoice?.number}`} handleOk handlePrint = {handlePrint} componentRef = {componentRef} isModalOpen = {modalprint} handleCancel = {()=>setModelPrint(false)} none ={none}/>
             <Modal
                 title="Thanh toán ngay"
                 open={modal}

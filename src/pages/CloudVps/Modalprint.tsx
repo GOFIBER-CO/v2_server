@@ -6,7 +6,13 @@ import "./CloudVps.scss"
 
 
 const Modalprint = ({
-    isModalOpen , 
+    billCode,
+    billDetail,
+    status,
+    totalBill,
+    dateExport,
+    datePaid,
+    isModalOpen, 
     handleOk,
     handleCancel,
     handlePrint,
@@ -24,10 +30,14 @@ const Modalprint = ({
                         </div>
                         <div className='modal_Payment-header-right'>
                             <div style={{width:'50%'}} ></div>
-                            <div className='modal_Payment-header-right-check'>
-                            <BsCheckLg style={{color:'#219653'}} />
-                            <span className='modal_Payment-header-right-check-text' >Đã thanh toán</span>
-                            </div>
+                            {status == 'Paid' ?   <div className='modal_Payment-header-right-check'>
+                                <BsCheckLg style={{color:'#219653'}} />
+                                <span className='modal_Payment-header-right-check-text' >Đã thanh toán</span> 
+                            </div> : 
+                            <div className='modal_Payment-header-right-check-unpaid'>
+                                <span className='modal_Payment-header-right-check-text-unpaid' >Chưa thanh toán</span> 
+                            </div> 
+                            }
                         </div>
                         {/* <div className='modal_Payment-header-right'>
                             <div style={{width:'50%'}} ></div>
@@ -38,7 +48,7 @@ const Modalprint = ({
                         </div> */}
                     </div>
                     <div className='modal_Payment-invoice' >
-                        Mã số hóa đơn: <span>6868</span>
+                        Mã số hóa đơn: <span>{billCode}</span>
                     </div>
                     <hr className='modal_Payment-hr' />
                     <div className='modal_Payment-body'>
@@ -58,12 +68,11 @@ const Modalprint = ({
                             <div className='modal_Payment-body-right-title'>Phương thức thanh toán</div>
                             <Space style={{width:'100%'}}>
                             <Select
-                                
+                                value={'ck'}
                                 style={{ width:'100%', border:'1px solid #99DEEF' }}
                                
                                 options={[
-                                    { value: 'Tiền mặt', label: 'Tiền mặt' },
-                                    { value: 'Chuyển khoản', label: 'Chuyển khoản' },
+                                    { value: 'ck', label: 'Chuyển khoản' },
                                 ]}
                                 />
                             </Space>
@@ -72,33 +81,32 @@ const Modalprint = ({
                     <div className='modal_Payment-body1'>
                         <div className='modal_Payment-body1-left'>
                             <div className='modal_Payment-body1-left-title'>Ngày xuất</div>
-                            <div className='modal_Payment-body1-left-text' >12/02/2023</div>
+                            <div className='modal_Payment-body1-left-text' >{dateExport}</div>
                         </div>
                         <div className='modal_Payment-body1-right'>
                             <div className='modal_Payment-body1-right-title'>Ngày cần thanh toán</div>
-                            <div className='modal_Payment-body1-right-text' >15/02/2023</div>
+                            <div className='modal_Payment-body1-right-text' >{datePaid}</div>
                         </div>
                     </div>
                     <div className='modal_Payment-content'>
                         <div className='modal_Payment-content-title'>Nội dung hóa đơn</div>
                         <div className='modal_Payment-content-text'>
-                            <div className='modal_Payment-content-text-left'>Chi tiết hóa đơn</div>
-                            <div className='modal_Payment-content-text-right'>Tổng cộng</div>
+                            <div className='modal_Payment-content-text-left'>Chi tiết hóa đơn: {billDetail}</div>
                         </div>
                         <div className='modal_Payment-content-text'>
-                            <div className='modal_Payment-content-text-left'>Cloud VPS 32G <span className='modal_Payment-content-text-left-span'>gofiber.vn (03/07/2023 - 03/07/2024)</span></div>
-                            <div className='modal_Payment-content-text-right'>3,800,000 VND</div>
+                            <div className='modal_Payment-content-text-left'>Cloud VPS 32G </div>
+                            <div className='modal_Payment-content-text-right'>{totalBill}</div>
                         </div>
                         <div className='modal_Payment-content-text1'>
                             <div className='modal_Payment-content-text1-left'></div>
                             <div className='modal_Payment-content-text1-right'>
                                 <div style={{width:"100%", display:'flex', textAlign:'right'}}>
                                     <span className='modal_Payment-content-text1-right-TT'>Thành tiền</span>
-                                    <span className='modal_Payment-content-text1-right-number'>3,800,000 VND</span>
+                                    <span className='modal_Payment-content-text1-right-number'>{totalBill}</span>
                                 </div>
                             </div>
                         </div>
-                        <div className='modal_Payment-content-text1'>
+                        {/* <div className='modal_Payment-content-text1'>
                             <div className='modal_Payment-content-text1-left'></div>
                             <div className='modal_Payment-content-text1-right'>
                                 <div style={{width:"100%", display:'flex', textAlign:'right'}}>
@@ -106,8 +114,8 @@ const Modalprint = ({
                                     <span className='modal_Payment-content-text1-right-number'>380,000 VND</span>
                                 </div>
                             </div>
-                        </div>
-                        <div className='modal_Payment-content-text1'>
+                        </div> */}
+                        {/* <div className='modal_Payment-content-text1'>
                             <div className='modal_Payment-content-text1-left'></div>
                             <div className='modal_Payment-content-text1-right'>
                                 <div style={{width:"100%", display:'flex', textAlign:'right'}}>
@@ -115,13 +123,13 @@ const Modalprint = ({
                                     <span className='modal_Payment-content-text1-right-number'>0 VND</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='modal_Payment-content-text1'>
                             <div className='modal_Payment-content-text1-left'></div>
                             <div className='modal_Payment-content-text1-right'>
                                 <div style={{width:"100%", display:'flex', textAlign:'right'}}>
                                     <span className='modal_Payment-content-text1-right-TT'>Tổng cộng</span>
-                                    <span className='modal_Payment-content-text1-right-number'>4,180,000 VND</span>
+                                    <span className='modal_Payment-content-text1-right-number'>{totalBill}</span>
                                 </div>
                             </div>
                         </div>
