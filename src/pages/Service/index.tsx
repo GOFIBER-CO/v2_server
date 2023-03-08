@@ -7,6 +7,7 @@ import '@/styles/pages/Service/index.scss'
 import { useNavigate } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import { dataservice } from '@/helpers/dataservices'
+import formatMoney from '@/helpers/formatMoney'
 
 function ServiceListPage() {
     const [services, setServices] = useState<any[]>([])
@@ -104,7 +105,7 @@ function ServiceListPage() {
             title: 'Tổng tiền',
             dataIndex: 'price',
             render: (value) => {
-                return <div>{value}</div>
+                return <div>{formatMoney(value)}</div>
             },
         },
         {
@@ -132,11 +133,21 @@ function ServiceListPage() {
             width: '4%',
             render: (value) => (
                 <div>
-                    <button
+                     <button
+                        onClick={() => {
+                            navigate(`/service-detail-payment/${value}`)
+                        }}
+                        style={{
+                            background: '#fff',
+                            padding: '0px',
+                            width: 'fit-content',
+                            height: 'fit-content',
+                            border: 'none',
+                        }}
                     >
                         <FaCog
                             style={{
-                                color: 'gray',
+                                color: '#3891f2',
                                 width: '18px',
                                 height: '18px',
                             }}

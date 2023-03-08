@@ -11,6 +11,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF101',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 2,
@@ -24,6 +30,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF102',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 3,
@@ -37,6 +49,12 @@ export const dataservice = [
         note: 'TDùng cho tool content TP',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF103',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 4,
@@ -50,6 +68,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF104',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 5,
@@ -63,6 +87,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF105',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 6,
@@ -76,6 +106,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF106',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 7,
@@ -89,6 +125,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF107',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 8,
@@ -102,6 +144,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF108',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 9,
@@ -115,6 +163,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF109',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 10,
@@ -128,6 +182,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF110',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 11,
@@ -141,6 +201,12 @@ export const dataservice = [
         note: ' ',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF111',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 12,
@@ -154,6 +220,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF112',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 13,
@@ -167,6 +239,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF113',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 14,
@@ -180,6 +258,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF114',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 15,
@@ -193,6 +277,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF115',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 16,
@@ -206,6 +296,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF116',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 17,
@@ -219,6 +315,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF117',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 18,
@@ -232,6 +334,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF118',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 19,
@@ -245,6 +353,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF119',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 20,
@@ -258,6 +372,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF120',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 21,
@@ -271,6 +391,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF121',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 22,
@@ -284,6 +410,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF122',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 23,
@@ -297,6 +429,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF123',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 24,
@@ -310,6 +448,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF124',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 25,
@@ -323,6 +467,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF125',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 26,
@@ -336,6 +486,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF126',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 27,
@@ -349,6 +505,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF127',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 28,
@@ -362,6 +524,12 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF128',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
     {
         id: 29,
@@ -375,5 +543,11 @@ export const dataservice = [
         note: '',
         price: 3800000,
         status: 'Unpaid',
+        bill: {
+            number: '#GOF129',
+            createdAt: new Date(),
+            exipireDate: new Date(),
+            datePaid: new Date(),
+        }
     },
 ]

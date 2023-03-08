@@ -353,29 +353,29 @@ const MainLayout: React.FC = () => {
             icon: <CgList />,
             label: 'QUẢN LÝ',
             children: [
-                {
-                    key: '/cloud',
-                    icon: <MdOutlineComputer />,
-                    label: 'Cloud VPS',
-                    children: [
-                        {
-                            key: '/cloud-vps',
-                            icon: <BsCardChecklist />,
-                            label: (
-                                <NavLink to={'/cloud-vps'}>Danh sách</NavLink>
-                            ),
-                        },
-                        {
-                            key: '/cloud-vps/create-cloud',
-                            icon: <MdOutlineAddLink />,
-                            label: (
-                                <NavLink to={'/cloud-vps/create-cloud'}>
-                                    Tạo mới cloud server
-                                </NavLink>
-                            ),
-                        },
-                    ],
-                },
+                // {
+                //     key: '/cloud',
+                //     icon: <MdOutlineComputer />,
+                //     label: 'Cloud VPS',
+                //     children: [
+                //         {
+                //             key: '/cloud-vps',
+                //             icon: <BsCardChecklist />,
+                //             label: (
+                //                 <NavLink to={'/cloud-vps'}>Danh sách</NavLink>
+                //             ),
+                //         },
+                //         {
+                //             key: '/cloud-vps/create-cloud',
+                //             icon: <MdOutlineAddLink />,
+                //             label: (
+                //                 <NavLink to={'/cloud-vps/create-cloud'}>
+                //                     Tạo mới cloud server
+                //                 </NavLink>
+                //             ),
+                //         },
+                //     ],
+                // },
                 {
                     key: '/services',
                     icon: <HiOutlineDesktopComputer />,

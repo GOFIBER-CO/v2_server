@@ -7,6 +7,9 @@ import ConverMoney from '@/components/Conver/ConverMoney'
 import { Link } from 'react-router-dom'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import ServiceDetailPage from '../Service/ServiceDetail'
+import { useAuth } from '@/hooks/useAuth'
+import { dataservice } from '@/helpers/dataservices'
+import moment from 'moment'
 
 function ServiceDetailPayment() {
     const { id } = useParams()
@@ -18,6 +21,12 @@ function ServiceDetailPayment() {
         service?: any
         vm?: any
     }>({})
+
+    const auth = useAuth()
+
+    const getDetailServiceClientId22 = () => {
+        return dataservice.find(x => x.id == Number(id))
+    }
 
     const getServiceDetail = async (id: string) => {
         try {
@@ -75,7 +84,7 @@ function ServiceDetailPayment() {
         active: (
             <ServiceDetailPage
                 handleRefreshVm={handleRefreshVm}
-                service={data?.service}
+                service={Number(auth.user?.client_id) == 22 ? getDetailServiceClientId22() : data?.service}
                 vm={data?.vm}
             />
         ),
@@ -89,12 +98,12 @@ function ServiceDetailPayment() {
                         <div className="col col-12 col-lg-6">
                             <div className="info-item">
                                 <div>Ngày đăng ký</div>
-                                <div>{data?.service?.date_created}</div>
+                                <div>{Number(auth.user?.client_id) == 22 ? moment(getDetailServiceClientId22()?.bill.createdAt).format("DD-MM-YYYY") : data?.service?.date_created}</div>
                             </div>
                             <div className="info-item">
                                 <div>Số tiền thanh toán định kỳ</div>
                                 <div>
-                                    {ConverMoney(
+                                    {Number(auth.user?.client_id) == 22 ? ConverMoney(getDetailServiceClientId22()?.price) : ConverMoney(
                                         Number(data?.service?.total)
                                     ) || 0}{' '}
                                     đ {genCycle(data?.service?.billingcycle)}
@@ -103,14 +112,14 @@ function ServiceDetailPayment() {
                             <div className="info-item">
                                 <div>Ngày hết hạn</div>
                                 <div style={{ color: 'red' }}>
-                                    {data?.service?.expires}
+                                    {Number(auth.user?.client_id) == 22 ? moment(getDetailServiceClientId22()?.bill.exipireDate).format("DD-MM-YYYY") : data?.service?.expires}
                                 </div>
                             </div>
                         </div>
                         <div className="col col-12 col-lg-6">
                             <div className="info-item">
                                 <div>Trạng thái</div>
-                                <div>{genStatus(data?.service?.status)}</div>
+                                <div>{Number(auth.user?.client_id) == 22 ? genStatus("Pending") : genStatus(data?.service?.status)}</div>
                             </div>
                             <div className="info-item">
                                 <div>Hoá đơn tiếp theo</div>
@@ -123,7 +132,7 @@ function ServiceDetailPayment() {
                                         <Link
                                             to={`/invoice-detail/${data?.invoice?.id}`}
                                         >
-                                            #{data?.invoice?.proforma_id}
+                                            {Number(auth.user?.client_id) == 22 ? getDetailServiceClientId22()?.bill.number : `#${data?.invoice?.proforma_id}`}
                                         </Link>
                                     </div>
                                 </div>
@@ -157,7 +166,9 @@ function ServiceDetailPayment() {
         ),
     }
 
-    return <>{isLoading ? render['loading'] : render['notLoading']}</>
+    return <>{Number(auth.user?.client_id) == 22 ? <div className="service-detail-for-payment">
+        {getDetailServiceClientId22()?.status == 'paid' ? renderByStatus['active'] : renderByStatus['inactive']}
+    </div>:  (isLoading ? render['loading'] : render['notLoading'])}</>
 }
 
 export default ServiceDetailPayment

@@ -6,6 +6,9 @@ import { ColumnsType } from 'antd/lib/table'
 import { Link, useNavigate } from 'react-router-dom'
 import ConverMoney from '@/components/Conver/ConverMoney'
 import { HiArrowSmRight } from 'react-icons/hi'
+import moment from 'moment'
+import { useAuth } from '@/hooks/useAuth'
+import { dataservice } from '@/helpers/dataservices'
 
 function InvoicePage() {
     const [invoices, setInvoices] = useState<any[]>([])
@@ -13,6 +16,8 @@ function InvoicePage() {
     const navigate = useNavigate()
     const [credit, setCredit] = useState(0)
     const [balance, setBalance] = useState(0)
+
+    const auth = useAuth()
 
     const getInvoices = async () => {
         try {
@@ -45,6 +50,77 @@ function InvoicePage() {
             console.log(error)
         }
     }
+
+    const columnsClientId22: ColumnsType<any> = [
+        {
+            title: 'Số hóa đơn',
+            dataIndex: 'bill',
+            render: (value) => (
+                <div>
+                    <Link to={'/'}>#{value?.number}</Link>
+                </div>
+            ),
+        },
+        {
+            title: 'Tổng',
+            dataIndex: 'price',
+            render: (value) => {
+                return <div>{ConverMoney(Number(value)) || 0}đ</div>
+            },
+        },
+        {
+            title: 'Ngày tạo',
+            dataIndex: 'bill',
+            render: (value) => {
+                return <div>{moment(value?.createdAt).format("DD-MM-YYYY")}</div>
+            },
+        },
+        {
+            title: 'Ngày đến hạn',
+            dataIndex: 'bill',
+            render: (value) => {
+                return <div>{moment(value?.expireDate).format("DD-MM-YYYY")}</div>
+            },
+        },
+        {
+            title: 'Ngày thanh toán',
+            dataIndex: 'bill',
+            render: (value) => {
+                return (
+                    <div>{value === '0000-00-00 00:00:00' ? '-' : moment(value?.datePaid).format("DD-MM-YYYY")}</div>
+                )
+            },
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            // width: '10%',
+            render: (value, record) =>
+                value === 'Paid' ? (
+                    <Tag color="green">Đã thanh toán</Tag>
+                ) : (
+                    <Tag color="red">Chưa thanh toán</Tag>
+                ),
+        },
+        {
+            title: '',
+            dataIndex: 'object_id',
+            width: '10%',
+            render: (value, record) => (
+                <div className="d-flex justify-content-end">
+                    {/* <button
+                        onClick={() => {
+                            navigate(`/invoice-detail/${value}`)
+                        }}
+                    >
+                        <HiArrowSmRight
+                            style={{ width: '24px', height: '24px' }}
+                        />
+                    </button> */}
+                </div>
+            ),
+        },
+    ]
 
     const columns: ColumnsType<any> = [
         {
@@ -138,8 +214,8 @@ function InvoicePage() {
             </div>
             <div className="table-invoices">
                 <Table
-                    columns={columns}
-                    dataSource={invoices}
+                    columns={Number(auth.user?.client_id) == 22 ? columnsClientId22 : columns}
+                    dataSource={Number(auth.user?.client_id) == 22 ? dataservice : invoices}
                     pagination={false}
                     sticky
                     scroll={{ x: '1200px', y: '600px' }}
