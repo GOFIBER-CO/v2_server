@@ -84,17 +84,17 @@ function ServiceListPage() {
     const window = ['Windows Server 2019']
 
     const handleSelectService = (id: number, value: boolean) => {
-        if(value){
+        if (value) {
             setSelectedService([...selectedService, id])
-        }else{
+        } else {
             setSelectedService([...selectedService.filter(x => x != id)])
         }
     }
 
     const handleSelectAllService = (value: boolean) => {
-        if(value){
+        if (value) {
             setSelectedService(dataservice.map(item => item.id))
-        }else{
+        } else {
             setSelectedService([])
         }
     }
@@ -167,26 +167,44 @@ function ServiceListPage() {
         return value === 'Annually'
             ? 'Năm'
             : value === 'Quarterly'
-            ? '3 Tháng'
-            : value === 'Semi-Annually'
-            ? '6 Tháng'
-            : 'Tháng'
+                ? '3 Tháng'
+                : value === 'Semi-Annually'
+                    ? '6 Tháng'
+                    : 'Tháng'
     }
 
     const columnsClientId22: ColumnsType<any> = [
         {
-            title: <Checkbox checked = {selectedService.length == dataservice.length} onChange = {(e)=>handleSelectAllService(e.target.checked)}/>,
-            dataIndex:"id",
+            title: <Checkbox checked={selectedService.length == dataservice.length} onChange={(e) => handleSelectAllService(e.target.checked)} />,
+            dataIndex: "id",
             width: '4%',
-            render: (value) => <Checkbox checked = {selectedService.includes(value)} onChange = {(e)=>handleSelectService(value, e.target.checked)}/>
+            render: (value) => <Checkbox checked={selectedService.includes(value)} onChange={(e) => handleSelectService(value, e.target.checked)} />
         }
-        ,{
+        , {
             title: 'IP',
             dataIndex: 'ip',
             render: (value, record) => (
-                <>
-                    <div className="extra bold-text">{value}</div>
-                </>
+                <div
+                    style={{
+                        fontWeight: '500',
+                        fontSize: '14px',
+                    }}
+                >
+                    <div className="d-flex align-items-center">
+                        <Icon
+                            icon={'twemoji:flag-vietnam'}
+                            style={{
+                                minWidth: '22px',
+                                height: '22px',
+                                marginRight: '4px',
+                            }}
+                        />
+                        <span>
+                            {value}
+                        </span>
+                    </div>
+                    <div>Viettel - Việt Nam</div>
+                </div>
             ),
         },
         {
@@ -238,7 +256,7 @@ function ServiceListPage() {
             dataIndex: 'os',
             width: '4%',
             render: (value) => {
-                return <div>{linux.includes(value) ? <img width={28} src='/images/icon-centos.svg'/> : <img width={28} src='/images/icon-windows.svg'/>}</div>
+                return <div>{linux.includes(value) ? <img width={28} src='/images/icon-centos.svg' /> : <img width={28} src='/images/icon-windows.svg' />}</div>
             },
         },
         {
@@ -252,7 +270,16 @@ function ServiceListPage() {
             title: 'Ngày hết hạn',
             dataIndex: 'expireDate',
             render: (value: any, record: any, index: number) => {
-                return <div>{moment(new Date(value)).format("DD/MM/YYYY")}</div>
+                return <div
+                style={{
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    color: '#5c5c5c',
+                }}
+            >
+                <div>{moment(new Date(value)).format("DD/MM/YYYY")}</div>
+                <div style={{ color: 'red' }}>{subtractNow(value)}</div>
+            </div>
             },
         },
         {
@@ -513,6 +540,8 @@ function ServiceListPage() {
         },
     ]
 
+    console.log(clientId)
+
     const handleSearch = () => {
         // if (!search && status === 'All') {
         //     setAllServices(data)
@@ -585,30 +614,30 @@ function ServiceListPage() {
                 <div className="col col-12 col-md-3">
                     <Input
                         type="text"
-                        style={{ width: '250px' }}
+                        style={{ width: '100%' }}
                         placeholder="Domain"
                         onChange={(e) => setSearch(e.target?.value)}
                     />
                 </div>
                 <div className="col col-12 col-md-3">
-                
 
-                <Button
-                    onClick={handleSearch}
-                    style={{ marginLeft: '5px' }}
-                    type="primary"
-                >
-                    Lọc
-                </Button>
-                {auth.user?.client_id && selectedService.length > 0 && <Button 
-                    className='button-payment'
-                    type='primary' 
-                    style={{ marginLeft: '8px' }}
-                >Thanh toán</Button>}
-             </div>
+
+                    <Button
+                        onClick={handleSearch}
+                        style={{ marginLeft: '5px' }}
+                        type="primary"
+                    >
+                        Lọc
+                    </Button>
+                    {auth.user?.client_id && selectedService.length > 0 && <Button
+                        className='button-payment'
+                        type='primary'
+                        style={{ marginLeft: '8px' }}
+                    >Thanh toán</Button>}
+                </div>
             </div>
 
-            <div className="mb-3 d-flex align-items-center flex-wrap">
+            {Number(auth.user?.client_id) != 22 && <div className="mb-3 d-flex align-items-center flex-wrap">
                 <div style={{ marginRight: '12px' }} className="money-item">
                     <div className="extra">Hóa đơn đến hạn</div>
                     <div
@@ -628,22 +657,22 @@ function ServiceListPage() {
                         {ConverMoney(credit) || 0} đ
                     </div>
                 </div>
-            </div>
+            </div>}
 
             <Table
                 columns={
                     Number(clientId) == 22
                         ? columnsClientId22
                         : isLoading
-                        ? renderTableSkeleton(skeleton)
-                        : columns
+                            ? renderTableSkeleton(skeleton)
+                            : columns
                 }
                 dataSource={
                     Number(clientId) == 22
-                        ? columnsClientId22
+                        ? dataservice
                         : isLoading
-                        ? skeletonList
-                        : services
+                            ? skeletonList
+                            : services
                 }
                 scroll={{ x: '1200px', y: '720px' }}
                 loading={isLoadingRedux}
