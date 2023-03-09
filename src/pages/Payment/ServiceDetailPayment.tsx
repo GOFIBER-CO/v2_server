@@ -161,13 +161,13 @@ function ServiceDetailPayment() {
             <div className="service-detail-for-payment">
                 {data?.service?.status === 'Active'
                     ? renderByStatus['active']
-                    : renderByStatus['inactive']}
+                    : (Number(auth.user?.client_id) == 22 ? renderByStatus['active'] : renderByStatus['inactive'])}
             </div>
         ),
     }
 
     return <>{Number(auth.user?.client_id) == 22 ? <div className="service-detail-for-payment">
-        {getDetailServiceClientId22()?.status == 'paid' ? renderByStatus['active'] : renderByStatus['inactive']}
+        {renderByStatus['active'] }
     </div>:  (isLoading ? render['loading'] : render['notLoading'])}</>
 }
 

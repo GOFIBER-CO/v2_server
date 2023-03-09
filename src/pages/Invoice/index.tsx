@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import '@/styles/pages/Invoice/index.scss'
 import { getAllInvoices, getUserSurplus } from '@/services/apiv2'
 import { Pagination, Table, Tag } from 'antd'
@@ -9,6 +9,7 @@ import { HiArrowSmRight } from 'react-icons/hi'
 import moment from 'moment'
 import { useAuth } from '@/hooks/useAuth'
 import { dataservice } from '@/helpers/dataservices'
+
 
 function InvoicePage() {
     const [invoices, setInvoices] = useState<any[]>([])
@@ -35,6 +36,7 @@ function InvoicePage() {
             setIsLoading(false)
         }
     }
+
 
     useEffect(() => {
         getInvoices()
@@ -106,11 +108,11 @@ function InvoicePage() {
         },
         {
             title: '',
-            dataIndex: 'object_id',
+            dataIndex: 'id',
             width: '10%',
             render: (value, record) => (
                 <div className="d-flex justify-content-end">
-                    {/* <button
+                    <button
                         onClick={() => {
                             navigate(`/invoice-detail/${value}`)
                         }}
@@ -118,7 +120,7 @@ function InvoicePage() {
                         <HiArrowSmRight
                             style={{ width: '24px', height: '24px' }}
                         />
-                    </button> */}
+                    </button>
                 </div>
             ),
         },

@@ -1,6 +1,6 @@
 import { getInvoiceById, getInvoiceForDetail } from '@/services/apiv2'
 import { Button, Modal, Tag } from 'antd'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import '@/styles/pages/Invoice/index.scss'
@@ -9,6 +9,7 @@ import Modalprint from '@/pages/CloudVps/Modalprint'
 import { useReactToPrint } from 'react-to-print'
 import moment from 'moment'
 import formatMoney from '@/helpers/formatMoney'
+import { dataservice } from '@/helpers/dataservices'
 
 function InvoiceDetailPage() {
     const [invoice, setInvoice] = useState<any>({})
@@ -39,10 +40,15 @@ function InvoiceDetailPage() {
         if (id) getInvoice(id)
     }, [id])
 
+    
+    const service = useMemo(() => {
+        return dataservice.find(x => x.id == Number(id))
+    }, [id])
+
     const renderStatus = {
         paid: (
             <div>
-                <h4>Hóa đơn #{invoice?.number}</h4>
+                <h4>Hóa đơn {invoice?.number ? `#${invoice?.number}` : service?.bill.number}</h4>
                 <div>
                     <Link to={'/invoices'}>Back to invoices</Link>
                 </div>
@@ -253,7 +259,7 @@ function InvoiceDetailPage() {
         ),
         unPaid: (
             <div>
-                <h4>Hóa đơn #{invoice?.number}</h4>
+                <h4>Hóa đơn {invoice?.number ? `#${invoice?.number}` : service?.bill.number}</h4>
                 <div>
                     <Link to={'/invoices'}>Back to invoices</Link>
                 </div>
@@ -278,15 +284,15 @@ function InvoiceDetailPage() {
                         <div className="d-flex align-items-center justify-content-center flex-column">
                             <div>
                                 <strong>Hóa đơn </strong>
-                                {invoice?.number}
+                                {invoice?.number ? `#${invoice?.number}` : service?.bill.number}
                             </div>
                             <div>
                                 <strong>Hóa đơn ngày </strong>
-                                {invoice?.date}
+                                {invoice?.date || moment(service?.bill.createdAt).format("DD-MM-YYYY")}
                             </div>
                             <div>
                                 <strong>Ngày đến hạn </strong>
-                                {invoice?.duedate}
+                                {invoice?.duedate || moment(service?.bill.exipireDate).format('DD-MM-YYYY')}
                             </div>
                         </div>
                     </div>
@@ -310,7 +316,7 @@ function InvoiceDetailPage() {
                             <div>
                                 <strong>Trạng thái</strong>
                             </div>
-                            <div>Đã thanh toán</div>
+                            <div>Chưa thanh toán</div>
                         </div>
                     </div>
                     <div className="mt-4">
@@ -378,7 +384,7 @@ function InvoiceDetailPage() {
                                 Tổng: {ConverMoney(invoice?.total)} đ
                             </strong>
                         </div>
-                        <Button onClick = {()=>setModelPrint(true)} type='primary'>Xuất hóa đơn</Button>
+                        <Button style={{marginTop: '10px'}} onClick = {()=>setModelPrint(true)} type='primary'>Xuất hóa đơn</Button>
                     </div>
                     
                 </div>

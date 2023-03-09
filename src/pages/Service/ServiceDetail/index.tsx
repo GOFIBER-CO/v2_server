@@ -75,8 +75,8 @@ function ServiceDetailPage({ service, vm, handleRefreshVm }: Props) {
                 service={service}
             />
         ),
-        interfaces: <NetworkInterfaces vm={vm} />,
-        storage: <Storage vm={vm} />,
+        interfaces: <NetworkInterfaces vm={vm} service = {service}/>,
+        storage: <Storage vm={vm} service = {service}/>,
         payment: <Payment service={service} />,
     }
 

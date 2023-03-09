@@ -98,9 +98,8 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
             key: '4',
         },
     ]
-
     const genIP = () => {
-        return Object.values(vm?.ip)?.[0] as any
+        return vm?.ip && Object.values(vm?.ip)?.[0] as any
     }
 
     const genStatus = (value: string) => {
@@ -182,6 +181,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
             setIsShutdown(false)
         }
     }
+
 
     return (
         <div className="overview">
@@ -298,7 +298,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>Tên miền/ Hostname</div>
-                            <div>{service?.domain}</div>
+                            <div>{service?.domain || "Linda"}</div>
                         </div>
                     </div>
                 </div>
@@ -306,12 +306,12 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     <div className="row">
                         <div className="col col-12 col-md-6">
                             <div>Tên đăng nhập</div>
-                            <div>{service?.username}</div>
+                            <div>{service?.username ? service?.username : (service?.os == 'Centos 7' ? 'root' : 'administrator')}</div>
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>Mật khẩu</div>
                             {showPassword ? (
-                                <div>{vm?.password}</div>
+                                <div>{vm?.password || service?.pass}</div>
                             ) : (
                                 <a
                                     onClick={() => setShowPassword(true)}
@@ -335,10 +335,10 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                                 Main IP for net
                                             </div>
                                             <div className="mt-2">
-                                                Mạng: {genIP()?.network}
+                                                Mạng: {genIP()?.network ? genIP()?.network : service?.ip}
                                             </div>
                                             <div className="mt-2">
-                                                Gateway: {genIP()?.gateway}
+                                                Gateway:  {genIP()?.network ? genIP()?.network : service?.ip}
                                             </div>
                                         </div>
                                     }
@@ -348,7 +348,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                             borderBottom: '1px dashed #000',
                                         }}
                                     >
-                                        {genIP()?.ip}
+                                        {genIP()?.network ? genIP()?.ip : service?.ip}
                                     </div>
                                 </Popover>
                             </div>
@@ -366,22 +366,22 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     <div className="row">
                         <div className="col col-12 col-md-6">
                             <div>Operating System</div>
-                            <div>{vm?.template_name}</div>
+                            <div>{vm?.template_name || service?.os}</div>
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>Bandwidth</div>
                             <div>
                                 <span>
                                     IN:{' '}
-                                    {convertByteToMB(
+                                    {vm?.bandwidth?.data_received ? convertByteToMB(
                                         vm?.bandwidth?.data_received || 0
-                                    )}
+                                    ) : "Unlimited"}
                                 </span>
                                 <span style={{ marginLeft: '12px' }}>
                                     OUT:{' '}
-                                    {convertByteToMB(
-                                        vm?.bandwidth?.data_sent || 0
-                                    )}
+                                    {vm?.bandwidth?.data_received ? convertByteToMB(
+                                        vm?.bandwidth?.data_send || 0
+                                    ) : "Unlimited"}
                                 </span>
                             </div>
                         </div>
@@ -392,11 +392,11 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     <div className="row">
                         <div className="col col-12 col-md-6">
                             <div>Dung lượng lưu trữ</div>
-                            <div>{vm?.disk} GB</div>
+                            <div>{vm?.disk || service?.ssd} GB</div>
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>RAM</div>
-                            <div>{convertMBtoGB(vm?.memory || 0)} GB</div>
+                            <div>{vm?.memory ?  convertMBtoGB(vm?.memory || 0) : service?.ram} GB</div>
                         </div>
                     </div>
                 </div>
@@ -405,7 +405,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     <div className="row">
                         <div className="col col-12 col-md-6">
                             <div>CPU(s)</div>
-                            <div>{vm?.cpus} Cores</div>
+                            <div>{vm?.cpus || service?.cpu} Cores</div>
                         </div>
                     </div>
                 </div>

@@ -1,10 +1,11 @@
 import React from 'react'
 
 type Props = {
-    vm: any
+    vm: any,
+    service: any
 }
 
-function Storage({ vm }: Props) {
+function Storage({ vm, service }: Props) {
     return (
         <div className="storage">
             <div>
@@ -20,10 +21,16 @@ function Storage({ vm }: Props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.values(vm?.storage).map((item: any) => (
+                        {vm?.storage ? Object.values(vm?.storage).map((item: any) => (
                             <tr key={item?.name}>
                                 <td>{item?.name}</td>
                                 <td>{item?.size_gb} GB</td>
+                                <td>{item?.zone}</td>
+                            </tr>
+                        )) : service.storage?.map((item: any) => (
+                            <tr key={item?.name}>
+                                <td>{item?.name}</td>
+                                <td>{item?.size} GB</td>
                                 <td>{item?.zone}</td>
                             </tr>
                         ))}
