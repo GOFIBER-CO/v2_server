@@ -81,6 +81,7 @@ function ServiceListPage() {
     const clientId = auth.user?.client_id
     const [credit, setCredit] = useState(0)
     const [balance, setBalance] = useState(0)
+    const [chosenIds, setChosenIds] = useState<string[]>([])
 
     const linux = ['Centos 7']
     const window = ['Windows Server 2019']
@@ -89,13 +90,13 @@ function ServiceListPage() {
         if (value) {
             setSelectedService([...selectedService, id])
         } else {
-            setSelectedService([...selectedService.filter(x => x != id)])
+            setSelectedService([...selectedService.filter((x) => x != id)])
         }
     }
 
     const handleSelectAllService = (value: boolean) => {
         if (value) {
-            setSelectedService(dataservice.map(item => item.id))
+            setSelectedService(dataservice.map((item) => item.id))
         } else {
             setSelectedService([])
         }
@@ -117,7 +118,7 @@ function ServiceListPage() {
                     new Date(item?.next_due).getTime() - Date.now() <
                     7 * 24 * 60 * 60 * 1000
 
-                return !temp
+                return temp
             })
 
             setAllServicesExtra(temp || [])
@@ -169,10 +170,26 @@ function ServiceListPage() {
         return value === 'Annually'
             ? 'Năm'
             : value === 'Quarterly'
-                ? '3 Tháng'
-                : value === 'Semi-Annually'
-                    ? '6 Tháng'
-                    : 'Tháng'
+            ? '3 Tháng'
+            : value === 'Semi-Annually'
+            ? '6 Tháng'
+            : 'Tháng'
+    }
+
+    const disableCheckboxChooseItem = (item: any) => {
+        return Date.now() < new Date(item?.next_due).getTime()
+    }
+
+    const handleChooseId = (value: string) => {
+        setChosenIds((prevState: string[]) => {
+            const temp = prevState.find((id) => id === value)
+
+            if (temp) {
+                return prevState?.filter((id) => id !== value)
+            }
+
+            return [...prevState, value]
+        })
     }
 
     const columnsClientId22: ColumnsType<any> = [
@@ -349,7 +366,12 @@ function ServiceListPage() {
             width: '50px',
             render: (value, record) => (
                 <>
-                    <Checkbox />
+                    <Checkbox
+                        value={value}
+                        checked={Boolean(chosenIds?.find((id) => id === value))}
+                        onChange={(e) => handleChooseId(e?.target?.value)}
+                        disabled={disableCheckboxChooseItem(record)}
+                    />
                 </>
             ),
         },
@@ -632,7 +654,16 @@ function ServiceListPage() {
                     />
                 </div>
                 <div className="col col-12 col-md-3">
-
+                    {/* <Select
+                        defaultValue="All"
+                        style={{ width: '200px', marginLeft: '5px' }}
+                        options={[
+                            { value: 'All', label: 'Tất cả' },
+                            { value: 'Active', label: 'Hoạt động' },
+                            { value: 'Terminated', label: 'Đã xóa' },
+                        ]}
+                        onChange={(e) => setStatus(e)}
+                    /> */}
 
                     <Button
                         onClick={handleSearch}
@@ -641,35 +672,45 @@ function ServiceListPage() {
                     >
                         Lọc
                     </Button>
-                    {auth.user?.client_id && selectedService.length > 0 && <Button
-                        onClick={()=>setModalPayment(true)}
-                        className='button-payment'
-                        type='primary'
-                        style={{ marginLeft: '8px' }}
-                    >Thanh toán</Button>}
+            
+                    {Number(clientId) == 22 && selectedService.length > 0 && (
+                        <Button
+                            onClick={()=>setModalPayment(true)}
+                            className="button-payment"
+                            type="primary"
+                            style={{ marginLeft: '8px' }}
+                        >
+                            Thanh toán
+                        </Button>
+                    )}
                 </div>
             </div>
 
-            {Number(auth.user?.client_id) != 22 && <div className="mb-3 d-flex align-items-center flex-wrap">
-                <div style={{ marginRight: '12px' }} className="money-item">
-                    <div className="extra">Hóa đơn đến hạn</div>
-                    <div
-                        style={{ fontSize: '18px', fontWeight: '500' }}
-                        className="money red"
-                    >
-                        {ConverMoney(balance) || 0} đ
+            {Number(auth.user?.client_id) != 22 &&             <div className="mb-3 d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center flex-wrap">
+                    <div style={{ marginRight: '12px' }} className="money-item">
+                        <div className="extra">Hóa đơn đến hạn</div>
+                        <div
+                            style={{ fontSize: '18px', fontWeight: '500' }}
+                            className="money red"
+                        >
+                            {ConverMoney(balance) || 0} đ
+                        </div>
                     </div>
-                </div>
-                <div className="money-item">
-                    <div className="extra">Tín dụng</div>
+                    <div className="money-item">
+                        <div className="extra">Tín dụng</div>
 
-                    <div
-                        style={{ fontSize: '18px', fontWeight: '500' }}
-                        className="money green"
-                    >
-                        {ConverMoney(credit) || 0} đ
+                        <div
+                            style={{ fontSize: '18px', fontWeight: '500' }}
+                            className="money green"
+                        >
+                            {ConverMoney(credit) || 0} đ
+                        </div>
                     </div>
                 </div>
+                {chosenIds?.length > 0 && (
+                    <Button type="primary">Thanh toán hóa đơn</Button>
+                )}
             </div>}
 
             <Table
@@ -677,15 +718,15 @@ function ServiceListPage() {
                     Number(clientId) == 22
                         ? columnsClientId22
                         : isLoading
-                            ? renderTableSkeleton(skeleton)
-                            : columns
+                        ? renderTableSkeleton(skeleton)
+                        : columns
                 }
                 dataSource={
                     Number(clientId) == 22
                         ? dataservice
                         : isLoading
-                            ? skeletonList
-                            : services
+                        ? skeletonList
+                        : services
                 }
                 scroll={{ x: '1200px', y: '720px' }}
                 loading={isLoadingRedux}
