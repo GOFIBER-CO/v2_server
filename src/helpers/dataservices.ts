@@ -12,6 +12,7 @@ export const dataservice = [
         price: 3800000,
         expireDate: '2023-03-09',
         status: 'Unpaid',
+        activeStatus: "active",
         bill: {
             number: '#GOF101',
             createdAt: new Date(),
@@ -49,6 +50,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF102',
@@ -87,6 +89,7 @@ export const dataservice = [
         pass: '4qz6L080',
         note: 'TDùng cho tool content TP',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF103',
@@ -126,6 +129,7 @@ export const dataservice = [
         pass: 'Gofibee@123@xyz',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF104',
@@ -164,6 +168,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF105',
@@ -202,6 +207,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF106',
@@ -240,6 +246,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF107',
@@ -278,6 +285,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF108',
@@ -316,6 +324,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF109',
@@ -354,6 +363,7 @@ export const dataservice = [
         pass: 'ucPDGr8E',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF110',
@@ -392,6 +402,7 @@ export const dataservice = [
         pass: '',
         note: ' ',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF111',
@@ -430,6 +441,7 @@ export const dataservice = [
         pass: '',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF112',
@@ -468,6 +480,7 @@ export const dataservice = [
         pass: 'x0tUc1PW',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF113',
@@ -506,6 +519,7 @@ export const dataservice = [
         pass: 'x0tUc1PW',
         note: '',
         price: 3800000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF114',
@@ -544,6 +558,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF115',
@@ -582,6 +597,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF116',
@@ -620,6 +636,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF117',
@@ -658,6 +675,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF118',
@@ -696,6 +714,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF119',
@@ -734,6 +753,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF120',
@@ -772,6 +792,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF121',
@@ -810,6 +831,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF122',
@@ -848,6 +870,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF123',
@@ -886,6 +909,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF124',
@@ -924,6 +948,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF125',
@@ -962,6 +987,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF126',
@@ -1000,6 +1026,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF127',
@@ -1038,6 +1065,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF128',
@@ -1076,6 +1104,7 @@ export const dataservice = [
         expireDate: '2023-03-09',
         note: '',
         price: 1900000,
+        activeStatus: "active",
         status: 'Unpaid',
         bill: {
             number: '#GOF129',

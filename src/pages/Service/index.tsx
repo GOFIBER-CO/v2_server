@@ -126,6 +126,22 @@ function ServiceListPage() {
         }
     }, [allService, tab])
 
+    const filterDataServiceByTab = () => {
+        if (tab === 'Active') {
+            return dataservice.filter(item => item.activeStatus == 'active')
+        } else if (tab === 'Terminated') {
+            return dataservice.filter(item => item.activeStatus == 'terminated')
+        } else {
+            return dataservice.filter((item) => {
+                const temp =
+                    new Date(item?.expireDate).getTime() - Date.now() <
+                    7 * 24 * 60 * 60 * 1000
+
+                return temp
+            })
+        }
+    }
+
     const getServiceDetails = async (serviceIds: any[]) => {
         try {
             setIsLoading(true)
@@ -723,7 +739,7 @@ function ServiceListPage() {
                 }
                 dataSource={
                     Number(clientId) == 22
-                        ? dataservice
+                        ? filterDataServiceByTab()
                         : isLoading
                         ? skeletonList
                         : services
