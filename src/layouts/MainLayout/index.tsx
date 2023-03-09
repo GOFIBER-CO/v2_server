@@ -62,6 +62,7 @@ import { socket, SocketContext } from '@/socket/index'
 import { HiOutlineDesktopComputer } from 'react-icons/hi'
 import { useAppDispatch } from '@/redux'
 import { getAllServices } from '@/redux/slices/serviceSlice'
+import appConfig from '@/config/appConfig'
 
 const { Header, Sider, Content } = Layout
 
@@ -573,7 +574,7 @@ const MainLayout: React.FC = () => {
                                     >
                                         <img
                                             width={170}
-                                            src="/images/Logo-vietserver.png"
+                                            src={appConfig.PROJECT == 'vietstack' ? '/images/Logo-vietserver.png' : '/images/Logo.png'}
                                         />
                                     </Link>
                                 )}

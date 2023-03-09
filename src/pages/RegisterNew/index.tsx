@@ -12,6 +12,7 @@ import nationJson from '@/config/nation.json'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import Loading from '@/components/Loading/Loading'
 import Capcha from '@/components/CapchaComponent'
+import appConfig from '@/config/appConfig'
 
 const {Option} = Select
 
@@ -62,7 +63,7 @@ const RegisterNew = () => {
         }
     }
     return (
-        <div className="RegisterNew_cotainer">
+        <div className={appConfig.PROJECT == 'gofiber' ? 'RegisterNew_cotainer gofiber' : 'RegisterNew_cotainer vietstack'}>
             {buttonLoading && <Loading/>}
             <div className="RegisterNew_cotainer_center">
                 <div className="RegisterNew_container_title">Đăng ký</div>

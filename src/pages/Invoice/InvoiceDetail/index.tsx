@@ -28,7 +28,6 @@ function InvoiceDetailPage() {
 
             setInvoice(data?.invoice || {})
             setTransaction(data?.transaction || {})
-            console.log(data)
         } catch (error) {
             console.log(error)
         } finally {

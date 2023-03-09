@@ -3,8 +3,9 @@ import ICreateNewService from '@/interfaces/ICreateNewService'
 import axios from 'axios'
 import INotification from '@/interfaces/INotification'
 import INewNotification from '@/interfaces/INewNotification'
+import appConfig from '@/config/appConfig'
 
-const baseUrl = 'http://localhost:4000/api/v1'
+const baseUrl = appConfig.ENVIRONMENT == 'development' ? 'http://localhost:4000/api/v1' : (appConfig.PROJECT == "gofiber" ? "https://system.gofiber.vn" : "https://api.vietstack.com")
 
 let axiosInstance = axios.create({
     baseURL: baseUrl,

@@ -148,7 +148,6 @@ function ServiceListPage() {
             const result = await getServiceDetailsByServices(serviceIds)
 
             const { data } = result?.data
-            console.log('data', data)
             setServiceDetails(data || [])
         } catch (error) {
             console.log('getServiceDetails', error)

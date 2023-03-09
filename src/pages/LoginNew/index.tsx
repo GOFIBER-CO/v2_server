@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import Loading from '@/components/Loading/Loading'
+import appConfig from '@/config/appConfig'
 
 const LoginNew = () => {
     const [form] = Form.useForm()
@@ -31,15 +32,8 @@ const LoginNew = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    useEffect(() => {
-        form.setFieldsValue({
-            email: 'hieunguyendev102@gmail.com',
-            password: 'trunghieu111',
-        })
-    }, [])
-
     return (
-        <div className="LoginNew_cotainer">
+        <div className={appConfig.PROJECT == 'gofiber' ? "LoginNew_cotainer gofiber" : 'LoginNew_cotainer vietstack'}>
             {buttonLoading && <Loading/>}
             <div className="LoginNew_cotainer_center">
                 <div className="LoginNew_container_title">Đăng nhập</div>
