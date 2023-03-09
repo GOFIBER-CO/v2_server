@@ -22,6 +22,7 @@ import {
 } from '@/services/apiv2'
 import { Icon } from '@iconify/react'
 import { notify, notifyType } from '@/App'
+import { useAuth } from '@/hooks/useAuth'
 
 type Props = {
     service: any
@@ -98,6 +99,9 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
             key: '4',
         },
     ]
+
+    const auth = useAuth()
+
     const genIP = () => {
         return vm?.ip && Object.values(vm?.ip)?.[0] as any
     }
@@ -279,7 +283,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                         <Switch
                                             checkedChildren="Bật"
                                             unCheckedChildren="Tắt"
-                                            checked={genStatus(vm?.status)}
+                                            checked={vm?.status ? genStatus(vm?.status) : true}
                                             onChange={() => {
                                                 if (genStatus(vm?.status)) {
                                                     setIsShowConfirmStart(true)
@@ -287,6 +291,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                                     handleStartVM()
                                                 }
                                             }}
+                                            disabled = {Number(auth.user?.client_id) == 22}
                                         />
                                     </Popconfirm>
                                 )}

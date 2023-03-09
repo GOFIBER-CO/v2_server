@@ -29,6 +29,7 @@ import { Icon } from '@iconify/react'
 import moment from 'moment'
 import 'moment/locale/vi'
 import ConverMoney from '@/components/Conver/ConverMoney'
+import ModalPayment from '@/components/ModalPayment'
 moment.locale('vi')
 
 const imageTemplate = [
@@ -74,6 +75,7 @@ function ServiceListPage() {
         (state) => state.service
     )
     const [serviceDetails, setServiceDetails] = useState<any[]>([])
+    const [modalPayment, setModalPayment] = useState(false)
 
     const auth = useAuth()
     const clientId = auth.user?.client_id
@@ -540,7 +542,6 @@ function ServiceListPage() {
         },
     ]
 
-    console.log(clientId)
 
     const handleSearch = () => {
         // if (!search && status === 'All') {
@@ -562,8 +563,19 @@ function ServiceListPage() {
         setTab(value)
     }
 
+    const getPriceModalPayment = () => {
+        let price = 0
+        selectedService.forEach(item => {
+            const service = dataservice.find(x => x.id == item)
+            if(service)
+                price += service.price
+        })
+        return formatMoney(price)
+    }
+
     return (
         <div className="table-list-service">
+            <ModalPayment isShow={modalPayment} setModal={setModalPayment} price={getPriceModalPayment()}/>
             <div className="cloud-vps-page-option">
                 <ul className="mb-4">
                     <li
@@ -630,6 +642,7 @@ function ServiceListPage() {
                         Lọc
                     </Button>
                     {auth.user?.client_id && selectedService.length > 0 && <Button
+                        onClick={()=>setModalPayment(true)}
                         className='button-payment'
                         type='primary'
                         style={{ marginLeft: '8px' }}
