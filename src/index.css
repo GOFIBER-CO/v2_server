@@ -53,6 +53,10 @@ button {
 button:hover {
     border-color: #646cff;
 }
+
+.bold-text{
+    font-weight: bold!important;
+}
 button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
@@ -95,4 +99,15 @@ button:focus-visible {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(85, 85, 85, 0.726);
+}
+
+.button-payment{
+    opacity: 0;
+    animation: appear 0.1s linear forwards;
+}
+
+@keyframes appear {
+    to{
+        opacity: 1;
+    }
 }

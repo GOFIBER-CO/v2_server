@@ -61,7 +61,7 @@ function InvoicePage() {
             dataIndex: 'bill',
             render: (value) => (
                 <div>
-                    <Link to={'/'}>#{value?.number}</Link>
+                    <Link to={'/'}>{value?.number}</Link>
                 </div>
             ),
         },

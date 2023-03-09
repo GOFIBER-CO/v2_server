@@ -1,5 +1,5 @@
 import { getPagingServices } from '@/services/apiv2'
-import { Button, Input, Pagination, Select, Table, Tag } from 'antd'
+import { Button, Checkbox, Input, Pagination, Select, Table, Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import React, { useEffect, useState } from 'react'
 import { FaCog } from 'react-icons/fa'
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import { dataservice } from '@/helpers/dataservices'
 import formatMoney from '@/helpers/formatMoney'
+import moment from 'moment'
 
 function ServiceListPage() {
     const [services, setServices] = useState<any[]>([])
@@ -18,10 +19,14 @@ function ServiceListPage() {
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(10)
     const [status, setStatus] = useState<string>('All')
+    const [selectedService, setSelectedService] = useState<number[]>([])
     const navigate = useNavigate()
 
     const auth = useAuth()
     const clientId = auth.user?.client_id
+
+    const linux = ['Centos 7']
+    const window = ['Windows Server 2019']
 
     const getService = async () => {
         try {
@@ -57,24 +62,47 @@ function ServiceListPage() {
     //     })
     // }, [pageIndex, pageSize, allServices])
 
+    const handleSelectService = (id: number, value: boolean) => {
+        if(value){
+            setSelectedService([...selectedService, id])
+        }else{
+            setSelectedService([...selectedService.filter(x => x != id)])
+        }
+    }
+
+    const handleSelectAllService = (value: boolean) => {
+        if(value){
+            setSelectedService(dataservice.map(item => item.id))
+        }else{
+            setSelectedService([])
+        }
+    }
+
     const columnsClientId22: ColumnsType<any> = [
         {
+            title: <Checkbox checked = {selectedService.length == dataservice.length} onChange = {(e)=>handleSelectAllService(e.target.checked)}/>,
+            dataIndex:"id",
+            width: '4%',
+            render: (value) => <Checkbox checked = {selectedService.includes(value)} onChange = {(e)=>handleSelectService(value, e.target.checked)}/>
+        }
+        ,{
             title: 'IP',
             dataIndex: 'ip',
             render: (value, record) => (
                 <>
-                    <div className="extra">{value}</div>
+                    <div className="extra bold-text">{value}</div>
                 </>
             ),
         },
         {
             title: 'Dịch vụ',
             dataIndex: 'object_id',
+            width: '12%',
             render: (value, record) => (
                 <>
-                    <div className="primary">{record?.name}</div>
+                    <div className="primary">{record?.ssd}GB SSD</div>
                     <div className="extra">
-                        {record?.domain ? `(${record?.domain})` : ''}
+                        {record?.ram}GB RAM - {record?.cpu} cpus
                     </div>
                 </>
             ),
@@ -88,6 +116,7 @@ function ServiceListPage() {
         // },
         {
             title: 'CPU',
+            width: '4%',
             dataIndex: 'cpu',
             render: (value) => {
                 return <div>{value}</div>
@@ -95,6 +124,7 @@ function ServiceListPage() {
         },
         {
             title: 'RAM',
+            width: '4%',
             dataIndex: 'ram',
             render: (value) => {
                 return <div>{value}</div>
@@ -103,6 +133,7 @@ function ServiceListPage() {
         {
             title: 'SSD',
             dataIndex: 'ssd',
+            width: '4%',
             render: (value) => {
                 return <div>{value}</div>
             },
@@ -110,15 +141,23 @@ function ServiceListPage() {
         {
             title: 'OS',
             dataIndex: 'os',
+            width: '4%',
             render: (value) => {
-                return <div>{value}</div>
+                return <div>{linux.includes(value) ? <img width={28} src='/images/icon-centos.svg'/> : <img width={28} src='/images/icon-windows.svg'/>}</div>
             },
         },
         {
             title: 'Tổng tiền',
             dataIndex: 'price',
             render: (value) => {
-                return <div>{formatMoney(value)}</div>
+                return <div className='bold-text extra'>{formatMoney(value)}</div>
+            },
+        },
+        {
+            title: 'Ngày hết hạn',
+            dataIndex: 'expireDate',
+            render: (value: any, record: any, index: number) => {
+                return <div>{moment(new Date(value)).format("DD/MM/YYYY")}</div>
             },
         },
         {
@@ -310,6 +349,11 @@ function ServiceListPage() {
                 >
                     Lọc
                 </Button>
+                {auth.user?.client_id && selectedService.length > 0 && <Button 
+                    className='button-payment'
+                    type='primary' 
+                    style={{ marginLeft: '8px' }}
+                >Thanh toán</Button>}
             </div>
             <Table
                 columns={Number(clientId) == 22 ? columnsClientId22 : columns}

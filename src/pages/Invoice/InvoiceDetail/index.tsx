@@ -1,5 +1,5 @@
 import { getInvoiceById, getInvoiceForDetail } from '@/services/apiv2'
-import { Button, Modal, Tag } from 'antd'
+import { Button, Image, Modal, Tag } from 'antd'
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -123,7 +123,7 @@ function InvoiceDetailPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {(invoice?.items || []).map((item: any) => (
+                                {invoice?.items ? (invoice?.items || []).map((item: any) => (
                                     <tr
                                         key={item?.id}
                                         style={{ width: '100%' }}
@@ -155,7 +155,27 @@ function InvoiceDetailPage() {
                                             đ
                                         </td>
                                     </tr>
-                                ))}
+                                )): <tr
+                                    key={service?.id}
+                                    style={{ width: '100%' }}
+                                >
+                                    <td className="description">
+                                        <div
+                                        >{`Thanh toán hoán đơn dịch vụ ${service?.bill.number}`}</div>
+                                    </td>
+                                    <td className="extra">
+                                        {'Không'}
+                                    </td>
+                                    <td className="extra">
+                                        {formatMoney(service?.price || 0)}
+                                    </td>
+                                    <td className="extra">
+                                        {`1`}
+                                    </td>
+                                    <td className="extra">
+                                        {formatMoney(service?.price || 0)}
+                                    </td>
+                                </tr>}
                             </tbody>
                         </table>
                     </div>
@@ -331,7 +351,7 @@ function InvoiceDetailPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {(invoice?.items || []).map((item: any) => (
+                                {invoice?.item ?  (invoice?.items || []).map((item: any) => (
                                     <tr
                                         key={item?.id}
                                         style={{ width: '100%' }}
@@ -360,7 +380,27 @@ function InvoiceDetailPage() {
                                             đ
                                         </td>
                                     </tr>
-                                ))}
+                                )):  <tr
+                                key={service?.id}
+                                style={{ width: '100%' }}
+                            >
+                                <td className="description">
+                                    <div
+                                    >{`Thanh toán hoán đơn dịch vụ ${service?.bill.number}`}</div>
+                                </td>
+                                <td className="extra">
+                                    {'Không'}
+                                </td>
+                                <td className="extra">
+                                    {formatMoney(service?.price || 0)}
+                                </td>
+                                <td className="extra">
+                                    {`1`}
+                                </td>
+                                <td className="extra">
+                                    {formatMoney(service?.price || 0)}
+                                </td>
+                            </tr>}
                             </tbody>
                         </table>
                     </div>
@@ -373,7 +413,7 @@ function InvoiceDetailPage() {
                     >
                         <div>
                             <strong>Tạm tính: </strong>
-                            {ConverMoney(invoice?.subtotal)} đ
+                            {ConverMoney(invoice?.subtotal) || formatMoney(service?.price || 0)} đ
                         </div>
                         <div className="mt-2">
                             <strong>Tín dụng: </strong>
@@ -381,7 +421,7 @@ function InvoiceDetailPage() {
                         </div>
                         <div className="mt-2">
                             <strong>
-                                Tổng: {ConverMoney(invoice?.total)} đ
+                                Tổng: {ConverMoney(invoice?.total) || formatMoney(service?.price || 0)} đ
                             </strong>
                         </div>
                         <Button style={{marginTop: '10px'}} onClick = {()=>setModelPrint(true)} type='primary'>Xuất hóa đơn</Button>
@@ -458,14 +498,20 @@ function InvoiceDetailPage() {
                 <div className="row mt-4 align-items-center">
                     <div className="col-12 col-lg-6 mt-4">
                         <div className="d-flex justify-content-center">
-                            <img
+                            {invoice?.number ? <img
                                 src={`https://manager.idcviettel.com/vietqr.php?account=5318731&bankcode=970416&amount=${invoice?.total}&noidung=${invoice?.number}`}
                                 style={{
                                     height: '200px',
                                     maxWidth: '200px',
                                     border: '1px solid #ccc',
                                 }}
-                            />
+                            /> : <Image 
+                                    style={{
+                                        height: '250px',
+                                        maxWidth: '250px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    src='/images/qr-acb.gif'/>}
                         </div>
                     </div>
                     <div className="col-12 col-lg-6 mt-4">
@@ -475,9 +521,9 @@ function InvoiceDetailPage() {
                         >
                             <div>Số tài khoản: 5318731</div>
                             <div>Chủ tài khoản: Nguyễn Trung Hiếu</div>
-                            <div>Nội dung thanh toán: {invoice?.number}</div>
+                            <div style={{textAlign: 'center'}}>Nội dung thanh toán: {invoice?.number || `Thanh toán cho hóa đơn ${service?.bill.number}`}</div>
                             <div>
-                                Số tiền: {ConverMoney(invoice?.total || 0)}
+                                Số tiền: {invoice?.total ? ConverMoney(invoice?.total || 0) : formatMoney(service?.price || 0)}
                             </div>
                         </div>
                     </div>
