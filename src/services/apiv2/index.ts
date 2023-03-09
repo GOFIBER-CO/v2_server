@@ -235,6 +235,11 @@ export const getPagingServices = (
         `/services/get-paging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
 
+export const getServiceDetailsByServices = (serviceIds: any[]) =>
+    axiosInstance.post(`/services/service-details-by-service`, {
+        serviceIds,
+    })
+
 //action history
 export const getOperationHistory = (
     pageSize: number,
@@ -245,15 +250,21 @@ export const getOperationHistory = (
         `/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${filter}`
     )
 
-export const getPagingUser = (pageSize: number, pageIndex: number, username: string) => axiosInstance.get(`/users/getpaging?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${username}`)
+export const getPagingUser = (
+    pageSize: number,
+    pageIndex: number,
+    username: string
+) =>
+    axiosInstance.get(
+        `/users/getpaging?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${username}`
+    )
 
 //danh sach dich vu
 export const getService = (
     pageIndex: number,
     serverDefault?: string,
     serviceName?: string,
-    pageSize?: number,
-    
+    pageSize?: number
 ) =>
     axiosInstance.get(
         `/products/getPaging?pageIndex=${pageIndex}&serverDefault=${serverDefault}&search=${serviceName}&pageSize=${pageSize}`
