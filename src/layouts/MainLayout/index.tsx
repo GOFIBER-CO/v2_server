@@ -60,6 +60,8 @@ import { IoStatsChart } from 'react-icons/io5'
 import formatMoney from '@/helpers/formatMoney'
 import { socket, SocketContext } from '@/socket/index'
 import { HiOutlineDesktopComputer } from 'react-icons/hi'
+import { useAppDispatch } from '@/redux'
+import { getAllServices } from '@/redux/slices/serviceSlice'
 
 const { Header, Sider, Content } = Layout
 
@@ -74,6 +76,7 @@ const MainLayout: React.FC = () => {
     const [notificationType, setNotificationType] = useState('')
     const auth = useAuth()
     const layoutInit = useLayoutInit()
+    const dispatch = useAppDispatch()
 
     const [openKeys, setOpenKeys] = useState<string[]>([])
     const rootSubmenuKeys: string[] = ['/admin', '/information', '/manage']
@@ -83,6 +86,17 @@ const MainLayout: React.FC = () => {
     const refUserOption = useRef(null)
     const refNotificationBox = useRef(null)
     const refPanel = useRef(null)
+
+    useEffect(() => {
+        const initServices = async () => {
+            try {
+                await dispatch(getAllServices({}))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        initServices()
+    }, [])
 
     const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
