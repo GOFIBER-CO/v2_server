@@ -15,7 +15,7 @@ import OperatingSystem from '@/components/OperatingSystem/OperatingSystem'
 import Server from '@/components/Server/Server'
 import Area from '@/components/Area/Area'
 import PackageServer from '@/components/PackageServer/PackageServer'
-import { Button, Popover, Radio, Slider } from 'antd'
+import { Button, Checkbox, Popover, Radio, Slider } from 'antd'
 import { useNavigate } from 'react-router'
 import IPrice from '@/interfaces/IPrice'
 import { CYCLE_TIME, RESPONSE_STATUS } from '@/helpers'
@@ -30,6 +30,7 @@ import { AiFillInfoCircle } from 'react-icons/ai'
 import useClickOutSide from '@/hooks/useClickOutSide'
 import moment from 'moment'
 import { useAuth } from '@/hooks/useAuth'
+import { Link } from 'react-router-dom'
 
 const PRODUCT_ID = '30'
 const ORDER_PAGE_ID = {
@@ -341,6 +342,7 @@ const CreateCloud: React.FC = () => {
     const [toggle, setToggle] = useState(0)
     const [paymentMethod, setPaymentMethod] = useState<any>(paymentMethods[0])
     const auth = useAuth()
+    const [isConfirm, setIsConfirm] = useState<boolean>(false)
 
     const [config, setConfig] = useState<{
         ram?: any
@@ -485,12 +487,8 @@ const CreateCloud: React.FC = () => {
         try {
             const result = await getProductDetailForConfig((id ||= PRODUCT_ID))
             const { data } = result?.data
-           
-            
 
             const { forms, product } = data?.config
-            console.log(product,'forms');
-            
 
             const cycle = product.find((item: any) => item?.id === 'cycle')
             const ram = forms.find((item: any) => item?.title.includes('RAM'))
@@ -567,6 +565,15 @@ const CreateCloud: React.FC = () => {
 
     const onFinish = async () => {
         try {
+            if (!isConfirm) {
+                notify(
+                    notifyType.NOTIFY_ERROR,
+                    'Bạn chưa đồng ý với điều khoản và điều kiện của chúng tôi'
+                )
+
+                return
+            }
+
             layout.setLoading(true)
             const domain =
                 (auth?.user?.firstname as string) +
@@ -640,7 +647,6 @@ const CreateCloud: React.FC = () => {
                 <div className="package-server">
                     <div className="tabs-container">
                         <ul className="list-package-server">
-                            
                             {cycleTime.map((item) => (
                                 <PackageServer
                                     key={item?.id}
@@ -1119,6 +1125,18 @@ const CreateCloud: React.FC = () => {
                                 }}
                             />
                         ))}
+                    </div>
+                </div>
+                <div className="create-cloud-policy">
+                    <p className="create-cloud-location-title">
+                        QUY ĐỊNH SỬ DỤNG DỊCH VỤ
+                    </p>
+                    <div className="my-4 d-flex align-items-center">
+                        <Checkbox onChange={() => setIsConfirm(!isConfirm)} />
+                        <div style={{ marginLeft: '8px', fontSize: '16px' }}>
+                            Tôi đồng ý với các{' '}
+                            <Link to={'/'}>điểu khoản và điều kiện</Link>
+                        </div>
                     </div>
                 </div>
                 <div className="create-cloud-caculate-price">
