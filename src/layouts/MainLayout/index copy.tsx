@@ -62,8 +62,6 @@ import { socket, SocketContext } from '@/socket/index'
 import { HiOutlineDesktopComputer } from 'react-icons/hi'
 import { useAppDispatch } from '@/redux'
 import { getAllServices } from '@/redux/slices/serviceSlice'
-import appConfig from '@/config/appConfig'
-import { getAllInvoicesByClient } from '@/redux/slices/invoiceSlice'
 
 const { Header, Sider, Content } = Layout
 
@@ -93,7 +91,6 @@ const MainLayout: React.FC = () => {
         const initServices = async () => {
             try {
                 await dispatch(getAllServices({}))
-                await dispatch(getAllInvoicesByClient({}))
             } catch (error) {
                 console.log(error)
             }
@@ -576,11 +573,7 @@ const MainLayout: React.FC = () => {
                                     >
                                         <img
                                             width={170}
-                                            src={
-                                                appConfig.PROJECT == 'vietstack'
-                                                    ? '/images/Logo-vietserver.png'
-                                                    : '/images/Logo.png'
-                                            }
+                                            src="/images/Logo-vietserver.png"
                                         />
                                     </Link>
                                 )}
@@ -637,14 +630,14 @@ const MainLayout: React.FC = () => {
                                         </div>
                                     </Link>
                                 </div>
-                                {/* <div className="site-layout-create-server">
+                                <div className="site-layout-create-server">
                                     <Link to={'/support/create-ticket'}>
                                         <div className="site-layout-create-server-ticket">
                                             <AiOutlinePlus />
                                             <span>Tạo ticket</span>
                                         </div>
                                     </Link>
-                                </div> */}
+                                </div>
                             </div>
                             <div className="site-layout-column">
                                 <div className="site-layout-purchase">

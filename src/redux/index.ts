@@ -2,9 +2,11 @@ import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import serviceReducer from './slices/serviceSlice'
+import invoiceReducer from './slices/invoiceSlice'
 
 const rootReducer = combineReducers({
     service: serviceReducer,
+    invoice: invoiceReducer,
 })
 
 export const store = configureStore({

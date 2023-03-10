@@ -5,7 +5,14 @@ import INotification from '@/interfaces/INotification'
 import INewNotification from '@/interfaces/INewNotification'
 import appConfig from '@/config/appConfig'
 
-const baseUrl = appConfig.ENVIRONMENT == 'development' ? 'http://localhost:4000/api/v1' : (appConfig.PROJECT == "gofiber" ? "https://system.gofiber.vn" : "https://api.vietstack.com")
+// const baseUrl =
+//     appConfig.ENVIRONMENT == 'development'
+//         ? 'http://localhost:4000/api/v1'
+//         : appConfig.PROJECT == 'gofiber'
+//         ? 'https://system.gofiber.vn'
+//         : 'https://api.vietstack.com'
+
+const baseUrl = 'http://localhost:4000/api/v1'
 
 let axiosInstance = axios.create({
     baseURL: baseUrl,
@@ -202,6 +209,9 @@ export const getServiceDetailForPayment = (id: string) =>
     axiosInstance.get(`/services/service-detail-for-payment/${id}`)
 
 export const getAllInvoices = () => axiosInstance.get(`/invoices/all-invoices`)
+
+export const getAllInvoicesByClientId = () =>
+    axiosInstance.get(`/invoices/invoices-by-client-id`)
 
 export const getInvoiceById = (id: string) =>
     axiosInstance.get(`/invoices/invoice-by-id/${id}`)
