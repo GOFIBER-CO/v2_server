@@ -404,7 +404,7 @@ function ServiceListPage() {
             title: 'Trạng thái',
             dataIndex: 'status',
             render: (value, record) =>
-                value === 'Active' ? (
+                value === 'Paid' ? (
                     <Tag color="green">Đang hoạt động</Tag>
                 ) : value == 'Terminated' ? (
                     <Tag color="red">Đã xóa</Tag>

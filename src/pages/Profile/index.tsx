@@ -110,7 +110,28 @@ const Profile = () => {
                                 }
                             />
                         </Form.Item>
-
+                        <Form.Item label="Địa chỉ:">
+                            <Input
+                                value={userProfile?.address1}
+                                onChange={(e) =>
+                                    setUserProfile({
+                                        ...userProfile!,
+                                        phonenumber: e.target.value,
+                                    })
+                                }
+                            />
+                        </Form.Item>
+                        <Form.Item label="Quốc gia:">
+                            <Input
+                                value={userProfile?.countryname}
+                                onChange={(e) =>
+                                    setUserProfile({
+                                        ...userProfile!,
+                                        phonenumber: e.target.value,
+                                    })
+                                }
+                            />
+                        </Form.Item>
                     </Form>
                     <div style={{textAlign: 'center'}}>
                         <Button

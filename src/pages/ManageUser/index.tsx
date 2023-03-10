@@ -4,7 +4,7 @@ import appConfig from '@/config/appConfig'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import ITicket from '@/interfaces/ITicket'
 import { getIps } from '@/services/apis'
-import { Input, Pagination, PaginationProps, Select, Tag } from 'antd'
+import { Input, Modal, Pagination, PaginationProps, Select, Tag, Tooltip } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
 import { CSSProperties, useEffect, useState } from 'react'
 import { BiEdit } from 'react-icons/bi'
@@ -14,11 +14,16 @@ import { socket } from '@/layouts/MainLayout'
 import formatDate from '@/helpers/formatDate'
 import Ip from '@/interfaces/IIps'
 import { IUser } from '@/interfaces/IUser'
-import { getPagingUser } from '@/services/apiv2'
+import { addUserCredit, getPagingUser } from '@/services/apiv2'
+import { FaMoneyBill } from 'react-icons/fa'
+import formatMoney from '@/helpers/formatMoney'
+import { notify, notifyType } from '@/App'
 
 const { Option } = Select
 
 const ManageUser = () => {
+    const [idUserForUpdate, setIdUsetForUpdate] = useState('')
+    const [modalUserCredit, setModalUserCredit] = useState(false)
     const [users, setUsers] = useState<IUser[]>([])
     const [pageIndex, setPageIndex] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
@@ -28,7 +33,10 @@ const ManageUser = () => {
     const layout = useLayoutInit()
     const [statusFilter, setStatusFilter] = useState("")
     const [search, setSearch] = useState('')
+    const [addMoney, setAddMoney] = useState(0)
 
+    const layoutInit = useLayoutInit()
+    
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
 
@@ -38,13 +46,15 @@ const ManageUser = () => {
 
     const getUser = async() => {
         try {
+            layoutInit.setLoading(true)
             const result = await getPagingUser(pageSize, pageIndex, search)
-            console.log(result.data)
             setUsers(result.data?.data.users)
             setTotalPage(result.data?.data.totalPage)
             setTotalItem(result.data?.data.totalDocs)
         } catch (error) {
             console.log(error)
+        } finally{
+            layoutInit.setLoading(false)
         }
     }    
 
@@ -60,6 +70,25 @@ const ManageUser = () => {
             color: color,
         }
     }
+    
+    const clickAddMoney = (id: string) => {
+        setIdUsetForUpdate(id)
+        setModalUserCredit(true)
+    }
+
+    const handleAddMoney = async () => {
+        try {
+            const result = await addUserCredit(idUserForUpdate, addMoney)
+            notify(notifyType.NOTIFY_SUCCESS, "Nạp tiền cho user thành công")
+            setAddMoney(0)
+            setModalUserCredit(false)
+            getUser()
+        } catch (error) {
+            notify(notifyType.NOTIFY_ERROR, "Nạp tiền cho user thất bại")
+            console.log(error)
+        }
+    }
+
     const columns: ColumnsType<IUser> = [
         {
             title: 'Mã người dùng',
@@ -80,6 +109,11 @@ const ManageUser = () => {
             )
         },
         {
+            title: "Số dư",
+            dataIndex: 'credit',
+            render: (value) => formatMoney(value)
+        },
+        {
             title: 'Trạng thái',
             dataIndex: 'verified',
             render: (value, record) => value ? <Tag color='green'>Đã xác thực</Tag> : <Tag color='red'>Chưa xác thực</Tag>
@@ -87,13 +121,14 @@ const ManageUser = () => {
         {
             key: 'id',
             title: 'Điều khiển',
-            dataIndex: 'control',
+            dataIndex: 'id',
             render: (value, record) => (
                 <div>
+                   
                     <span>
-                        <Link to={`/manage-users/${record._id}`}>
-                            <BiEdit style={actionIconStyle('blue')} />
-                        </Link>
+                        <Tooltip title="Nạp tiền">
+                            <FaMoneyBill style={actionIconStyle('green')} onClick={() => clickAddMoney(value)}/>
+                        </Tooltip>
                     </span>
                 </div>
             ),
@@ -106,6 +141,10 @@ const ManageUser = () => {
 
     return (
         <div className="manage-ip-page">
+            <Modal open={modalUserCredit} onOk={handleAddMoney} onCancel={()=>setModalUserCredit(false)} title="Nạp tiền cho người dùng">
+                <label>Số tiền (VND): </label>
+                <Input type='number' style={{width: '100%'}} onChange={(e)=>setAddMoney(Number(e.target.value))}/>
+            </Modal>
             <div className="manage-ip-page-header">
                 <ul>
                     <li>
@@ -137,7 +176,7 @@ const ManageUser = () => {
                     rowKey="_id"
                 />
                 <Pagination
-                showSizeChanger
+                    showSizeChanger
                     showTotal={showTotal}
                     style={{ marginTop: '30px' }}
                     current={pageIndex}

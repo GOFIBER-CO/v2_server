@@ -2,6 +2,7 @@ import { Button, Modal, Select, Space } from "antd";
 import * as React from "react";
 import { BsCheckLg } from "react-icons/bs";
 import "./CloudVps.scss"
+import appConfig from "@/config/appConfig";
 
 
 
@@ -26,7 +27,7 @@ const Modalprint = ({
                     <div className='modal_Payment-header'>
                         <div className='modal_Payment-header-left'>
                             <img src="./public/images/Logo.png" alt="" />
-                            <div className='modal_Payment-header-left-text'>Công ty TNHH Công nghệ phần mềm GoFiber</div>
+                            <div className='modal_Payment-header-left-text'>Công ty TNHH Công nghệ phần mềm {appConfig.PROJECT == 'gofiber' ? 'Gofiber' : 'Vietstack'}</div>
                         </div>
                         <div className='modal_Payment-header-right'>
                             <div style={{width:'50%'}} ></div>
@@ -53,15 +54,11 @@ const Modalprint = ({
                     <hr className='modal_Payment-hr' />
                     <div className='modal_Payment-body'>
                         <div className='modal_Payment-body-left'>
-                            <div className='modal_Payment-body-left-title'>Khách hàng</div>
-                            <div className='modal_Payment-body-left-text' >Công ty ABC</div>
-                            <div className='modal_Payment-body-left-text' >Trần Minh Quang</div>
-                            <div className='modal_Payment-body-left-text' >Số 137, Đường CN11, P. Sơn Kỳ, Q. Tân Phú, TPHCM</div>
+                            <div className='modal_Payment-body-center-title' >Nhà cung cấp</div>
+                            <div className='modal_Payment-body-center-text' >Công ty TNHH Công nghệ phần mềm {appConfig.PROJECT == 'gofiber' ? 'Gofiber' : 'Vietstack'}</div>
+                            <div className='modal_Payment-body-center-text' >Số 131, Đường CN11, P. Sơn Kỳ, Q. Tân Phú, TPHCM</div>
                         </div>
                         <div className='modal_Payment-body-center'>
-                            <div className='modal_Payment-body-center-title' >Nhà cung cấp</div>
-                            <div className='modal_Payment-body-center-text' >Công ty TNHH Công nghệ phần mềm GoFiber</div>
-                            <div className='modal_Payment-body-center-text' >Số 131, Đường CN11, P. Sơn Kỳ, Q. Tân Phú, TPHCM</div>
                             
                         </div>
                         <div className='modal_Payment-body-right'>
