@@ -70,15 +70,15 @@ function InvoiceDetailPage() {
                         <div className="d-flex align-items-center justify-content-center flex-column">
                             <div>
                                 <strong>Hóa đơn </strong>
-                                {invoice?.number}
+                                {invoice?.number || service?.bill.number}
                             </div>
                             <div>
                                 <strong>Hóa đơn ngày </strong>
-                                {invoice?.date}
+                                {invoice?.date || moment(service?.bill.createdAt).format("DD/MM/YYYY")}
                             </div>
                             <div>
                                 <strong>Ngày đến hạn </strong>
-                                {invoice?.duedate}
+                                {invoice?.duedate || moment(service?.expireDate).format("DD/MM/YYYY")}
                             </div>
                         </div>
                     </div>
@@ -187,7 +187,7 @@ function InvoiceDetailPage() {
                     >
                         <div>
                             <strong>Tạm tính: </strong>
-                            {ConverMoney(invoice?.subtotal)} đ
+                              {ConverMoney(invoice?.subtotal) || formatMoney(service?.price || 0)} đ
                         </div>
                         <div className="mt-2">
                             <strong>Tín dụng: </strong>
@@ -195,7 +195,7 @@ function InvoiceDetailPage() {
                         </div>
                         <div className="mt-2">
                             <strong>
-                                Tổng: {ConverMoney(invoice?.grandtotal)} đ
+                                Tổng: {ConverMoney(invoice?.total) || formatMoney(service?.price || 0)} đ
                             </strong>
                         </div>
                         <div className="mt-4">
@@ -476,7 +476,7 @@ function InvoiceDetailPage() {
         loading: <div></div>,
         notLoading: (
             <div className="invoice-detail-page">
-                {invoice?.status === 'Paid'
+                {invoice?.status || service?.status  === 'Paid'
                     ? renderStatus['paid']
                     : renderStatus['unPaid']}
             </div>
@@ -486,7 +486,7 @@ function InvoiceDetailPage() {
     return (
         <>
             {isLoading ? render['loading'] : render['notLoading']}{' '}
-            <Modalprint totalBill = {formatMoney(invoice.grandtotal)} dateExport={moment(new Date(invoice.duedate)).format("DD-MM-YYYY")} datePaid={moment(new Date(invoice.paybefore)).format("DD-MM-YYYY")} status = {invoice?.status} billCode = {`#${invoice?.number}`} billDetail = {`Thanh toán hóa đơn #${invoice?.number}`} handleOk handlePrint = {handlePrint} componentRef = {componentRef} isModalOpen = {modalprint} handleCancel = {()=>setModelPrint(false)} none ={none}/>
+            <Modalprint totalBill = {formatMoney(invoice.grandtotal || service?.price)} dateExport={moment(new Date(invoice.duedate || service?.bill.createdAt)).format("DD-MM-YYYY")} datePaid={moment(new Date(invoice.paybefore || service?.bill.exipireDate)).format("DD-MM-YYYY")} status = {invoice?.status || service?.status} billCode = {`#${invoice?.number || service?.bill.number}`} billDetail = {`Thanh toán hóa đơn #${invoice?.number || service?.bill.number}`} handleOk handlePrint = {handlePrint} componentRef = {componentRef} isModalOpen = {modalprint} handleCancel = {()=>setModelPrint(false)} none ={none}/>
             <Modal
                 title="Thanh toán ngay"
                 open={modal}
@@ -520,7 +520,7 @@ function InvoiceDetailPage() {
                         >
                             <div>Số tài khoản: 5318731</div>
                             <div>Chủ tài khoản: Nguyễn Trung Hiếu</div>
-                            <div style={{textAlign: 'center'}}>Nội dung thanh toán: {invoice?.number || `Thanh toán cho hóa đơn ${service?.bill.number}`}</div>
+                            <div style={{textAlign: 'center'}}>Nội dung thanh toán: {invoice?.number || `Thanh toan cho hoa đơn ${service?.bill.number}`}</div>
                             <div>
                                 Số tiền: {invoice?.total ? ConverMoney(invoice?.total || 0) : formatMoney(service?.price || 0)}
                             </div>

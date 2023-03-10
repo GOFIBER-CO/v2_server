@@ -7,7 +7,7 @@ export default {
     CAPTCHA_KEY: '6LeGP90kAAAAAG2H739_ZgZkl7IGFDWncEqzIHgv',
     CAPTCHA_SECRET: '6LeGP90kAAAAAEN18cgT8NS6yzkovSdmusaJZRkX',
     PROJECT : "gofiber",
-    ENVIRONMENT: "production",
+    ENVIRONMENT: "development",
     API_URL: 'http://localhost:4000',
     // API_URL: 'https://system.gofiber.vn',
     // API_URL: 'https://api.vietstack.com',
