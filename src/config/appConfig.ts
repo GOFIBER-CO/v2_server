@@ -11,4 +11,6 @@ export default {
     API_URL: 'http://localhost:4000',
     // API_URL: 'https://system.gofiber.vn',
     // API_URL: 'https://api.vietstack.com',
+    BANK_ACCOUNT: '5318731',
+    BANK_CODE: '970416',
 }

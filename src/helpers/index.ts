@@ -64,8 +64,14 @@ export function subtractDate(date1: Date, date2: Date) {
 
 export function subtractNow(date: string) {
     const temp = Math.ceil(
-        Math.abs(new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+        (new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
     )
+
+    if (temp < 0) {
+        return temp / 30 <= -1
+            ? `Đã quá hạn ${Math.abs(Math.ceil(temp / 30))} tháng`
+            : `Đã quá hạn ${Math.abs(temp)} ngày`
+    }
 
     return temp / 30 >= 1
         ? `${Math.ceil(temp / 30)} tháng tới`
