@@ -119,3 +119,9 @@ button:focus-visible {
 .vietstack{
     background-image: url(/images/background-vietstack.png);
 }
+
+.discount-percent{
+    position: absolute;
+    right: 15%;
+    top: -5%;
+}
