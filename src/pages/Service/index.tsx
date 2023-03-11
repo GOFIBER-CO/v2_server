@@ -256,6 +256,7 @@ function ServiceListPage() {
 
     const isCheckedAll = () => {
         const idsInCurrentPage = services?.map((item: any) => item?.id)
+        if (idsInCurrentPage?.length === 0) return false
         let result = true
 
         idsInCurrentPage?.forEach((id: string) => {
