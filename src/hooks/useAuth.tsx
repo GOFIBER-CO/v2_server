@@ -117,6 +117,7 @@ const useProvideAuth = () => {
                 notify('error', user.data.message)
                 setAuth({ ...auth, buttonLoading: false })
             }
+            return true
         } catch (error: AxiosError | any) {
             setAuth({ ...auth, buttonLoading: false })
             console.log(error)

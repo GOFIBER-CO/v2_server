@@ -10,13 +10,16 @@ import appConfig from '@/config/appConfig'
 
 const LoginNew = () => {
     const [form] = Form.useForm()
+    const [buttonLoading, setButtonLoading] = useState(false)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
     const auth = useAuth()
     const navigate = useNavigate()
-    const onFinish = () => {
+    const onFinish = async () => {
         try {
             setButtonLoading(true)
-            auth.loginSync(
+            await auth.loginSync(
                 form.getFieldValue('email'),
                 form.getFieldValue('password'),
                 navigate
@@ -28,9 +31,7 @@ const LoginNew = () => {
         }
        
     }
-    const [buttonLoading, setButtonLoading] = useState(false)
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+
 
     return (
         <div className={appConfig.PROJECT == 'gofiber' ? "LoginNew_cotainer gofiber" : 'LoginNew_cotainer vietstack'}>
