@@ -460,13 +460,6 @@ const MainLayout: React.FC = () => {
                     ),
                 },
                 {
-                    key: '/transaction',
-                    icon: <MdOutlineHistory />,
-                    label: (
-                        <NavLink to={'/transaction'}>Lịch sử giao dịch</NavLink>
-                    ),
-                },
-                {
                     key: '/deposit-check',
                     icon: <BsCheckLg />,
                     label: (
@@ -1029,27 +1022,6 @@ const MainLayout: React.FC = () => {
                                                         </span>
                                                     </li>
                                                 </Link>
-                                                <Link to="/2fa-security">
-                                                    <li className="info_profile">
-                                                        <MdOutlineSecurity
-                                                            size={20}
-                                                            color={'#1890ff'}
-                                                            className="icon_profile"
-                                                        />
-                                                        <span
-                                                            style={{
-                                                                marginLeft:
-                                                                    '10px',
-                                                                fontSize:
-                                                                    '1rem',
-                                                            }}
-                                                        >
-                                                            Cài đặt bảo mật
-                                                            (2FA)
-                                                        </span>
-                                                    </li>
-                                                </Link>
-
                                                 <li onClick={() => logout()}>
                                                     <Link to="#">
                                                         <span>Đăng xuất</span>
