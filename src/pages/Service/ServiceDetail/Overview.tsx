@@ -103,7 +103,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
     const auth = useAuth()
 
     const genIP = () => {
-        return vm?.ip && Object.values(vm?.ip)?.[0] as any
+        return vm?.ip && (Object.values(vm?.ip)?.[0] as any)
     }
 
     const genStatus = (value: string) => {
@@ -185,7 +185,6 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
             setIsShutdown(false)
         }
     }
-
 
     return (
         <div className="overview">
@@ -283,7 +282,11 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                         <Switch
                                             checkedChildren="Bật"
                                             unCheckedChildren="Tắt"
-                                            checked={vm?.status ? genStatus(vm?.status) : true}
+                                            checked={
+                                                vm?.status
+                                                    ? genStatus(vm?.status)
+                                                    : true
+                                            }
                                             onChange={() => {
                                                 if (genStatus(vm?.status)) {
                                                     setIsShowConfirmStart(true)
@@ -291,7 +294,10 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                                     handleStartVM()
                                                 }
                                             }}
-                                            disabled = {Number(auth.user?.client_id) == 22}
+                                            disabled={
+                                                Number(auth.user?.client_id) ==
+                                                22
+                                            }
                                         />
                                     </Popconfirm>
                                 )}
@@ -303,7 +309,7 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>Tên miền/ Hostname</div>
-                            <div>{service?.domain || "Linda"}</div>
+                            <div>{service?.domain || 'Linda'}</div>
                         </div>
                     </div>
                 </div>
@@ -311,12 +317,26 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                     <div className="row">
                         <div className="col col-12 col-md-6">
                             <div>Tên đăng nhập</div>
-                            <div>{service?.username ? service?.username : (service?.os == 'Centos 7' ? 'root' : 'administrator')}</div>
+                            <div>
+                                {service?.username
+                                    ? service?.username
+                                    : service?.os == 'Centos 7'
+                                    ? 'root'
+                                    : 'administrator'}
+                            </div>
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>Mật khẩu</div>
                             {showPassword ? (
-                                <div>{vm?.password || service?.pass}</div>
+                                <div>
+                                    {vm?.password || service?.pass}{' '}
+                                    <a
+                                        onClick={() => setShowPassword(false)}
+                                        className="text-danger"
+                                    >
+                                        Ẩn
+                                    </a>
+                                </div>
                             ) : (
                                 <a
                                     onClick={() => setShowPassword(true)}
@@ -340,10 +360,16 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                                 Main IP for net
                                             </div>
                                             <div className="mt-2">
-                                                Mạng: {genIP()?.network ? genIP()?.network : service?.ip}
+                                                Mạng:{' '}
+                                                {genIP()?.network
+                                                    ? genIP()?.network
+                                                    : service?.ip}
                                             </div>
                                             <div className="mt-2">
-                                                Gateway:  {genIP()?.network ? genIP()?.network : service?.ip}
+                                                Gateway:{' '}
+                                                {genIP()?.network
+                                                    ? genIP()?.network
+                                                    : service?.ip}
                                             </div>
                                         </div>
                                     }
@@ -353,7 +379,9 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                                             borderBottom: '1px dashed #000',
                                         }}
                                     >
-                                        {genIP()?.network ? genIP()?.ip : service?.ip}
+                                        {genIP()?.network
+                                            ? genIP()?.ip
+                                            : service?.ip}
                                     </div>
                                 </Popover>
                             </div>
@@ -378,15 +406,19 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                             <div>
                                 <span>
                                     IN:{' '}
-                                    {vm?.bandwidth?.data_received ? convertByteToMB(
-                                        vm?.bandwidth?.data_received || 0
-                                    ) : "Unlimited"}
+                                    {vm?.bandwidth?.data_received
+                                        ? convertByteToMB(
+                                              vm?.bandwidth?.data_received || 0
+                                          )
+                                        : 'Unlimited'}
                                 </span>
                                 <span style={{ marginLeft: '12px' }}>
                                     OUT:{' '}
-                                    {vm?.bandwidth?.data_received ? convertByteToMB(
-                                        vm?.bandwidth?.data_send || 0
-                                    ) : "Unlimited"}
+                                    {vm?.bandwidth?.data_received
+                                        ? convertByteToMB(
+                                              vm?.bandwidth?.data_send || 0
+                                          )
+                                        : 'Unlimited'}
                                 </span>
                             </div>
                         </div>
@@ -401,7 +433,12 @@ function Overview({ service, vm, handleRefreshVm }: Props) {
                         </div>
                         <div className="col col-12 col-md-6">
                             <div>RAM</div>
-                            <div>{vm?.memory ?  convertMBtoGB(vm?.memory || 0) : service?.ram} GB</div>
+                            <div>
+                                {vm?.memory
+                                    ? convertMBtoGB(vm?.memory || 0)
+                                    : service?.ram}{' '}
+                                GB
+                            </div>
                         </div>
                     </div>
                 </div>
