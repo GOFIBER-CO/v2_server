@@ -1,39 +1,20 @@
-import { useAuth } from '@/hooks/useAuth'
-import { useLayoutInit } from '@/hooks/useInitLayOut'
-import IDepositGuide from '@/interfaces/IDepositGuide'
-import { getDepositGuide } from '@/services/apis'
-import '@/styles/pages/DepositGuide/DepositGuide.scss'
-import { Image } from 'antd'
-import { useEffect, useState } from 'react'
+import { Image, Modal } from "antd"
 
-const DepositGuide: React.FC = () => {
-    const [depositGuide, setDepositGuide] = useState<IDepositGuide>({
-        _id: '',
-        content: '',
-    })
+interface Props {
+    isShow: boolean,
+    setModal: (status: boolean)=>void,
+    price: string,
+}
 
-    const layout = useLayoutInit()
-
-    const getContentDepositGuide = async () => {
-        try {
-            layout.setLoading(true)
-            const result = await getDepositGuide()
-            setDepositGuide(result.data)
-            layout.setLoading(false)
-        } catch (error) {
-            layout.setLoading(false)
-            console.log(error)
-        }
-    }
-
-    const auth = useAuth()
-
-    useEffect(() => {
-        getContentDepositGuide()
-    }, [])
+const ModalPayment = ({isShow, setModal, price}:Props) => {
     return (
-        <div className="deposit-guide">
-            <p className="deposit-guide-title">Nạp tiền vào tài khoản</p>
+        <Modal
+            title="Thanh toán ngay"
+            open={isShow}
+            width="700px"
+            onCancel={() => setModal(false)}
+            footer={false}
+        >
             <div className="row align-items-center">
                 <div className="col-12 col-lg-6 mt-4">
                     <div className="d-flex justify-content-center">
@@ -54,7 +35,10 @@ const DepositGuide: React.FC = () => {
                     >
                         <div>Số tài khoản: 5318731</div>
                         <div>Chủ tài khoản: Nguyễn Trung Hiếu</div>
-                        <div style={{ textAlign: 'center' }}>Nội dung thanh toán: {`Chuyen tien vao tai khoan ${auth.user?.client_id}`}</div>
+                        <div style={{ textAlign: 'center' }}>Nội dung thanh toán: {`Thanh toán Cloudserver`}</div>
+                        <div>
+                            Số tiền: {price}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,8 +48,8 @@ const DepositGuide: React.FC = () => {
                     quét mã QR để thanh toán được xác nhận tự động.
                 </i>
             </div>
-        </div>
+        </Modal>
     )
 }
 
-export default DepositGuide
+export default ModalPayment

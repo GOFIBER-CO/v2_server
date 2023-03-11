@@ -41,7 +41,6 @@ const CreateTicket: React.FC = () => {
         file: null,
     })
 
-    console.log(newTicket,'newTicket');
     
     const layout = useLayoutInit()
 
@@ -61,7 +60,6 @@ const CreateTicket: React.FC = () => {
         try {
             layout.setLoading(true)
             const result = await getAllDepartments()
-            console.log(result);
            
             
             setProcessingRooms(result.data?.data)

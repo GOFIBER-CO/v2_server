@@ -3,6 +3,14 @@ import ICreateNewService from '@/interfaces/ICreateNewService'
 import axios from 'axios'
 import INotification from '@/interfaces/INotification'
 import INewNotification from '@/interfaces/INewNotification'
+import appConfig from '@/config/appConfig'
+
+// const baseUrl =
+//     appConfig.ENVIRONMENT == 'development'
+//         ? 'http://localhost:4000/api/v1'
+//         : appConfig.PROJECT == 'gofiber'
+//         ? 'https://system.gofiber.vn'
+//         : 'https://api.vietstack.com'
 
 const baseUrl = 'http://localhost:4000/api/v1'
 
@@ -202,6 +210,9 @@ export const getServiceDetailForPayment = (id: string) =>
 
 export const getAllInvoices = () => axiosInstance.get(`/invoices/all-invoices`)
 
+export const getAllInvoicesByClientId = () =>
+    axiosInstance.get(`/invoices/invoices-by-client-id`)
+
 export const getInvoiceById = (id: string) =>
     axiosInstance.get(`/invoices/invoice-by-id/${id}`)
 
@@ -235,6 +246,11 @@ export const getPagingServices = (
         `/services/get-paging?search=${search}&pageIndex=${pageIndex}&pageSize=${pageSize}`
     )
 
+export const getServiceDetailsByServices = (serviceIds: any[]) =>
+    axiosInstance.post(`/services/service-details-by-service`, {
+        serviceIds,
+    })
+
 //action history
 export const getOperationHistory = (
     pageSize: number,
@@ -245,15 +261,24 @@ export const getOperationHistory = (
         `/action-history?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${filter}`
     )
 
+export const getPagingUser = (
+    pageSize: number,
+    pageIndex: number,
+    username: string
+) =>
+    axiosInstance.get(
+        `/users/getpaging?pageSize=${pageSize}&pageIndex=${pageIndex}&search=${username}`
+    )
 
 //danh sach dich vu
 export const getService = (
     pageIndex: number,
     serverDefault?: string,
     serviceName?: string,
-    pageSize?: number,
-    
+    pageSize?: number
 ) =>
     axiosInstance.get(
         `/products/getPaging?pageIndex=${pageIndex}&serverDefault=${serverDefault}&search=${serviceName}&pageSize=${pageSize}`
     )
+
+export const addUserCredit = (id: string, credit: number) => axiosInstance.post(`/users/${id}/addCredit`, { credit })

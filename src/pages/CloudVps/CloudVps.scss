@@ -4,7 +4,6 @@
     border: 2px solid #00ACD7;
     margin-top: 25px;
     padding: 2% 9%;
-    margin-left: 5px;
     .modal_Payment-header{
         width: 100%;
         display: flex;
@@ -26,11 +25,25 @@
                 padding: 2% 0%;
                 text-align: center;
                 border: 1px solid #219653;
+
+                &-unpaid{
+                    width: 50%;
+                    padding: 2% 0%;
+                    text-align: center;
+                    border: 1px solid red;
+                }
                 &-text{
                     margin-left: 10px;
                     font-weight: 600;
                     font-size: 16px;
                     color: #219653;
+
+                    &-unpaid{
+                        color: red;
+                        font-weight: 600;
+                        font-size: 16px;
+                        text-align: center;
+                    }
                 }
             }
             &-check-no{

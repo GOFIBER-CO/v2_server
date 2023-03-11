@@ -1,10 +1,11 @@
 import React from 'react'
 
 type Props = {
-    vm: any
+    vm: any,
+    service: any
 }
 
-function NetworkInterfaces({ vm }: Props) {
+function NetworkInterfaces({ vm, service }: Props) {
     return (
         <div className="interfaces">
             <div>
@@ -23,12 +24,24 @@ function NetworkInterfaces({ vm }: Props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.values(vm?.interfaces).map((item: any) => (
+                        {vm?.interfaces ? Object.values(vm?.interfaces).map((item: any) => (
                             <tr key={item?.id}>
                                 <td>{item?.name}</td>
                                 <td>{item?.model}</td>
                                 <td>{item?.mac}</td>
                                 <td>{item?.ip?.[0]?.ip}</td>
+                                <td>
+                                    {item?.firewall === '1' ? 'Có' : 'Không'}
+                                </td>
+                                <td>{item?.bridge}</td>
+                            </tr>
+                        )) : 
+                        service.interface?.map((item: any) => (
+                            <tr key={item?.id}>
+                                <td>{item?.name}</td>
+                                <td>{item?.model}</td>
+                                <td>{item?.mac}</td>
+                                <td>{item?.ip}</td>
                                 <td>
                                     {item?.firewall === '1' ? 'Có' : 'Không'}
                                 </td>

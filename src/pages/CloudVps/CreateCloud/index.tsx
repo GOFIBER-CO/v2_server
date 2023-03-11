@@ -15,7 +15,7 @@ import OperatingSystem from '@/components/OperatingSystem/OperatingSystem'
 import Server from '@/components/Server/Server'
 import Area from '@/components/Area/Area'
 import PackageServer from '@/components/PackageServer/PackageServer'
-import { Button, Popover, Radio, Slider } from 'antd'
+import { Button, Checkbox, Popover, Radio, Slider } from 'antd'
 import { useNavigate } from 'react-router'
 import IPrice from '@/interfaces/IPrice'
 import { CYCLE_TIME, RESPONSE_STATUS } from '@/helpers'
@@ -30,6 +30,7 @@ import { AiFillInfoCircle } from 'react-icons/ai'
 import useClickOutSide from '@/hooks/useClickOutSide'
 import moment from 'moment'
 import { useAuth } from '@/hooks/useAuth'
+import { Link } from 'react-router-dom'
 
 const PRODUCT_ID = '30'
 const ORDER_PAGE_ID = {
@@ -37,188 +38,198 @@ const ORDER_PAGE_ID = {
     CUSTOM: '4',
 }
 
-const dataForConfig = [
+const discount = [
     {
-        id: 39,
-        type: 'slider',
-        required: '0',
-        name: 'RAM [GB]',
-        key: 'cf_memory',
-        variable: 'memory',
-        description: '',
-        category: 'server',
-        product_id: '17',
-        copy_of: '39',
-        options: '50',
-        config: {
-            conditionals: [],
-            minvalue: '1',
-            maxvalue: '32',
-            step: '1',
-            initialval: '1',
-            upgradefee: '0.00',
-            downgradefee: '0.00',
+        name: 'Cloud VN #1',
+        m: {
+            price: 129000,
+            discount: 30,
         },
-        sort_order: '1',
-        group_id: '0',
-        items: [
-            {
-                id: 146,
-                category_id: '39',
-                variable_id: '',
-                sort_order: '1',
-                copy_of: '146',
-                pricing: true,
-                paytype: 'Regular',
-                m: '1000.00',
-            },
-        ],
-        premade: true,
+        q: {
+            price: 387000,
+            discount: 40,
+        },
+        s: {
+            price: 774000,
+            discount: 50,
+        },
+        a: {
+            price: 1548000,
+            discount: 60,
+        },
     },
     {
-        id: 40,
-        type: 'slider',
-        required: '0',
-        name: 'CPU Cores',
-        key: 'cf_cpu',
-        variable: 'cpu_cores',
-        description: '',
-        category: 'server',
-        product_id: '17',
-        copy_of: '40',
-        options: '50',
-        config: {
-            conditionals: [],
-            minvalue: '1',
-            maxvalue: '24',
-            step: '1',
-            initialval: '1',
-            upgradefee: '0.00',
-            downgradefee: '0.00',
+        name: 'Cloud VN #2',
+        m: {
+            price: 199000,
+            discount: 30,
         },
-        sort_order: '2',
-        group_id: '0',
-        items: [
-            {
-                id: 147,
-                category_id: '40',
-                variable_id: '',
-                sort_order: '1',
-                copy_of: '147',
-                pricing: true,
-                paytype: 'Regular',
-                m: '100000.00',
-            },
-        ],
-        premade: true,
+        q: {
+            price: 597000,
+            discount: 40,
+        },
+        s: {
+            price: 1194000,
+            discount: 50,
+        },
+        a: {
+            price: 2388000,
+            discount: 60,
+        },
     },
     {
-        id: 41,
-        type: 'select',
-        required: '0',
-        name: 'OS Template',
-        key: '',
-        variable: 'os',
-        description: '',
-        category: 'software',
-        product_id: '17',
-        copy_of: '41',
-        options: '2',
-        config: {
-            conditionals: [],
-            upgradefee: '0.00',
-            downgradefee: '0.00',
+        name: 'Cloud VN #3',
+        m: {
+            price: 299000,
+            discount: 30,
         },
-        sort_order: '3',
-        group_id: '0',
-        items: [
-            {
-                id: 149,
-                category_id: '41',
-                name: '256 ubuntu20.tino.org',
-                variable_id: 'template:256/base-256-disk-0.raw',
-                sort_order: '2',
-                copy_of: '149',
-                m: '0',
-            },
-            {
-                id: 150,
-                category_id: '41',
-                name: '302 win2019',
-                variable_id: 'template:302/base-302-disk-0.raw',
-                sort_order: '3',
-                copy_of: '150',
-                m: '0',
-            },
-            {
-                id: 152,
-                category_id: '41',
-                name: '306 debian11.tino.org',
-                variable_id: 'template:306/base-306-disk-0.raw',
-                sort_order: '5',
-                copy_of: '152',
-                m: '0',
-            },
-            {
-                id: 153,
-                category_id: '41',
-                name: '308 centos7',
-                variable_id: 'template:308/base-308-disk-0.raw',
-                sort_order: '6',
-                copy_of: '153',
-                m: '0',
-            },
-            {
-                id: 154,
-                category_id: '41',
-                name: '309 almalinux8',
-                variable_id: 'template:309/base-309-disk-0.raw',
-                sort_order: '7',
-                copy_of: '154',
-                m: '0',
-            },
-        ],
-        premade: true,
+        q: {
+            price: 897000,
+            discount: 40,
+        },
+        s: {
+            price: 1794000,
+            discount: 50,
+        },
+        a: {
+            price: 3588000,
+            discount: 60,
+        },
     },
     {
-        id: 42,
-        type: 'slider',
-        required: '0',
-        name: 'Disk Size [GB]',
-        key: 'cf_hdd',
-        variable: 'disk_size',
-        description: '',
-        category: 'server',
-        product_id: '17',
-        copy_of: '42',
-        options: '50',
-        config: {
-            conditionals: [],
-            minvalue: '20',
-            maxvalue: '500',
-            step: '5',
-            initialval: '20',
-            upgradefee: '0.00',
-            downgradefee: '0.00',
+        name: 'Cloud VN #4',
+        m: {
+            price: 590000,
+            discount: 30,
         },
-        sort_order: '4',
-        group_id: '0',
-        items: [
-            {
-                id: 158,
-                category_id: '42',
-                variable_id: '',
-                sort_order: '1',
-                copy_of: '158',
-                pricing: true,
-                paytype: 'Regular',
-                m: '1000.00',
-            },
-        ],
-        premade: true,
+        q: {
+            price: 1770000,
+            discount: 40,
+        },
+        s: {
+            price: 3540000,
+            discount: 50,
+        },
+        a: {
+            price: 7080000,
+            discount: 60,
+        },
+    },
+    {
+        name: 'Cloud VN #5',
+        m: {
+            price: 829000,
+            discount: 30,
+        },
+        q: {
+            price: 2487000,
+            discount: 40,
+        },
+        s: {
+            price: 4974000,
+            discount: 50,
+        },
+        a: {
+            price: 9948000,
+            discount: 60,
+        },
+    },
+    {
+        name: 'Cloud VN #6',
+        m: {
+            price: 1299000,
+            discount: 30,
+        },
+        q: {
+            price: 3897000,
+            discount: 40,
+        },
+        s: {
+            price: 7794000,
+            discount: 50,
+        },
+        a: {
+            price: 15588000,
+            discount: 60,
+        },
+    },
+    {
+        name: 'Cloud VN #7',
+        m: {
+            price: 1599000,
+            discount: 30,
+        },
+        q: {
+            price: 4797000,
+            discount: 40,
+        },
+        s: {
+            price: 9594000,
+            discount: 50,
+        },
+        a: {
+            price: 19188000,
+            discount: 60,
+        },
+    },
+    {
+        name: 'Cloud VN #8',
+        m: {
+            price: 1999000,
+            discount: 30,
+        },
+        q: {
+            price: 5997000,
+            discount: 40,
+        },
+        s: {
+            price: 11994000,
+            discount: 50,
+        },
+        a: {
+            price: 23988000,
+            discount: 60,
+        },
+    },
+    {
+        name: 'Cloud VN #9',
+        m: {
+            price: 2299000,
+            discount: 30,
+        },
+        q: {
+            price: 6897000,
+            discount: 40,
+        },
+        s: {
+            price: 13794000,
+            discount: 50,
+        },
+        a: {
+            price: 27588000,
+            discount: 60,
+        },
+    },
+    {
+        name: 'Cloud VN #10',
+        m: {
+            price: 3799000,
+            discount: 30,
+        },
+        q: {
+            price: 11397000,
+            discount: 40,
+        },
+        s: {
+            price: 22794000,
+            discount: 50,
+        },
+        a: {
+            price: 45588000,
+            discount: 60,
+        },
     },
 ]
-
 const osTemplate = [
     {
         id: 1,
@@ -341,6 +352,7 @@ const CreateCloud: React.FC = () => {
     const [toggle, setToggle] = useState(0)
     const [paymentMethod, setPaymentMethod] = useState<any>(paymentMethods[0])
     const auth = useAuth()
+    const [isConfirm, setIsConfirm] = useState<boolean>(false)
 
     const [config, setConfig] = useState<{
         ram?: any
@@ -485,12 +497,8 @@ const CreateCloud: React.FC = () => {
         try {
             const result = await getProductDetailForConfig((id ||= PRODUCT_ID))
             const { data } = result?.data
-           
-            
 
             const { forms, product } = data?.config
-            console.log(product,'forms');
-            
 
             const cycle = product.find((item: any) => item?.id === 'cycle')
             const ram = forms.find((item: any) => item?.title.includes('RAM'))
@@ -567,6 +575,15 @@ const CreateCloud: React.FC = () => {
 
     const onFinish = async () => {
         try {
+            if (!isConfirm) {
+                notify(
+                    notifyType.NOTIFY_ERROR,
+                    'Bạn chưa đồng ý với điều khoản và điều kiện của chúng tôi'
+                )
+
+                return
+            }
+
             layout.setLoading(true)
             const domain =
                 (auth?.user?.firstname as string) +
@@ -640,7 +657,6 @@ const CreateCloud: React.FC = () => {
                 <div className="package-server">
                     <div className="tabs-container">
                         <ul className="list-package-server">
-                            
                             {cycleTime.map((item) => (
                                 <PackageServer
                                     key={item?.id}
@@ -1119,6 +1135,18 @@ const CreateCloud: React.FC = () => {
                                 }}
                             />
                         ))}
+                    </div>
+                </div>
+                <div className="create-cloud-policy">
+                    <p className="create-cloud-location-title">
+                        QUY ĐỊNH SỬ DỤNG DỊCH VỤ
+                    </p>
+                    <div className="my-4 d-flex align-items-center">
+                        <Checkbox onChange={() => setIsConfirm(!isConfirm)} />
+                        <div style={{ marginLeft: '8px', fontSize: '16px' }}>
+                            Tôi đồng ý với các{' '}
+                            <Link to={'/'}>điểu khoản và điều kiện</Link>
+                        </div>
                     </div>
                 </div>
                 <div className="create-cloud-caculate-price">

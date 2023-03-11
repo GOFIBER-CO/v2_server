@@ -50,6 +50,34 @@ export function convertMBtoGB(mb: number) {
     return parseFloat((mb / 1024).toFixed(2))
 }
 
+export const skeletonList = new Array(10).fill('').map((e, idx) => {
+    return {
+        key: idx,
+    }
+})
+
+export function subtractDate(date1: Date, date2: Date) {
+    return Math.ceil(
+        Math.abs(date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24)
+    )
+}
+
+export function subtractNow(date: string) {
+    const temp = Math.ceil(
+        (new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    )
+
+    if (temp < 0) {
+        return temp / 30 <= -1
+            ? `Đã quá hạn ${Math.abs(Math.ceil(temp / 30))} tháng`
+            : `Đã quá hạn ${Math.abs(temp)} ngày`
+    }
+
+    return temp / 30 >= 1
+        ? `${Math.ceil(temp / 30)} tháng tới`
+        : `${temp} ngày tới`
+}
+
 const data = [
     {
         id: 1,

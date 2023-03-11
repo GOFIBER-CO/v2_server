@@ -80,3 +80,16 @@
         }
     }
 }
+
+.cloud-vps-page-option {
+    li {
+        font-weight: 500;
+        &.active {
+            border-bottom: 3px solid #3699ff;
+            color: #3699ff;
+            .icon-tab {
+                color: #3699ff;
+            }
+        }
+    }
+}
