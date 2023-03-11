@@ -195,7 +195,7 @@ function InvoiceDetailPage() {
                         </div>
                         <div className="mt-2">
                             <strong>
-                                Tổng: {ConverMoney(invoice?.total) || formatMoney(service?.price || 0)} đ
+                                Tổng: {ConverMoney(Number(invoice?.grandtotal)) || formatMoney(service?.price || 0)} đ
                             </strong>
                         </div>
                         <div className="mt-4">

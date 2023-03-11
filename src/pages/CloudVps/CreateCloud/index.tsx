@@ -15,7 +15,7 @@ import OperatingSystem from '@/components/OperatingSystem/OperatingSystem'
 import Server from '@/components/Server/Server'
 import Area from '@/components/Area/Area'
 import PackageServer from '@/components/PackageServer/PackageServer'
-import { Button, Checkbox, Popover, Radio, Slider } from 'antd'
+import { Button, Checkbox, Input, Popover, Radio, Slider } from 'antd'
 import { useNavigate } from 'react-router'
 import IPrice from '@/interfaces/IPrice'
 import { CYCLE_TIME, RESPONSE_STATUS } from '@/helpers'
@@ -1136,6 +1136,15 @@ const CreateCloud: React.FC = () => {
                             />
                         ))}
                     </div>
+                </div>
+                <div className="create-cloud-policy mb-4">
+                    <p className="create-cloud-location-title">
+                        SỬ DỤNG MÃ KHUYẾN MÃI
+                    </p>
+                    <Input
+                        style={{ fontSize: '16px', height: '40px' }}
+                        placeholder="Nhập mã khuyến mãi"
+                    />
                 </div>
                 <div className="create-cloud-policy">
                     <p className="create-cloud-location-title">
