@@ -16,10 +16,10 @@ const LoginNew = () => {
 
     const auth = useAuth()
     const navigate = useNavigate()
-    const onFinish = () => {
+    const onFinish = async () => {
         try {
             setButtonLoading(true)
-            auth.loginSync(
+            await auth.loginSync(
                 form.getFieldValue('email'),
                 form.getFieldValue('password'),
                 navigate
