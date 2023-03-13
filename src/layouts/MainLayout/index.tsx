@@ -994,7 +994,7 @@ const MainLayout: React.FC = () => {
                                                     </li>
                                                     {/* </div> */}
                                                 </Link>
-                                                <Link to="/change-password">
+                                                {/* <Link to="/change-password">
                                                     <li className="info_profile">
                                                         <RiLockPasswordLine
                                                             size={20}
@@ -1012,7 +1012,7 @@ const MainLayout: React.FC = () => {
                                                             Thay đổi mật khẩu
                                                         </span>
                                                     </li>
-                                                </Link>
+                                                </Link> */}
                                                 <li onClick={() => logout()}>
                                                     <Link to="#">
                                                         <span>Đăng xuất</span>

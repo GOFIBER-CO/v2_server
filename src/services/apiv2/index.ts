@@ -71,6 +71,9 @@ export const signup = (data: {
     phonenumber: string
 }) => axiosInstance.post('/users/register', data)
 
+export const updateProfile = (id: string, data: any) =>
+    axiosInstance.put(`/users/update/${id}`, data)
+
 export const getActionHistoryByUserId = (
     pageSize: number,
     pageIndex: number,

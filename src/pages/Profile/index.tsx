@@ -2,7 +2,8 @@ import { notify, notifyType } from '@/App'
 import { useAuth } from '@/hooks/useAuth'
 import { useLayoutInit } from '@/hooks/useInitLayOut'
 import { IUser } from '@/interfaces/IUser'
-import { getUserById, updateProfile } from '@/services/apis'
+import { getUserById } from '@/services/apis'
+import {updateProfile} from "@/services/apiv2"
 import { getUserDetail } from '@/services/apiv2'
 import '@/styles/pages/Profile/index.scss'
 import { Button, Divider, Form, Input, Select } from 'antd'
@@ -133,15 +134,16 @@ const Profile = () => {
                             />
                         </Form.Item>
                     </Form>
-                    <div style={{textAlign: 'center'}}>
+                    {/* <div style={{textAlign: 'center'}}>
                         <Button
                             type="primary"
                             htmlType="submit"
                             onClick={() => updateUserProfile()}
+                            disabled
                         >
                             Cập nhật
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

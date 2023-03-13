@@ -70,7 +70,7 @@ const Auth: React.FC = () => {
                             valuePropName="checked"
                             noStyle
                         >
-                            <Checkbox>Ghi nhớ đăng nhập</Checkbox>
+                            <Checkbox>Ghi nhớ đăng nhập </Checkbox>
                         </Form.Item>
 
                         <a className="login-form-forgot" href="">

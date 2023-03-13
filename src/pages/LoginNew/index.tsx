@@ -7,17 +7,22 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import Loading from '@/components/Loading/Loading'
 import appConfig from '@/config/appConfig'
+import { notify } from '@/App'
 
 const LoginNew = () => {
     const [form] = Form.useForm()
     const [buttonLoading, setButtonLoading] = useState(false)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
+    console.log(password.length);
+    
     const auth = useAuth()
     const navigate = useNavigate()
     const onFinish = async () => {
         try {
+            if(password.length <6) {
+                 notify('error',`Mật khẩu phải có ít nhất 6 ký tự !`)
+            }
             setButtonLoading(true)
             await auth.loginSync(
                 form.getFieldValue('email'),
@@ -59,11 +64,12 @@ const LoginNew = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'email không được bỏ trống',
+                                message: 'Email không được bỏ trống!',
                             },
                         ]}
                     >
                         <Input
+                        type='email'
                             prefix={
                                 <UserOutlined className="site-form-item-icon" />
                             }
@@ -72,14 +78,14 @@ const LoginNew = () => {
                         />
                     </Form.Item>
                     <div className="LoginNew_Form_email">Password</div>
-                    <Form.Item
+                    <Form.Item 
                         className="LoginNew_From_Input"
                         style={{ border: '15px' }}
                         name="password"
                         rules={[
                             {
                                 required: true,
-                                message: 'Password không được bỏ trống',
+                                message: 'Password không được bỏ trống!',
                             },
                         ]}
                     >

@@ -119,6 +119,11 @@ const ManageUser = () => {
             render: (value, record) => value ? <Tag color='green'>Đã xác thực</Tag> : <Tag color='red'>Chưa xác thực</Tag>
         },
         {
+            title: 'Ngày tạo',
+            dataIndex: 'createdAt',
+            render: (value, record) => formatDate(value) 
+        },
+        {
             key: 'id',
             title: 'Điều khiển',
             dataIndex: 'id',
@@ -168,7 +173,7 @@ const ManageUser = () => {
             </div>
             <div className="manage-ticket-page-table">
                 <Table
-                    rowSelection={rowSelection}
+                    // rowSelection={rowSelection}
                     columns={columns}
                     dataSource={users}
                     scroll={{ x: '1400px', y: '600px' }}

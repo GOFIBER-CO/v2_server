@@ -121,7 +121,9 @@ const useProvideAuth = () => {
         } catch (error: AxiosError | any) {
             setAuth({ ...auth, buttonLoading: false })
             console.log(error)
-            notify('error', error.response.data)
+            notify('error', "Email hoặc Password không đúng!")
+            // notify('error',`Mật khẩu phải có ít nhất 6 ký tự !`)
+
         }
     }
 

@@ -1,5 +1,5 @@
 import '@/styles/pages/RegisterNew/index.scss'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { Button, Checkbox, Form, Input, Select } from 'antd'
 import { useNavigate } from 'react-router'
 import { notifyType } from '@/App'
@@ -13,13 +13,14 @@ import { useLayoutInit } from '@/hooks/useInitLayOut'
 import Loading from '@/components/Loading/Loading'
 import Capcha from '@/components/CapchaComponent'
 import appConfig from '@/config/appConfig'
+import { is_phonenumber } from '@/helpers/checkPhone'
 
-const {Option} = Select
+const { Option } = Select
 
 type ObjecType = {
     [key: string]: string
 }
-
+var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/
 const RegisterNew = () => {
     const [buttonLoading, setButtonLoading] = useState(false)
     const [isDoneCaptcha, setIsDoneCaptcha] = useState(false)
@@ -33,10 +34,24 @@ const RegisterNew = () => {
     const [re_password, setRePassword] = useState('')
     const navigate = useNavigate()
 
+    const check = format.test(firstName)
+    const checkLastName = format.test(lastName)
 
+    useEffect(() => {
+        if (check === true) {
+            return notify('error', 'Họ không được nhập ký tự đặt biệt!')
+        }
+        if (checkLastName === true) {
+            return notify('error', 'Tên không được nhập ký tự đặt biệt!')
+        }
+    }, [firstName,lastName])
     const urlImageNation = 'https://flagcdn.com/16x12'
     const onFinish = async () => {
         try {
+            const checkPhone = is_phonenumber(phoneNumber)
+            if(checkPhone === false){
+                return notify("error","Số điện thoại không hợp lệ!")
+            }
             setButtonLoading(true)
             const register = await signup({
                 firstname: firstName,
@@ -59,14 +74,19 @@ const RegisterNew = () => {
             notify(notifyType.NOTIFY_ERROR, error.response.data)
         } finally {
             setButtonLoading(false)
-
         }
     }
     return (
-        <div className={appConfig.PROJECT == 'gofiber' ? 'RegisterNew_cotainer gofiber' : 'RegisterNew_cotainer vietstack'}>
-            {buttonLoading && <Loading/>}
+        <div
+            className={
+                appConfig.PROJECT == 'gofiber'
+                    ? 'RegisterNew_cotainer gofiber'
+                    : 'RegisterNew_cotainer vietstack'
+            }
+        >
+            {buttonLoading && <Loading />}
             <div className="RegisterNew_cotainer_center">
-                <div className="RegisterNew_container_title">Đăng ký</div>
+                <div className="RegisterNew_container_title">Đăng ký </div>
                 <Form
                     name="basic"
                     initialValues={{ remember: true }}
@@ -78,7 +98,7 @@ const RegisterNew = () => {
                         style={{ marginTop: '20px' }}
                         className="RegisterNew_Form_email"
                     >
-                        Họ: 
+                        Họ:
                     </div>
                     <Form.Item
                         className="RegisterNew_From_Input"
@@ -103,7 +123,7 @@ const RegisterNew = () => {
                         style={{ marginTop: '20px' }}
                         className="RegisterNew_Form_email"
                     >
-                        Tên: 
+                        Tên:
                     </div>
                     <Form.Item
                         className="RegisterNew_From_Input"
@@ -128,7 +148,7 @@ const RegisterNew = () => {
                         style={{ marginTop: '20px' }}
                         className="RegisterNew_Form_email"
                     >
-                        Địa chỉ: 
+                        Địa chỉ:
                     </div>
                     <Form.Item
                         className="RegisterNew_From_Input"
@@ -153,20 +173,31 @@ const RegisterNew = () => {
                         style={{ marginTop: '20px' }}
                         className="RegisterNew_Form_email"
                     >
-                        Quốc gia: 
+                        Quốc gia:
                     </div>
                     <Form.Item
                         className="RegisterNew_From_Input"
                         style={{ border: '15px' }}
                         name="nation"
                     >
-                       <Select style={{textAlign: 'start'}} defaultValue={'vn'} onChange={(value)=>setNation(value)}>
-                            
+                        <Select
+                            style={{ textAlign: 'start' }}
+                            defaultValue={'vn'}
+                            onChange={(value) => setNation(value)}
+                        >
                             {
                                 //@ts-ignore
-                                Object.keys(nationJson).map((key, index)=><Option key={key} value = {key}><img style={{marginRight: '5px'}} src={`${urlImageNation}/${key}.png`}/>{nationJson[key as keyof ObjecType]}</Option>) 
+                                Object.keys(nationJson).map((key, index) => (
+                                    <Option key={key} value={key}>
+                                        <img
+                                            style={{ marginRight: '5px' }}
+                                            src={`${urlImageNation}/${key}.png`}
+                                        />
+                                        {nationJson[key as keyof ObjecType]}
+                                    </Option>
+                                ))
                             }
-                       </Select>
+                        </Select>
                     </Form.Item>
                     <div className="RegisterNew_Form_email">Địa chỉ email</div>
                     <Form.Item
@@ -257,7 +288,7 @@ const RegisterNew = () => {
                                     }
                                     return Promise.reject(
                                         new Error(
-                                            'The two passwords that you entered do not match!'
+                                            'Mật khẩu nhập lại không hợp lệ!'
                                         )
                                     )
                                 },
@@ -273,7 +304,7 @@ const RegisterNew = () => {
                             onChange={(e) => setRePassword(e.target.value)}
                         />
                     </Form.Item>
-                    <Capcha setIsDone={setIsDoneCaptcha}/>
+                    <Capcha setIsDone={setIsDoneCaptcha} />
                     <Form.Item>
                         <Button
                             type="primary"
@@ -283,9 +314,9 @@ const RegisterNew = () => {
                                 borderRadius: '10px',
                                 height: '35px',
                                 fontSize: '16px',
-                                marginTop: '10px'
+                                marginTop: '10px',
                             }}
-                            disabled = {!isDoneCaptcha}
+                            disabled={!isDoneCaptcha}
                         >
                             Đăng ký
                         </Button>
