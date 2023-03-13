@@ -63,22 +63,22 @@ const AppRouter: React.FC = () => {
     const isEnable2Fa = auth.isEnable2FaAuthenticate
     const isVerified = auth.isVerified
     const adminRouter = [
-        <Route path="/operating-system" element={<OperatingSystem />} />,
+        // <Route path="/operating-system" element={<OperatingSystem />} />,
         <Route path='/manage-user' element = {<ManageUser/>}/>,
-        <Route
-            path="/operating-system/create-operating-system"
-            element={<CreateOperatingSystem />}
-        />,
-        <Route
-            path="/operating-system/:id"
-            element={<EditOperatingSystem />}
-        />,
+        // <Route
+        //     path="/operating-system/create-operating-system"
+        //     element={<CreateOperatingSystem />}
+        // />,
+        // <Route
+        //     path="/operating-system/:id"
+        //     element={<EditOperatingSystem />}
+        // />,
         <Route path="/service" element={<Service />} />,
         <Route path="/service/:id" element={<EditService />} />,
         <Route path="/service/create-service" element={<CreateService />} />,
-        <Route path="/location" element={<Location />} />,
-        <Route path="/location/create-location" element={<CreateLocation />} />,
-        <Route path="/location/:id" element={<EditLocation />} />,
+        // <Route path="/location" element={<Location />} />,
+        // <Route path="/location/create-location" element={<CreateLocation />} />,
+        // <Route path="/location/:id" element={<EditLocation />} />,
         <Route path="/manage-ticket" element={<ManageTicket />} />,
         <Route path="/notification" element={<Notification />} />,
         <Route
@@ -124,17 +124,17 @@ const AppRouter: React.FC = () => {
                     !checkIsExpiredToken(auth.jwtToken)) ? (
                     <Route path="/" element={<MainLayout />}>
                         <Route index element={<Home />} />
-                        <Route path="/manage-ip" element={<ManageIp />} />
+                        {/* <Route path="/manage-ip" element={<ManageIp />} />
                         <Route
                             path="/manage-ip/create"
                             element={<CreateIp />}
                         />
-                        <Route path="/manage-ip/:id" element={<EditIp />} />
+                        <Route path="/manage-ip/:id" element={<EditIp />} /> */}
                         <Route path="/cloud-vps" element={<CloudVps />} />
-                        <Route
+                        {/* <Route
                             path="/manage-price/:id"
                             element={<EditPrice />}
-                        />
+                        /> */}
                         <Route
                             path="/action-history"
                             element={<ActionHistory />}
@@ -148,10 +148,10 @@ const AppRouter: React.FC = () => {
                             path="/change-password"
                             element={<ChangePassword />}
                         />
-                        <Route
+                        {/* <Route
                             path="/deposit-check"
                             element={<DepositCheck />}
-                        />
+                        /> */}
                         <Route path="/transaction" element={<Transaction />} />
                         <Route
                             path="/cloud-vps/create-cloud"
@@ -192,7 +192,7 @@ const AppRouter: React.FC = () => {
                             element={<NotificationDetail />}
                         />
                         <Route path="/profile" element={<Profile />} />
-                        <Route path="/2fa-security" element={<FASecurity />} />
+                        {/* <Route path="/2fa-security" element={<FASecurity />} /> */}
                         {/* {!auth.user.isCustomer && ( */}
                         <>
                             {getRouter(
