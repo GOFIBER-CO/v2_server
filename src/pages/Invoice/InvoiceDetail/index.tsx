@@ -392,7 +392,7 @@ function InvoiceDetailPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {invoice?.item ? (
+                                {invoice?.items ? (
                                     (invoice?.items || []).map((item: any) => (
                                         <tr
                                             key={item?.id}
