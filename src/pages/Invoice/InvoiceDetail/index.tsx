@@ -10,6 +10,7 @@ import { useReactToPrint } from 'react-to-print'
 import moment from 'moment'
 import formatMoney from '@/helpers/formatMoney'
 import { dataservice } from '@/helpers/dataservices'
+import ModalPayment from '@/components/Invoice/ModalPayment'
 
 function InvoiceDetailPage() {
     const [invoice, setInvoice] = useState<any>({})
@@ -18,6 +19,7 @@ function InvoiceDetailPage() {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [modal, setModal] = useState(false)
     const [modalprint, setModelPrint] = useState(false)
+    const [modalPayment, setModalPayment] = useState<boolean>(false)
 
     const getInvoice = async (id: any) => {
         try {
@@ -39,15 +41,19 @@ function InvoiceDetailPage() {
         if (id) getInvoice(id)
     }, [id])
 
-    
     const service = useMemo(() => {
-        return dataservice.find(x => x.id == Number(id))
+        return dataservice.find((x) => x.id == Number(id))
     }, [id])
 
     const renderStatus = {
         paid: (
             <div>
-                <h4>Hóa đơn {invoice?.number ? `#${invoice?.number}` : service?.bill.number}</h4>
+                <h4>
+                    Hóa đơn{' '}
+                    {invoice?.number
+                        ? `#${invoice?.number}`
+                        : service?.bill.number}
+                </h4>
                 <div>
                     <Link to={'/invoices'}>Back to invoices</Link>
                 </div>
@@ -74,11 +80,17 @@ function InvoiceDetailPage() {
                             </div>
                             <div>
                                 <strong>Hóa đơn ngày </strong>
-                                {invoice?.date || moment(service?.bill.createdAt).format("DD/MM/YYYY")}
+                                {invoice?.date ||
+                                    moment(service?.bill.createdAt).format(
+                                        'DD/MM/YYYY'
+                                    )}
                             </div>
                             <div>
                                 <strong>Ngày đến hạn </strong>
-                                {invoice?.duedate || moment(service?.expireDate).format("DD/MM/YYYY")}
+                                {invoice?.duedate ||
+                                    moment(service?.expireDate).format(
+                                        'DD/MM/YYYY'
+                                    )}
                             </div>
                         </div>
                     </div>
@@ -122,59 +134,60 @@ function InvoiceDetailPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {invoice?.items ? (invoice?.items || []).map((item: any) => (
+                                {invoice?.items ? (
+                                    (invoice?.items || []).map((item: any) => (
+                                        <tr
+                                            key={item?.id}
+                                            style={{ width: '100%' }}
+                                        >
+                                            <td className="description">
+                                                <div
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: item?.description,
+                                                    }}
+                                                ></div>
+                                            </td>
+                                            <td className="extra">
+                                                {Number(item?.tax) || 'Không'}
+                                            </td>
+                                            <td className="extra">
+                                                {ConverMoney(
+                                                    Number(item?.amount)
+                                                )}{' '}
+                                                đ
+                                            </td>
+                                            <td className="extra">
+                                                {Number(item?.qty) || 'Không'}
+                                            </td>
+                                            <td
+                                                style={{ textAlign: 'end' }}
+                                                className="extra"
+                                            >
+                                                {ConverMoney(
+                                                    Number(item?.linetotal)
+                                                )}{' '}
+                                                đ
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
                                     <tr
-                                        key={item?.id}
+                                        key={service?.id}
                                         style={{ width: '100%' }}
                                     >
                                         <td className="description">
-                                            <div
-                                                dangerouslySetInnerHTML={{
-                                                    __html: item?.description,
-                                                }}
-                                            ></div>
+                                            <div>{`Thanh toán hoán đơn dịch vụ ${service?.bill.number}`}</div>
                                         </td>
+                                        <td className="extra">{'Không'}</td>
                                         <td className="extra">
-                                            {Number(item?.tax) || 'Không'}
+                                            {formatMoney(service?.price || 0)}
                                         </td>
+                                        <td className="extra">{`1`}</td>
                                         <td className="extra">
-                                            {ConverMoney(Number(item?.amount))}{' '}
-                                            đ
-                                        </td>
-                                        <td className="extra">
-                                            {Number(item?.qty) || 'Không'}
-                                        </td>
-                                        <td
-                                            style={{ textAlign: 'end' }}
-                                            className="extra"
-                                        >
-                                            {ConverMoney(
-                                                Number(item?.linetotal)
-                                            )}{' '}
-                                            đ
+                                            {formatMoney(service?.price || 0)}
                                         </td>
                                     </tr>
-                                )): <tr
-                                    key={service?.id}
-                                    style={{ width: '100%' }}
-                                >
-                                    <td className="description">
-                                        <div
-                                        >{`Thanh toán hoán đơn dịch vụ ${service?.bill.number}`}</div>
-                                    </td>
-                                    <td className="extra">
-                                        {'Không'}
-                                    </td>
-                                    <td className="extra">
-                                        {formatMoney(service?.price || 0)}
-                                    </td>
-                                    <td className="extra">
-                                        {`1`}
-                                    </td>
-                                    <td className="extra">
-                                        {formatMoney(service?.price || 0)}
-                                    </td>
-                                </tr>}
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -187,7 +200,9 @@ function InvoiceDetailPage() {
                     >
                         <div>
                             <strong>Tạm tính: </strong>
-                              {ConverMoney(invoice?.subtotal) || formatMoney(service?.price || 0)} đ
+                            {ConverMoney(invoice?.subtotal) ||
+                                formatMoney(service?.price || 0)}{' '}
+                            đ
                         </div>
                         <div className="mt-2">
                             <strong>Tín dụng: </strong>
@@ -195,11 +210,19 @@ function InvoiceDetailPage() {
                         </div>
                         <div className="mt-2">
                             <strong>
-                                Tổng: {ConverMoney(Number(invoice?.grandtotal)) || formatMoney(service?.price || 0)} đ
+                                Tổng:{' '}
+                                {ConverMoney(Number(invoice?.grandtotal)) ||
+                                    formatMoney(service?.price || 0)}{' '}
+                                đ
                             </strong>
                         </div>
                         <div className="mt-4">
-                            <Button onClick = {()=>setModelPrint(true)} type='primary'>Xuất hóa đơn</Button>
+                            <Button
+                                onClick={() => setModelPrint(true)}
+                                type="primary"
+                            >
+                                Xuất hóa đơn
+                            </Button>
                         </div>
                     </div>
                     {transaction?.date && (
@@ -266,7 +289,6 @@ function InvoiceDetailPage() {
                                                 ) || 0}{' '}
                                                 đ
                                             </td>
-                                          
                                         </tr>
                                     </tbody>
                                 </table>
@@ -278,7 +300,12 @@ function InvoiceDetailPage() {
         ),
         unPaid: (
             <div>
-                <h4>Hóa đơn {invoice?.number ? `#${invoice?.number}` : service?.bill.number}</h4>
+                <h4>
+                    Hóa đơn{' '}
+                    {invoice?.number
+                        ? `#${invoice?.number}`
+                        : service?.bill.number}
+                </h4>
                 <div>
                     <Link to={'/invoices'}>Back to invoices</Link>
                 </div>
@@ -295,6 +322,13 @@ function InvoiceDetailPage() {
                         <Button onClick={() => setModal(true)} type="primary">
                             Thanh toán ngay
                         </Button>
+                        <Button
+                            onClick={() => setModalPayment(true)}
+                            style={{ marginLeft: '12px' }}
+                            type="primary"
+                        >
+                            Chọn phương thức thanh toán
+                        </Button>
                     </div>
                 </div>
                 <div className="content">
@@ -303,15 +337,23 @@ function InvoiceDetailPage() {
                         <div className="d-flex align-items-center justify-content-center flex-column">
                             <div>
                                 <strong>Hóa đơn </strong>
-                                {invoice?.number ? `#${invoice?.number}` : service?.bill.number}
+                                {invoice?.number
+                                    ? `#${invoice?.number}`
+                                    : service?.bill.number}
                             </div>
                             <div>
                                 <strong>Hóa đơn ngày </strong>
-                                {invoice?.date || moment(service?.bill.createdAt).format("DD-MM-YYYY")}
+                                {invoice?.date ||
+                                    moment(service?.bill.createdAt).format(
+                                        'DD-MM-YYYY'
+                                    )}
                             </div>
                             <div>
                                 <strong>Ngày đến hạn </strong>
-                                {invoice?.duedate || moment(service?.bill.exipireDate).format('DD-MM-YYYY')}
+                                {invoice?.duedate ||
+                                    moment(service?.bill.exipireDate).format(
+                                        'DD-MM-YYYY'
+                                    )}
                             </div>
                         </div>
                     </div>
@@ -350,56 +392,57 @@ function InvoiceDetailPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {invoice?.item ?  (invoice?.items || []).map((item: any) => (
+                                {invoice?.items ? (
+                                    (invoice?.items || []).map((item: any) => (
+                                        <tr
+                                            key={item?.id}
+                                            style={{ width: '100%' }}
+                                        >
+                                            <td className="description">
+                                                <div
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: item?.description,
+                                                    }}
+                                                ></div>
+                                            </td>
+                                            <td className="extra">
+                                                {Number(item?.tax) || 'Không'}
+                                            </td>
+                                            <td className="extra">
+                                                {ConverMoney(
+                                                    Number(item?.amount)
+                                                )}{' '}
+                                                đ
+                                            </td>
+                                            <td className="extra">
+                                                {Number(item?.qty) || 'Không'}
+                                            </td>
+                                            <td className="extra">
+                                                {ConverMoney(
+                                                    Number(item?.linetotal)
+                                                )}{' '}
+                                                đ
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
                                     <tr
-                                        key={item?.id}
+                                        key={service?.id}
                                         style={{ width: '100%' }}
                                     >
                                         <td className="description">
-                                            <div
-                                                dangerouslySetInnerHTML={{
-                                                    __html: item?.description,
-                                                }}
-                                            ></div>
+                                            <div>{`Thanh toán hoán đơn dịch vụ ${service?.bill.number}`}</div>
                                         </td>
+                                        <td className="extra">{'Không'}</td>
                                         <td className="extra">
-                                            {Number(item?.tax) || 'Không'}
+                                            {formatMoney(service?.price || 0)}
                                         </td>
+                                        <td className="extra">{`1`}</td>
                                         <td className="extra">
-                                            {ConverMoney(Number(item?.amount))}{' '}
-                                            đ
-                                        </td>
-                                        <td className="extra">
-                                            {Number(item?.qty) || 'Không'}
-                                        </td>
-                                        <td className="extra">
-                                            {ConverMoney(
-                                                Number(item?.linetotal)
-                                            )}{' '}
-                                            đ
+                                            {formatMoney(service?.price || 0)}
                                         </td>
                                     </tr>
-                                )):  <tr
-                                key={service?.id}
-                                style={{ width: '100%' }}
-                            >
-                                <td className="description">
-                                    <div
-                                    >{`Thanh toán hoán đơn dịch vụ ${service?.bill.number}`}</div>
-                                </td>
-                                <td className="extra">
-                                    {'Không'}
-                                </td>
-                                <td className="extra">
-                                    {formatMoney(service?.price || 0)}
-                                </td>
-                                <td className="extra">
-                                    {`1`}
-                                </td>
-                                <td className="extra">
-                                    {formatMoney(service?.price || 0)}
-                                </td>
-                            </tr>}
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -412,7 +455,9 @@ function InvoiceDetailPage() {
                     >
                         <div>
                             <strong>Tạm tính: </strong>
-                            {ConverMoney(invoice?.subtotal) || formatMoney(service?.price || 0)} đ
+                            {ConverMoney(invoice?.subtotal) ||
+                                formatMoney(service?.price || 0)}{' '}
+                            đ
                         </div>
                         <div className="mt-2">
                             <strong>Tín dụng: </strong>
@@ -420,12 +465,20 @@ function InvoiceDetailPage() {
                         </div>
                         <div className="mt-2">
                             <strong>
-                                Tổng: {ConverMoney(invoice?.total) || formatMoney(service?.price || 0)} đ
+                                Tổng:{' '}
+                                {ConverMoney(invoice?.total) ||
+                                    formatMoney(service?.price || 0)}{' '}
+                                đ
                             </strong>
                         </div>
-                        <Button style={{marginTop: '10px'}} onClick = {()=>setModelPrint(true)} type='primary'>Xuất hóa đơn</Button>
+                        <Button
+                            style={{ marginTop: '10px' }}
+                            onClick={() => setModelPrint(true)}
+                            type="primary"
+                        >
+                            Xuất hóa đơn
+                        </Button>
                     </div>
-                    
                 </div>
             </div>
         ),
@@ -462,7 +515,6 @@ function InvoiceDetailPage() {
         // console.log("`onAfterPrint` called"); // tslint:disable-line no-console
     }, [])
 
-
     const handlePrint = useReactToPrint({
         content: reactToPrintContent,
         documentTitle: 'AwesomeFileName',
@@ -476,7 +528,7 @@ function InvoiceDetailPage() {
         loading: <div></div>,
         notLoading: (
             <div className="invoice-detail-page">
-                {invoice?.status ==='Paid' || service?.status  === 'Paid'
+                {invoice?.status === 'Paid' || service?.status === 'Paid'
                     ? renderStatus['paid']
                     : renderStatus['unPaid']}
             </div>
@@ -486,7 +538,26 @@ function InvoiceDetailPage() {
     return (
         <>
             {isLoading ? render['loading'] : render['notLoading']}{' '}
-            <Modalprint totalBill = {formatMoney(invoice.grandtotal || service?.price)} dateExport={moment(new Date(invoice.duedate || service?.bill.createdAt)).format("DD-MM-YYYY")} datePaid={moment(new Date(invoice.paybefore || service?.bill.exipireDate)).format("DD-MM-YYYY")} status = {invoice?.status || service?.status} billCode = {`#${invoice?.number || service?.bill.number}`} billDetail = {`Thanh toán hóa đơn #${invoice?.number || service?.bill.number}`} handleOk handlePrint = {handlePrint} componentRef = {componentRef} isModalOpen = {modalprint} handleCancel = {()=>setModelPrint(false)} none ={none}/>
+            <Modalprint
+                totalBill={formatMoney(invoice.grandtotal || service?.price)}
+                dateExport={moment(
+                    new Date(invoice.duedate || service?.bill.createdAt)
+                ).format('DD-MM-YYYY')}
+                datePaid={moment(
+                    new Date(invoice.paybefore || service?.bill.exipireDate)
+                ).format('DD-MM-YYYY')}
+                status={invoice?.status || service?.status}
+                billCode={`#${invoice?.number || service?.bill.number}`}
+                billDetail={`Thanh toán hóa đơn #${
+                    invoice?.number || service?.bill.number
+                }`}
+                handleOk
+                handlePrint={handlePrint}
+                componentRef={componentRef}
+                isModalOpen={modalprint}
+                handleCancel={() => setModelPrint(false)}
+                none={none}
+            />
             <Modal
                 title="Thanh toán ngay"
                 open={modal}
@@ -497,20 +568,25 @@ function InvoiceDetailPage() {
                 <div className="row mt-4 align-items-center">
                     <div className="col-12 col-lg-6 mt-4">
                         <div className="d-flex justify-content-center">
-                            {invoice?.number ? <img
-                                src={`https://manager.idcviettel.com/vietqr.php?account=5318731&bankcode=970416&amount=${invoice?.total}&noidung=${invoice?.number}`}
-                                style={{
-                                    height: '200px',
-                                    maxWidth: '200px',
-                                    border: '1px solid #ccc',
-                                }}
-                            /> : <Image 
+                            {invoice?.number ? (
+                                <img
+                                    src={`https://manager.idcviettel.com/vietqr.php?account=5318731&bankcode=970416&amount=${invoice?.total}&noidung=${invoice?.number}`}
+                                    style={{
+                                        height: '200px',
+                                        maxWidth: '200px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                />
+                            ) : (
+                                <Image
                                     style={{
                                         height: '250px',
                                         maxWidth: '250px',
                                         border: '1px solid #ccc',
                                     }}
-                                    src='/images/qr-acb.gif'/>}
+                                    src="/images/qr-acb.gif"
+                                />
+                            )}
                         </div>
                     </div>
                     <div className="col-12 col-lg-6 mt-4">
@@ -520,9 +596,16 @@ function InvoiceDetailPage() {
                         >
                             <div>Số tài khoản: 5318731</div>
                             <div>Chủ tài khoản: Nguyễn Trung Hiếu</div>
-                            <div style={{textAlign: 'center'}}>Nội dung thanh toán: {invoice?.number || `Thanh toan cho hoa đơn ${service?.bill.number}`}</div>
+                            <div style={{ textAlign: 'center' }}>
+                                Nội dung thanh toán:{' '}
+                                {invoice?.number ||
+                                    `Thanh toan cho hoa đơn ${service?.bill.number}`}
+                            </div>
                             <div>
-                                Số tiền: {invoice?.total ? ConverMoney(invoice?.total || 0) : formatMoney(service?.price || 0)}
+                                Số tiền:{' '}
+                                {invoice?.total
+                                    ? ConverMoney(invoice?.total || 0)
+                                    : formatMoney(service?.price || 0)}
                             </div>
                         </div>
                     </div>
@@ -534,6 +617,11 @@ function InvoiceDetailPage() {
                     </i>
                 </div>
             </Modal>
+            <ModalPayment
+                handleClose={() => setModalPayment(false)}
+                visible={modalPayment}
+                invoice={invoice}
+            />
         </>
     )
 }

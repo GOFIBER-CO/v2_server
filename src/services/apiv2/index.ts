@@ -9,8 +9,8 @@ import appConfig from '@/config/appConfig'
 //     appConfig.ENVIRONMENT == 'development'
 //         ? 'http://localhost:4000/api/v1'
 //         : appConfig.PROJECT == 'gofiber'
-//         ? 'https://system.gofiber.vn'
-//         : 'https://api.vietstack.com'
+//         ? 'https://system.gofiber.vn/api/v1'
+//         : 'https://api.vietstack.com/api/v1'
 
 const baseUrl = 'http://localhost:4000/api/v1'
 
@@ -284,4 +284,10 @@ export const getService = (
         `/products/getPaging?pageIndex=${pageIndex}&serverDefault=${serverDefault}&search=${serviceName}&pageSize=${pageSize}`
     )
 
-export const addUserCredit = (id: string, credit: number) => axiosInstance.post(`/users/${id}/addCredit`, { credit })
+export const addUserCredit = (id: string, credit: number) =>
+    axiosInstance.post(`/users/${id}/addCredit`, { credit })
+
+export const receiveRequestVNPAY = (data: any) =>
+    axiosInstance.post(`/payment/receive-request-vnpay`, { ...data })
+
+export const momoPay = (data:any) => axiosInstance.post(`/momo`, data) 

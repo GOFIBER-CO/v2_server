@@ -57,6 +57,8 @@ import InvoicePage from '@/pages/Invoice'
 import InvoiceDetailPage from '@/pages/Invoice/InvoiceDetail'
 import ServiceListPage from '@/pages/Service'
 import ManageUser from '@/pages/ManageUser'
+import WaitingPayment from '@/pages/Payment/WaitingPayment'
+import SuccessPayment from '@/pages/Payment/SuccessPayment'
 const AppRouter: React.FC = () => {
     const auth = useAuth()
     const isLoggedIn = auth.isLoggedIn
@@ -64,7 +66,7 @@ const AppRouter: React.FC = () => {
     const isVerified = auth.isVerified
     const adminRouter = [
         // <Route path="/operating-system" element={<OperatingSystem />} />,
-        <Route path='/manage-user' element = {<ManageUser/>}/>,
+        <Route path="/manage-user" element={<ManageUser />} />,
         // <Route
         //     path="/operating-system/create-operating-system"
         //     element={<CreateOperatingSystem />}
@@ -187,6 +189,14 @@ const AppRouter: React.FC = () => {
                             element={<InvoiceDetailPage />}
                         />
                         <Route path="/services" element={<ServiceListPage />} />
+                        <Route
+                            path="/payment/waiting"
+                            element={<WaitingPayment />}
+                        />
+                        <Route
+                            path="/payment/success"
+                            element={<SuccessPayment />}
+                        />
                         <Route
                             path="/notification/:slug"
                             element={<NotificationDetail />}

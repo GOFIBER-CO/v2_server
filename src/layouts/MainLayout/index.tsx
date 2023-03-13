@@ -92,8 +92,8 @@ const MainLayout: React.FC = () => {
     useEffect(() => {
         const initServices = async () => {
             try {
-                await dispatch(getAllServices({}))
-                await dispatch(getAllInvoicesByClient({}))
+                dispatch(getAllServices({}) as any)
+                dispatch(getAllInvoicesByClient({}) as any)
             } catch (error) {
                 console.log(error)
             }
