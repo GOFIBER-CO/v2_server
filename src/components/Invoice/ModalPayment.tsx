@@ -1,6 +1,7 @@
 import { momoPay, receiveRequestVNPAY } from '@/services/apiv2'
 import { Modal } from 'antd'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 import PaymentMethod from '../CloudVPS/PaymentMethod'
 
 type Props = {
@@ -30,6 +31,7 @@ const PAYMENT_TYPE = {
 
 function ModalPayment({ invoice, visible, handleClose }: Props) {
     const [chosenPayment, setChosenPayment] = useState(paymentMethods[0])
+    const navigate = useNavigate()
 
     // Xử lí xác nhận tạo function riêng cho từng phương thức thanh toán
     // và bỏ vào function handleConfirm
@@ -62,7 +64,16 @@ function ModalPayment({ invoice, visible, handleClose }: Props) {
             invoice_id: id,
         }
 
-        await receiveRequestVNPAY(params)
+        const result = await receiveRequestVNPAY(params)
+
+        const { proforma_id: proforma_idRes, redirect } = result?.data?.data
+
+        navigate('/payment/waiting', {
+            state: {
+                proforma_id: proforma_idRes,
+                redirect,
+            },
+        })
     }
 
     return (
