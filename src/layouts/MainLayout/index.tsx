@@ -159,58 +159,58 @@ const MainLayout: React.FC = () => {
             label: 'NHÀ QUẢN LÝ',
             key: '/admin',
             children: [
-                {
-                    key: '/os',
-                    icon: <MdOutlineSettingsSystemDaydream />,
-                    label: 'Hệ điều hành',
-                    children: [
-                        {
-                            key: '/operating-system',
-                            icon: <BsCardChecklist />,
-                            label: (
-                                <NavLink to={'/operating-system'}>
-                                    Danh sách
-                                </NavLink>
-                            ),
-                        },
-                        {
-                            key: '/operating-system/create-operating-system',
-                            icon: <AiOutlineAppstoreAdd />,
-                            label: (
-                                <NavLink
-                                    to={
-                                        '/operating-system/create-operating-system'
-                                    }
-                                >
-                                    Thêm hệ điều hành
-                                </NavLink>
-                            ),
-                        },
-                    ],
-                },
-                {
-                    key: '/manage-ip',
-                    icon: <MdOutlineSettingsSystemDaydream />,
-                    label: 'Quản lí IP',
-                    children: [
-                        {
-                            key: '/manage-ip',
-                            icon: <BsCardChecklist />,
-                            label: (
-                                <NavLink to={'/manage-ip'}>Danh sách</NavLink>
-                            ),
-                        },
-                        {
-                            key: '/manage-ip/create',
-                            icon: <AiOutlineAppstoreAdd />,
-                            label: (
-                                <NavLink to={'/manage-ip/create'}>
-                                    Thêm địa chỉ Ip
-                                </NavLink>
-                            ),
-                        },
-                    ],
-                },
+                // {
+                //     key: '/os',
+                //     icon: <MdOutlineSettingsSystemDaydream />,
+                //     label: 'Hệ điều hành',
+                //     children: [
+                //         {
+                //             key: '/operating-system',
+                //             icon: <BsCardChecklist />,
+                //             label: (
+                //                 <NavLink to={'/operating-system'}>
+                //                     Danh sách
+                //                 </NavLink>
+                //             ),
+                //         },
+                //         {
+                //             key: '/operating-system/create-operating-system',
+                //             icon: <AiOutlineAppstoreAdd />,
+                //             label: (
+                //                 <NavLink
+                //                     to={
+                //                         '/operating-system/create-operating-system'
+                //                     }
+                //                 >
+                //                     Thêm hệ điều hành
+                //                 </NavLink>
+                //             ),
+                //         },
+                //     ],
+                // },
+                // {
+                //     key: '/manage-ip',
+                //     icon: <MdOutlineSettingsSystemDaydream />,
+                //     label: 'Quản lí IP',
+                //     children: [
+                //         {
+                //             key: '/manage-ip',
+                //             icon: <BsCardChecklist />,
+                //             label: (
+                //                 <NavLink to={'/manage-ip'}>Danh sách</NavLink>
+                //             ),
+                //         },
+                //         {
+                //             key: '/manage-ip/create',
+                //             icon: <AiOutlineAppstoreAdd />,
+                //             label: (
+                //                 <NavLink to={'/manage-ip/create'}>
+                //                     Thêm địa chỉ Ip
+                //                 </NavLink>
+                //             ),
+                //         },
+                //     ],
+                // },
                 {
                     key: '/manage-user',
                     icon: <BiUser />,
@@ -225,29 +225,29 @@ const MainLayout: React.FC = () => {
                         },
                     ],
                 },
-                {
-                    key: '/lc',
-                    icon: <SlLocationPin />,
-                    label: 'Khu vực',
-                    children: [
-                        {
-                            key: '/location',
-                            icon: <BsCardChecklist />,
-                            label: (
-                                <NavLink to={'/location'}>Danh sách</NavLink>
-                            ),
-                        },
-                        {
-                            key: '/location/create-location',
-                            icon: <AiOutlineAppstoreAdd />,
-                            label: (
-                                <NavLink to={'/location/create-location'}>
-                                    Thêm khu vực
-                                </NavLink>
-                            ),
-                        },
-                    ],
-                },
+                // {
+                //     key: '/lc',
+                //     icon: <SlLocationPin />,
+                //     label: 'Khu vực',
+                //     children: [
+                //         {
+                //             key: '/location',
+                //             icon: <BsCardChecklist />,
+                //             label: (
+                //                 <NavLink to={'/location'}>Danh sách</NavLink>
+                //             ),
+                //         },
+                //         {
+                //             key: '/location/create-location',
+                //             icon: <AiOutlineAppstoreAdd />,
+                //             label: (
+                //                 <NavLink to={'/location/create-location'}>
+                //                     Thêm khu vực
+                //                 </NavLink>
+                //             ),
+                //         },
+                //     ],
+                // },
                 {
                     key: '/serve',
                     icon: <MdHomeRepairService />,
@@ -303,15 +303,15 @@ const MainLayout: React.FC = () => {
                         },
                     ],
                 },
-                {
-                    key: '/manage-deposit-guide',
-                    icon: <RiMoneyPoundBoxLine />,
-                    label: (
-                        <NavLink to={'/manage-deposit-guide'}>
-                            Quản lý nạp tiền
-                        </NavLink>
-                    ),
-                },
+                // {
+                //     key: '/manage-deposit-guide',
+                //     icon: <RiMoneyPoundBoxLine />,
+                //     label: (
+                //         <NavLink to={'/manage-deposit-guide'}>
+                //             Quản lý nạp tiền
+                //         </NavLink>
+                //     ),
+                // },
                 {
                     key: '/manage-department',
                     icon: <BiBuildingHouse />,
@@ -456,15 +456,6 @@ const MainLayout: React.FC = () => {
                     label: (
                         <NavLink to={'/deposit-guide'}>
                             Hướng dẫn nạp tiền
-                        </NavLink>
-                    ),
-                },
-                {
-                    key: '/deposit-check',
-                    icon: <BsCheckLg />,
-                    label: (
-                        <NavLink to={'/deposit-check'}>
-                            Kiểm tra nạp tiền
                         </NavLink>
                     ),
                 },
