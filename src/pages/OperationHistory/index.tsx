@@ -85,6 +85,17 @@ const OperationHistory = () => {
             },
         },
         {
+            title:"IP",
+            dataIndex: "IP"
+        },
+        {
+            title:"FP",
+            dataIndex: "FP",
+            render:(value) => (
+                <>{value?.hash}</>
+            )
+        },
+        {
             title: 'Thời gian thực hiện',
             dataIndex: 'createdAt',
             render: (value) => formatDate(value),
