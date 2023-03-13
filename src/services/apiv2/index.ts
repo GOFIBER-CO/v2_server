@@ -286,3 +286,5 @@ export const addUserCredit = (id: string, credit: number) =>
 
 export const receiveRequestVNPAY = (data: any) =>
     axiosInstance.post(`/payment/receive-request-vnpay`, { ...data })
+
+export const momoPay = (data:any) => axiosInstance.post(`/momo`, data) 

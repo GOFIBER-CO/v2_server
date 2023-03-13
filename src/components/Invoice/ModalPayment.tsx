@@ -1,4 +1,4 @@
-import { receiveRequestVNPAY } from '@/services/apiv2'
+import { momoPay, receiveRequestVNPAY } from '@/services/apiv2'
 import { Modal } from 'antd'
 import React, { useState } from 'react'
 import PaymentMethod from '../CloudVPS/PaymentMethod'
@@ -37,6 +37,20 @@ function ModalPayment({ invoice, visible, handleClose }: Props) {
         // VNPAY
         if (chosenPayment?.object_id === 14) {
             handlePaymentVNPAY()
+        }
+        if(chosenPayment.object_id === 15){
+            handleMomoPay()
+        }
+    }
+
+    const handleMomoPay = async () => {
+        try {
+            const result = await momoPay({id: invoice.id})
+            if(result.data?.status === 1){
+                window.open(result.data?.url, "_blank")
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 
