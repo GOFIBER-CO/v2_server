@@ -99,3 +99,107 @@
         font-size: 12px !important;
     }
 }
+
+.servertype_labe {
+    @media only screen and (max-width: 860px) {
+        width: calc(50% - 19px);
+    }
+
+    @media only screen and (max-width: 600px) {
+        width: calc(100% - 19px);
+    }
+
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    vertical-align: top;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 24px 8px 24px 100px !important;
+    width: 100%;
+    margin: 0 16px 16px 0;
+    min-height: 98px;
+    border: 1px solid #e6e9eb;
+    border-radius: 0;
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: none;
+    white-space: nowrap;
+    transition: border-color 0.2s ease-in;
+    .img-country {
+        position: absolute;
+        left: 24px;
+        top: 20px;
+    }
+    .deploy_checkbox_checkmark {
+        opacity: 1;
+        display: block;
+        position: absolute;
+        top: -1px !important;
+        right: -1px;
+        width: 34px;
+        height: 34px;
+        background: url(https://v2.vietserver.vn/assets/vm/deploy_checkmark.svg)
+            no-repeat;
+        background-size: cover;
+        transition: all 0.2s ease-in;
+        cursor: pointer;
+        white-space: nowrap;
+        .fa-check {
+            position: absolute;
+            top: 4px;
+            right: 0px;
+            height: 20px;
+            width: 20px;
+            font-size: 14px;
+            text-align: center;
+            color: #fff;
+        }
+    }
+    .name-system {
+        width: 100%;
+        margin: 0;
+        word-wrap: break-word;
+        white-space: normal;
+        line-height: 20px;
+        color: #1e2736;
+        font-weight: 500;
+        font-size: 17px;
+        max-height: 72px;
+    }
+    .version {
+        display: block;
+        width: 100%;
+        padding-right: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #8692b0;
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 24px;
+        white-space: nowrap;
+
+        &.active {
+            color: blue;
+            font-weight: 500;
+        }
+    }
+    .deploy_osversioncontainer {
+        text-align: start;
+        width: calc(100% + 80px);
+        display: inline !important;
+        .deploy_osversionselector {
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            display: block;
+            padding: 4px 0;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        &:hover {
+            color: blue;
+        }
+    }
+}
