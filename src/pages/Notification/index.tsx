@@ -21,6 +21,8 @@ const Notification = () => {
     const [filter, setFilter] = useState('')
 
     const layout = useLayoutInit()
+    console.log(notifications);
+    
 
     const showTotal: PaginationProps['showTotal'] = (total) =>
         `Total ${total} items`
@@ -29,9 +31,9 @@ const Notification = () => {
         try {
             layout.setLoading(true)
             const result = await getAllNotification(pageIndex, filter, pageSize)
-            setNotifications(result.data?.data)
-            setTotalPage(result.data?.totalPage)
-            setTotalItem(result.data?.totalItem)
+            setNotifications(result?.data?.data?.notifications)
+            setTotalPage(result?.data.data?.totalPage)
+            setTotalItem(result?.data.data?.totalDocs)
             layout.setLoading(false)
         } catch (error) {
             layout.setLoading(false)
@@ -148,7 +150,8 @@ const Notification = () => {
                     pagination={false}
                 />
                 <Pagination
-                    showTotal={showTotal}
+                    // showTotal={showTotal}
+                    showSizeChanger
                     style={{ marginTop: '30px' }}
                     current={pageIndex}
                     total={totalItem}
