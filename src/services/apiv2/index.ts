@@ -281,4 +281,8 @@ export const getService = (
         `/products/getPaging?pageIndex=${pageIndex}&serverDefault=${serverDefault}&search=${serviceName}&pageSize=${pageSize}`
     )
 
-export const addUserCredit = (id: string, credit: number) => axiosInstance.post(`/users/${id}/addCredit`, { credit })
+export const addUserCredit = (id: string, credit: number) =>
+    axiosInstance.post(`/users/${id}/addCredit`, { credit })
+
+export const receiveRequestVNPAY = (data: any) =>
+    axiosInstance.post(`/payment/receive-request-vnpay`, { ...data })
