@@ -476,7 +476,7 @@ function InvoiceDetailPage() {
         loading: <div></div>,
         notLoading: (
             <div className="invoice-detail-page">
-                {invoice?.status || service?.status  === 'Paid'
+                {invoice?.status ==='Paid' || service?.status  === 'Paid'
                     ? renderStatus['paid']
                     : renderStatus['unPaid']}
             </div>
