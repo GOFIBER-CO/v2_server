@@ -192,6 +192,7 @@ const CreateTicket: React.FC = () => {
                 <div className="create-ticket-form-input-description">
                     <p>Nội dung yêu cầu: </p>
                     <Editor
+                        apiKey='4ew8r9zwybqtimaz9nlyr048mdv0q5m34o57nekuzolm5kxn'
                         value={newTicket.content}
                         onEditorChange={handleChangeDescription}
                     />
