@@ -9,8 +9,8 @@ import appConfig from '@/config/appConfig'
 //     appConfig.ENVIRONMENT == 'development'
 //         ? 'http://localhost:4000/api/v1'
 //         : appConfig.PROJECT == 'gofiber'
-//         ? 'https://system.gofiber.vn'
-//         : 'https://api.vietstack.com'
+//         ? 'https://system.gofiber.vn/api/v1'
+//         : 'https://api.vietstack.com/api/v1'
 
 const baseUrl = 'http://localhost:4000/api/v1'
 
